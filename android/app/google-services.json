@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915263156671",
+    "project_id": "jetmarket-customer",
+    "storage_bucket": "jetmarket-customer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915263156671:android:5ed7eea20329cdb03bf10a",
+        "android_client_info": {
+          "package_name": "com.jetmarket.customer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtmwpBTAeBgDyWnijLwK2liyxwKm7DUJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

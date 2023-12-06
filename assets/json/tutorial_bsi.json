@@ -1,0 +1,111 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM BSI anda",
+          "2. Masukkan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Pembayaran/Pembelian\"",
+          "2. Pilih menu \"Institusi\"",
+          "3. Masukkan kode BSI VA Nomor Virtual Account 934714915736",
+          "4. Detail yang ditampilkan: NIM, Nama, & Total Tagihan",
+          "5. Konfirmasi detail transaksi anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka situs https://bsinet.bankbsi.co.id",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih Menu \"Pembayaran\"",
+          "2. Pilih Nomor Rekening BSI Anda",
+          "3. Pilih menu \"Institusi\"",
+          "4. Masukkan nama institusi Xendit (kode 9347)",
+          "5. Masukkan Nomor Virtual Account 14915736",
+          "6. Konfirmasi detail transaksi anda",
+          "7. Masukkan otentikasi transaksi/token"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka aplikasi BSI Mobile",
+          "2. Pastikan akun BSI Mobile Anda telah teraktivasi"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih Menu \"Pembayaran\"",
+          "2. Pilih menu \"Institusi\"",
+          "3. Pilih Nomor Rekening BSI Anda",
+          "4. Masukkan nama institusi Xendit (kode 9347)",
+          "5. Masukkan Nomor Virtual Account 14915736",
+          "6. Masukkan PIN",
+          "7. Konfirmasi detail transaksi anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab4": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka aplikasi Mobile bank Anda",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih Menu \"Transfer\"",
+          "2. Pilih Menu \"Antar Bank\"",
+          "3. Masukkan BSI VA Code \"900\" + Nomor Virtual Account 934714915736 Catatan: Untuk transfer antar bank via ATM, Anda harus memasukkan Kode Bank BSI \"451\" sebelum Kode BSI VA \"900\"",
+          "4. Masukkan nominal yang ingin dibayarkan",
+          "5. Pilih tipe rekening",
+          "6. Konfirmasi detail transaksi Anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ]}
+  

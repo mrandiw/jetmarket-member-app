@@ -1,0 +1,79 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM BJB anda",
+          "2. Masukkan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transaksi Lainnya\"",
+          "2. Pilih menu \"Virtual Account\"",
+          "3. Lalu pilih rekening debet yang akan digunakan",
+          "4. Masukkan Nomor Virtual Account 1234999918311064",
+          "5. Konfirmasi detail transaksi anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka halaman https://ib.bankbjb.co.id/bjb.net",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Virtual Account\"",
+          "2. Lalu pilih rekening debet yang akan digunakan",
+          "3. Masukk Nomor Virtual Account 1234999918311064",
+          "4. Konfirmasi detail transaksi anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka aplikasi BJB Mobile",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Virtual Account\"",
+          "2. Lalu pilih rekening debet yang akan digunakan",
+          "3. Masukkan Nomor Virtual Account Anda 1234999918311064",
+          "4. Konfirmasi detail transaksi anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ]
+  }
+  

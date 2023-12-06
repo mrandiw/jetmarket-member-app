@@ -1,0 +1,49 @@
+name: jetmarket
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: ">=3.1.5 <4.0.0"
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  get: 4.6.6
+  flutter:
+    sdk: flutter
+  dio: ^5.3.4
+  flutter_screenutil: ^5.9.0
+  dotted_border: ^2.1.0
+  permission_handler: ^11.0.1
+  flutter_dotenv: ^5.1.0
+  cached_network_image: ^3.3.0
+  flutter_cache_manager: ^3.3.1
+  get_storage: ^2.1.1
+  google_fonts: ^6.1.0
+  intl: ^0.18.1
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  flutter_svg: ^2.0.9
+  gap: ^3.0.1
+  carousel_slider: ^4.2.1
+  flutter_staggered_grid_view: ^0.7.0
+  firebase_core: ^2.24.0
+  firebase_messaging: ^14.7.6
+  flutter_local_notifications: ^16.2.0
+  google_maps_flutter: ^2.5.0
+  image_picker: ^1.0.4
+  file_picker: ^6.1.1
+  video_thumbnail: ^0.5.3
+  shared_preferences: ^2.2.2
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/svg/
+    - assets/images/
+    - assets/env/
+    - assets/json/
+  uses-material-design: true

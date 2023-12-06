@@ -1,0 +1,82 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan Kartu ATM BCA",
+          "2. Masukkan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transaksi Lainnya\"",
+          "2. Pilih menu \"Transfer\"",
+          "3. Pilih menu \"ke Rekening BCA Virtual Account\"",
+          "4. Masukkan Nomor Virtual Account Anda 3816560106536. Tekan \"Benar\" untuk melanjutkan",
+          "5. Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti No VA, Nama, Perus/Produk dan Total Tagihan, tekan \"Benar\" untuk melanjutkan",
+          "6. Pastikan nama kamu dan Total Tagihannya benar",
+          "7. Tekan \"Ya\" jika sudah benar"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Lakukan log in pada aplikasi KlikBCA Individual (https://ibank.klikbca.com)",
+          "2. Masukkan User ID dan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih \"Transfer Dana\", kemudian pilih \"Transfer ke BCA Virtual Account\"",
+          "2. Masukkan Nomor Virtual Account 3816560106536",
+          "3. Pilih \"Lanjutkan\"",
+          "4. Masukkan \"RESPON KEYBCA APPLI 1\" yang muncul pada Token BCA anda, kemudian tekan tombol \"Kirim\""
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka aplikasi BCA Mobile",
+          "2. Pilih menu \"m-BCA\", kemudian masukkan kode akses m-BCA"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih \"m-Transfer\", kemudian pilih \"BCA Virtual Account\"",
+          "2. Masukkan Nomor Virtual Account anda 3816560106536, kemudian tekan \"OK\"",
+          "3. Tekan tombol \"Kirim\" yang berada di sudut kanan atas aplikasi untuk melakukan transfer",
+          "4. Tekan \"OK\" untuk melanjutkan pembayaran",
+          "5. Masukkan PIN Anda untuk meng-otorisasi transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ]
+  }
+  

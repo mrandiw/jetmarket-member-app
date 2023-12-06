@@ -1,0 +1,86 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka aplikasi Livin by Mandiri, masukkan PASSWORD atau lakukan verifikasi wajah",
+          "2. Pilih menu \"IDR Transfer\"",
+          "3. Pilih \"Transfer to new recipient\""
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Masukkan Nomor Virtual Account 8860860106536",
+          "2. Konfirmasi detail VA dan klik \"Continue\"",
+          "3. Masukkan nominal yang ingin dibayarkan (jika tidak terisi secara otomatis)",
+          "4. Tinjau dan konfirmasi detail transaksi anda, lalu klik \"Continue\"",
+          "5. Selesaikan transaksi dengan memasukkan MPIN anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Setelah transaksi pembayaran Anda selesai, simpan bukti pembayaran",
+          "2. Invoice ini akan diperbarui secara otomatis."
+        ]
+      }
+    ],
+    "tab2": [
+        {
+          "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+          "content": [
+            "1. Masukkan ATM dan tekan \"Bahasa Indonesia\"",
+            "2. Masukkan PIN, lalu tekan \"Benar\"",
+            "3. Pilih \"Pembayaran\", lalu pilih \"Multi Payment\""
+          ]
+        },
+        {
+          "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+          "content": [
+            "1. Masukkan kode perusahaan '88608' (88608 XENDIT), lalu tekan 'BENAR'",
+            "2. Masukkan Nomor Virtual Account 8860860106536, lalu tekan 'BENAR'",
+            "3. Masukkan nominal yang ingin di transfer, lalu tekan \"BENAR\"",
+            "4. Informasi pelanggan akan ditampilkan, pilih nomor 1 sesuai dengan nominal pembayaran kemudian tekan \"YA\"",
+            "5. Konfirmasi pembayaran akan muncul, tekan \"YES\", untuk melanjutkan"
+          ]
+        },
+        {
+          "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+          "content": [
+            "1. Simpan bukti transaksi anda",
+            "2. Transaksi anda berhasil",
+            "3. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+          ]
+        }
+      ],
+      "tab3": [
+        {
+          "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+          "content": [
+            "1. Buka situs Mandiri Internet Banking https://ibank.bankmandiri.co.id",
+            "2. Masuk menggunakan USER ID dan PASSWORD anda",
+            "3. Buka halaman beranda, kemudian pilih \"Pembayaran\"",
+            "4. Pilih \"Multi Payment\""
+          ]
+        },
+        {
+          "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+          "content": [
+            "1. Pilih 88608 XENDIT sebagai penyedia jasa",
+            "2. Masukkan Nomor Virtual Account 8860860106536",
+            "3. Lalu pilih Lanjut",
+            "4. Apabila semua detail benar tekan \"KONFIRMASI\"",
+            "5. Masukkan PIN / Challenge Code Token"
+          ]
+        },
+        {
+          "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+          "content": [
+            "1. Setelah transaksi pembayaran Anda selesai, simpan bukti pembayaran",
+            "2. Invoice ini akan diperbarui secara otomatis. Ini bisa memakan waktu hingga 5 menit"
+          ]
+        }
+      ]
+    }
+  

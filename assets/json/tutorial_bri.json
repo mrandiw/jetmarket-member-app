@@ -1,0 +1,69 @@
+{
+  "tab1": [
+    {
+      "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+      "content": [
+        "1. Masukkan kartu, kemudian pilih bahasa dan masukkan PIN anda",
+        "2. Pilih \"Transaksi Lain\" dan pilih \"Pembayaran\"",
+        "3. Pilih menu \"Lainnya\" dan pilih \"Briva\""
+      ]
+    },
+    {
+      "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+      "content": [
+        "1. Masukkan Nomor Virtual Account 1328251833506 dan jumlah yang ingin anda bayarkan",
+        "2. Periksa data transaksi dan tekan \"YA\""
+      ]
+    },
+    {
+      "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+      "content": [
+        "1. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+      ]
+    }
+  ],
+  "tab2": [
+    {
+      "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+      "content": [
+        "1. Buka situs https://ib.bri.co.id/ib-bri/, dan masukkan USER ID dan PASSWORD anda",
+        "2. Pilih \"Pembayaran\" dan pilih \"Briva\""
+      ]
+    },
+    {
+      "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+      "content": [
+        "1. Masukkan Nomor Virtual Account 1328251833506 dan jumlah yang ingin anda bayarkan",
+        "2. Masukkan password anda kemudian masukkan mToken internet banking"
+      ]
+    },
+    {
+      "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+      "content": [
+        "1. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+      ]
+    }
+  ],
+  "tab3": [
+    {
+      "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+      "content": [
+        "1. Buka aplikasi BRI Mobile Banking, masukkan USER ID dan PIN anda",
+        "2. Pilih \"Pembayaran\" dan pilih \"Briva\""
+      ]
+    },
+    {
+      "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+      "content": [
+        "1. Masukkan Nomor Virtual Account anda 1328251833506 dan jumlah yang ingin anda bayarkan",
+        "2. Masukkan PIN Mobile Banking BRI"
+      ]
+    },
+    {
+      "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+      "content": [
+        "1. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+      ]
+    }
+  ]
+}

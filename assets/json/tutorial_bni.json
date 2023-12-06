@@ -1,0 +1,85 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM anda",
+          "2. Pilih bahasa",
+          "3. Masukkan PIN ATM anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih \"Menu Lainnya\"",
+          "2. Pilih \"Transfer\"",
+          "3. Pilih jenis rekening yang akan anda gunakan (contoh: \"Dari Rekening Tabungan\")",
+          "4. Pilih \"Virtual Account Billing\"",
+          "5. Masukkan Nomor Virtual Account anda 880838937117",
+          "6. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi",
+          "7. Konfirmasi, apabila telah sesuai, lanjutkan transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka situs https://ibank.bni.co.id",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transfer\"",
+          "2. Pilih menu \"Virtual Account Billing\"",
+          "3. Masukkan Nomor Virtual Account 880838937117",
+          "4. Lalu pilih rekening debet yang akan digunakan. Kemudian tekan \"Lanjut\"",
+          "5. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi",
+          "6. Masukkan Kode Otentikasi Token"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Akses BNI Mobile Banking melalui handphone",
+          "2. Masukkan User ID dan Password",
+          "3. Pilih menu \"Transfer\""
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Virtual Account Billing\", lalu pilih rekening debet",
+          "2. Masukkan Nomor Virtual Account anda 880838937117 pada menu \"Input Baru\"",
+          "3. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi",
+          "4. Konfirmasi transaksi dan masukkan Password Transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ]
+  }
+  

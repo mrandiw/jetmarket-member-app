@@ -1,0 +1,56 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Akses BNC Mobile Banking atau aplikasi neobank",
+          "2. Masukkan User ID dan Password",
+          "3. Pilih menu \"Hematpay VA & QRIS\""
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Masukkan nomor Virtual Account 9010001065683874",
+          "2. Masukkan nominal pembayaran",
+          "3. Konfirmasi informasi pembayaran",
+          "4. Masukkan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM anda",
+          "2. Pilih bahasa",
+          "3. Masukkan PIN ATM anda",
+          "4. Pilih menu \"Pembayaran VA\""
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Masukkan nomor Virtual Account 9010001065683874",
+          "2. Masukkan nominal pembayaran",
+          "3. Konfirmasi informasi pembayaran",
+          "4. Masukkan PIN"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,79 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Akses Octo Mobile melalui handphone",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transfer\" dan lalu pilih \"Other CIMB Niaga\"",
+          "2. Masukkan Nomor Virtual Account 9349038619308 pada menu \"Input Baru\"",
+          "3. Masukkan nominal yang harus dibayarkan",
+          "4. Konfirmasi transaksi dan masukkan Password Transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit."
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM anda",
+          "2. Pilih bahasa",
+          "3. Masukkan PIN ATM anda"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transfer\" dan lalu pilih \"Other CIMB Niaga\"",
+          "2. Masukkan Nomor Virtual Account 9349038619308 pada menu \"Input New\"",
+          "3. Masukkan nominal yang harus dibayarkan",
+          "4. Konfirmasi transaksi dan masukkan Password Transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit."
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka situs https://www.octoclicks.co.id/login/",
+          "2. Masukkan User ID dan Password"
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Transfer\" dan lalu pilih \"Other CIMB Niaga\"",
+          "2. Masukkan Nomor Virtual Account 9349038619308 pada menu \"Input New\"",
+          "3. Masukkan nominal yang harus dibayarkan",
+          "4. Konfirmasi transaksi dan masukkan Password Transaksi"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit."
+        ]
+      }
+    ]
+  }
+  

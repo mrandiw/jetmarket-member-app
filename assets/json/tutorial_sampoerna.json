@@ -1,0 +1,84 @@
+{
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",
+        "content": [
+          "1. Masukkan kartu ATM anda.",
+          "2. Pilih bahasa.",
+          "3. Masukkan PIN ATM anda."
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih menu \"Lainnya\".",
+          "2. Pilih menu \"Transfer ke Bank Sahabat Sampoerna\".",
+          "3. Masukkan angka virtual account yang tertera, contoh: 4010269472869. Pastikan kembali bahwa angka virtual account yang Anda masukkan sesuai dengan yang tertera.",
+          "4. Masukkan jumlah pembayaran dalam nominal Rupiah sesuai dengan yang tertera. Mohon pastikan jumlah nominal yang Anda masukkan adalah nominal yang benar. Pembayaran dengan perbedaan nominal dapat menyebabkan kegagalan transaksi.",
+          "5. Konfirmasi kembali seluruh detail transaksi."
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai.",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit."
+        ]
+      }
+    ],
+    "tab2": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Buka situs https://ibank.banksampoerna.co.id",
+          "2. Masukkan User ID dan Password",
+          "3. Pilih \"Transfer\"."
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih sumber dana Anda.",
+          "2. Pilih \"Bank Sahabat Sampoerna\" sebagai rekening bank tujuan.",
+          "3. Masukkan angka virtual account yang tertera, contoh: 4010269472869. Pastikan kembali bahwa angka virtual account yang Anda masukkan sesuai dengan yang tertera.",
+          "4. Masukkan jumlah pembayaran dalam nominal Rupiah sesuai dengan yang tertera. Mohon pastikan jumlah nominal yang Anda masukkan adalah nominal yang benar. Pembayaran dengan perbedaan nominal dapat menyebabkan kegagalan transaksi.",
+          "5. Konfirmasi kembali seluruh detail informasi transaksi. Lakukan verifikasi dengan token bank serta PIN dan/atau password untuk melanjutkan transaksi, apabila dibutuhkan."
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+        ]
+      }
+    ],
+    "tab3": [
+      {
+        "title": "LANGKAH 1: MASUK KE AKUN ANDA",
+        "content": [
+          "1. Akses Sampoerna Mobile Banking melalui handphone.",
+          "2. Masukkan User ID dan Password.",
+          "3. Pilih menu \"Transfer\"."
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Pilih sumber dana Anda.",
+          "2. Pilih \"Bank Sahabat Sampoerna\" sebagai rekening bank tujuan.",
+          "3. Masukkan angka virtual account yang tertera, contoh: 4010269472869. Pastikan kembali bahwa angka virtual account yang Anda masukkan sesuai dengan yang tertera.",
+          "4. Masukkan jumlah pembayaran dalam nominal Rupiah sesuai dengan yang tertera. Mohon pastikan jumlah nominal yang Anda masukkan adalah nominal yang benar. Pembayaran dengan perbedaan nominal dapat menyebabkan kegagalan transaksi.",
+          "5. Konfirmasi transaksi dan masukkan password Anda."
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Transaksi Anda telah selesai.",
+          "2. Setelah transaksi anda selesai, invoice ini akan di-update secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit."
+        ]
+      }
+    ]
+  }
+  
