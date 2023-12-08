@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/components/loading/load_pages.dart';
+import 'package:jetmarket/components/parent/error_page.dart';
 
 import '../../../components/parent/parent_scaffold.dart';
 import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/payment_register.controller.dart';
+import 'section/button_section.dart';
 import 'section/payment_section.dart';
 import 'section/header_section.dart';
 
@@ -15,7 +17,7 @@ class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(
         onLoading: const LoadingPages(),
-        onError: const SizedBox(),
+        onError: const ErrorPage(),
         onSuccess: successWidget(),
         status: controller.screenStatus.value));
   }
@@ -31,6 +33,7 @@ class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
           children: [HeaderSection(), PaymentSection()],
         ),
       ),
+      bottomNavigationBar: ButtonSection(controller: controller),
     );
   }
 }

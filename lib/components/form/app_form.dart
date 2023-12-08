@@ -20,6 +20,8 @@ class AppForm extends StatelessWidget {
     this.textAlign,
     this.type = AppFormType.normal,
     this.textArea = false,
+    this.keyboardType,
+    this.focusNode,
     this.onChanged,
   });
 
@@ -31,6 +33,8 @@ class AppForm extends StatelessWidget {
   final TextAlign? textAlign;
   final AppFormType type;
   final bool textArea;
+  final TextInputType? keyboardType;
+  final FocusNode? focusNode;
   final Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
@@ -42,12 +46,14 @@ class AppForm extends StatelessWidget {
       height: textArea ? 70.h : 44.h,
       width: Get.width,
       child: TextFormField(
+          focusNode: focusNode,
           controller: controller,
           cursorColor: kPrimaryColor,
           style: text12BlackRegular,
           maxLines: textArea ? 5 : 1,
           textAlign: textAlign ?? TextAlign.left,
           onChanged: onChanged,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: text12HintForm,

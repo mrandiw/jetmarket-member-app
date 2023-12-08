@@ -17,9 +17,13 @@ class RemoteProvider {
   }
 
   static Future<Response> post(
-      {required String path, Object? data, Options? options}) async {
+      {required String path,
+      Map<String, dynamic>? queryParameters,
+      Object? data,
+      Options? options}) async {
     _dioInstance.options = _baseOptionBulkUrl;
-    return await _dioInstance.post(path, data: data, options: options);
+    return await _dioInstance.post(path,
+        data: data, queryParameters: queryParameters, options: options);
   }
 
   static Future<Response> put({required String path, Object? data}) async {

@@ -114,7 +114,7 @@ class FormSection extends StatelessWidget {
                         Gap(12.w),
                         Visibility(
                           visible: controller.isKodeReveralValidated.value,
-                          child: Text('250000'.toIdrFormat,
+                          child: Text('25000'.toIdrFormat,
                               style: text10lineThroughRegular),
                         ),
                       ],

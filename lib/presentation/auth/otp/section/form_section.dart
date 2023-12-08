@@ -43,8 +43,12 @@ class FormSection extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(8.r, 0, 8.r, 0),
                                   child: AppForm(
+                                    focusNode: controller.focusNodes[index],
                                     controller:
                                         controller.otpControllers[index],
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) =>
+                                        controller.listenForm(index, value),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

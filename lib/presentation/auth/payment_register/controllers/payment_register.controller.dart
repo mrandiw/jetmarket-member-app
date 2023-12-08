@@ -1,13 +1,19 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
 import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/payment_register/widget/ovo_form.dart';
-import 'package:jetmarket/utils/assets/assets_images.dart';
+import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
+import '../../../../domain/core/model/model_data/payment_customer_model.dart';
+import '../../../../domain/core/model/params/auth/payment_param.dart';
+import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
 
@@ -17,26 +23,15 @@ class PaymentRegisterController extends GetxController {
   PaymentRegisterController(this._authRepository);
   TextEditingController numberController = TextEditingController();
   var screenStatus = (ScreenStatus.initalize).obs;
+  var actionStatus = ActionStatus.initalize;
   PaymentMethodeModel? paymentMethodes;
   String selectedBankTransfer = "";
   String selectedEwallet = "";
   String selectedRetail = "";
-
-  List<String> banks = [
-    bca,
-    bni,
-    mandiri,
-    bri,
-    bsi,
-    bca,
-    bni,
-    mandiri,
-    bri,
-    bsi
-  ];
-  List<String> ewallets = [dana, ovo];
-
-  List<String> retail = [indomaret, alfamart];
+  int selectedId = 0;
+  String selectedchType = "";
+  String selectedchCode = "";
+  String selectedName = "";
 
   bool isBankTransferExpanded = false;
   bool isEwalletExpanded = false;
@@ -63,12 +58,52 @@ class PaymentRegisterController extends GetxController {
   Future<void> getPaymentMethode() async {
     screenStatus(ScreenStatus.loading);
     final response = await _authRepository.getPaymentMethode();
-    if (response.status == StatusResponse.success) {
-      paymentMethodes = response.result;
-      update();
-      screenStatus(ScreenStatus.success);
+    if (response.result?.ewalletQr != null &&
+        response.result?.otc != null &&
+        response.result?.virtualAccount != null) {
+      {
+        if (response.status == StatusResponse.success) {
+          paymentMethodes = response.result;
+          update();
+          screenStatus(ScreenStatus.success);
+        } else {
+          AppSnackbar.show(message: response.message, type: SnackType.error);
+          screenStatus(ScreenStatus.failed);
+        }
+      }
     } else {
+      AppSnackbar.show(message: 'Something went wrong', type: SnackType.error);
       screenStatus(ScreenStatus.failed);
+    }
+  }
+
+  Future<void> createPaymentCustomer() async {
+    actionStatus = ActionStatus.loading;
+    update();
+    String amount = AppPreference().cekReferal() == true ? '10000' : '25000';
+    // String phoneNumber = AppPreference().getPhoneNumber() ?? '';
+    var param = PaymentParam(
+        id: selectedId.toString(),
+        amount: amount,
+        mobileNumber: numberController.text);
+    final response = await _authRepository.createPaymentCustomer(param);
+    if (response.status == StatusResponse.success) {
+      actionStatus = ActionStatus.success;
+      update();
+      toPaying(response.result, amount);
+    } else {
+      actionStatus = ActionStatus.failed;
+      update();
+      AwesomeDialog(
+              context: Get.context!,
+              dialogType: DialogType.error,
+              animType: AnimType.rightSlide,
+              title: 'Error',
+              desc: response.message,
+              titleTextStyle: text16BlackSemiBold,
+              descTextStyle: text12BlackRegular,
+              btnCancelOnPress: () {})
+          .show();
     }
   }
 
@@ -80,23 +115,35 @@ class PaymentRegisterController extends GetxController {
     selectedBankTransfer = chCode;
     selectedEwallet = chCode;
     selectedRetail = chCode;
-    print(chCode);
+    selectedId = id;
+    selectedchType = chType;
+    selectedchCode = chCode;
+    selectedName = name;
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
           child: OvoForm(
         controller: this,
       ));
-    } else {
-      var argument = PaymentMethodeArgument(
-          id: id, amount: '10000', chType: chType, chCode: chCode, name: name);
-      Get.toNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
     }
+  }
+
+  void toPaying(PaymentCustomerModel? data, String amount) {
+    var argument = PaymentMethodeArgument(
+        id: selectedId,
+        status: "register",
+        amount: amount,
+        chType: selectedchType,
+        chCode: selectedchCode,
+        name: selectedName,
+        data: data);
+    Get.toNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
   }
 
   @override
   void onInit() {
     getPaymentMethode();
+    numberController.text = "+62";
     super.onInit();
   }
 }

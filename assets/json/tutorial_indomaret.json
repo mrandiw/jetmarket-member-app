@@ -1,0 +1,29 @@
+{
+    "tabs":[
+        "INDOMARET"
+      ],
+    "tab1": [
+      {
+        "title": "LANGKAH 1: TEMUKAN CABANG TERDEKAT",
+        "content": [
+          "1. Kunjungi Indomaret terdekat sebelum invoice kadaluarsa",
+          "2. Sebutkan pembayaran melalui \"XENDIT\" ke kasir, atau berikan kode barcode untuk di scan oleh kasir."
+        ]
+      },
+      {
+        "title": "LANGKAH 2: DETAIL PEMBAYARAN",
+        "content": [
+          "1. Berikan kode pembayaran yang ada di invoice, dan pastikan nominal yang akan dibayarkan sudah benar",
+          "2. Lanjutkan pembayaran anda dengan nominal yang disebutkan di invoice"
+        ]
+      },
+      {
+        "title": "LANGKAH 3: TRANSAKSI BERHASIL",
+        "content": [
+          "1. Terima bukti pembayaran anda dari kasir",
+          "2. Pembayaran anda berhasil"
+        ]
+      }
+    ]
+  }
+  

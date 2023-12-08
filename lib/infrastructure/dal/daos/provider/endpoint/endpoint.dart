@@ -11,6 +11,7 @@ class Endpoint {
   static String register = 'auth/customer/register';
   static String reset = 'auth/customer/change_password';
   static String paymentMethode = 'payment/method';
+  static String paymentCustomerRegister = 'payment/customer_register';
 
   // Google Maps Api
   static String placeAutocomplete = 'place/autocomplete/json';

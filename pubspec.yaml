@@ -34,6 +34,9 @@ dependencies:
   file_picker: ^6.1.1
   video_thumbnail: ^0.5.3
   shared_preferences: ^2.2.2
+  syncfusion_flutter_barcodes: ^23.2.7
+  awesome_dialog: ^3.1.0
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

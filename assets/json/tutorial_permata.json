@@ -1,4 +1,9 @@
 {
+  "tabs":[
+    "ATM",
+    "IBANKING",
+    "MBANKING"
+  ],
     "tab1": [
       {
         "title": "LANGKAH 1: TEMUKAN ATM TERDEKAT",

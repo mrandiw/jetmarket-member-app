@@ -18,6 +18,27 @@ class AppPreference {
   final String _isRegistered = 'registered';
   final String _isVerify = 'verify';
   final String _isPaid = 'paid';
+  final String _isReferal = 'referal';
+  final String _phoneNumber = 'phone';
+  final String _countDown = 'count_down';
+
+  // buatkan untuk menyimpan startTime countdown, langsung duatkan menggunakan DateTime.now().millisecondsSinceEpoch
+  Future<void> saveCountDown(int countDown) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    await _prefs?.setInt(_countDown, startTime);
+  }
+
+  int? getCountDown() {
+    return _prefs?.getInt(_countDown);
+  }
+
+  Future<void> deleteCountDown() async {
+    await _prefs?.remove(_countDown);
+  }
+
+  Future<void> savePhoneNumber(String phoneNumber) async {
+    await _prefs?.setString(_phoneNumber, phoneNumber);
+  }
 
   Future<void> saveAccessToken({int? status, String? token}) async {
     if (status == 200) {
@@ -51,6 +72,18 @@ class AppPreference {
     await _prefs?.setString(_authRegisterKey, token ?? '');
   }
 
+  Future<void> referalSuccess() async {
+    await _prefs?.setBool(_isReferal, true);
+  }
+
+  bool? cekReferal() {
+    return _prefs?.getBool(_isReferal);
+  }
+
+  String? getPhoneNumber() {
+    return _prefs?.getString(_phoneNumber);
+  }
+
   Future<void> registerSuccess() async {
     await _prefs?.setBool(_isRegistered, true);
   }
@@ -72,7 +105,7 @@ class AppPreference {
   }
 
   Future<void> skipOnboarding(bool onboarding) async {
-    await _prefs?.setBool(_onboarding, onboarding);
+    await _prefs?.setBool(_onboarding, true);
   }
 
   bool? cekSkipOnboarding() {

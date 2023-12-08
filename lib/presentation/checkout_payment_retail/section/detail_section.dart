@@ -5,8 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/auth/detail_payment_register/controllers/detail_payment_register.controller.dart';
-import 'package:jetmarket/presentation/auth/detail_payment_register/section/atm_section.dart';
 import 'package:jetmarket/presentation/checkout_payment_retail/controllers/checkout_payment_retail.controller.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
@@ -88,9 +86,9 @@ class DetailSection extends StatelessWidget {
                     child: TabBarView(
                         controller: controller.tabController,
                         children: const [
-                          AtmSection(),
-                          AtmSection(),
-                          AtmSection()
+                          SizedBox.shrink(),
+                          SizedBox.shrink(),
+                          SizedBox.shrink()
                         ]))
               ],
             );

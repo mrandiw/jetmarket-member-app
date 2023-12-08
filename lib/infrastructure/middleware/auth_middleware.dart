@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/domain/core/model/model_data/user_model.dart';
 
 import '../../utils/app_preference/app_preferences.dart';
@@ -16,7 +17,7 @@ class AuthMiddleware extends GetMiddleware {
     bool isVerified = AppPreference().cekVerify() != null;
     UserModel? userData = AppPreference().getUserData();
     bool isPaid = userData?.trxId != null;
-    final onboarding = AppPreference().cekSkipOnboarding();
+    bool onboarding = AppPreference().cekSkipOnboarding() != null;
     var token = AppPreference().getRegisterToken();
     print("Token : $isTokenReady");
     print("Registered : $isRegistered");
@@ -30,6 +31,11 @@ class AuthMiddleware extends GetMiddleware {
       return const RouteSettings(name: Routes.REGISTER_OTP);
     } else if (isRegistered && isVerified && !isPaid && isTokenReady) {
       return const RouteSettings(name: Routes.SUCCESS_VERIFY_OTP);
+    } else if (isRegistered && isVerified && isPaid && isTokenReady) {
+      var argument =
+          PaymentMethodeArgument(trxId: userData?.trxId, status: "waiting");
+      return RouteSettings(
+          name: Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
     } else if (!isTokenReady) {
       return const RouteSettings(name: Routes.LOGIN);
     } else {

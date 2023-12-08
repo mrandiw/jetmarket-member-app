@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
-import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/controllers/detail_payment_register.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
@@ -27,7 +25,7 @@ class ButtonSection extends StatelessWidget {
       ]),
       child: AppButton.primary(
         text: 'Kembali',
-        onPressed: () => controller.toRegisterPage(),
+        onPressed: () => controller.toLogin(),
       ),
     );
   }

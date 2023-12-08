@@ -15,8 +15,11 @@ InterceptorsWrapper headerInterceptor({required bool logs}) {
 
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
       String? accessToken;
-      if (options.path == "payment/method") {
+      if (options.path == "payment/method" ||
+          options.path == "payment/customer_register") {
         accessToken = AppPreference().getRegisterToken();
+      } else if (options.path == "auth/otp-forgot/send") {
+        accessToken = null;
       } else {
         accessToken = AppPreference().getAccessToken();
       }

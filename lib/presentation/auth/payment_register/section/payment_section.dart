@@ -213,7 +213,7 @@ class PaymentSection extends StatelessWidget {
                                         boxShadow: [AppStyle.boxShadowSmall]),
                                     child: Center(
                                         child: Text(
-                                      "+${controller.paymentMethodes?.ewalletQr?.length ?? 0 - 1}",
+                                      "+${controller.paymentMethodes!.ewalletQr!.length - 2}",
                                       style: text11HintMedium,
                                     )),
                                   );
@@ -250,53 +250,56 @@ class PaymentSection extends StatelessWidget {
                               children: List.generate(
                                   controller
                                           .paymentMethodes?.ewalletQr?.length ??
-                                      0,
-                                  (index) => GestureDetector(
-                                        onTap: () => controller.actionPayment(
-                                            controller.paymentMethodes
-                                                    ?.ewalletQr?[index].id ??
-                                                0,
-                                            controller
-                                                    .paymentMethodes
-                                                    ?.ewalletQr?[index]
-                                                    .chType ??
-                                                '',
-                                            controller
-                                                    .paymentMethodes
-                                                    ?.ewalletQr?[index]
-                                                    .chCode ??
-                                                '',
-                                            controller.paymentMethodes
-                                                    ?.ewalletQr?[index].name ??
-                                                ''),
-                                        child: Container(
-                                          height: 36.h,
-                                          width: 56.w,
-                                          padding: EdgeInsets.all(8.r),
-                                          decoration: BoxDecoration(
-                                              color: controller
-                                                          .selectedEwallet ==
-                                                      controller
-                                                          .paymentMethodes
-                                                          ?.ewalletQr?[index]
-                                                          .chCode
-                                                  ? kNormalAccentColor2
-                                                  : kWhite,
-                                              border: AppStyle.borderAll,
-                                              borderRadius:
-                                                  AppStyle.borderRadius8All,
-                                              boxShadow: [
-                                                AppStyle.boxShadowSmall
-                                              ]),
-                                          child: buildImageWidget(
-                                              index,
-                                              controller.assetImage(controller
-                                                      .paymentMethodes
-                                                      ?.ewalletQr?[index]
-                                                      .chCode ??
-                                                  '')),
-                                        ),
-                                      ))),
+                                      0, (index) {
+                                String assets = index ==
+                                        controller.paymentMethodes!.ewalletQr!
+                                                .length -
+                                            1
+                                    ? 'qris'
+                                    : controller.paymentMethodes
+                                            ?.ewalletQr?[index].chCode ??
+                                        '';
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.actionPayment(
+                                        controller.paymentMethodes
+                                                ?.ewalletQr?[index].id ??
+                                            0,
+                                        controller.paymentMethodes
+                                                ?.ewalletQr?[index].chType ??
+                                            '',
+                                        controller.paymentMethodes
+                                                ?.ewalletQr?[index].chCode ??
+                                            '',
+                                        controller.paymentMethodes
+                                                ?.ewalletQr?[index].name ??
+                                            '');
+                                  },
+                                  child: Container(
+                                    height: 36.h,
+                                    width: 56.w,
+                                    padding: EdgeInsets.all(8.r),
+                                    decoration: BoxDecoration(
+                                        color: controller.selectedEwallet ==
+                                                    controller
+                                                        .paymentMethodes
+                                                        ?.ewalletQr?[index]
+                                                        .chCode &&
+                                                controller.selectedchType ==
+                                                    controller
+                                                        .paymentMethodes
+                                                        ?.ewalletQr?[index]
+                                                        .chType
+                                            ? kNormalAccentColor2
+                                            : kWhite,
+                                        border: AppStyle.borderAll,
+                                        borderRadius: AppStyle.borderRadius8All,
+                                        boxShadow: [AppStyle.boxShadowSmall]),
+                                    child: buildImageWidget(
+                                        index, controller.assetImage(assets)),
+                                  ),
+                                );
+                              })),
                           Gap(16.h)
                         ],
                       ),
@@ -349,7 +352,7 @@ class PaymentSection extends StatelessWidget {
                                 }
 
                                 return Padding(
-                                  padding: EdgeInsets.only(right: 4.w),
+                                  padding: EdgeInsets.only(right: 6.w),
                                   child: Container(
                                     height: 26.h,
                                     width: 44.w,
@@ -393,8 +396,16 @@ class PaymentSection extends StatelessWidget {
                                           child: Container(
                                             height: 36.h,
                                             width: 56.w,
+                                            padding: EdgeInsets.all(8.r),
                                             decoration: BoxDecoration(
-                                                color: kWhite,
+                                                color:
+                                                    controller.selectedRetail ==
+                                                            controller
+                                                                .paymentMethodes
+                                                                ?.otc?[index]
+                                                                .chCode
+                                                        ? kNormalAccentColor2
+                                                        : kWhite,
                                                 borderRadius:
                                                     AppStyle.borderRadius8All,
                                                 boxShadow: [

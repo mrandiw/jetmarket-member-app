@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/params/auth/reset_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
@@ -40,15 +41,13 @@ class ResetPasswordController extends GetxController {
     actionStatus = ActionStatus.loading;
     update();
 
-    var param = ResetParam(
-        newPassword: passwordController.text,
-        confirmPassword: konfirmasiPasswordController.text);
-
-    final response = await _authRepository.reset(param);
+    final response = await _authRepository.reset(passwordController.text);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      Get.toNamed(Routes.RESET_SUCESS);
+      AppPreference().clearAccessToken();
+      Get.offNamedUntil(
+          Routes.RESET_SUCESS, (route) => route.settings.name == Routes.LOGIN);
     } else {
       actionStatus = ActionStatus.failed;
       update();

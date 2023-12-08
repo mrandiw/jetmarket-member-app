@@ -13,9 +13,16 @@ class PaymentMethodeModel {
       json['ewallet'].forEach((v) {
         ewalletQr!.add(EWalletQr.fromJson(v));
       });
-      json['qr_code'].forEach((v) {
-        ewalletQr!.add(EWalletQr.fromJson(v));
-      });
+
+      // Ambil satu data pertama dari 'qr_code'
+      if (json['qr_code'] != null && json['qr_code'].isNotEmpty) {
+        ewalletQr!.add(EWalletQr.fromJson(
+            json['qr_code'].first)); // Mengambil elemen pertama dari 'qr_code'
+        // Jika ingin menggunakan take(1) dengan forEach:
+        // json['qr_code'].take(1).forEach((v) {
+        //   ewalletQr!.add(EWalletQr.fromJson(v));
+        // });
+      }
     }
 
     if (json['virtual_account'] != null) {

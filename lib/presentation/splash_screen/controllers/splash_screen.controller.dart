@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../../infrastructure/navigation/routes.dart';
-import '../../../utils/app_preference/app_preferences.dart';
 
 class SplashScreenController extends GetxController {
   Future<void> start() async {

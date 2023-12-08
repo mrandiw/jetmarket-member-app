@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:jetmarket/components/form/app_form.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
@@ -15,7 +16,10 @@ class OvoForm extends StatelessWidget {
     return AppBottomSheet(
       title: '',
       textButton: 'Bayar',
-      onPressed: () {},
+      onPressed: () {
+        Get.back();
+        controller.createPaymentCustomer();
+      },
       gapBottom: 72.h,
       child: content,
     );

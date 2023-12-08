@@ -60,7 +60,12 @@ class RegisterController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       AppPreference().registerSuccess();
+
+      AppPreference().savePhoneNumber(phoneController.text);
       update();
+      if (referralController.text.isNotEmpty) {
+        AppPreference().referalSuccess();
+      } else {}
       Get.toNamed(Routes.REGISTER_OTP, arguments: emailController.text);
     } else {
       actionStatus = ActionStatus.failed;
@@ -77,6 +82,7 @@ class RegisterController extends GetxController {
         await _authRepository.sendRegisterOtp(phoneController.text);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
+      AppPreference().referalSuccess();
       update();
       Get.toNamed(Routes.REGISTER_OTP, arguments: phoneController.text);
     } else {
@@ -95,7 +101,7 @@ class RegisterController extends GetxController {
   }
 
   listenPhoneForm(String value) {
-    if (value.isNotEmpty) {
+    if (value.length >= 6) {
       isPhoneValidated(true);
     } else {
       isPhoneValidated(false);
@@ -138,5 +144,11 @@ class RegisterController extends GetxController {
       update();
       Get.toNamed(Routes.PAYMENT_STATUS);
     });
+  }
+
+  @override
+  void onInit() {
+    phoneController.text = '+62';
+    super.onInit();
   }
 }

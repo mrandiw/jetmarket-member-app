@@ -71,16 +71,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<bool>> verifyForgotOtp(ForgotVerifyOtpParam param) async {
+  Future<DataState<String>> verifyForgotOtp(ForgotVerifyOtpParam param) async {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.otpVerify, data: param.toMap());
 
-      return DataState<bool>(
+      return DataState<String>(
         status: StatusCodeResponse.cek(response: response),
+        result: response.data['data']['token'],
       );
     } on DioException catch (e) {
-      return CustomException<bool>().dio(e);
+      return CustomException<String>().dio(e);
     }
   }
 
@@ -106,10 +107,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<bool>> reset(ResetParam param) async {
+  Future<DataState<bool>> reset(String param) async {
     try {
-      final response =
-          await RemoteProvider.post(path: Endpoint.reset, data: param.toMap());
+      final response = await RemoteProvider.post(
+          path: Endpoint.reset, data: {"password": param});
       return DataState<bool>(
         status: StatusCodeResponse.cek(response: response),
       );
@@ -122,7 +123,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<DataState<bool>> sendOtp(String param) async {
     try {
       final response = await RemoteProvider.post(
-          path: Endpoint.otpForgotSend, data: {'email': param});
+          path: Endpoint.otpSend, data: {'email': param, 'role': 'customer'});
       return DataState<bool>(
         status: StatusCodeResponse.cek(response: response),
       );
@@ -149,7 +150,23 @@ class AuthRepositoryImpl implements AuthRepository {
       PaymentParam param) async {
     try {
       final response = await RemoteProvider.post(
-          path: Endpoint.otpForgotSend, data: param.toMap());
+          path: Endpoint.paymentCustomerRegister,
+          queryParameters: param.toMap());
+      return DataState<PaymentCustomerModel>(
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        result: PaymentCustomerModel.fromJson(response.data['data']),
+      );
+    } on DioException catch (e) {
+      return CustomException<PaymentCustomerModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<PaymentCustomerModel>> getPaymentCustomer(int id) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.paymentCustomerRegister,
+          queryParameters: {'trx_id': id});
       return DataState<PaymentCustomerModel>(
         status: StatusCodeResponse.cek(response: response),
         result: PaymentCustomerModel.fromJson(response.data['data']),
