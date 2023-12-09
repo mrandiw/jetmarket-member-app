@@ -22,7 +22,7 @@ class ResetPasswordController extends GetxController {
   var isKonfirmasiPasswordValidated = false.obs;
 
   listenKonfirmasiPasswordForm(String value) {
-    if (value.isNotEmpty) {
+    if (value.length >= 8) {
       isKonfirmasiPasswordValidated(true);
     } else {
       isKonfirmasiPasswordValidated(false);
@@ -30,7 +30,7 @@ class ResetPasswordController extends GetxController {
   }
 
   listenPasswordForm(String value) {
-    if (value.length > 4) {
+    if (value.length >= 8) {
       isPasswordValidated(true);
     } else {
       isPasswordValidated(false);

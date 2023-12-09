@@ -13,16 +13,20 @@ class OvoForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomSheet(
-      title: '',
-      textButton: 'Bayar',
-      onPressed: () {
-        Get.back();
-        controller.createPaymentCustomer();
-      },
-      gapBottom: 72.h,
-      child: content,
-    );
+    return Obx(() {
+      return AppBottomSheet(
+        title: '',
+        textButton: 'Bayar',
+        onPressed: controller.isPhoneValidated.value
+            ? () {
+                Get.back();
+                controller.createPaymentCustomer();
+              }
+            : null,
+        gapBottom: 72.h,
+        child: content,
+      );
+    });
   }
 
   Widget get content {
@@ -33,6 +37,11 @@ class OvoForm extends StatelessWidget {
         Gap(12.h),
         AppForm(
           controller: controller.numberController,
+          keyboardType: TextInputType.phone,
+          label: 'Nomor HP',
+          hintText: 'Isi nomor hp disini',
+          inputFormatters: controller.formaterNumber(),
+          onChanged: (value) => controller.listenPhoneForm(value),
         )
       ],
     );

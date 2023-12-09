@@ -25,10 +25,12 @@ class Main extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, widgets) {
           return GetMaterialApp(
-            initialRoute: initialRoute,
-            debugShowCheckedModeBanner: false,
-            getPages: Nav.routes,
-          );
+              initialRoute: initialRoute,
+              debugShowCheckedModeBanner: false,
+              getPages: Nav.routes,
+              theme: ThemeData(
+                useMaterial3: true,
+              ));
         });
   }
 }

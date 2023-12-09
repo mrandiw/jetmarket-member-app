@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,9 @@ class AppForm extends StatelessWidget {
     this.textArea = false,
     this.keyboardType,
     this.focusNode,
+    this.inputFormatters,
     this.onChanged,
+    this.onEditingComplete,
   });
 
   final TextEditingController controller;
@@ -35,7 +38,9 @@ class AppForm extends StatelessWidget {
   final bool textArea;
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
+  final Function()? onEditingComplete;
   @override
   Widget build(BuildContext context) {
     return type == AppFormType.normal ? _buildNormalForm : _buildWithLabel;
@@ -54,6 +59,8 @@ class AppForm extends StatelessWidget {
           textAlign: textAlign ?? TextAlign.left,
           onChanged: onChanged,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          onEditingComplete: onEditingComplete,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: text12HintForm,

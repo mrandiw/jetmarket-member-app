@@ -11,8 +11,10 @@ export 'package:jetmarket/presentation/auth/register/register.screen.dart';
 export 'package:jetmarket/presentation/auth/register_otp/register_otp.screen.dart';
 export 'package:jetmarket/presentation/auth/reset_password/reset_password.screen.dart';
 export 'package:jetmarket/presentation/auth/reset_sucess/reset_sucess.screen.dart';
+export 'package:jetmarket/presentation/auth/success_verify_otp/success_verify_otp.screen.dart';
 export 'package:jetmarket/presentation/cara_bayar/cara_bayar.screen.dart';
 export 'package:jetmarket/presentation/cart/cart.screen.dart';
+export 'package:jetmarket/presentation/change_password/change_password.screen.dart';
 export 'package:jetmarket/presentation/checkout/checkout.screen.dart';
 export 'package:jetmarket/presentation/checkout_payment/checkout_payment.screen.dart';
 export 'package:jetmarket/presentation/checkout_payment_retail/checkout_payment_retail.screen.dart';
@@ -24,6 +26,7 @@ export 'package:jetmarket/presentation/detail_product/detail_product.screen.dart
 export 'package:jetmarket/presentation/detail_return/detail_return.screen.dart';
 export 'package:jetmarket/presentation/detail_store/detail_store.screen.dart';
 export 'package:jetmarket/presentation/e_wallet/e_wallet.screen.dart';
+export 'package:jetmarket/presentation/edit_account/edit_account.screen.dart';
 export 'package:jetmarket/presentation/edit_address/edit_address.screen.dart';
 export 'package:jetmarket/presentation/home/home.screen.dart';
 export 'package:jetmarket/presentation/komplain/komplain.screen.dart';
@@ -38,7 +41,7 @@ export 'package:jetmarket/presentation/payment_success_retail/payment_success_re
 export 'package:jetmarket/presentation/product_bycategory/product_bycategory.screen.dart';
 export 'package:jetmarket/presentation/review_order/review_order.screen.dart';
 export 'package:jetmarket/presentation/splash_screen/splash_screen.screen.dart';
-export 'package:jetmarket/presentation/auth/success_verify_otp/success_verify_otp.screen.dart';
+export 'package:jetmarket/presentation/success_change_password/success_change_password.screen.dart';
 export 'package:jetmarket/presentation/tracking_return/tracking_return.screen.dart';
 export 'package:jetmarket/presentation/tracking_return_order/tracking_return_order.screen.dart';
 export 'package:jetmarket/presentation/voucher/voucher.screen.dart';

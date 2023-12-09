@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
-import 'package:jetmarket/presentation/detail_store/controllers/detail_store.controller.dart';
 import 'package:jetmarket/presentation/order/controllers/order.controller.dart';
-import 'package:jetmarket/utils/style/app_style.dart';
-
+import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/theme/app_text.dart';
-import '../../../utils/assets/assets_svg.dart';
 import 'header_section.dart';
 
 class AppBarDetailOrder extends StatelessWidget {
@@ -43,6 +39,15 @@ class AppBarDetailOrder extends StatelessWidget {
                 children: [
                   Gap(16.w),
                   Text('Daftar Pesanan', style: text16BlackSemiBold),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () => Get.toNamed(Routes.NOTIFICATION),
+                    child: Icon(
+                      Icons.notifications,
+                      color: const Color(0xff333333).withOpacity(0.4),
+                    ),
+                  ),
+                  Gap(16.w),
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
@@ -19,6 +20,8 @@ class RegisterController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController referralController = TextEditingController();
 
+  final FocusNode focusNodeReferral = FocusNode();
+
   var actionStatus = ActionStatus.initalize;
 
   var isNameValidated = false.obs;
@@ -26,6 +29,10 @@ class RegisterController extends GetxController {
   var isEmailValidated = false.obs;
   var isPasswordValidated = false.obs;
   var isKodeReveralValidated = false.obs;
+  var isKodeReveralError = false.obs;
+
+  final String countryCode = '+62';
+  var referralMessage = ''.obs;
 
   List<String> genders = ['Laki-laki', 'Perempuan'];
   int selectedGender = 0;
@@ -52,7 +59,8 @@ class RegisterController extends GetxController {
         phone: phoneController.text,
         email: emailController.text,
         password: passwordController.text,
-        kodeReferall: referralController.text,
+        kodeReferall:
+            isKodeReveralValidated.value ? referralController.text : null,
         fcmToken: fcmToken);
 
     final response = await _authRepository.register(param);
@@ -63,7 +71,7 @@ class RegisterController extends GetxController {
 
       AppPreference().savePhoneNumber(phoneController.text);
       update();
-      if (referralController.text.isNotEmpty) {
+      if (isKodeReveralValidated.value) {
         AppPreference().referalSuccess();
       } else {}
       Get.toNamed(Routes.REGISTER_OTP, arguments: emailController.text);
@@ -101,6 +109,14 @@ class RegisterController extends GetxController {
   }
 
   listenPhoneForm(String value) {
+    if (value.startsWith('${countryCode}0') &&
+        value.length > (countryCode.length + 1)) {
+      phoneController.text =
+          countryCode + value.substring(countryCode.length + 1);
+      phoneController.selection = TextSelection.fromPosition(
+          TextPosition(offset: phoneController.text.length));
+      update();
+    }
     if (value.length >= 6) {
       isPhoneValidated(true);
     } else {
@@ -108,27 +124,51 @@ class RegisterController extends GetxController {
     }
   }
 
-  listenEmailForm(String value) {
+  List<TextInputFormatter> formaterNumber() => [
+        LengthLimitingTextInputFormatter(countryCode.length + 12),
+        FilteringTextInputFormatter.deny(RegExp(r'[^\d+]')),
+        TextInputFormatter.withFunction((oldValue, newValue) {
+          if (newValue.text.startsWith(countryCode)) {
+            return newValue;
+          }
+          return oldValue;
+        }),
+      ];
+
+  void listenEmailForm(String value) {
     if (value.isNotEmpty) {
-      isEmailValidated(true);
+      if (validateEmail(value)) {
+        isEmailValidated(true);
+      } else {
+        isEmailValidated(false);
+      }
     } else {
       isEmailValidated(false);
     }
   }
 
+  bool validateEmail(String email) {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegExp.hasMatch(email);
+  }
+
   listenPasswordForm(String value) {
-    if (value.length > 4) {
+    if (value.length >= 8) {
       isPasswordValidated(true);
     } else {
       isPasswordValidated(false);
     }
   }
 
-  listenKodeReveralForm(String value) {
-    if (value.isNotEmpty) {
+  void checkReferralCode() async {
+    final response =
+        await _authRepository.claimReferral(referralController.text);
+    if (response.status == StatusResponse.success) {
+      referralMessage.value = response.message ?? '';
       isKodeReveralValidated(true);
     } else {
-      isKodeReveralValidated(false);
+      referralMessage.value = response.message ?? '';
+      isKodeReveralError(true);
     }
   }
 
@@ -148,7 +188,14 @@ class RegisterController extends GetxController {
 
   @override
   void onInit() {
-    phoneController.text = '+62';
+    phoneController.text = countryCode;
+    phoneController.selection = TextSelection.fromPosition(
+        TextPosition(offset: phoneController.text.length));
+    focusNodeReferral.addListener(() {
+      if (!focusNodeReferral.hasFocus) {
+        checkReferralCode();
+      }
+    });
     super.onInit();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:jetmarket/presentation/auth/register/controllers/register.contro
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/button/back_button.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 
 class FormSection extends StatelessWidget {
@@ -22,8 +24,13 @@ class FormSection extends StatelessWidget {
     return Positioned.fill(
         child: SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Gap(276),
+          Padding(
+            padding: AppStyle.paddingAll16,
+            child: AppBackButton.circle(),
+          ),
+          Gap(260.h),
           Container(
             padding: AppStyle.paddingAll16,
             decoration: BoxDecoration(
@@ -77,17 +84,22 @@ class FormSection extends StatelessWidget {
                     ),
                   ),
                   Gap(12.h),
-                  AppForm(
-                    type: AppFormType.withLabel,
-                    controller: controller.phoneController,
-                    label: 'Nomor HP',
-                    hintText: 'Isi nomor hp disini',
-                    onChanged: (value) => controller.listenPhoneForm(value),
-                  ),
+                  GetBuilder<RegisterController>(builder: (controller) {
+                    return AppForm(
+                      type: AppFormType.withLabel,
+                      controller: controller.phoneController,
+                      keyboardType: TextInputType.phone,
+                      label: 'Nomor HP',
+                      hintText: 'Isi nomor hp disini',
+                      inputFormatters: controller.formaterNumber(),
+                      onChanged: (value) => controller.listenPhoneForm(value),
+                    );
+                  }),
                   Gap(12.h),
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Email',
                     hintText: 'Isi email disini',
                     onChanged: (value) => controller.listenEmailForm(value),
@@ -96,6 +108,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Password',
                     hintText: 'Isi password disini',
                     onChanged: (value) => controller.listenPasswordForm(value),
@@ -124,22 +137,22 @@ class FormSection extends StatelessWidget {
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.referralController,
+                    focusNode: controller.focusNodeReferral,
                     label: 'Kode Referal',
                     hintText: 'Isi kode referal disini',
-                    onChanged: (value) =>
-                        controller.listenKodeReveralForm(value),
+                    onEditingComplete: () => controller.checkReferralCode(),
                   ),
                   Gap(12.h),
                   Obx(() {
                     return Visibility(
-                      visible: controller.isKodeReveralValidated.value,
+                      visible: controller.isKodeReveralValidated.value ||
+                          controller.isKodeReveralError.value,
                       child: Container(
                         padding: AppStyle.paddingAll12,
                         decoration: BoxDecoration(
                             color: kPrimaryColor2,
                             borderRadius: AppStyle.borderRadius8All),
-                        child: Text(
-                            'Yeay, kode referral terpasang! Silakan melakukan pembayaran sebesar Rp10.000',
+                        child: Text(controller.referralMessage.value,
                             style: text12BlackRegular),
                       ),
                     );

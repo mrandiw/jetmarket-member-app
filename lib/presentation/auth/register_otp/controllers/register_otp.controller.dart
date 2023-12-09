@@ -33,7 +33,7 @@ class RegisterOtpController extends GetxController {
       actionStatus = ActionStatus.success;
       AppPreference().verifySuccess();
       update();
-      Get.toNamed(Routes.SUCCESS_VERIFY_OTP);
+      Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();

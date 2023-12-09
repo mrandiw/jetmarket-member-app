@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
@@ -32,10 +33,12 @@ class PaymentRegisterController extends GetxController {
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
+  final String countryCode = '+62';
 
   bool isBankTransferExpanded = false;
   bool isEwalletExpanded = false;
   bool isRetailExpanded = false;
+  var isPhoneValidated = false.obs;
 
   void onChangeExpandBank(bool expand) {
     isBankTransferExpanded = expand;
@@ -85,11 +88,12 @@ class PaymentRegisterController extends GetxController {
     var param = PaymentParam(
         id: selectedId.toString(),
         amount: amount,
-        mobileNumber: numberController.text);
+        mobileNumber: isPhoneValidated.value ? numberController.text : null);
     final response = await _authRepository.createPaymentCustomer(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
+      AppPreference().saveTrxId(response.result?.id ?? 0);
       toPaying(response.result, amount);
     } else {
       actionStatus = ActionStatus.failed;
@@ -140,10 +144,49 @@ class PaymentRegisterController extends GetxController {
     Get.toNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
   }
 
+  List<TextInputFormatter> formaterNumber() => [
+        LengthLimitingTextInputFormatter(countryCode.length + 12),
+        FilteringTextInputFormatter.deny(RegExp(r'[^\d+]')),
+        TextInputFormatter.withFunction((oldValue, newValue) {
+          if (newValue.text.startsWith(countryCode)) {
+            return newValue;
+          }
+          return oldValue;
+        }),
+      ];
+
+  listenPhoneForm(String value) {
+    if (value.startsWith('${countryCode}0') &&
+        value.length > (countryCode.length + 1)) {
+      numberController.text =
+          countryCode + value.substring(countryCode.length + 1);
+      numberController.selection = TextSelection.fromPosition(
+          TextPosition(offset: numberController.text.length));
+      update();
+    }
+    if (value.length >= 9) {
+      isPhoneValidated(true);
+    } else {
+      isPhoneValidated(false);
+    }
+  }
+
+  String getImage(String image) {
+    String img;
+    try {
+      img = 'assets/images/$image.png';
+    } catch (e) {
+      img = 'assets/images/warning.png';
+    }
+    return img;
+  }
+
   @override
   void onInit() {
+    numberController.text = countryCode;
+    numberController.selection = TextSelection.fromPosition(
+        TextPosition(offset: numberController.text.length));
     getPaymentMethode();
-    numberController.text = "+62";
     super.onInit();
   }
 }

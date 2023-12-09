@@ -253,5 +253,20 @@ class Nav {
       page: () => const SuccessVerifyOtpScreen(),
       binding: SuccessVerifyOtpControllerBinding(),
     ),
+    GetPage(
+      name: Routes.EDIT_ACCOUNT,
+      page: () => const EditAccountScreen(),
+      binding: EditAccountControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHANGE_PASSWORD,
+      page: () => const ChangePasswordScreen(),
+      binding: ChangePasswordControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SUCCESS_CHANGE_PASSWORD,
+      page: () => const SuccessChangePasswordScreen(),
+      binding: SuccessChangePasswordControllerBinding(),
+    ),
   ];
 }

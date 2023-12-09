@@ -39,6 +39,7 @@ class FormSection extends StatelessWidget {
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Email',
                     hintText: 'Isi email disini',
                     onChanged: (value) => controller.listenEmailForm(value),
@@ -47,6 +48,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Password',
                     hintText: 'Isi password disini',
                     onChanged: (value) => controller.listenPasswordForm(value),

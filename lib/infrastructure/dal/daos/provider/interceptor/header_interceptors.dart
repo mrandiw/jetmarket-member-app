@@ -17,7 +17,8 @@ InterceptorsWrapper headerInterceptor({required bool logs}) {
       String? accessToken;
       if (options.path == "payment/method" ||
           options.path == "payment/customer_register") {
-        accessToken = AppPreference().getRegisterToken();
+        accessToken = AppPreference().getRegisterToken() ??
+            AppPreference().getAccessToken();
       } else if (options.path == "auth/otp-forgot/send") {
         accessToken = null;
       } else {

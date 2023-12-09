@@ -4,7 +4,7 @@ class RegisterParam {
     required this.gender,
     required this.email,
     required this.password,
-    required this.kodeReferall,
+    this.kodeReferall,
     required this.phone,
     this.fcmToken,
   });
@@ -14,7 +14,7 @@ class RegisterParam {
   final String phone;
   final String email;
   final String password;
-  final String kodeReferall;
+  final String? kodeReferall;
   final String? fcmToken;
 
   Map<String, dynamic> toMap() => {

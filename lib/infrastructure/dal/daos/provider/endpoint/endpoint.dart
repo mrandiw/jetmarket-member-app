@@ -7,11 +7,13 @@ class Endpoint {
   static String otpSend = 'auth/otp/send';
   static String otpForgotVerify = 'auth/otp-forgot/verify';
   static String otpForgotSend = 'auth/otp-forgot/send';
-  static String logout = 'auth/logout';
+  static String logout = 'auth/customer/logout';
   static String register = 'auth/customer/register';
   static String reset = 'auth/customer/change_password';
   static String paymentMethode = 'payment/method';
   static String paymentCustomerRegister = 'payment/customer_register';
+  static String claimReferral = 'referral/claim';
+  static String deleteAccount = 'auth/customer/soft_delete';
 
   // Google Maps Api
   static String placeAutocomplete = 'place/autocomplete/json';

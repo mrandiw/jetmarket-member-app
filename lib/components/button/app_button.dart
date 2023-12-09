@@ -111,9 +111,14 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _onLoading() {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.white,
+    return Center(
+      child: SizedBox(
+        height: 24.r,
+        width: 24.r,
+        child: const CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Colors.white,
+        ),
       ),
     );
   }

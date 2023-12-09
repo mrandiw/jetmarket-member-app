@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,8 @@ import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/controllers/detail_payment_register.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
+
+import '../../../../infrastructure/navigation/routes.dart';
 
 class ButtonSection extends StatelessWidget {
   const ButtonSection({super.key, required this.controller});
@@ -24,8 +27,15 @@ class ButtonSection extends StatelessWidget {
             blurRadius: 10)
       ]),
       child: AppButton.primary(
-        text: 'Kembali',
-        onPressed: () => controller.toLogin(),
+        text: 'Keluar',
+        onPressed: () {
+          Get.offAllNamed(Routes.LOGIN);
+          // if (Get.isOverlaysOpen) {
+          //   Get.back();
+          // } else {
+          //   SystemNavigator.pop();
+          // }
+        },
       ),
     );
   }

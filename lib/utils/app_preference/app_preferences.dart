@@ -21,8 +21,8 @@ class AppPreference {
   final String _isReferal = 'referal';
   final String _phoneNumber = 'phone';
   final String _countDown = 'count_down';
+  final String _trxId = 'trx_id';
 
-  // buatkan untuk menyimpan startTime countdown, langsung duatkan menggunakan DateTime.now().millisecondsSinceEpoch
   Future<void> saveCountDown(int countDown) async {
     int startTime = DateTime.now().millisecondsSinceEpoch;
     await _prefs?.setInt(_countDown, startTime);
@@ -50,6 +50,9 @@ class AppPreference {
     if (status == 200 && data != null) {
       String userDataJson = json.encode(data);
       await _prefs?.setString(_userDataKey, userDataJson);
+      if (data['trx_id'] != null) {
+        saveTrxId(data['trx_id']);
+      }
     }
   }
 
@@ -124,7 +127,27 @@ class AppPreference {
     return _prefs?.getBool(_isPaid);
   }
 
+  Future<void> saveTrxId(int trxId) async {
+    await _prefs?.setInt(_trxId, trxId);
+  }
+
+  int? getTrxId() {
+    return _prefs?.getInt(_trxId);
+  }
+
   Future<void> clearAccessToken() async {
     await _prefs?.remove(_authTokenKey);
+  }
+
+  Future<void> clearOnLogout() async {
+    await _prefs?.remove(_authTokenKey);
+    await _prefs?.remove(_authRegisterKey);
+    await _prefs?.remove(_userDataKey);
+    await _prefs?.remove(_isPaid);
+    await _prefs?.remove(_isReferal);
+    await _prefs?.remove(_isRegistered);
+    await _prefs?.remove(_isVerify);
+    await _prefs?.remove(_phoneNumber);
+    await _prefs?.remove(_trxId);
   }
 }

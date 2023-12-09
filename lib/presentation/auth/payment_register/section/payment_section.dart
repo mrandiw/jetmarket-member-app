@@ -51,7 +51,7 @@ class PaymentSection extends StatelessWidget {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Bank Transfer', style: text12BlackSemiBold),
+                            Text('Virtual Account', style: text12BlackSemiBold),
                             Visibility(
                               visible: !controller.isBankTransferExpanded,
                               child: Row(
@@ -153,13 +153,16 @@ class PaymentSection extends StatelessWidget {
                                             boxShadow: [
                                               AppStyle.boxShadowSmall
                                             ]),
-                                        child: buildImageWidget(
-                                            index,
-                                            controller.assetImage(controller
-                                                    .paymentMethodes
-                                                    ?.virtualAccount?[index]
-                                                    .chCode ??
-                                                '')),
+                                        child: Image.asset(
+                                          controller.getImage(controller
+                                                  .paymentMethodes
+                                                  ?.virtualAccount?[index]
+                                                  .chCode ??
+                                              ''),
+                                          fit: BoxFit.contain,
+                                          height: 24.h,
+                                          width: 44.w,
+                                        ),
                                       )))),
                           Gap(16.h)
                         ],
@@ -295,8 +298,21 @@ class PaymentSection extends StatelessWidget {
                                         border: AppStyle.borderAll,
                                         borderRadius: AppStyle.borderRadius8All,
                                         boxShadow: [AppStyle.boxShadowSmall]),
-                                    child: buildImageWidget(
-                                        index, controller.assetImage(assets)),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(index ==
+                                                    controller.paymentMethodes!
+                                                            .ewalletQr!.length -
+                                                        1
+                                                ? 'assets/images/qris.png'
+                                                : controller.getImage(controller
+                                                        .paymentMethodes
+                                                        ?.ewalletQr?[index]
+                                                        .chCode ??
+                                                    ''))),
+                                      ),
+                                    ),
                                   ),
                                 );
                               })),
@@ -394,31 +410,33 @@ class PaymentSection extends StatelessWidget {
                                                       ?.otc?[index].name ??
                                                   ''),
                                           child: Container(
-                                            height: 36.h,
-                                            width: 56.w,
-                                            padding: EdgeInsets.all(8.r),
-                                            decoration: BoxDecoration(
-                                                color:
-                                                    controller.selectedRetail ==
-                                                            controller
-                                                                .paymentMethodes
-                                                                ?.otc?[index]
-                                                                .chCode
-                                                        ? kNormalAccentColor2
-                                                        : kWhite,
-                                                borderRadius:
-                                                    AppStyle.borderRadius8All,
-                                                boxShadow: [
-                                                  AppStyle.boxShadowSmall
-                                                ]),
-                                            child: buildImageWidget(
-                                                index,
-                                                controller.assetImage(controller
+                                              height: 36.h,
+                                              width: 56.w,
+                                              padding: EdgeInsets.all(8.r),
+                                              decoration: BoxDecoration(
+                                                  color: controller
+                                                              .selectedRetail ==
+                                                          controller
+                                                              .paymentMethodes
+                                                              ?.otc?[index]
+                                                              .chCode
+                                                      ? kNormalAccentColor2
+                                                      : kWhite,
+                                                  borderRadius:
+                                                      AppStyle.borderRadius8All,
+                                                  boxShadow: [
+                                                    AppStyle.boxShadowSmall
+                                                  ]),
+                                              child: Image.asset(
+                                                controller.getImage(controller
                                                         .paymentMethodes
                                                         ?.otc?[index]
                                                         .chCode ??
-                                                    '')),
-                                          ),
+                                                    ''),
+                                                fit: BoxFit.contain,
+                                                height: 24.h,
+                                                width: 44.w,
+                                              )),
                                         ),
                                       ))),
                           Gap(16.h)
@@ -434,48 +452,5 @@ class PaymentSection extends StatelessWidget {
         ],
       ),
     ));
-  }
-
-  Future<bool> checkAssetImageExists(String assetImagePath) async {
-    try {
-      ByteData imageData = await rootBundle.load(assetImagePath);
-      return imageData.lengthInBytes != 0;
-    } catch (e) {
-      print('Error checking asset image: $e');
-      return false;
-    }
-  }
-
-  Widget buildImageWidget(int index, String assetImagePath) {
-    return FutureBuilder<bool>(
-      future: checkAssetImageExists(assetImagePath),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox.shrink();
-        } else if (snapshot.hasData && snapshot.data == true) {
-          return Image.asset(
-            assetImagePath,
-            fit: BoxFit.contain,
-            height: 24.h,
-            width: 44.w,
-          );
-        } else {
-          return buildErrorContainer();
-        }
-      },
-    );
-  }
-
-  Widget buildErrorContainer() {
-    return SizedBox(
-      width: 44.w,
-      height: 24.h,
-      child: Center(
-          child: Icon(
-        Icons.warning_rounded,
-        color: kPrimaryColor,
-        size: 16.r,
-      )),
-    );
   }
 }

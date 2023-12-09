@@ -29,9 +29,20 @@ class User {
   String? phone;
   String? referral;
   String? email;
+  bool? isEmployee;
+  bool? isVerified;
+  String? activatedAt;
 
   User(
-      {this.id, this.name, this.gender, this.phone, this.referral, this.email});
+      {this.id,
+      this.name,
+      this.gender,
+      this.phone,
+      this.referral,
+      this.email,
+      this.isEmployee,
+      this.isVerified,
+      this.activatedAt});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,6 +51,9 @@ class User {
     phone = json['phone'];
     referral = json['referral'];
     email = json['email'];
+    isEmployee = json['is _employee'];
+    isVerified = json['is verified'];
+    activatedAt = json['activated at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +64,9 @@ class User {
     data['phone'] = phone;
     data['referral'] = referral;
     data['email'] = email;
+    data['is _employee'] = isEmployee;
+    data['is verified'] = isVerified;
+    data['activated at'] = activatedAt;
     return data;
   }
 }

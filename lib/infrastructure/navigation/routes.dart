@@ -9,6 +9,7 @@ class Routes {
   static const ADD_ADDRESS = '/add-address';
   static const CARA_BAYAR = '/cara-bayar';
   static const CART = '/cart';
+  static const CHANGE_PASSWORD = '/change-password';
   static const CHECKOUT = '/checkout';
   static const CHECKOUT_PAYMENT = '/checkout-payment';
   static const CHECKOUT_PAYMENT_RETAIL = '/checkout-payment-retail';
@@ -20,6 +21,7 @@ class Routes {
   static const DETAIL_PRODUCT = '/detail-product';
   static const DETAIL_RETURN = '/detail-return';
   static const DETAIL_STORE = '/detail-store';
+  static const EDIT_ACCOUNT = '/edit-account';
   static const EDIT_ADDRESS = '/edit-address';
   static const E_WALLET = '/e-wallet';
   static const FORGOT_PASSWORD = '/forgot-password';
@@ -45,9 +47,10 @@ class Routes {
   static const RESET_SUCESS = '/reset-sucess';
   static const REVIEW_ORDER = '/review-order';
   static const SPLASH_SCREEN = '/splash-screen';
+  static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
   static const TRACKING_RETURN = '/tracking-return';
   static const TRACKING_RETURN_ORDER = '/tracking-return-order';
   static const VOUCHER = '/voucher';
   static const WAITING_PAYMENT = '/waiting-payment';
-  static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
+  static const SUCCESS_CHANGE_PASSWORD = '/success-change-password';
 }
