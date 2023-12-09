@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/components/loading/load_pages.dart';
 import 'package:jetmarket/components/parent/parent_scaffold.dart';
 
+import '../../../components/button/back_button.dart';
 import '../../../infrastructure/theme/app_colors.dart';
+import '../../../utils/assets/assets_svg.dart';
 import 'controllers/detail_payment_register.controller.dart';
 import 'section/button_section.dart';
 import 'section/detail_section.dart';
@@ -33,9 +38,33 @@ class DetailPaymentRegisterScreen
         child: SizedBox(
           height: Get.height,
           width: Get.width,
-          child: const Stack(
+          child: Stack(
             clipBehavior: Clip.none,
-            children: [HeaderSection(), DetailSection()],
+            children: [
+              const HeaderSection(),
+              const DetailSection(),
+              Positioned(
+                  top: 16.h,
+                  left: 16.w,
+                  child: GestureDetector(
+                    onTap: () => SystemNavigator.pop(),
+                    child: Container(
+                      width: 24.r,
+                      height: 24.r,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xff2D2D2D).withOpacity(0.2)),
+                      child: Center(
+                          child: SvgPicture.asset(
+                        arrowForward,
+                        height: 12.r,
+                        width: 12.r,
+                        colorFilter:
+                            const ColorFilter.mode(kWhite, BlendMode.srcIn),
+                      )),
+                    ),
+                  ))
+            ],
           ),
         ),
       ),

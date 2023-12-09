@@ -91,15 +91,13 @@ class FormSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Obx(() {
-                    return Text(
-                        controller.selectedDatePicker.value != ""
-                            ? controller.selectedDatePicker.value
-                            : 'Selected date',
-                        style: controller.selectedDatePicker.value != ""
-                            ? text12BlackRegular
-                            : text12HintRegular);
-                  }),
+                  Text(
+                      controller.selectedDatePicker != ""
+                          ? controller.selectedDatePicker
+                          : 'Pilih Tanggal Lahir',
+                      style: controller.selectedDatePicker != ""
+                          ? text12BlackRegular
+                          : text12HintRegular),
                   SvgPicture.asset(calendar)
                 ],
               ),

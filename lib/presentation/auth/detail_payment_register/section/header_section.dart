@@ -15,11 +15,6 @@ class HeaderSection extends StatelessWidget {
         height: 302.h,
         width: Get.width,
         color: kPrimaryColor2,
-        child: Stack(
-          children: [
-            Image.asset(authImage),
-            Positioned(top: 16.h, left: 16.w, child: AppBackButton.circle())
-          ],
-        ));
+        child: Image.asset(authImage));
   }
 }

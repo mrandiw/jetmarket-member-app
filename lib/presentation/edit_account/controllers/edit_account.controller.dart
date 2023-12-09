@@ -31,8 +31,8 @@ class EditAccountController extends GetxController {
   var isPhoneValidated = false.obs;
   var isEmailValidated = false.obs;
   var isPasswordValidated = false.obs;
-  var selectedDatePicker = "".obs;
-  var datePicker = <DateTime?>[].obs;
+  var selectedDatePicker = "";
+  var datePicker = <DateTime?>[];
 
   final String countryCode = '+62';
 
@@ -115,8 +115,8 @@ class EditAccountController extends GetxController {
   }
 
   pickDate(List<DateTime?> date) {
-    selectedDatePicker.value = DateFormat('dd-MM-yyyy').format(date[0]!);
-    datePicker.value = date;
+    selectedDatePicker = DateFormat('dd-MM-yyyy').format(date[0]!);
+    datePicker = date;
     DateTime parsedDate = DateTime.parse("${datePicker.first}");
     // ignore: unused_local_variable
     final value = DateFormat('yyyy-MM-dd').format(parsedDate);

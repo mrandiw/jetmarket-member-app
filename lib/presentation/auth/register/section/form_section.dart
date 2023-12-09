@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
@@ -15,6 +16,7 @@ import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/button/back_button.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../utils/assets/assets_svg.dart';
 
 class FormSection extends StatelessWidget {
   const FormSection({super.key});
@@ -80,6 +82,33 @@ class FormSection extends StatelessWidget {
                               style: text12BlackRegular),
                           Gap(16.w),
                         ]),
+                      ),
+                    ),
+                  ),
+                  Gap(12.h),
+                  Text('Tanggal Lahir', style: text12BlackRegular),
+                  Gap(8.h),
+                  GestureDetector(
+                    onTap: () => controller.openCalendarView(),
+                    child: Container(
+                      height: 42.h,
+                      padding: AppStyle.paddingAll12,
+                      decoration: BoxDecoration(
+                          borderRadius: AppStyle.borderRadius8All,
+                          color: kWhite,
+                          border: AppStyle.borderAll),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              controller.selectedDatePicker != ""
+                                  ? controller.selectedDatePicker
+                                  : 'Pilih Tanggal Lahir',
+                              style: controller.selectedDatePicker != ""
+                                  ? text12BlackRegular
+                                  : text12HintRegular),
+                          SvgPicture.asset(calendar)
+                        ],
                       ),
                     ),
                   ),
@@ -167,7 +196,8 @@ class FormSection extends StatelessWidget {
                       onPressed: controller.isNameValidated.value &&
                               controller.isPhoneValidated.value &&
                               controller.isEmailValidated.value &&
-                              controller.isPasswordValidated.value
+                              controller.isPasswordValidated.value &&
+                              controller.selectedDatePicker != ""
                           ? controller.selectedPaymentMethode.value == ""
                               ? () => controller.register()
                               : () => controller.payAndRegister()

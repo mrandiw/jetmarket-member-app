@@ -7,8 +7,6 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/controllers/detail_payment_register.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../../../infrastructure/navigation/routes.dart';
-
 class ButtonSection extends StatelessWidget {
   const ButtonSection({super.key, required this.controller});
 
@@ -29,11 +27,11 @@ class ButtonSection extends StatelessWidget {
       child: AppButton.primary(
         text: 'Keluar',
         onPressed: () {
-          Get.offAllNamed(Routes.LOGIN);
+          SystemNavigator.pop();
           // if (Get.isOverlaysOpen) {
           //   Get.back();
           // } else {
-          //   SystemNavigator.pop();
+
           // }
         },
       ),

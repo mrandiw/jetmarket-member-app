@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
@@ -10,6 +12,7 @@ import '../../../../domain/core/model/params/auth/register_param.dart';
 import '../../../../utils/global/constant.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/status_response.dart';
+import '../widget/picker_date.dart';
 
 class RegisterController extends GetxController {
   final AuthRepository _authRepository;
@@ -33,6 +36,10 @@ class RegisterController extends GetxController {
 
   final String countryCode = '+62';
   var referralMessage = ''.obs;
+  var selectedDatePicker = "";
+  var selectedBirtDay = "";
+
+  var datePicker = <DateTime?>[];
 
   List<String> genders = ['Laki-laki', 'Perempuan'];
   int selectedGender = 0;
@@ -57,6 +64,7 @@ class RegisterController extends GetxController {
         nama: namaController.text,
         gender: nameGender,
         phone: phoneController.text,
+        birthDate: selectedBirtDay,
         email: emailController.text,
         password: passwordController.text,
         kodeReferall:
@@ -158,6 +166,19 @@ class RegisterController extends GetxController {
     } else {
       isPasswordValidated(false);
     }
+  }
+
+  void openCalendarView() {
+    CustomBottomSheet.show(child: PickerDate(controller: this));
+  }
+
+  pickDate(List<DateTime?> date) {
+    selectedDatePicker = DateFormat('dd-MM-yyyy').format(date[0]!);
+    datePicker = date;
+    DateTime parsedDate = DateTime.parse("${datePicker.first}");
+    // ignore: unused_local_variable
+    selectedBirtDay = DateFormat('yyyy-MM-dd').format(parsedDate);
+    update();
   }
 
   void checkReferralCode() async {

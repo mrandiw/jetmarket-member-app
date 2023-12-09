@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/edit_account/controllers/edit_account.controller.dart';
+import 'package:jetmarket/presentation/auth/register/controllers/register.controller.dart';
 
-import '../../../infrastructure/theme/app_colors.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
 
 class PickerDate extends StatelessWidget {
   const PickerDate({super.key, required this.controller});
-  final EditAccountController controller;
+  final RegisterController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class PickerDate extends StatelessWidget {
 
     return AppBottomSheet.witoutFooter(
         title: '',
-        child: GetBuilder<EditAccountController>(builder: (controller) {
+        child: GetBuilder<RegisterController>(builder: (controller) {
           return CalendarDatePicker2(
             config: config,
             value: controller.datePicker,

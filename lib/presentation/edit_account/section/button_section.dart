@@ -30,7 +30,7 @@ class ButtonSection extends StatelessWidget {
         ]),
         child: AppButton.primary(
           text: 'Perbarui',
-          onPressed: () {},
+          onPressed: null,
         ),
       );
     });
