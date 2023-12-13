@@ -9,15 +9,12 @@ import 'status_response.dart';
 class CustomException<T> {
   DataState<T> dio(DioException e) {
     bool isTimeout = TimeOutError.check(e);
-    String server = kIsDevelopment == true ? "Staging" : "Production";
     if (isTimeout) {
       return DataState<T>(
         status: StatusResponse.timeout,
         message: "Request Timeout",
       );
     } else {
-      String getport = e.response?.requestOptions.uri.port.toString() ?? '';
-      String port = getport == "8000" ? "Slave" : "Master";
       String methode = "No Methode";
       String path = "Path - Notfound";
       String errorMessage = "Unknown error occurred";
@@ -37,7 +34,6 @@ class CustomException<T> {
         path = e.response?.requestOptions.uri.toString() ?? '';
       }
       log("\n");
-      log('\x1B[31m${"🌐 $server | $port"}\x1B[0m');
       log('\x1B[31m${"🚨 $methode ${e.response?.statusCode} | $path"}\x1B[0m');
       log('\x1B[31m${"🤯 Message : $errorMessage"}\x1B[0m');
       log('\x1B[31m${"🤯 Token : ${e.requestOptions.headers['Authorization']}"}\x1B[0m');

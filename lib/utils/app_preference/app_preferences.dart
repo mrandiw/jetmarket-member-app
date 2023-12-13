@@ -13,10 +13,10 @@ class AppPreference {
 
   final String _authTokenKey = 'auth_token';
   final String _userDataKey = 'user_data';
-  final String _authRegisterKey = 'auth_register';
   final String _onboarding = 'intro';
   final String _isRegistered = 'registered';
-  final String _isVerify = 'verify';
+  final String _isVerified = 'is_verified';
+  final String _isActivated = 'activated_at';
   final String _isPaid = 'paid';
   final String _isReferal = 'referal';
   final String _phoneNumber = 'phone';
@@ -71,10 +71,6 @@ class AppPreference {
     await _prefs?.remove(_userDataKey);
   }
 
-  Future<void> saveAccessRegister(String? token) async {
-    await _prefs?.setString(_authRegisterKey, token ?? '');
-  }
-
   Future<void> referalSuccess() async {
     await _prefs?.setBool(_isReferal, true);
   }
@@ -92,7 +88,15 @@ class AppPreference {
   }
 
   Future<void> verifySuccess() async {
-    await _prefs?.setBool(_isVerify, true);
+    await _prefs?.setBool(_isVerified, true);
+  }
+
+  Future<void> activatedAt() async {
+    await _prefs?.setBool(_isActivated, true);
+  }
+
+  bool? cekActivated() {
+    return _prefs?.getBool(_isActivated);
   }
 
   Future<void> paidSuccess() async {
@@ -101,10 +105,6 @@ class AppPreference {
 
   String? getAccessToken() {
     return _prefs?.getString(_authTokenKey);
-  }
-
-  String? getRegisterToken() {
-    return _prefs?.getString(_authRegisterKey);
   }
 
   Future<void> skipOnboarding(bool onboarding) async {
@@ -120,7 +120,7 @@ class AppPreference {
   }
 
   bool? cekVerify() {
-    return _prefs?.getBool(_isVerify);
+    return _prefs?.getBool(_isVerified);
   }
 
   bool? cekPaid() {
@@ -141,13 +141,22 @@ class AppPreference {
 
   Future<void> clearOnLogout() async {
     await _prefs?.remove(_authTokenKey);
-    await _prefs?.remove(_authRegisterKey);
     await _prefs?.remove(_userDataKey);
     await _prefs?.remove(_isPaid);
     await _prefs?.remove(_isReferal);
     await _prefs?.remove(_isRegistered);
-    await _prefs?.remove(_isVerify);
+    await _prefs?.remove(_isVerified);
     await _prefs?.remove(_phoneNumber);
     await _prefs?.remove(_trxId);
+  }
+
+  Future<void> clearOnSuccessPayment() async {
+    await _prefs?.remove(_isPaid);
+    await _prefs?.remove(_isReferal);
+    await _prefs?.remove(_isRegistered);
+    await _prefs?.remove(_isVerified);
+    await _prefs?.remove(_phoneNumber);
+    await _prefs?.remove(_trxId);
+    await _prefs?.remove(_countDown);
   }
 }

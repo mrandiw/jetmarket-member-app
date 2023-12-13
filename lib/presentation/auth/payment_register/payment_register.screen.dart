@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/loading/load_pages.dart';
 import 'package:jetmarket/components/parent/error_page.dart';
 
-import '../../../components/button/back_button.dart';
-import '../../../components/parent/parent_scaffold.dart';
-import '../../../infrastructure/theme/app_colors.dart';
+import '../../../../components/button/back_button.dart';
+import '../../../../components/parent/parent_scaffold.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
 import 'controllers/payment_register.controller.dart';
 import 'section/button_section.dart';
 import 'section/payment_section.dart';

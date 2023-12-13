@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/network/screen_status.dart';
+import '../../../utils/network/screen_status.dart';
 
 class ParentBody extends StatelessWidget {
   const ParentBody(

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/section/tutorial_va_section.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/assets/assets_svg.dart';
@@ -21,7 +22,7 @@ class VirtualAccountSection extends StatelessWidget {
       return Column(
         children: [
           Container(
-            width: Get.width,
+            width: Get.width.wr,
             decoration: BoxDecoration(
                 color: kWhite,
                 borderRadius: AppStyle.borderRadius8All,

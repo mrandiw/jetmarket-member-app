@@ -6,6 +6,5 @@ class EnvironmentPath {
   }
   EnvironmentPath._internal();
 
-  String staging = "assets/env/.env.staging";
-  String production = "assets/env/.env.production";
+  String staging = "assets/env/.env";
 }

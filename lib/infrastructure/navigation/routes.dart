@@ -7,6 +7,10 @@ class Routes {
   static const ACCOUNT = '/account';
   static const ADDRESS = '/address';
   static const ADD_ADDRESS = '/add-address';
+  static const ADD_TABUNGAN = '/add-tabungan';
+  static const ADD_TABUNGAN_MANUAL = '/add-tabungan-manual';
+  static const AJUKAN_PINJAMAN = '/ajukan-pinjaman';
+  static const ALL_CATEGORY = '/all-category';
   static const CARA_BAYAR = '/cara-bayar';
   static const CART = '/cart';
   static const CHANGE_PASSWORD = '/change-password';
@@ -16,6 +20,7 @@ class Routes {
   static const CHOICE_PAYMENT = '/choice-payment';
   static const DETAIL_ADDRESS = '/detail-address';
   static const DETAIL_CHECKOUT = '/detail-checkout';
+  static const DETAIL_MENABUNG = '/detail-menabung';
   static const DETAIL_ORDER = '/detail-order';
   static const DETAIL_PAYMENT_REGISTER = '/detail-payment-register';
   static const DETAIL_PRODUCT = '/detail-product';
@@ -25,6 +30,7 @@ class Routes {
   static const EDIT_ADDRESS = '/edit-address';
   static const E_WALLET = '/e-wallet';
   static const FORGOT_PASSWORD = '/forgot-password';
+  static const HISTORY_TABUNGAN = '/history-tabungan';
   static const HOME = '/home';
   static const KOMPLAIN = '/komplain';
   static const KOPERASI = '/koperasi';
@@ -40,17 +46,25 @@ class Routes {
   static const PAYMENT_REGISTER = '/payment-register';
   static const PAYMENT_STATUS = '/payment-status';
   static const PAYMENT_SUCCESS_RETAIL = '/payment-success-retail';
+  static const PAYMENT_TABUNGAN_SUCCESS = '/payment-tabungan-success';
+  static const PENGAJUAN_PROSES_PINJAMAN = '/pengajuan-proses-pinjaman';
+  static const PINJAMAN = '/pinjaman';
   static const PRODUCT_BYCATEGORY = '/product-bycategory';
+  static const REFERRAL = '/referral';
   static const REGISTER = '/register';
   static const REGISTER_OTP = '/register-otp';
   static const RESET_PASSWORD = '/reset-password';
   static const RESET_SUCESS = '/reset-sucess';
   static const REVIEW_ORDER = '/review-order';
+  static const REVIEW_PRODUCT = '/review-product';
   static const SPLASH_SCREEN = '/splash-screen';
+  static const SUCCESS_CHANGE_PASSWORD = '/success-change-password';
   static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
+  static const TABUNGAN = '/tabungan';
+  static const TABUNGAN_PAYMENT = '/tabungan-payment';
   static const TRACKING_RETURN = '/tracking-return';
   static const TRACKING_RETURN_ORDER = '/tracking-return-order';
   static const VOUCHER = '/voucher';
   static const WAITING_PAYMENT = '/waiting-payment';
-  static const SUCCESS_CHANGE_PASSWORD = '/success-change-password';
+  static const DETAIL_PENGAJUAN_PINJAMAN = '/detail-pengajuan-pinjaman';
 }

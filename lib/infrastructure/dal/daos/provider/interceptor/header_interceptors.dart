@@ -14,16 +14,7 @@ InterceptorsWrapper headerInterceptor({required bool logs}) {
       options.sendTimeout = 8.seconds;
 
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
-      String? accessToken;
-      if (options.path == "payment/method" ||
-          options.path == "payment/customer_register") {
-        accessToken = AppPreference().getRegisterToken() ??
-            AppPreference().getAccessToken();
-      } else if (options.path == "auth/otp-forgot/send") {
-        accessToken = null;
-      } else {
-        accessToken = AppPreference().getAccessToken();
-      }
+      var accessToken = AppPreference().getAccessToken();
       if (accessToken != null) {
         options.headers[HttpHeaders.authorizationHeader] =
             'Bearer $accessToken';

@@ -71,30 +71,37 @@ class DetailPaymentRegisterController extends GetxController
     if (response.status == StatusResponse.success) {
       paymentCustomer = response.result;
       update();
-      if (paymentCustomer?.channel?.type == 'EWALLET') {
-        methodeType = PaymentMethodeType.wallet;
-      } else if (paymentCustomer?.channel?.type == 'OTC') {
-        getTutorial(paymentCustomer?.channel?.code ?? '');
-        methodeType = PaymentMethodeType.retail;
-      } else if (paymentCustomer?.channel?.type == 'QR_CODE') {
-        methodeType = PaymentMethodeType.qris;
+      if (paymentCustomer?.status == "SUCCEEDED") {
+        await AppPreference().clearOnSuccessPayment();
+        await Future.delayed(1.seconds, () {
+          Get.offAllNamed(Routes.MAIN_PAGES);
+        });
+      } else if (paymentCustomer?.status == 'REQUIRED_ACTION') {
+        if (paymentCustomer?.channel?.type == 'EWALLET') {
+          methodeType = PaymentMethodeType.wallet;
+        } else if (paymentCustomer?.channel?.type == 'OTC') {
+          getTutorial(paymentCustomer?.channel?.code ?? '');
+          methodeType = PaymentMethodeType.retail;
+        } else if (paymentCustomer?.channel?.type == 'QR_CODE') {
+          methodeType = PaymentMethodeType.qris;
+        } else {
+          String? lowerCaseCode = paymentCustomer?.channel?.code?.toLowerCase();
+          getTutorial(lowerCaseCode ?? '');
+          methodeType = PaymentMethodeType.va;
+        }
+        update();
+        Future.delayed(1.seconds, () {
+          screenStatus(ScreenStatus.success);
+        });
       } else {
-        String? lowerCaseCode = paymentCustomer?.channel?.code?.toLowerCase();
-
-        getTutorial(lowerCaseCode ?? '');
-        methodeType = PaymentMethodeType.va;
+        Get.offAllNamed(Routes.PAYMENT_REGISTER);
       }
-      update();
-      Future.delayed(1.seconds, () {
-        screenStatus(ScreenStatus.success);
-      });
     } else {
       screenStatus(ScreenStatus.failed);
     }
   }
 
   getTutorial(String path) async {
-    print(path);
     final response = await _authRepository.fetchDataFromJsonFile(path);
     // ignore: unnecessary_null_comparison
     if (response != null) {
@@ -180,6 +187,7 @@ class DetailPaymentRegisterController extends GetxController
 
   checkCountdown() async {
     int? startTime = AppPreference().getCountDown();
+
     if (startTime != null) {
       int currentTime = DateTime.now().millisecondsSinceEpoch;
       int elapsed = currentTime - startTime;

@@ -6,15 +6,15 @@ import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
 import 'package:jetmarket/domain/core/model/params/auth/payment_param.dart';
 
-import '../../../domain/core/interfaces/auth_repository.dart';
-import '../../../domain/core/model/model_data/payment_customer_model.dart';
-import '../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
-import '../../../domain/core/model/model_data/user_model.dart';
-import '../../../domain/core/model/params/auth/forgot_param.dart';
-import '../../../domain/core/model/params/auth/forgot_verify_otp_param.dart';
-import '../../../domain/core/model/params/auth/login_param.dart';
-import '../../../domain/core/model/params/auth/register_param.dart';
-import '../../../domain/core/model/params/auth/register_virify_otp_param.dart';
+import '../../../../domain/core/interfaces/auth_repository.dart';
+import '../../../../domain/core/model/model_data/payment_customer_model.dart';
+import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
+import '../../../../domain/core/model/model_data/user_model.dart';
+import '../../../../domain/core/model/params/auth/forgot_param.dart';
+import '../../../../domain/core/model/params/auth/forgot_verify_otp_param.dart';
+import '../../../../domain/core/model/params/auth/login_param.dart';
+import '../../../../domain/core/model/params/auth/register_param.dart';
+import '../../../../domain/core/model/params/auth/register_virify_otp_param.dart';
 import '../../../utils/app_preference/app_preferences.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
@@ -86,18 +86,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<bool>> register(RegisterParam param) async {
+  Future<DataState<UserModel>> register(RegisterParam param) async {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.register, data: param.toMap());
       if (response.statusCode == 200) {
-        AppPreference().saveAccessRegister(response.data['data']['token']);
+        AppPreference().saveAccessToken(
+            status: 200, token: response.data['data']['token']);
+        await AppPreference().saveUserData(
+          status: response.statusCode,
+          data: response.data['data'],
+        );
       } else {}
-      return DataState<bool>(
+      return DataState<UserModel>(
         status: StatusCodeResponse.cek(response: response),
+        result: UserModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
-      return CustomException<bool>().dio(e);
+      return CustomException<UserModel>().dio(e);
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import '../../utils/network/screen_status.dart';
+import '../../../utils/network/screen_status.dart';
 
 class ParentScaffold extends StatelessWidget {
   const ParentScaffold(

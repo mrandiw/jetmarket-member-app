@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 
-import '../../infrastructure/theme/app_colors.dart';
-import '../../utils/style/app_style.dart';
+import '../../../infrastructure/theme/app_colors.dart';
+import '../../../utils/style/app_style.dart';
 
 enum IconType { prefix, suffix, all }
 
@@ -118,6 +118,8 @@ class _AppFormIconState extends State<AppFormIcon> {
           decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: text12HintForm,
+              filled: true,
+              fillColor: kWhite,
               border: border,
               enabledBorder: border,
               focusedBorder: border,

@@ -6,10 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/loading/load_pages.dart';
 import 'package:jetmarket/components/parent/parent_scaffold.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 
-import '../../../components/button/back_button.dart';
-import '../../../infrastructure/theme/app_colors.dart';
-import '../../../utils/assets/assets_svg.dart';
+import '../../../../components/button/back_button.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
+import '../../../../utils/assets/assets_svg.dart';
 import 'controllers/detail_payment_register.controller.dart';
 import 'section/button_section.dart';
 import 'section/detail_section.dart';
@@ -36,8 +38,8 @@ class DetailPaymentRegisterScreen
       backgroundColor: kWhite,
       body: SafeArea(
         child: SizedBox(
-          height: Get.height,
-          width: Get.width,
+          height: Get.height.hr,
+          width: Get.width.wr,
           child: Stack(
             clipBehavior: Clip.none,
             children: [

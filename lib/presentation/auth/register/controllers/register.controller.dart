@@ -76,8 +76,6 @@ class RegisterController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       AppPreference().registerSuccess();
-
-      AppPreference().savePhoneNumber(phoneController.text);
       update();
       if (isKodeReveralValidated.value) {
         AppPreference().referalSuccess();
@@ -90,23 +88,23 @@ class RegisterController extends GetxController {
     }
   }
 
-  Future<void> nextToSendOtp() async {
-    actionStatus = ActionStatus.loading;
-    update();
+  // Future<void> nextToSendOtp() async {
+  //   actionStatus = ActionStatus.loading;
+  //   update();
 
-    final response =
-        await _authRepository.sendRegisterOtp(phoneController.text);
-    if (response.status == StatusResponse.success) {
-      actionStatus = ActionStatus.success;
-      AppPreference().referalSuccess();
-      update();
-      Get.toNamed(Routes.REGISTER_OTP, arguments: phoneController.text);
-    } else {
-      actionStatus = ActionStatus.failed;
-      update();
-      AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
-    }
-  }
+  //   final response =
+  //       await _authRepository.sendRegisterOtp(phoneController.text);
+  //   if (response.status == StatusResponse.success) {
+  //     actionStatus = ActionStatus.success;
+  //     AppPreference().referalSuccess();
+  //     update();
+  //     Get.toNamed(Routes.REGISTER_OTP, arguments: phoneController.text);
+  //   } else {
+  //     actionStatus = ActionStatus.failed;
+  //     update();
+  //     AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
+  //   }
+  // }
 
   listenNameForm(String value) {
     if (value.isNotEmpty) {
@@ -212,11 +210,11 @@ class RegisterController extends GetxController {
     phoneController.text = countryCode;
     phoneController.selection = TextSelection.fromPosition(
         TextPosition(offset: phoneController.text.length));
-    focusNodeReferral.addListener(() {
-      if (!focusNodeReferral.hasFocus) {
-        checkReferralCode();
-      }
-    });
+    // focusNodeReferral.addListener(() {
+    //   if (!focusNodeReferral.hasFocus) {
+    //     checkReferralCode();
+    //   }
+    // });
     super.onInit();
   }
 }

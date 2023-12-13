@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../../../infrastructure/navigation/routes.dart';
+import '../../../../infrastructure/navigation/routes.dart';
 import '../../../utils/app_preference/app_preferences.dart';
-import '../../../utils/assets/assets_images.dart';
+import '../../../../utils/assets/assets_images.dart';
 
 class OnboardingController extends GetxController {
   int currentIndex = 0;

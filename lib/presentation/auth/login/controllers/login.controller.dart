@@ -37,10 +37,10 @@ class LoginController extends GetxController {
       update();
       if (response.result?.user?.isVerified == false) {
         Get.offAllNamed(Routes.REGISTER_OTP);
-      } else if (response.result?.user?.activatedAt == null &&
+      } else if (response.result?.user?.activatedAt == '0001-01-01T00:00:00Z' &&
           response.result?.trxId == null) {
         Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
-      } else if (response.result?.user?.activatedAt == null &&
+      } else if (response.result?.user?.activatedAt == '0001-01-01T00:00:00Z' &&
           response.result?.trxId != null) {
         var argument = PaymentMethodeArgument(
             trxId: AppPreference().getTrxId(), status: "waiting");

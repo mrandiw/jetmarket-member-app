@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../infrastructure/theme/app_text.dart';
-import '../../utils/network/action_status.dart';
+import '../../../infrastructure/theme/app_text.dart';
+import '../../../utils/network/action_status.dart';
 import '../button/app_button.dart';
 
 class AppDialogConfirmation {

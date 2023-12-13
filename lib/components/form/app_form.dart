@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../infrastructure/theme/app_colors.dart';
+import '../../../infrastructure/theme/app_colors.dart';
 
 enum AppFormType { normal, withLabel }
 
@@ -64,6 +64,8 @@ class AppForm extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: text12HintForm,
+            filled: true,
+            fillColor: kWhite,
             border: border,
             enabledBorder: isError ? errorBorder : border,
             focusedBorder: isError ? errorBorder : border,

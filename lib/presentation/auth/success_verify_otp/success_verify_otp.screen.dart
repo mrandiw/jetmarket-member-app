@@ -7,9 +7,9 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 
-import '../../../components/button/app_button.dart';
-import '../../../infrastructure/theme/app_text.dart';
-import '../../../utils/style/app_style.dart';
+import '../../../../components/button/app_button.dart';
+import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../utils/style/app_style.dart';
 import 'controllers/success_verify_otp.controller.dart';
 
 class SuccessVerifyOtpScreen extends GetView<SuccessVerifyOtpController> {

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 
-import '../../utils/assets/assets_svg.dart';
+import '../../../utils/assets/assets_svg.dart';
 import 'controllers/main_pages.controller.dart';
 
 class MainPagesScreen extends GetView<MainPagesController> {
@@ -41,8 +41,12 @@ class MainPagesScreen extends GetView<MainPagesController> {
                   label: "Koperasi",
                   index: 2),
               _itemButtom(
-                  icon: wallet, iconFill: wallet, label: "E-Wallet", index: 3),
-              _itemButtom(icon: akun, iconFill: akun, label: "Akun", index: 4),
+                  icon: wallet,
+                  iconFill: walletFill,
+                  label: "E-Wallet",
+                  index: 3),
+              _itemButtom(
+                  icon: akun, iconFill: akunFill, label: "Akun", index: 4),
             ]),
       );
     });

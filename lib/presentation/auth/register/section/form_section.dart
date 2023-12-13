@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +11,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/register/controllers/register.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/button/back_button.dart';
@@ -32,7 +32,7 @@ class FormSection extends StatelessWidget {
             padding: AppStyle.paddingAll16,
             child: AppBackButton.circle(),
           ),
-          Gap(260.h),
+          Gap(220.hr),
           Container(
             padding: AppStyle.paddingAll16,
             decoration: BoxDecoration(
@@ -163,13 +163,31 @@ class FormSection extends StatelessWidget {
                     );
                   }),
                   Gap(16.h),
-                  AppForm(
-                    type: AppFormType.withLabel,
-                    controller: controller.referralController,
-                    focusNode: controller.focusNodeReferral,
-                    label: 'Kode Referal',
-                    hintText: 'Isi kode referal disini',
-                    onEditingComplete: () => controller.checkReferralCode(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 9,
+                        child: AppForm(
+                          type: AppFormType.withLabel,
+                          controller: controller.referralController,
+                          // focusNode: controller.focusNodeReferral,
+                          label: 'Kode Referal',
+                          hintText: 'Isi kode referal disini',
+                        ),
+                      ),
+                      Gap(8.wr),
+                      Expanded(
+                        flex: 4,
+                        child: SizedBox(
+                          child: AppButton.primary(
+                            text: 'Claim',
+                            onPressed: () => controller.checkReferralCode(),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   Gap(12.h),
                   Obx(() {

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../infrastructure/theme/app_colors.dart';
+import '../../../infrastructure/theme/app_colors.dart';
 
 enum SnackType { success, error, dark }
 

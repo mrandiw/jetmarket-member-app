@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../infrastructure/navigation/routes.dart';
+import '../../../../infrastructure/navigation/routes.dart';
 
 class SplashScreenController extends GetxController {
   Future<void> start() async {

@@ -37,6 +37,7 @@ dependencies:
   syncfusion_flutter_barcodes: ^23.2.7
   awesome_dialog: ^3.1.0
   url_launcher: ^6.2.1
+  device_preview: ^1.1.0
   calendar_date_picker2: ^0.5.3
 
 dev_dependencies:

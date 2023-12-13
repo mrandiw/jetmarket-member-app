@@ -8,6 +8,7 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/controllers/detail_payment_register.controller.dart';
 import 'package:jetmarket/presentation/auth/detail_payment_register/widget/paymen_type.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 import '../../../../utils/assets/assets_svg.dart';
 
@@ -20,7 +21,7 @@ class DetailSection extends StatelessWidget {
         child: SingleChildScrollView(
       child: Column(
         children: [
-          const Gap(276),
+          Gap(276.hr),
           Container(
             padding: AppStyle.paddingAll16,
             decoration: BoxDecoration(
@@ -31,7 +32,7 @@ class DetailSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: Get.width,
+                    width: Get.width.wr,
                     padding: AppStyle.paddingAll12,
                     decoration: BoxDecoration(
                         color: kWhite,

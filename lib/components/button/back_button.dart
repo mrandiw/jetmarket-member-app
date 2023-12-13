@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
-import '../../utils/assets/assets_svg.dart';
+import '../../../utils/assets/assets_svg.dart';
 
 enum AppBackButtonType { normal, circle }
 

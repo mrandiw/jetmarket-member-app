@@ -8,9 +8,9 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../../components/button/app_button.dart';
-import '../../../infrastructure/navigation/routes.dart';
-import '../../../utils/assets/assets_svg.dart';
+import '../../../../components/button/app_button.dart';
+import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../utils/assets/assets_svg.dart';
 import 'controllers/reset_sucess.controller.dart';
 
 class ResetSucessScreen extends GetView<ResetSucessController> {

@@ -73,7 +73,7 @@ class RegisterOtpController extends GetxController {
     if (Get.arguments != null) {
       phoneNumber = Get.arguments;
     } else {
-      phoneNumber = AppPreference().getPhoneNumber() ?? '';
+      phoneNumber = AppPreference().getUserData()?.user?.email ?? '';
     }
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();

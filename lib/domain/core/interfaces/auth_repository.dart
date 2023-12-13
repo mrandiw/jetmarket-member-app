@@ -13,7 +13,7 @@ import '../model/params/auth/register_virify_otp_param.dart';
 
 abstract class AuthRepository {
   Future<DataState<UserModel>> login(LoginParam param);
-  Future<DataState<bool>> register(RegisterParam param);
+  Future<DataState<UserModel>> register(RegisterParam param);
   Future<DataState<bool>> sendRegisterOtp(String param);
   Future<DataState<bool>> verifyRegisterOtp(RegisterVerifyOtpParam param);
   Future<DataState<String>> verifyForgotOtp(ForgotVerifyOtpParam param);

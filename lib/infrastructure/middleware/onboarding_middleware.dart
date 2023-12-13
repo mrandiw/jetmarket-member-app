@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/app_preference/app_preferences.dart';
+import '../../../utils/app_preference/app_preferences.dart';
 import '../navigation/routes.dart';
 
 class OnboardingMiddleware extends GetMiddleware {
