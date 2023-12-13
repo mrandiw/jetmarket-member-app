@@ -94,10 +94,11 @@ class Nav {
       binding: EWalletControllerBinding(),
     ),
     GetPage(
-        name: Routes.MAIN_PAGES,
-        page: () => const MainPagesScreen(),
-        binding: MainPagesControllerBinding(),
-        middlewares: [AuthMiddleware()]),
+      name: Routes.MAIN_PAGES,
+      page: () => const MainPagesScreen(),
+      binding: MainPagesControllerBinding(),
+      // middlewares: [AuthMiddleware()]
+    ),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),
@@ -252,6 +253,91 @@ class Nav {
       name: Routes.SUCCESS_VERIFY_OTP,
       page: () => const SuccessVerifyOtpScreen(),
       binding: SuccessVerifyOtpControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.EDIT_ACCOUNT,
+      page: () => const EditAccountScreen(),
+      binding: EditAccountControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHANGE_PASSWORD,
+      page: () => const ChangePasswordScreen(),
+      binding: ChangePasswordControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SUCCESS_CHANGE_PASSWORD,
+      page: () => const SuccessChangePasswordScreen(),
+      binding: SuccessChangePasswordControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ALL_CATEGORY,
+      page: () => const AllCategoryScreen(),
+      binding: AllCategoryControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.REFERRAL,
+      page: () => const ReferralScreen(),
+      binding: ReferralControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.REVIEW_PRODUCT,
+      page: () => const ReviewProductScreen(),
+      binding: ReviewProductControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TABUNGAN,
+      page: () => const TabunganScreen(),
+      binding: TabunganControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PINJAMAN,
+      page: () => const PinjamanScreen(),
+      binding: PinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.HISTORY_TABUNGAN,
+      page: () => const HistoryTabunganScreen(),
+      binding: HistoryTabunganControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADD_TABUNGAN,
+      page: () => const AddTabunganScreen(),
+      binding: AddTabunganControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ADD_TABUNGAN_MANUAL,
+      page: () => const AddTabunganManualScreen(),
+      binding: AddTabunganManualControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYMENT_TABUNGAN_SUCCESS,
+      page: () => const PaymentTabunganSuccessScreen(),
+      binding: PaymentTabunganSuccessControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_MENABUNG,
+      page: () => const DetailMenabungScreen(),
+      binding: DetailMenabungControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TABUNGAN_PAYMENT,
+      page: () => const TabunganPaymentScreen(),
+      binding: TabunganPaymentControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.AJUKAN_PINJAMAN,
+      page: () => const AjukanPinjamanScreen(),
+      binding: AjukanPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PENGAJUAN_PROSES_PINJAMAN,
+      page: () => const PengajuanProsesPinjamanScreen(),
+      binding: PengajuanProsesPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_PENGAJUAN_PINJAMAN,
+      page: () => const DetailPengajuanPinjamanScreen(),
+      binding: DetailPengajuanPinjamanControllerBinding(),
     ),
   ];
 }

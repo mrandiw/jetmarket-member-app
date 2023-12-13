@@ -40,6 +40,7 @@ class FormSection extends StatelessWidget {
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Email',
                     hintText: 'Isi email disini',
                     onChanged: (value) => controller.listenEmailForm(value),

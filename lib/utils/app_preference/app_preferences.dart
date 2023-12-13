@@ -13,11 +13,32 @@ class AppPreference {
 
   final String _authTokenKey = 'auth_token';
   final String _userDataKey = 'user_data';
-  final String _authRegisterKey = 'auth_register';
   final String _onboarding = 'intro';
   final String _isRegistered = 'registered';
-  final String _isVerify = 'verify';
+  final String _isVerified = 'is_verified';
+  final String _isActivated = 'activated_at';
   final String _isPaid = 'paid';
+  final String _isReferal = 'referal';
+  final String _phoneNumber = 'phone';
+  final String _countDown = 'count_down';
+  final String _trxId = 'trx_id';
+
+  Future<void> saveCountDown(int countDown) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    await _prefs?.setInt(_countDown, startTime);
+  }
+
+  int? getCountDown() {
+    return _prefs?.getInt(_countDown);
+  }
+
+  Future<void> deleteCountDown() async {
+    await _prefs?.remove(_countDown);
+  }
+
+  Future<void> savePhoneNumber(String phoneNumber) async {
+    await _prefs?.setString(_phoneNumber, phoneNumber);
+  }
 
   Future<void> saveAccessToken({int? status, String? token}) async {
     if (status == 200) {
@@ -29,6 +50,9 @@ class AppPreference {
     if (status == 200 && data != null) {
       String userDataJson = json.encode(data);
       await _prefs?.setString(_userDataKey, userDataJson);
+      if (data['trx_id'] != null) {
+        saveTrxId(data['trx_id']);
+      }
     }
   }
 
@@ -47,8 +71,16 @@ class AppPreference {
     await _prefs?.remove(_userDataKey);
   }
 
-  Future<void> saveAccessRegister(String? token) async {
-    await _prefs?.setString(_authRegisterKey, token ?? '');
+  Future<void> referalSuccess() async {
+    await _prefs?.setBool(_isReferal, true);
+  }
+
+  bool? cekReferal() {
+    return _prefs?.getBool(_isReferal);
+  }
+
+  String? getPhoneNumber() {
+    return _prefs?.getString(_phoneNumber);
   }
 
   Future<void> registerSuccess() async {
@@ -56,7 +88,15 @@ class AppPreference {
   }
 
   Future<void> verifySuccess() async {
-    await _prefs?.setBool(_isVerify, true);
+    await _prefs?.setBool(_isVerified, true);
+  }
+
+  Future<void> activatedAt() async {
+    await _prefs?.setBool(_isActivated, true);
+  }
+
+  bool? cekActivated() {
+    return _prefs?.getBool(_isActivated);
   }
 
   Future<void> paidSuccess() async {
@@ -67,12 +107,8 @@ class AppPreference {
     return _prefs?.getString(_authTokenKey);
   }
 
-  String? getRegisterToken() {
-    return _prefs?.getString(_authRegisterKey);
-  }
-
   Future<void> skipOnboarding(bool onboarding) async {
-    await _prefs?.setBool(_onboarding, onboarding);
+    await _prefs?.setBool(_onboarding, true);
   }
 
   bool? cekSkipOnboarding() {
@@ -84,14 +120,43 @@ class AppPreference {
   }
 
   bool? cekVerify() {
-    return _prefs?.getBool(_isVerify);
+    return _prefs?.getBool(_isVerified);
   }
 
   bool? cekPaid() {
     return _prefs?.getBool(_isPaid);
   }
 
+  Future<void> saveTrxId(int trxId) async {
+    await _prefs?.setInt(_trxId, trxId);
+  }
+
+  int? getTrxId() {
+    return _prefs?.getInt(_trxId);
+  }
+
   Future<void> clearAccessToken() async {
     await _prefs?.remove(_authTokenKey);
+  }
+
+  Future<void> clearOnLogout() async {
+    await _prefs?.remove(_authTokenKey);
+    await _prefs?.remove(_userDataKey);
+    await _prefs?.remove(_isPaid);
+    await _prefs?.remove(_isReferal);
+    await _prefs?.remove(_isRegistered);
+    await _prefs?.remove(_isVerified);
+    await _prefs?.remove(_phoneNumber);
+    await _prefs?.remove(_trxId);
+  }
+
+  Future<void> clearOnSuccessPayment() async {
+    await _prefs?.remove(_isPaid);
+    await _prefs?.remove(_isReferal);
+    await _prefs?.remove(_isRegistered);
+    await _prefs?.remove(_isVerified);
+    await _prefs?.remove(_phoneNumber);
+    await _prefs?.remove(_trxId);
+    await _prefs?.remove(_countDown);
   }
 }

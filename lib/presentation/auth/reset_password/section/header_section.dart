@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/components/button/back_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
 import '../../../../utils/assets/assets_images.dart';
@@ -15,11 +14,6 @@ class HeaderSection extends StatelessWidget {
         height: 302.h,
         width: Get.width,
         color: kPrimaryColor2,
-        child: Stack(
-          children: [
-            Image.asset(authImage),
-            Positioned(top: 46.h, left: 16.w, child: AppBackButton.circle())
-          ],
-        ));
+        child: Image.asset(authImage));
   }
 }

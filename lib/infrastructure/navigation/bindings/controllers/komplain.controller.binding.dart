@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../presentation/komplain/controllers/komplain.controller.dart';
+import '../../../../presentation/order_pages/komplain/controllers/komplain.controller.dart';
 
 class KomplainControllerBinding extends Bindings {
   @override

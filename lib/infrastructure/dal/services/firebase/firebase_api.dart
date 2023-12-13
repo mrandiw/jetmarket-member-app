@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import '../../../../domain/core/model/argument/payment_methode_argument.dart';
+import '../../../../utils/app_preference/app_preferences.dart';
 import '../../../../utils/global/constant.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
@@ -54,6 +57,9 @@ class FirebaseApi {
     try {
       if (message?.notification != null) {
         log("Handle------------");
+        if (message?.data['status'] == 'SUCCEEDED') {
+          Get.offAllNamed(Routes.MAIN_PAGES);
+        }
       }
     } catch (e) {
       print("Error : ${e.toString()}");
@@ -66,6 +72,9 @@ class FirebaseApi {
     print("Open Message : $data");
     if (data != null) {
       // Validasi tipe data
+      if (data['status'] == 'SUCCEEDED') {
+        Get.offAllNamed(Routes.MAIN_PAGES);
+      }
     } else {
       // Tampilkan Snackbar jika data tidak ditemukan
       Get.showSnackbar(GetSnackBar(

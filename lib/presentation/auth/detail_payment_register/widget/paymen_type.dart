@@ -15,11 +15,11 @@ class PaymentType extends StatelessWidget {
     if (type == PaymentMethodeType.va) {
       return VirtualAccountSection(controller: controller);
     } else if (type == PaymentMethodeType.qris) {
-      return const QrisSection();
+      return QrisSection(controller: controller);
     } else if (type == PaymentMethodeType.retail) {
-      return const RetailSection();
+      return RetailSection(controller: controller);
     } else if (type == PaymentMethodeType.wallet) {
-      return const WalletSection();
+      return WalletSection(controller: controller);
     } else {
       return const SizedBox.shrink();
     }

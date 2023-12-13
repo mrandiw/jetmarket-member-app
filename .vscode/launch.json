@@ -8,45 +8,8 @@
             "name": "staging debug",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_staging.dart",
-            "args": [
-                "--flavor",
-                "staging"
-            ],
+            "program": "lib/main.dart",
             "flutterMode": "debug"
-        },
-        {
-            "name": "production debug",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main_production.dart",
-            "args": [
-                "--flavor",
-                "production"
-            ],
-            "flutterMode": "debug"
-        },
-        {
-            "name": "staging release",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main_staging.dart",
-            "args": [
-                "--flavor",
-                "staging"
-            ],
-            "flutterMode": "release"
-        },
-        {
-            "name": "production release",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main_production.dart",
-            "args": [
-                "--flavor",
-                "production"
-            ],
-            "flutterMode": "release"
         }
     ]
 }

@@ -8,6 +8,7 @@ import 'package:jetmarket/components/form/app_form_icon.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/login/controllers/login.controller.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/button/app_button.dart';
@@ -22,7 +23,7 @@ class FormSection extends StatelessWidget {
         child: SingleChildScrollView(
       child: Column(
         children: [
-          const Gap(270),
+          Gap(270.hr),
           Container(
             padding: AppStyle.paddingAll16,
             decoration: BoxDecoration(
@@ -39,6 +40,7 @@ class FormSection extends StatelessWidget {
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Email',
                     hintText: 'Isi email disini',
                     onChanged: (value) => controller.listenEmailForm(value),
@@ -47,6 +49,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Password',
                     hintText: 'Isi password disini',
                     onChanged: (value) => controller.listenPasswordForm(value),

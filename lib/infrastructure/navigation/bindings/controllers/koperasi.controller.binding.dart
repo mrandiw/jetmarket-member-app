@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../presentation/koperasi/controllers/koperasi.controller.dart';
+import '../../../../presentation/koperasi_pages/koperasi/controllers/koperasi.controller.dart';
 
 class KoperasiControllerBinding extends Bindings {
   @override

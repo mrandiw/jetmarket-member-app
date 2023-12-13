@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../infrastructure/theme/app_colors.dart';
+import '../../../infrastructure/theme/app_colors.dart';
 
 enum AppFormType { normal, withLabel }
 
@@ -20,7 +21,11 @@ class AppForm extends StatelessWidget {
     this.textAlign,
     this.type = AppFormType.normal,
     this.textArea = false,
+    this.keyboardType,
+    this.focusNode,
+    this.inputFormatters,
     this.onChanged,
+    this.onEditingComplete,
   });
 
   final TextEditingController controller;
@@ -31,7 +36,11 @@ class AppForm extends StatelessWidget {
   final TextAlign? textAlign;
   final AppFormType type;
   final bool textArea;
+  final TextInputType? keyboardType;
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
+  final Function()? onEditingComplete;
   @override
   Widget build(BuildContext context) {
     return type == AppFormType.normal ? _buildNormalForm : _buildWithLabel;
@@ -42,15 +51,21 @@ class AppForm extends StatelessWidget {
       height: textArea ? 70.h : 44.h,
       width: Get.width,
       child: TextFormField(
+          focusNode: focusNode,
           controller: controller,
           cursorColor: kPrimaryColor,
           style: text12BlackRegular,
           maxLines: textArea ? 5 : 1,
           textAlign: textAlign ?? TextAlign.left,
           onChanged: onChanged,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          onEditingComplete: onEditingComplete,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: text12HintForm,
+            filled: true,
+            fillColor: kWhite,
             border: border,
             enabledBorder: isError ? errorBorder : border,
             focusedBorder: isError ? errorBorder : border,

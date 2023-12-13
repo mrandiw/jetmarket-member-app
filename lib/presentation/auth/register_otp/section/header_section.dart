@@ -12,14 +12,10 @@ class HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 302.h,
-        width: Get.width,
-        color: kPrimaryColor2,
-        child: Stack(
-          children: [
-            Image.asset(authImage),
-            Positioned(top: 46.h, left: 16.w, child: AppBackButton.circle())
-          ],
-        ));
+      height: 302.h,
+      width: Get.width,
+      color: kPrimaryColor2,
+      child: Image.asset(authImage),
+    );
   }
 }

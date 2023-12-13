@@ -4,8 +4,10 @@ import 'package:jetmarket/utils/global/constant.dart';
 
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
+import '../../../../domain/core/model/argument/payment_methode_argument.dart';
 import '../../../../domain/core/model/params/auth/login_param.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../utils/app_preference/app_preferences.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/status_response.dart';
 
@@ -33,7 +35,19 @@ class LoginController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      Get.offNamed(Routes.MAIN_PAGES);
+      if (response.result?.user?.isVerified == false) {
+        Get.offAllNamed(Routes.REGISTER_OTP);
+      } else if (response.result?.user?.activatedAt == '0001-01-01T00:00:00Z' &&
+          response.result?.trxId == null) {
+        Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
+      } else if (response.result?.user?.activatedAt == '0001-01-01T00:00:00Z' &&
+          response.result?.trxId != null) {
+        var argument = PaymentMethodeArgument(
+            trxId: AppPreference().getTrxId(), status: "waiting");
+        Get.offAllNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
+      } else {
+        Get.offAllNamed(Routes.MAIN_PAGES);
+      }
     } else {
       actionStatus = ActionStatus.failed;
       update();
@@ -59,7 +73,7 @@ class LoginController extends GetxController {
   }
 
   listenPasswordForm(String value) {
-    if (value.length > 4) {
+    if (value.length >= 8) {
       isPasswordValidated(true);
     } else {
       isPasswordValidated(false);

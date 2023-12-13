@@ -1,12 +1,15 @@
 class TutorialPaymentVaModel {
+  List<String>? tabs;
   List<Tab1>? tab1;
   List<Tab2>? tab2;
   List<Tab3>? tab3;
   List<Tab4>? tab4;
 
-  TutorialPaymentVaModel({this.tab1, this.tab2, this.tab3, this.tab4});
+  TutorialPaymentVaModel(
+      {this.tabs, this.tab1, this.tab2, this.tab3, this.tab4});
 
   TutorialPaymentVaModel.fromJson(Map<String, dynamic> json) {
+    tabs = json['tabs'].cast<String>();
     if (json['tab1'] != null) {
       tab1 = <Tab1>[];
       json['tab1'].forEach((v) {
@@ -35,6 +38,7 @@ class TutorialPaymentVaModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['tabs'] = tabs;
     if (tab1 != null) {
       data['tab1'] = tab1!.map((v) => v.toJson()).toList();
     }

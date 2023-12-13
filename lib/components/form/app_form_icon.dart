@@ -5,43 +5,64 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 
-import '../../infrastructure/theme/app_colors.dart';
-import '../../utils/style/app_style.dart';
+import '../../../infrastructure/theme/app_colors.dart';
+import '../../../utils/style/app_style.dart';
 
 enum IconType { prefix, suffix, all }
 
 enum AppFormIconType { normal, withLabel }
 
 class AppFormIcon extends StatefulWidget {
-  const AppFormIcon({
-    super.key,
-    required this.controller,
-    this.icon,
-    this.isError = false,
-    this.errorMessage,
-    this.hintText,
-    this.isPAssword = false,
-    this.samePassword = false,
-    this.iconType = IconType.prefix,
-    this.type = AppFormIconType.normal,
-    this.label,
-    this.onChanged,
-  });
+  const AppFormIcon(
+      {super.key,
+      required this.controller,
+      this.icon,
+      this.isError = false,
+      this.errorMessage,
+      this.hintText,
+      this.isPAssword = false,
+      this.samePassword = false,
+      this.iconType = IconType.prefix,
+      this.type = AppFormIconType.normal,
+      this.label,
+      this.keyboardType,
+      this.isResetPassword = false,
+      this.onChanged,
+      this.onResetPassword});
 
-  const AppFormIcon.password({
-    super.key,
-    required this.controller,
-    this.icon,
-    this.isError = false,
-    this.errorMessage,
-    this.hintText,
-    this.isPAssword = true,
-    this.samePassword = false,
-    this.iconType = IconType.suffix,
-    this.type = AppFormIconType.normal,
-    this.label,
-    this.onChanged,
-  });
+  const AppFormIcon.password(
+      {super.key,
+      required this.controller,
+      this.icon,
+      this.isError = false,
+      this.errorMessage,
+      this.hintText,
+      this.isPAssword = true,
+      this.samePassword = false,
+      this.iconType = IconType.suffix,
+      this.type = AppFormIconType.normal,
+      this.label,
+      this.keyboardType,
+      this.isResetPassword = false,
+      this.onChanged,
+      this.onResetPassword});
+
+  const AppFormIcon.resetPassword(
+      {super.key,
+      required this.controller,
+      this.icon,
+      this.isError = false,
+      this.errorMessage,
+      this.hintText,
+      this.isPAssword = true,
+      this.samePassword = false,
+      this.iconType = IconType.suffix,
+      this.type = AppFormIconType.normal,
+      this.label,
+      this.keyboardType,
+      this.isResetPassword = true,
+      this.onChanged,
+      this.onResetPassword});
 
   final TextEditingController controller;
   final String? icon;
@@ -53,7 +74,10 @@ class AppFormIcon extends StatefulWidget {
   final IconType iconType;
   final String? label;
   final AppFormIconType type;
+  final bool isResetPassword;
+  final TextInputType? keyboardType;
   final Function(String)? onChanged;
+  final Function()? onResetPassword;
 
   @override
   State<AppFormIcon> createState() => _AppFormIconState();
@@ -90,9 +114,12 @@ class _AppFormIconState extends State<AppFormIcon> {
           cursorColor: kPrimaryColor,
           style: text12BlackRegular,
           onChanged: widget.onChanged,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: text12HintForm,
+              filled: true,
+              fillColor: kWhite,
               border: border,
               enabledBorder: border,
               focusedBorder: border,
@@ -109,15 +136,22 @@ class _AppFormIconState extends State<AppFormIcon> {
               suffixIcon: widget.iconType == IconType.suffix ||
                       widget.iconType == IconType.all
                   ? widget.isPAssword
-                      ? IconButton(
-                          onPressed: () => setShowPassword(),
-                          icon: Icon(
-                            showPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            size: 20.r,
-                            color: Colors.grey.shade400,
-                          ))
+                      ? widget.isResetPassword
+                          ? TextButton(
+                              onPressed: widget.onResetPassword,
+                              child: Text(
+                                'Reset password?',
+                                style: text12NormalRegular,
+                              ))
+                          : IconButton(
+                              onPressed: () => setShowPassword(),
+                              icon: Icon(
+                                showPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                size: 20.r,
+                                color: Colors.grey.shade400,
+                              ))
                       : null
                   : null)),
     );

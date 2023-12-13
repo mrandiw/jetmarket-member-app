@@ -9,6 +9,7 @@ class PaymentCustomerModel {
   Ewallet? ewallet;
   VirtualAccount? virtualAccount;
   QrCode? qrCode;
+  Otc? otc;
 
   PaymentCustomerModel(
       {this.id,
@@ -37,6 +38,7 @@ class PaymentCustomerModel {
         ? VirtualAccount.fromJson(json['virtual_account'])
         : null;
     qrCode = json['qr_code'] != null ? QrCode.fromJson(json['qr_code']) : null;
+    otc = json['otc'] != null ? Otc.fromJson(json['otc']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -58,6 +60,9 @@ class PaymentCustomerModel {
     }
     if (qrCode != null) {
       data['qr_code'] = qrCode!.toJson();
+    }
+    if (otc != null) {
+      data['otc'] = otc!.toJson();
     }
     return data;
   }
@@ -137,6 +142,28 @@ class QrCode {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
+    data['expired_at'] = expiredAt;
+    return data;
+  }
+}
+
+class Otc {
+  String? code;
+  String? name;
+  String? expiredAt;
+
+  Otc({this.code, this.name, this.expiredAt});
+
+  Otc.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    name = json['name'];
+    expiredAt = json['expired_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['name'] = name;
     data['expired_at'] = expiredAt;
     return data;
   }

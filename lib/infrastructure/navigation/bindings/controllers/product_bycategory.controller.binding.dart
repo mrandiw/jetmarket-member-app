@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../presentation/product_bycategory/controllers/product_bycategory.controller.dart';
+import '../../../../presentation/home_pages/product_bycategory/controllers/product_bycategory.controller.dart';
 
 class ProductBycategoryControllerBinding extends Bindings {
   @override

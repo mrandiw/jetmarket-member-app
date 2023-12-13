@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../presentation/checkout_payment/controllers/checkout_payment.controller.dart';
+import '../../../../presentation/home_pages/checkout_payment/controllers/checkout_payment.controller.dart';
 
 class CheckoutPaymentControllerBinding extends Bindings {
   @override

@@ -14,7 +14,6 @@ class CustomLogger {
       log('\x1B[31m$msg\x1B[0m');
     }
 
-    String server = kIsDevelopment == true ? "Staging" : "Production";
     String getport = response.requestOptions.uri.port.toString();
     String port = getport == "8000" ? "Slave" : "Master";
     String urlWithoutQuery = response.requestOptions.uri.queryParameters.isEmpty
@@ -26,17 +25,17 @@ class CustomLogger {
         final dynamic data = response.requestOptions.data;
         if (data != null) {
           if (data is Map) {
-            _logSuccess(response, queryParams, port, server, urlWithoutQuery,
+            _logSuccess(response, queryParams, port, urlWithoutQuery,
                 logRequest, data, false, header);
           }
           if (data is FormData) {
-            _logSuccess(response, queryParams, port, server, urlWithoutQuery,
+            _logSuccess(response, queryParams, port, urlWithoutQuery,
                 logRequest, data.fields, false, header);
           }
         }
       } else {
-        _logSuccess(response, queryParams, port, server, urlWithoutQuery,
-            logRequest, response.data['data'], true, header);
+        _logSuccess(response, queryParams, port, urlWithoutQuery, logRequest,
+            response.data['data'], true, header);
       }
     } else {
       logError("${response.requestOptions.method} | $port  | $urlWithoutQuery");
@@ -47,7 +46,6 @@ class CustomLogger {
       Response<dynamic> response,
       bool? queryParams,
       String port,
-      String server,
       String url,
       bool? requestBody,
       dynamic data,
@@ -61,9 +59,9 @@ class CustomLogger {
     String message =
         "${response.requestOptions.method} ${response.statusCode} | $url";
 
-    _baseLogs(response, queryParams, message, server, port);
+    _baseLogs(response, queryParams, message, port);
     if (isHeader == null) {
-      _logHeader(response, queryParams, message, server, port);
+      _logHeader(response, queryParams, message, port);
     }
     if (requestBody == true) {
       if (isGetMethode == true) {
@@ -82,9 +80,8 @@ class CustomLogger {
   }
   // Log Header
 
-  static void _baseLogs(Response<dynamic> response, bool? queryParams,
-      String msg, String server, String port) {
-    log('\x1B[32m${"🌐 $server | $port"}\x1B[0m');
+  static void _baseLogs(
+      Response<dynamic> response, bool? queryParams, String msg, String port) {
     log('\x1B[32m${"✅ $msg"}\x1B[0m');
     if (response.requestOptions.queryParameters.isNotEmpty &&
         queryParams == true) {
@@ -96,8 +93,8 @@ class CustomLogger {
     log('\x1B[32m${"😁 Message : Success"}\x1B[0m');
   }
 
-  static void _logHeader(Response<dynamic> response, bool? queryParams,
-      String msg, String server, String port) {
+  static void _logHeader(
+      Response<dynamic> response, bool? queryParams, String msg, String port) {
     Headers header = response.headers;
     log('\x1B[32m${"📇 Headers :"}\x1B[0m');
     log('\x1B[38;2;205;133;63m${"   1. Authorization : ${header["Authorization"] ?? "null"}"}\x1B[0m');

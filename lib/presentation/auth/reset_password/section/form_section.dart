@@ -40,6 +40,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Password',
                     hintText: 'Isi password disini',
                     onChanged: (value) => controller.listenPasswordForm(value),
@@ -48,6 +49,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.konfirmasiPasswordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Konfirmasi Password',
                     hintText: 'Isi Konfirmasi Password disini',
                     onChanged: (value) =>

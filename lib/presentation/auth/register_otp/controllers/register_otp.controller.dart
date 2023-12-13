@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/params/auth/register_virify_otp_param.dart';
-import 'package:jetmarket/presentation/auth/register/controllers/register.controller.dart';
 
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
@@ -14,6 +13,7 @@ class RegisterOtpController extends GetxController {
   final AuthRepository _authRepository;
   RegisterOtpController(this._authRepository);
   late List<TextEditingController> otpControllers;
+  List<FocusNode> focusNodes = List.generate(6, (index) => FocusNode());
   var enableButton = false;
   var actionStatus = ActionStatus.initalize;
 
@@ -33,7 +33,7 @@ class RegisterOtpController extends GetxController {
       actionStatus = ActionStatus.success;
       AppPreference().verifySuccess();
       update();
-      Get.toNamed(Routes.SUCCESS_VERIFY_OTP);
+      Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();
@@ -55,10 +55,26 @@ class RegisterOtpController extends GetxController {
     }
   }
 
+  void listenForm(int index, String value) {
+    if (value.isNotEmpty) {
+      if (index < otpControllers.length - 1) {
+        focusNodes[index + 1].requestFocus();
+      }
+    } else {
+      if (index > 0) {
+        focusNodes[index - 1].requestFocus();
+      }
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    phoneNumber = Get.arguments;
+    if (Get.arguments != null) {
+      phoneNumber = Get.arguments;
+    } else {
+      phoneNumber = AppPreference().getUserData()?.user?.email ?? '';
+    }
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();
       controller.addListener(_checkIfAllFieldsFilled);

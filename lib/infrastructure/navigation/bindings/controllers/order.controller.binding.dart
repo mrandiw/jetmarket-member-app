@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../presentation/order/controllers/order.controller.dart';
+import '../../../../presentation/order_pages/order/controllers/order.controller.dart';
 
 class OrderControllerBinding extends Bindings {
   @override

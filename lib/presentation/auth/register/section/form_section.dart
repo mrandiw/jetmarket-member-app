@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
@@ -10,9 +11,12 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/register/controllers/register.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/button/back_button.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../utils/assets/assets_svg.dart';
 
 class FormSection extends StatelessWidget {
   const FormSection({super.key});
@@ -22,8 +26,13 @@ class FormSection extends StatelessWidget {
     return Positioned.fill(
         child: SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Gap(276),
+          Padding(
+            padding: AppStyle.paddingAll16,
+            child: AppBackButton.circle(),
+          ),
+          Gap(220.hr),
           Container(
             padding: AppStyle.paddingAll16,
             decoration: BoxDecoration(
@@ -77,17 +86,49 @@ class FormSection extends StatelessWidget {
                     ),
                   ),
                   Gap(12.h),
-                  AppForm(
-                    type: AppFormType.withLabel,
-                    controller: controller.phoneController,
-                    label: 'Nomor HP',
-                    hintText: 'Isi nomor hp disini',
-                    onChanged: (value) => controller.listenPhoneForm(value),
+                  Text('Tanggal Lahir', style: text12BlackRegular),
+                  Gap(8.h),
+                  GestureDetector(
+                    onTap: () => controller.openCalendarView(),
+                    child: Container(
+                      height: 42.h,
+                      padding: AppStyle.paddingAll12,
+                      decoration: BoxDecoration(
+                          borderRadius: AppStyle.borderRadius8All,
+                          color: kWhite,
+                          border: AppStyle.borderAll),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              controller.selectedDatePicker != ""
+                                  ? controller.selectedDatePicker
+                                  : 'Pilih Tanggal Lahir',
+                              style: controller.selectedDatePicker != ""
+                                  ? text12BlackRegular
+                                  : text12HintRegular),
+                          SvgPicture.asset(calendar)
+                        ],
+                      ),
+                    ),
                   ),
+                  Gap(12.h),
+                  GetBuilder<RegisterController>(builder: (controller) {
+                    return AppForm(
+                      type: AppFormType.withLabel,
+                      controller: controller.phoneController,
+                      keyboardType: TextInputType.phone,
+                      label: 'Nomor HP',
+                      hintText: 'Isi nomor hp disini',
+                      inputFormatters: controller.formaterNumber(),
+                      onChanged: (value) => controller.listenPhoneForm(value),
+                    );
+                  }),
                   Gap(12.h),
                   AppForm(
                     type: AppFormType.withLabel,
                     controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     label: 'Email',
                     hintText: 'Isi email disini',
                     onChanged: (value) => controller.listenEmailForm(value),
@@ -96,6 +137,7 @@ class FormSection extends StatelessWidget {
                   AppFormIcon.password(
                     type: AppFormIconType.withLabel,
                     controller: controller.passwordController,
+                    keyboardType: TextInputType.visiblePassword,
                     label: 'Password',
                     hintText: 'Isi password disini',
                     onChanged: (value) => controller.listenPasswordForm(value),
@@ -114,32 +156,50 @@ class FormSection extends StatelessWidget {
                         Gap(12.w),
                         Visibility(
                           visible: controller.isKodeReveralValidated.value,
-                          child: Text('250000'.toIdrFormat,
+                          child: Text('25000'.toIdrFormat,
                               style: text10lineThroughRegular),
                         ),
                       ],
                     );
                   }),
                   Gap(16.h),
-                  AppForm(
-                    type: AppFormType.withLabel,
-                    controller: controller.referralController,
-                    label: 'Kode Referal',
-                    hintText: 'Isi kode referal disini',
-                    onChanged: (value) =>
-                        controller.listenKodeReveralForm(value),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 9,
+                        child: AppForm(
+                          type: AppFormType.withLabel,
+                          controller: controller.referralController,
+                          // focusNode: controller.focusNodeReferral,
+                          label: 'Kode Referal',
+                          hintText: 'Isi kode referal disini',
+                        ),
+                      ),
+                      Gap(8.wr),
+                      Expanded(
+                        flex: 4,
+                        child: SizedBox(
+                          child: AppButton.primary(
+                            text: 'Claim',
+                            onPressed: () => controller.checkReferralCode(),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   Gap(12.h),
                   Obx(() {
                     return Visibility(
-                      visible: controller.isKodeReveralValidated.value,
+                      visible: controller.isKodeReveralValidated.value ||
+                          controller.isKodeReveralError.value,
                       child: Container(
                         padding: AppStyle.paddingAll12,
                         decoration: BoxDecoration(
                             color: kPrimaryColor2,
                             borderRadius: AppStyle.borderRadius8All),
-                        child: Text(
-                            'Yeay, kode referral terpasang! Silakan melakukan pembayaran sebesar Rp10.000',
+                        child: Text(controller.referralMessage.value,
                             style: text12BlackRegular),
                       ),
                     );
@@ -154,7 +214,8 @@ class FormSection extends StatelessWidget {
                       onPressed: controller.isNameValidated.value &&
                               controller.isPhoneValidated.value &&
                               controller.isEmailValidated.value &&
-                              controller.isPasswordValidated.value
+                              controller.isPasswordValidated.value &&
+                              controller.selectedDatePicker != ""
                           ? controller.selectedPaymentMethode.value == ""
                               ? () => controller.register()
                               : () => controller.payAndRegister()
