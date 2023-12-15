@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:jetmarket/utils/network/timeout_error.dart';
-import '../path/environment.dart';
 import 'data_state.dart';
 import 'status_response.dart';
 

@@ -94,11 +94,10 @@ class Nav {
       binding: EWalletControllerBinding(),
     ),
     GetPage(
-      name: Routes.MAIN_PAGES,
-      page: () => const MainPagesScreen(),
-      binding: MainPagesControllerBinding(),
-      // middlewares: [AuthMiddleware()]
-    ),
+        name: Routes.MAIN_PAGES,
+        page: () => const MainPagesScreen(),
+        binding: MainPagesControllerBinding(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),

@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
+class AppShadow {
+  static BoxShadow boxShadow = BoxShadow(
+      color: const Color(0xffE0E0EC).withOpacity(0.4),
+      offset: const Offset(0, 15),
+      blurRadius: 30,
+      spreadRadius: 0);
+
+  static BoxShadow boxShadowSmall = BoxShadow(
+      color: const Color(0xffA0A3BD).withOpacity(0.1),
+      offset: const Offset(0, 2),
+      blurRadius: 4,
+      spreadRadius: 0);
+}
+
 class AppStyle {
   // Padding
   static EdgeInsets paddingAll16 = EdgeInsets.all(16.r);

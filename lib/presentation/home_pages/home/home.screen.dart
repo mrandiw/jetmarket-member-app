@@ -17,7 +17,11 @@ class HomeScreen extends GetView<HomeController> {
         body: SafeArea(
             child: RefreshIndicator(
                 color: kPrimaryColor,
-                onRefresh: () => controller.refreshData(),
-                child: const ProductSection())));
+                onRefresh: () async {
+                  controller.pagingController.refresh();
+                },
+                child: ProductSection(
+                  controller: controller,
+                ))));
   }
 }

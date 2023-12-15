@@ -95,7 +95,7 @@ class FilterProduct extends StatelessWidget {
               elevation: 0,
               shadowColor: Colors.transparent,
               label: Text(
-                controller.categoryProduct[index],
+                controller.categoryProductFilter[index],
                 style: controller.selectedCategoryProduct ==
                         controller.categoryProduct[index]
                     ? text12WhiteRegular
@@ -113,7 +113,7 @@ class FilterProduct extends StatelessWidget {
               selected: controller.selectedCategoryProduct ==
                   controller.categoryProduct[index],
               onSelected: (select) => controller.selectCategoryProduct(
-                  select, controller.categoryProduct[index]),
+                  select, controller.categoryProductFilter[index]),
             ),
           ),
         ),

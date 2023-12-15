@@ -1,5 +1,3 @@
-import '../../../../../utils/path/environment.dart';
-
 class Endpoint {
   // Auth
   static String login = 'auth/customer/login';
@@ -14,6 +12,8 @@ class Endpoint {
   static String paymentCustomerRegister = 'payment/customer_register';
   static String claimReferral = 'referral/claim';
   static String deleteAccount = 'auth/customer/soft_delete';
+  static String categoryProduct = 'product_category/customer';
+  static String product = 'product/customer';
 
   // Google Maps Api
   static String placeAutocomplete = 'place/autocomplete/json';

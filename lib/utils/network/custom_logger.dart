@@ -13,6 +13,7 @@ class CustomLogger {
     void logError(String msg) {
       log('\x1B[31m$msg\x1B[0m');
     }
+    
 
     String getport = response.requestOptions.uri.port.toString();
     String port = getport == "8000" ? "Slave" : "Master";
