@@ -13,7 +13,6 @@ class CustomLogger {
     void logError(String msg) {
       log('\x1B[31m$msg\x1B[0m');
     }
-    
 
     String getport = response.requestOptions.uri.port.toString();
     String port = getport == "8000" ? "Slave" : "Master";
@@ -61,9 +60,9 @@ class CustomLogger {
         "${response.requestOptions.method} ${response.statusCode} | $url";
 
     _baseLogs(response, queryParams, message, port);
-    if (isHeader == null) {
-      _logHeader(response, queryParams, message, port);
-    }
+    // if (isHeader == null) {
+    //   _logHeader(response, queryParams, message, port);
+    // }
     if (requestBody == true) {
       if (isGetMethode == true) {
         if (data is List) {

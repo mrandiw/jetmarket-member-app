@@ -1,8 +1,12 @@
+import 'package:animated_rating_stars/animated_rating_stars.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/rating/rating_star.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/home_pages/detail_product/controllers/detail_product.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
@@ -33,9 +37,13 @@ class ReviewSection extends StatelessWidget {
                   children: [
                     Icon(Icons.star_rounded, color: kWarningColor, size: 18.r),
                     Gap(2.w),
-                    Text('4.5/5.0', style: text12BlackRegular),
+                    Text(
+                        '${controller.detailProduct?.review?.averrage ?? 0}/5.0',
+                        style: text12BlackRegular),
                     Gap(4.w),
-                    Text('(54 Ulasan)', style: text12HintRegular),
+                    Text(
+                        '(${controller.detailProduct?.review?.total ?? 0} Ulasan)',
+                        style: text12HintRegular),
                   ],
                 ),
               ],
@@ -68,19 +76,58 @@ class ReviewSection extends StatelessWidget {
                     )
                   ],
                 ),
-                Wrap(
-                  spacing: 8.w,
-                  children: List.generate(
-                      4,
-                      (index) => ClipRRect(
-                            borderRadius: AppStyle.borderRadius8All,
-                            child: Image.network(
-                              'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                SizedBox(
+                  height: 72.h,
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (_, index) => CachedNetworkImage(
+                            imageUrl:
+                                controller.productReviewCustomer[index].image ??
+                                    '',
+                            imageBuilder: (context, imageProvider) => Container(
                               height: 70.h,
                               width: 75.w,
-                              fit: BoxFit.cover,
+                              decoration: BoxDecoration(
+                                borderRadius: AppStyle.borderRadius8All,
+                                color: kSofterGrey,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                          )),
+                            placeholder: (context, url) => SizedBox(
+                              height: 70.h,
+                              width: 75.w,
+                              child: const Center(
+                                child: CupertinoActivityIndicator(
+                                    color: kSoftBlack),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              height: 70.h,
+                              width: 75.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: AppStyle.borderRadius8All),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: AppStyle.borderRadius8All,
+                                  color: kSofterGrey,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.error,
+                                    color: kPrimaryColor,
+                                    size: 20.r,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      separatorBuilder: (_, i) => Gap(8.w),
+                      itemCount: 4),
                 ),
                 Gap(16.h),
               ],
@@ -91,47 +138,117 @@ class ReviewSection extends StatelessWidget {
             padding: AppStyle.paddingSide16,
             child: Column(
                 children: List.generate(
-                    3,
+                    controller.productReviewCustomer.length,
                     (index) => Padding(
                           padding: AppStyle.paddingVert8,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 18.r,
-                                backgroundColor: kPrimaryColor2,
-                              ),
+                              CachedNetworkImage(
+                                  imageUrl: controller
+                                          .productReviewCustomer[index]
+                                          .customer
+                                          ?.avatar ??
+                                      '',
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                        radius: 18.r,
+                                        backgroundColor: kPrimaryColor2,
+                                        backgroundImage: imageProvider,
+                                      ),
+                                  placeholder: (context, url) => SizedBox(
+                                        height: 52.r,
+                                        width: 52.r,
+                                        child: const Center(
+                                          child: CupertinoActivityIndicator(
+                                              color: kSoftBlack),
+                                        ),
+                                      ),
+                                  errorWidget: (context, url, error) =>
+                                      CircleAvatar(
+                                        radius: 18.r,
+                                        backgroundColor: kPrimaryColor2,
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.error,
+                                            color: kPrimaryColor,
+                                            size: 14.r,
+                                          ),
+                                        ),
+                                      )),
                               Gap(8.w),
                               Expanded(
                                   child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                    Text('Laura', style: text14BlackMedium),
+                                    Text(
+                                        controller.productReviewCustomer[index]
+                                                .customer?.name ??
+                                            '',
+                                        style: text14BlackMedium),
                                     Gap(4.h),
-                                    Row(
-                                        children: List.generate(
-                                            5,
-                                            (index) => Icon(
-                                                  Icons.star_rounded,
-                                                  color: index != 4
-                                                      ? kWarningColor
-                                                      : kWarningColor
-                                                          .withOpacity(0.4),
-                                                  size: 22.r,
-                                                ))),
+                                    RatingStars(
+                                        rating: controller
+                                                .productReviewCustomer[index]
+                                                .rating ??
+                                            0),
                                     Gap(12.h),
-                                    ClipRRect(
-                                      borderRadius: AppStyle.borderRadius8All,
-                                      child: Image.network(
-                                        'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                    CachedNetworkImage(
+                                      imageUrl: controller
+                                              .productReviewCustomer[index]
+                                              .image ??
+                                          '',
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
                                         height: 70.h,
                                         width: 75.w,
-                                        fit: BoxFit.cover,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              AppStyle.borderRadius8All,
+                                          color: kSofterGrey,
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) => SizedBox(
+                                        height: 70.h,
+                                        width: 75.w,
+                                        child: const Center(
+                                          child: CupertinoActivityIndicator(
+                                              color: kSoftBlack),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                        height: 70.h,
+                                        width: 75.w,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                AppStyle.borderRadius8All),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                AppStyle.borderRadius8All,
+                                            color: kSofterGrey,
+                                          ),
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.error,
+                                              color: kPrimaryColor,
+                                              size: 20.r,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     Gap(12.h),
-                                    Text('Lorem ipsum dolor sit amet..',
+                                    Text(
+                                        controller.productReviewCustomer[index]
+                                                .text ??
+                                            '',
                                         style: text14HintRegular)
                                   ]))
                             ],

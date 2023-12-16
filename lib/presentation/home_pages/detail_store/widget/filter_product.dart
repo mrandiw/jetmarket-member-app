@@ -6,6 +6,7 @@ import 'package:jetmarket/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/detail_store/controllers/detail_store.controller.dart';
+import 'package:jetmarket/presentation/home_pages/home/controllers/home.controller.dart';
 
 class FilterProduct extends StatelessWidget {
   const FilterProduct({super.key});
@@ -17,9 +18,9 @@ class FilterProduct extends StatelessWidget {
         title: 'Filters',
         textButton: 'Tampilkan Pesanan',
         gapBottom: 76,
-        onPressed: controller.selectedCategoryProduct != "" ||
-                controller.selectedStars != "" ||
-                controller.selectedSortProduct != ""
+        onPressed: controller.selectedCategoryProduct != null ||
+                controller.selectedStars != null ||
+                controller.selectedSortProduct != null
             ? () => controller.applyFilterProduct()
             : null,
         child: _content(controller),
@@ -54,6 +55,7 @@ class FilterProduct extends StatelessWidget {
             (index) => ChoiceChip(
               elevation: 0,
               shadowColor: Colors.transparent,
+              showCheckmark: false,
               label: Text(
                 controller.sortProduct[index],
                 style: controller.selectedSortProduct ==
@@ -94,8 +96,9 @@ class FilterProduct extends StatelessWidget {
             (index) => ChoiceChip(
               elevation: 0,
               shadowColor: Colors.transparent,
+              showCheckmark: false,
               label: Text(
-                controller.categoryProduct[index],
+                controller.categoryProduct[index].name ?? '',
                 style: controller.selectedCategoryProduct ==
                         controller.categoryProduct[index]
                     ? text12WhiteRegular
@@ -127,46 +130,42 @@ class FilterProduct extends StatelessWidget {
       children: [
         Text('Rating', style: text14BlackMedium),
         Gap(8.h),
-        Wrap(
-          spacing: 8.0,
-          children: List.generate(
-            controller.stars.length,
-            (index) => SizedBox(
-              width: 96.w,
-              child: ChoiceChip(
-                elevation: 0,
-                shadowColor: Colors.transparent,
-                label: Row(
-                  children: [
-                    Icon(
-                      Icons.star_rounded,
-                      color: kWarningColor,
-                      size: 16.r,
-                    ),
-                    Gap(4.w),
-                    Text(
-                      "${controller.stars[index]} Ke atas",
-                      style: controller.selectedStars == controller.stars[index]
-                          ? text12WhiteRegular
-                          : text12HintRegular,
-                    ),
-                  ],
-                ),
-                backgroundColor: kWhite,
-                selectedColor: kPrimaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(26.r),
-                    side: BorderSide(
-                        color:
-                            controller.selectedStars == controller.stars[index]
-                                ? Colors.transparent
-                                : kSoftGrey)),
-                selected: controller.selectedStars == controller.stars[index],
-                onSelected: (select) =>
-                    controller.selectStarts(select, controller.stars[index]),
+        Row(
+          children: [
+            ChoiceChip(
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              showCheckmark: false,
+              label: Row(
+                children: [
+                  Icon(
+                    Icons.star_rounded,
+                    color: kWarningColor,
+                    size: 16.r,
+                  ),
+                  Gap(4.w),
+                  Text(
+                    "${controller.stars[0]} Ke atas",
+                    style: controller.selectedStars == controller.stars[0]
+                        ? text12WhiteRegular
+                        : text12HintRegular,
+                  ),
+                ],
               ),
+              backgroundColor: kWhite,
+              selectedColor: kPrimaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(26.r),
+                  side: BorderSide(
+                      color: controller.selectedStars == controller.stars[0]
+                          ? Colors.transparent
+                          : kSoftGrey)),
+              selected: controller.selectedStars == controller.stars[0],
+              onSelected: (select) =>
+                  controller.selectStarts(select, controller.stars[0]),
             ),
-          ),
+            const Spacer()
+          ],
         ),
       ],
     );

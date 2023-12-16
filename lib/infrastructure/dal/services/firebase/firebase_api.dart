@@ -7,8 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
-import '../../../../domain/core/model/argument/payment_methode_argument.dart';
-import '../../../../utils/app_preference/app_preferences.dart';
 import '../../../../utils/global/constant.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {

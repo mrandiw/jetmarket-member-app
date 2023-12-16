@@ -25,7 +25,11 @@ class Product {
     price = json['price'];
     promo = json['promo'];
     sold = json['sold'];
-    rating = json['rating'];
+    if (json['rating'] == 0) {
+      rating = 0.0;
+    } else {
+      rating = json['rating'];
+    }
     description = json['description'];
   }
 

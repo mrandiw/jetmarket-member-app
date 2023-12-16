@@ -12,8 +12,9 @@ enum AppButtonType {
   primary,
   secondary,
   secondaryGrey,
-  primaryIcon, // Tambahkan tipe tombol primary dengan ikon
-  secondaryIcon, // Tambahkan tipe tombol secondary dengan ikon
+  primaryIcon,
+  secondaryIcon,
+  secondaryIconFix,
 }
 
 class AppButton extends StatelessWidget {
@@ -80,7 +81,6 @@ class AppButton extends StatelessWidget {
         icon: icon,
       );
 
-  // Factory untuk tombol primary dengan ikon
   factory AppButton.primaryIcon({
     Key? key,
     Function()? onPressed,
@@ -97,7 +97,6 @@ class AppButton extends StatelessWidget {
         icon: icon,
       );
 
-  // Factory untuk tombol secondary dengan ikon
   factory AppButton.secondaryIcon({
     Key? key,
     Function()? onPressed,
@@ -111,6 +110,20 @@ class AppButton extends StatelessWidget {
         buttonType: AppButtonType.secondaryIcon,
         actionStatus: actionStatus,
         text: text,
+        icon: icon,
+      );
+
+  factory AppButton.secondaryIconFix({
+    Key? key,
+    Function()? onPressed,
+    ActionStatus actionStatus = ActionStatus.initalize,
+    String? icon,
+  }) =>
+      AppButton._(
+        key: key,
+        onPressed: onPressed,
+        buttonType: AppButtonType.secondaryIconFix,
+        actionStatus: actionStatus,
         icon: icon,
       );
 
@@ -135,6 +148,7 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: kSecondaryColor,
           elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
@@ -143,6 +157,7 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
               side: BorderSide(
@@ -152,6 +167,7 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
               side: const BorderSide(color: kSofterGrey)),
@@ -160,6 +176,7 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: kSecondaryColor,
           elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
@@ -168,6 +185,17 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           elevation: 0,
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              side: BorderSide(
+                  color: onPressed == null ? kWhite : kSecondaryColor)),
+        );
+      case AppButtonType.secondaryIconFix:
+        return ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
               side: BorderSide(
@@ -203,6 +231,8 @@ class AppButton extends StatelessWidget {
         return _buttonTextPrimary(text ?? 'Button');
       case AppButtonType.secondaryIcon:
         return _buttonTextSecondary(text ?? 'Button');
+      case AppButtonType.secondaryIconFix:
+        return _buttonIconSecondary();
     }
   }
 
@@ -239,6 +269,9 @@ class AppButton extends StatelessWidget {
         SvgPicture.asset(
           icon ?? '',
           colorFilter: const ColorFilter.mode(kPrimaryColor, BlendMode.srcIn),
+          height: 13.r,
+          width: 13.r,
+          fit: BoxFit.cover,
         ),
         Gap(8.w),
         Text(text,
@@ -250,5 +283,15 @@ class AppButton extends StatelessWidget {
 
   Widget _textSecondaryGrey(String text) {
     return Center(child: Text(text, style: text14HintRegular));
+  }
+
+  Widget _buttonIconSecondary() {
+    return SvgPicture.asset(
+      icon ?? '',
+      colorFilter: const ColorFilter.mode(kPrimaryColor, BlendMode.srcIn),
+      height: 20.r,
+      width: 20.r,
+      fit: BoxFit.cover,
+    );
   }
 }

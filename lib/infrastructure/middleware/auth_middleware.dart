@@ -18,7 +18,7 @@ class AuthMiddleware extends GetMiddleware {
     bool isCreatePayment = AppPreference().getTrxId() != null;
     int? timePayment = AppPreference().getCountDown();
     UserModel? userData = AppPreference().getUserData();
-    print("Token : $isTokenReady");
+    print("Token : ${AppPreference().getUserData()?.user?.id}");
     print("Time : $timePayment");
     print("Registered : $isRegistered");
     print("Verified : $isVerified");

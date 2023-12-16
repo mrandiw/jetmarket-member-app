@@ -1,7 +1,5 @@
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
 import 'package:jetmarket/domain/core/model/params/auth/payment_param.dart';

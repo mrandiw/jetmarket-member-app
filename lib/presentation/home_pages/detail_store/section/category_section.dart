@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,62 +8,75 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/detail_store/controllers/detail_store.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
-
-import '../../../../components/form/app_form_icon.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
-import '../../../../utils/assets/assets_svg.dart';
 
 class CategorySection extends StatelessWidget {
-  const CategorySection({super.key});
+  const CategorySection({super.key, required this.controller});
+  final DetailStoreController controller;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailStoreController>(builder: (controller) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: AppStyle.paddingAll16,
-          child: Column(
-            children: [
-              AppFormIcon(
-                controller: controller.searchCategoryController,
-                icon: search,
-                hintText: 'Cari produk',
-              ),
-              Gap(4.h),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    color: kDivider,
-                    height: 0,
-                    thickness: 1,
-                  );
-                },
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  Widget content = ListTile(
-                    onTap: () => controller.toProductByCategory(),
-                    contentPadding: AppStyle.paddingVert12,
-                    leading: ClipRRect(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: AppStyle.paddingAll16,
+        child: ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(
+              color: kBorder,
+              height: 0,
+              thickness: 1,
+            );
+          },
+          itemCount: controller.categoryProduct.length,
+          itemBuilder: (BuildContext context, int index) {
+            Widget content = ListTile(
+              onTap: () => controller.toProductByCategory(
+                  controller.detailShop?.id ?? 0,
+                  controller.categoryProduct[index]),
+              contentPadding: AppStyle.paddingVert12,
+              leading: CachedNetworkImage(
+                imageUrl: controller.detailShop?.avatar ?? '',
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 50.r,
+                  width: 50.r,
+                  decoration: BoxDecoration(
                       borderRadius: AppStyle.borderRadius8All,
-                      child: Image.network(
-                        'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        height: 50.r,
-                        width: 50.r,
-                        fit: BoxFit.cover,
-                      ),
+                      color: kSofterGrey,
+                      image: DecorationImage(image: imageProvider)),
+                ),
+                placeholder: (context, url) => SizedBox(
+                  height: 50.r,
+                  width: 50.r,
+                  child: const Center(
+                    child: CupertinoActivityIndicator(color: kSoftBlack),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  height: 50.r,
+                  width: 50.r,
+                  decoration: BoxDecoration(
+                    borderRadius: AppStyle.borderRadius8All,
+                    color: kSofterGrey,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.error,
+                      color: kPrimaryColor,
+                      size: 20.r,
                     ),
-                    title: Text('Peralatan Sekolah', style: text14BlackRegular),
-                  );
-
-                  return content;
-                },
+                  ),
+                ),
               ),
-            ],
-          ),
+              title: Text(controller.categoryProduct[index].name ?? '',
+                  style: text14BlackRegular),
+            );
+
+            return content;
+          },
         ),
-      );
-    });
+      ),
+    );
   }
 }

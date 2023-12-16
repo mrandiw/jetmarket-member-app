@@ -50,3 +50,5 @@ const check = 'assets/svg/check.svg';
 const close = 'assets/svg/close.svg';
 const historyCircle = 'assets/svg/history_circle.svg';
 const canceled = 'assets/svg/cancled.svg';
+const chatLine = 'assets/svg/chat_line.svg';
+const plus = 'assets/svg/plus.svg';

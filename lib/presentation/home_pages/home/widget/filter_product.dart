@@ -17,9 +17,9 @@ class FilterProduct extends StatelessWidget {
         title: 'Filters',
         textButton: 'Tampilkan Pesanan',
         gapBottom: 76,
-        onPressed: controller.selectedCategoryProduct != "" ||
-                controller.selectedStars != "" ||
-                controller.selectedSortProduct != ""
+        onPressed: controller.selectedCategoryProduct != null ||
+                controller.selectedStars != null ||
+                controller.selectedSortProduct != null
             ? () => controller.applyFilterProduct()
             : null,
         child: _content(controller),
@@ -54,6 +54,7 @@ class FilterProduct extends StatelessWidget {
             (index) => ChoiceChip(
               elevation: 0,
               shadowColor: Colors.transparent,
+              showCheckmark: false,
               label: Text(
                 controller.sortProduct[index],
                 style: controller.selectedSortProduct ==
@@ -94,8 +95,9 @@ class FilterProduct extends StatelessWidget {
             (index) => ChoiceChip(
               elevation: 0,
               shadowColor: Colors.transparent,
+              showCheckmark: false,
               label: Text(
-                controller.categoryProductFilter[index],
+                controller.categoryProduct[index].name ?? '',
                 style: controller.selectedCategoryProduct ==
                         controller.categoryProduct[index]
                     ? text12WhiteRegular
@@ -113,7 +115,7 @@ class FilterProduct extends StatelessWidget {
               selected: controller.selectedCategoryProduct ==
                   controller.categoryProduct[index],
               onSelected: (select) => controller.selectCategoryProduct(
-                  select, controller.categoryProductFilter[index]),
+                  select, controller.categoryProduct[index]),
             ),
           ),
         ),
@@ -132,6 +134,7 @@ class FilterProduct extends StatelessWidget {
             ChoiceChip(
               elevation: 0,
               shadowColor: Colors.transparent,
+              showCheckmark: false,
               label: Row(
                 children: [
                   Icon(
