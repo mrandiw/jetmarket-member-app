@@ -1,3 +1,4 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
@@ -16,6 +17,7 @@ class DetailProductController extends GetxController {
   int currentIndexImage = 0;
   bool readMore = false;
   int? lenghtDescription;
+  Variants? selectedVariant;
 
   DetailProduct? detailProduct;
   List<ProductReviewCustomer> productReviewCustomer = [];
@@ -41,6 +43,7 @@ class DetailProductController extends GetxController {
         detail: responses[0].result as DetailProduct,
         review: responses[1].result as List<ProductReviewCustomer>,
       );
+      selectedVariant = detailProduct?.variants?.first;
       screenStatus(ScreenStatus.success);
     } else if (responses
         .any((response) => response.status == StatusResponse.timeout)) {
@@ -55,9 +58,19 @@ class DetailProductController extends GetxController {
     update();
   }
 
+  void selectVariant(Variants? value) {
+    selectedVariant = value;
+    update();
+  }
+
   void onReadMore() {
     readMore = !readMore;
     update();
+  }
+
+  void previewImage(ImageProvider<Object> imageProvider) {
+    showImageViewer(Get.context!, imageProvider,
+        swipeDismissible: true, doubleTapZoomable: true);
   }
 
   void toDetailStore(int sellerId) {

@@ -95,7 +95,9 @@ class StoreSection extends StatelessWidget {
                         style: text11GreyRegular),
                   ),
                   Gap(8.w),
-                  GestureDetector(child: SvgPicture.asset(editLine))
+                  GestureDetector(
+                      onTap: () => controller.onTapLocationStore(),
+                      child: SvgPicture.asset(editLine))
                 ],
               ),
             ),

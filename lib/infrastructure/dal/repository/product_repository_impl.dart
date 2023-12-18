@@ -39,7 +39,7 @@ class ProductRepositoryImpl implements ProductRepository {
       List<dynamic> datas = response.data['data'];
       return DataState<List<CategoryProduct>>(
           result: datas.map((e) => CategoryProduct.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<List<CategoryProduct>>().dio(e);
     }
@@ -67,7 +67,9 @@ class ProductRepositoryImpl implements ProductRepository {
           await RemoteProvider.get(path: "${Endpoint.product}/$id");
       return DataState<DetailProduct>(
           result: DetailProduct.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(
+            response: response,
+          ));
     } on DioException catch (e) {
       return CustomException<DetailProduct>().dio(e);
     }
@@ -82,8 +84,8 @@ class ProductRepositoryImpl implements ProductRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<Product>>(
           result: datas.map((e) => Product.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(
-              response: response, showLogs: true, queryParams: true));
+          status:
+              StatusCodeResponse.cek(response: response, queryParams: true));
     } on DioException catch (e) {
       return CustomException<List<Product>>().dio(e);
     }
@@ -127,7 +129,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final response = await RemoteProvider.get(path: "${Endpoint.shop}/$id");
       return DataState<DetailShop>(
           result: DetailShop.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<DetailShop>().dio(e);
     }

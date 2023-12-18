@@ -194,6 +194,14 @@ class HomeController extends GetxController {
     update();
   }
 
+  void toCategoryProduct(int id, int index) {
+    if (index == 0) {
+      Get.toNamed(Routes.ALL_CATEGORY);
+    } else {
+      Get.toNamed(Routes.PRODUCT_BYCATEGORY, arguments: ['home', 0, id]);
+    }
+  }
+
   void toDetailProduct(int id) {
     Get.toNamed(Routes.DETAIL_PRODUCT, arguments: id);
   }

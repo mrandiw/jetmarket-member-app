@@ -37,7 +37,10 @@ class CategorySection extends StatelessWidget {
                             (index) => Padding(
                                   padding: EdgeInsets.only(right: 10.w),
                                   child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () => controller.toCategoryProduct(
+                                        controller.categoryProduct[index].id ??
+                                            0,
+                                        index),
                                     child: Column(
                                       children: [
                                         CachedNetworkImage(
@@ -49,14 +52,15 @@ class CategorySection extends StatelessWidget {
                                               (context, imageProvider) =>
                                                   Container(
                                             height: 57.h,
+                                            width: 57.h,
                                             decoration: BoxDecoration(
+                                              color: kSofterGrey,
+                                              borderRadius:
+                                                  AppStyle.borderRadius8All,
                                               image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover,
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                          Colors.red,
-                                                          BlendMode.colorBurn)),
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                           placeholder: (context, url) =>

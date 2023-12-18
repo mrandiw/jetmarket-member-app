@@ -51,7 +51,7 @@ class NotificationScreen extends GetView<NotificationController> {
                     },
                     noItemsFoundIndicatorBuilder: (_) {
                       return Center(
-                        child: Text("Oops! Produk belum tersedia",
+                        child: Text("Oops! Notifikasi belum tersedia",
                             style: text12BlackRegular),
                       );
                     },

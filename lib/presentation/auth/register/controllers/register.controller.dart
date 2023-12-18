@@ -26,6 +26,7 @@ class RegisterController extends GetxController {
   final FocusNode focusNodeReferral = FocusNode();
 
   var actionStatus = ActionStatus.initalize;
+  var actionClaimStatus = ActionStatus.initalize;
 
   var isNameValidated = false.obs;
   var isPhoneValidated = false.obs;
@@ -179,15 +180,22 @@ class RegisterController extends GetxController {
     update();
   }
 
-  void checkReferralCode() async {
+  Future<void> checkReferralCode() async {
+    actionClaimStatus = ActionStatus.loading;
+    update();
     final response =
         await _authRepository.claimReferral(referralController.text);
     if (response.status == StatusResponse.success) {
-      referralMessage.value = response.message ?? '';
+      referralMessage.value = response.result ?? '';
+      update();
       isKodeReveralValidated(true);
+      actionClaimStatus = ActionStatus.success;
+      update();
     } else {
-      referralMessage.value = response.message ?? '';
+      referralMessage.value = response.result ?? '';
       isKodeReveralError(true);
+      actionClaimStatus = ActionStatus.failed;
+      update();
     }
   }
 

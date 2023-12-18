@@ -237,7 +237,7 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _textPrimary(String text) {
-    return Center(child: Text(text, style: text14WhiteSemiBold));
+    return Center(child: Text(text, style: text12WhiteMedium));
   }
 
   Widget _buttonTextPrimary(String text) {
@@ -249,7 +249,7 @@ class AppButton extends StatelessWidget {
           colorFilter: const ColorFilter.mode(kWhite, BlendMode.srcIn),
         ),
         Gap(8.w),
-        Text(text, style: text14WhiteSemiBold)
+        Text(text, style: text12WhiteMedium)
       ],
     );
   }
@@ -257,9 +257,8 @@ class AppButton extends StatelessWidget {
   Widget _textSecondary(String text) {
     return Center(
         child: Text(text,
-            style: onPressed == null
-                ? text14WhiteSemiBold
-                : text14PrimarySemiBold));
+            style:
+                onPressed == null ? text12WhiteMedium : text12PrimaryMedium));
   }
 
   Widget _buttonTextSecondary(String text) {
@@ -275,14 +274,13 @@ class AppButton extends StatelessWidget {
         ),
         Gap(8.w),
         Text(text,
-            style:
-                onPressed == null ? text14WhiteSemiBold : text14PrimarySemiBold)
+            style: onPressed == null ? text12WhiteMedium : text12PrimaryMedium)
       ],
     );
   }
 
   Widget _textSecondaryGrey(String text) {
-    return Center(child: Text(text, style: text14HintRegular));
+    return Center(child: Text(text, style: text12HintRegular));
   }
 
   Widget _buttonIconSecondary() {

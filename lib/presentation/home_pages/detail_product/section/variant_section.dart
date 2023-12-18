@@ -34,15 +34,20 @@ class VariantSection extends StatelessWidget {
                         imageUrl:
                             controller.detailProduct?.variants?[index].image ??
                                 '',
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: 80.r,
-                          width: 80.r,
-                          decoration: BoxDecoration(
-                            borderRadius: AppStyle.borderRadius8All,
-                            color: kSofterGrey,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
+                        imageBuilder: (context, imageProvider) =>
+                            GestureDetector(
+                          onTap: () => controller.selectVariant(
+                              controller.detailProduct?.variants?[index]),
+                          child: Container(
+                            height: 80.r,
+                            width: 80.r,
+                            decoration: BoxDecoration(
+                              borderRadius: AppStyle.borderRadius8All,
+                              color: kSofterGrey,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -54,21 +59,25 @@ class VariantSection extends StatelessWidget {
                                 CupertinoActivityIndicator(color: kSoftBlack),
                           ),
                         ),
-                        errorWidget: (context, url, error) => Container(
-                          height: 80.r,
-                          width: 80.r,
-                          decoration: BoxDecoration(
-                              borderRadius: AppStyle.borderRadius8All),
+                        errorWidget: (context, url, error) => GestureDetector(
+                          onTap: () => controller.selectVariant(
+                              controller.detailProduct?.variants?[index]),
                           child: Container(
+                            height: 80.r,
+                            width: 80.r,
                             decoration: BoxDecoration(
-                              borderRadius: AppStyle.borderRadius8All,
-                              color: kSofterGrey,
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.error,
-                                color: kPrimaryColor,
-                                size: 20.r,
+                                borderRadius: AppStyle.borderRadius8All),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: AppStyle.borderRadius8All,
+                                color: kSofterGrey,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.error,
+                                  color: kPrimaryColor,
+                                  size: 20.r,
+                                ),
                               ),
                             ),
                           ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/notification_repository.dart';
 import 'package:jetmarket/domain/core/model/params/notification/notification_param.dart';
@@ -19,9 +21,27 @@ class NotificationRepositoryImpl implements NotificationRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<NotificationData>>(
           result: datas.map((e) => NotificationData.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(
+            response: response,
+          ));
     } on DioException catch (e) {
       return CustomException<List<NotificationData>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<int>> getUnreadCount() async {
+    try {
+      final response =
+          await RemoteProvider.get(path: Endpoint.notificationUnreadCount);
+      log(Endpoint.notificationUnreadCount);
+      return DataState<int>(
+          result: response.data['data']['unread_count'],
+          status: StatusCodeResponse.cek(
+            response: response,
+          ));
+    } on DioException catch (e) {
+      return CustomException<int>().dio(e);
     }
   }
 }

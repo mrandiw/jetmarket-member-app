@@ -24,6 +24,7 @@ class Endpoint {
 
   // Notification
   static String notification = 'notification/user';
+  static String notificationUnreadCount = 'notification/unread_count';
 
   // Google Maps Api
   static String placeAutocomplete = 'place/autocomplete/json';

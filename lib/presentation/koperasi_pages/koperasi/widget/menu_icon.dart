@@ -21,6 +21,7 @@ class MenuIcon extends StatelessWidget {
         onTap: onTap,
         child: Container(
             padding: AppStyle.paddingAll12,
+            height: 48.h,
             decoration: BoxDecoration(
               color: kWhite,
               borderRadius: AppStyle.borderRadius6All,

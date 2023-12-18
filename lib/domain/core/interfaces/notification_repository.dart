@@ -6,4 +6,5 @@ import '../../../utils/network/data_state.dart';
 abstract class NotificationRepository {
   Future<DataState<List<NotificationData>>> getNotification(
       NotificationParam param);
+  Future<DataState<int>> getUnreadCount();
 }

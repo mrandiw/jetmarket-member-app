@@ -141,7 +141,9 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await RemoteProvider.get(path: Endpoint.paymentMethode);
       return DataState<PaymentMethodeModel>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(
+          response: response,
+        ),
         result: PaymentMethodeModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -157,7 +159,9 @@ class AuthRepositoryImpl implements AuthRepository {
           path: Endpoint.paymentCustomerRegister,
           queryParameters: param.toMap());
       return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(
+          response: response,
+        ),
         result: PaymentCustomerModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -173,7 +177,9 @@ class AuthRepositoryImpl implements AuthRepository {
           queryParameters: {'trx_id': id});
 
       return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(
+          response: response,
+        ),
         result: PaymentCustomerModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -200,9 +206,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.claimReferral, data: {"referral": param});
+      String message = response.data['message'];
       return DataState<String>(
         status: StatusCodeResponse.cek(response: response),
-        result: response.data['data']['message'],
+        result: message,
       );
     } on DioException catch (e) {
       return CustomException<String>().dio(e);

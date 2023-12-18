@@ -76,22 +76,28 @@ class DetailProduct {
 
 class Variants {
   int? id;
-  String? name;
   String? image;
+  String? label;
+  String? name;
+  int? price;
 
-  Variants({this.id, this.name, this.image});
+  Variants({this.id, this.image, this.label, this.name, this.price});
 
   Variants.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
     image = json['image'];
+    label = json['label'];
+    name = json['name'];
+    price = json['price'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['name'] = name;
     data['image'] = image;
+    data['label'] = label;
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }

@@ -37,14 +37,15 @@ class CategorySection extends StatelessWidget {
                   controller.categoryProduct[index]),
               contentPadding: AppStyle.paddingVert12,
               leading: CachedNetworkImage(
-                imageUrl: controller.detailShop?.avatar ?? '',
+                imageUrl: controller.categoryProduct[index].image ?? '',
                 imageBuilder: (context, imageProvider) => Container(
                   height: 50.r,
                   width: 50.r,
                   decoration: BoxDecoration(
                       borderRadius: AppStyle.borderRadius8All,
                       color: kSofterGrey,
-                      image: DecorationImage(image: imageProvider)),
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.cover)),
                 ),
                 placeholder: (context, url) => SizedBox(
                   height: 50.r,

@@ -338,5 +338,30 @@ class Nav {
       page: () => const DetailPengajuanPinjamanScreen(),
       binding: DetailPengajuanPinjamanControllerBinding(),
     ),
+    GetPage(
+      name: Routes.WITHDRAW,
+      page: () => const WithdrawScreen(),
+      binding: WithdrawControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.WITHDRAW_STATUS,
+      page: () => const WithdrawStatusScreen(),
+      binding: WithdrawStatusControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_WITHDRAW,
+      page: () => const DetailWithdrawScreen(),
+      binding: DetailWithdrawControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TOPUP_SALDO,
+      page: () => const TopupSaldoScreen(),
+      binding: TopupSaldoControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYMENT_TOPUP_SALDO,
+      page: () => const PaymentTopupSaldoScreen(),
+      binding: PaymentTopupSaldoControllerBinding(),
+    ),
   ];
 }

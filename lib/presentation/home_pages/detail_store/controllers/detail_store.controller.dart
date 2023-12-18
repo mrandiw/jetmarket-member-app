@@ -5,7 +5,7 @@ import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_shop.dart';
 import 'package:jetmarket/domain/core/model/params/product/product_seller_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/category_product.dart';
 import '../../../../domain/core/model/model_data/product.dart';
@@ -165,6 +165,12 @@ class DetailStoreController extends GetxController
     Get.toNamed(Routes.DETAIL_PRODUCT, arguments: id);
   }
 
+  void onTapLocationStore() async {
+    String mapsUrl =
+        "https://www.google.com/maps/search/?api=1&query=${detailShop?.lat}%2C${detailShop?.lng}";
+    await launchUrl(Uri.parse(mapsUrl), mode: LaunchMode.externalApplication);
+  }
+
   void backToDetailProduct() {
     Get.offAndToNamed(Routes.DETAIL_PRODUCT,
         arguments: Get.arguments['product_id']);
@@ -177,7 +183,8 @@ class DetailStoreController extends GetxController
   }
 
   toProductByCategory(int sellerId, CategoryProduct category) {
-    Get.toNamed(Routes.PRODUCT_BYCATEGORY, arguments: [sellerId, category.id]);
+    Get.toNamed(Routes.PRODUCT_BYCATEGORY,
+        arguments: ['store', sellerId, category.id]);
   }
 
   @override

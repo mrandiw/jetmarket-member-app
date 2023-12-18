@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/detail_product/controllers/detail_product.controller.dart';
-import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
@@ -28,7 +27,7 @@ class ProductDetailSection extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                      '${controller.detailProduct?.promo != 0 ? controller.detailProduct?.promo : controller.detailProduct?.price}'
+                      '${controller.selectedVariant?.price ?? (controller.detailProduct?.promo != 0 ? controller.detailProduct?.promo : controller.detailProduct?.price)}'
                           .toIdrFormat,
                       style: text16BlackSemiBold),
                   Gap(12.w),

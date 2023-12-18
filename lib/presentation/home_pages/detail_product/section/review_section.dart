@@ -57,25 +57,27 @@ class ReviewSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gap(12.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Galeri Pembeli', style: text14BlackRegular),
-                    const Spacer(),
-                    TextButton(
-                      style:
-                          TextButton.styleFrom(foregroundColor: kPrimaryColor),
-                      onPressed: () {},
-                      child: Row(
-                        children: [
-                          Text('Lihat semua', style: text12BlackRegular),
-                          Gap(6.w),
-                          SvgPicture.asset(arrowRight)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+
+                //     const Spacer(),
+                //     TextButton(
+                //       style:
+                //           TextButton.styleFrom(foregroundColor: kPrimaryColor),
+                //       onPressed: () {},
+                //       child: Row(
+                //         children: [
+                //           Text('Lihat semua', style: text12BlackRegular),
+                //           Gap(6.w),
+                //           SvgPicture.asset(arrowRight)
+                //         ],
+                //       ),
+                //     )
+                //   ],
+                // ),
+                Text('Galeri Pembeli', style: text14BlackRegular),
+                Gap(8.h),
                 SizedBox(
                   height: 72.h,
                   child: ListView.separated(
@@ -86,15 +88,20 @@ class ReviewSection extends StatelessWidget {
                             imageUrl:
                                 controller.productReviewCustomer[index].image ??
                                     '',
-                            imageBuilder: (context, imageProvider) => Container(
-                              height: 70.h,
-                              width: 75.w,
-                              decoration: BoxDecoration(
-                                borderRadius: AppStyle.borderRadius8All,
-                                color: kSofterGrey,
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
+                            imageBuilder: (context, imageProvider) =>
+                                GestureDetector(
+                              onTap: () =>
+                                  controller.previewImage(imageProvider),
+                              child: Container(
+                                height: 70.h,
+                                width: 75.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: AppStyle.borderRadius8All,
+                                  color: kSofterGrey,
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),

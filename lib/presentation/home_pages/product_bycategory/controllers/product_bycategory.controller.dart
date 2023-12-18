@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/category_product.dart';
 import '../../../../domain/core/model/model_data/product.dart';
+import '../../../../domain/core/model/params/product/product_param.dart';
 import '../../../../domain/core/model/params/product/product_seller_param.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/network/screen_status.dart';
@@ -14,6 +15,8 @@ class ProductBycategoryController extends GetxController {
   ProductBycategoryController(this._productRepository);
   var screenStatus = (ScreenStatus.success).obs;
   final int _pageSize = 10;
+  int? categoryId;
+  int? sellerId;
 
   PagingController<int, Product> pagingController =
       PagingController(firstPageKey: 1);
@@ -23,14 +26,14 @@ class ProductBycategoryController extends GetxController {
 
   setCategory({required List<CategoryProduct> data}) {
     categoryProduct.assignAll(data);
-    final selectedId = Get.arguments[1];
+    final selectedId = Get.arguments[2];
 
     selectedCategoryProduct = data.firstWhereOrNull((e) => e.id == selectedId);
 
     update();
   }
 
-  Future<void> getCategoryProduct(int sellerId) async {
+  Future<void> getCategoryProductBySeller(int sellerId) async {
     screenStatus(ScreenStatus.loading);
 
     final response =
@@ -43,7 +46,19 @@ class ProductBycategoryController extends GetxController {
     }
   }
 
-  Future<void> getProduct(int pageKey, int sellerId) async {
+  Future<void> getCategoryProduct() async {
+    screenStatus(ScreenStatus.loading);
+
+    final response = await _productRepository.getCategoryProduct();
+    if (response.status == StatusResponse.success) {
+      setCategory(data: response.result ?? []);
+      screenStatus(ScreenStatus.success);
+    } else {
+      screenStatus(ScreenStatus.failed);
+    }
+  }
+
+  Future<void> getProductBySeller(int pageKey, int sellerId) async {
     try {
       var param = ProductSellerParam(
           page: pageKey,
@@ -52,6 +67,26 @@ class ProductBycategoryController extends GetxController {
           sellerId: 1,
           categoryId: selectedCategoryProduct?.id);
       final response = await _productRepository.getProductBySeller(param);
+      final isLastPage = response.result!.length < _pageSize;
+
+      if (isLastPage) {
+        pagingController.appendLastPage(response.result ?? []);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(response.result ?? [], nextPageKey);
+      }
+    } catch (error) {
+      pagingController.error = error;
+    }
+  }
+
+  Future<void> getProduct(int pageKey) async {
+    try {
+      var param = ProductParam(
+          page: pageKey,
+          size: _pageSize,
+          categoryId: selectedCategoryProduct?.id);
+      final response = await _productRepository.getProduct(param);
       final isLastPage = response.result!.length < _pageSize;
 
       if (isLastPage) {
@@ -77,17 +112,33 @@ class ProductBycategoryController extends GetxController {
   void selectCategory(CategoryProduct? value) {
     selectedCategoryProduct = value;
     update();
-    getProduct(1, Get.arguments[0]);
+    selectCategoryByCondition();
     pagingController.refresh();
+  }
+
+  selectCategoryByCondition() {
+    if (Get.arguments[0] == 'store') {
+      getProductBySeller(1, Get.arguments[1]);
+    }
+  }
+
+  checkArgument() {
+    if (Get.arguments[0] == 'store') {
+      getCategoryProductBySeller(Get.arguments[1]);
+      pagingController.addPageRequestListener((page) {
+        getProductBySeller(page, Get.arguments[1]);
+      });
+    } else {
+      getCategoryProduct();
+      pagingController.addPageRequestListener((page) {
+        getProduct(page);
+      });
+    }
   }
 
   @override
   void onInit() {
-    getCategoryProduct(Get.arguments[0]);
-
-    pagingController.addPageRequestListener((page) {
-      getProduct(page, Get.arguments[0]);
-    });
+    checkArgument();
     super.onInit();
   }
 }

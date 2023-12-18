@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
+import 'package:jetmarket/infrastructure/dal/services/firebase/firebase_controller.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import '../../../../utils/global/constant.dart';
 
@@ -13,6 +15,12 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
   log(message.notification?.title ?? '');
   log(message.notification?.body ?? '');
   log("Data : ${message.data}");
+  updateUnreadNotification();
+}
+
+Future<void> updateUnreadNotification() async {
+  final controller = Get.put(FirebaseController(NotificationRepositoryImpl()));
+  await controller.getUnreadNotification();
 }
 
 settingShowNotification(RemoteMessage message) async {
@@ -35,6 +43,7 @@ settingShowNotification(RemoteMessage message) async {
     platformDetails,
     payload: message.data.toString(),
   );
+  await updateUnreadNotification();
 }
 
 class FirebaseApi {
@@ -65,6 +74,7 @@ class FirebaseApi {
   }
 
   openMessage(RemoteMessage? message) {
+    updateUnreadNotification();
     log("---------OPEN----------");
     final data = message?.data;
     print("Open Message : $data");
@@ -125,24 +135,18 @@ class FirebaseApi {
 
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-            alert: false, sound: false, badge: false);
+            alert: true, sound: true, badge: true);
 
     await _firebaseMessaging.getInitialMessage().then(handleMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(openMessage);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-    if (appForeground == true) {
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-        String? title = message.notification!.title;
-        String? body = message.notification!.body;
-        Map<String, String> payload() {
-          Map<String, String> data = {};
-          data['program_id'] = "${message.data['program_id']}";
-          data['notification_id'] = "${message.data['notification_id']}";
-          return data;
-        }
-      });
-    } else {
-      FirebaseMessaging.onMessage.listen(showLocalNotification);
-    }
+    // if (appForeground == true) {
+    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+
+    //   });
+    // } else {
+    //   FirebaseMessaging.onMessage.listen(showLocalNotification);
+    // }
+    FirebaseMessaging.onMessage.listen(showLocalNotification);
   }
 }
