@@ -15,9 +15,9 @@ class AddressRepositoryImpl implements AddressRepository {
       LocationParam param) async {
     try {
       final response = await RemoteProvider.getLocation(
-          path: Endpoint.placeAutocomplete,
-          queryParameters: param.toMap(),
-          showLogs: true);
+        path: Endpoint.placeAutocomplete,
+        queryParameters: param.toMap(),
+      );
       List<dynamic> data = response.data['predictions'];
       List<LocationModel> location = [];
       for (var item in data) {
@@ -54,14 +54,14 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<DataState<List<LocationModel>>> getLocation(dynamic param) async {
     try {
       final response = await RemoteProvider.getLocation(
-          path: Endpoint.placeAutocomplete,
-          queryParameters: {
-            'input': param['input'],
-            'key': apiKey,
-            'location': '${param['lat']},${param['lng']}',
-            'radius': '10000',
-          },
-          showLogs: true);
+        path: Endpoint.placeAutocomplete,
+        queryParameters: {
+          'input': param['input'],
+          'key': apiKey,
+          'location': '${param['lat']},${param['lng']}',
+          'radius': '10000',
+        },
+      );
       dynamic placeId = response.data;
       print(placeId);
       List<LocationModel> location = [];

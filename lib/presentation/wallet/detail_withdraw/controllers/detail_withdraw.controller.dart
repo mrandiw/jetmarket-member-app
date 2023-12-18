@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class EWalletController extends GetxController {
-  //TODO: Implement EWalletController
+class DetailWithdrawController extends GetxController {
+  //TODO: Implement DetailWithdrawController
 
   final count = 0.obs;
   @override

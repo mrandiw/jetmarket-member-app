@@ -9,6 +9,9 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
+import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
+import '../../../../infrastructure/dal/services/firebase/firebase_controller.dart';
+
 AppBar get appBarKoperasi {
   return AppBar(
     backgroundColor: kWhite,
@@ -28,10 +31,22 @@ AppBar get appBarKoperasi {
       Gap(10.w),
       GestureDetector(
         onTap: () => Get.toNamed(Routes.NOTIFICATION),
-        child: Icon(
-          Icons.notifications,
-          color: const Color(0xff333333).withOpacity(0.4),
-        ),
+        child: GetBuilder<FirebaseController>(
+            init: FirebaseController(NotificationRepositoryImpl()),
+            builder: (controller) {
+              return Badge.count(
+                count: controller.unreadCount,
+                backgroundColor: kPrimaryColor,
+                largeSize: 14,
+                textStyle: TextStyle(fontSize: 8.sp, color: kWhite),
+                isLabelVisible: controller.unreadCount > 0 ? true : false,
+                offset: const Offset(2, -2),
+                child: Icon(
+                  Icons.notifications,
+                  color: const Color(0xff333333).withOpacity(0.4),
+                ),
+              );
+            }),
       ),
       Gap(16.w)
     ],

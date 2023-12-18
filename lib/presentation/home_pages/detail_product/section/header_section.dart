@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,99 +17,131 @@ class HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailProductController>(
-        init: DetailProductController(),
-        builder: (controller) {
-          return SizedBox(
-            height: 250.hr,
-            width: Get.width.wr,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                    child: Container(
-                  height: 250.hr,
-                  width: Get.width.wr,
-                  color: kWhite,
-                  child: PageView.builder(
-                      controller: controller.pageController,
-                      onPageChanged: (value) => controller.onImageSlide(value),
-                      itemCount: 3,
-                      itemBuilder: (_, index) {
-                        return Image.network(
-                          'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                          width: Get.width.wr,
-                          fit: BoxFit.fitWidth,
-                        );
-                      }),
-                )),
-                Positioned(
-                    top: 16.h,
-                    right: 16.w,
-                    left: 16.w,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.back(),
+    return GetBuilder<DetailProductController>(builder: (controller) {
+      return SizedBox(
+        height: 250.hr,
+        width: Get.width.wr,
+        child: Stack(
+          children: [
+            Positioned.fill(
+                child: Container(
+              height: 250.hr,
+              width: Get.width.wr,
+              color: kWhite,
+              child: PageView.builder(
+                  controller: controller.pageController,
+                  onPageChanged: (value) => controller.onImageSlide(value),
+                  itemCount: controller.detailProduct?.images?.length,
+                  itemBuilder: (_, index) {
+                    return CachedNetworkImage(
+                      imageUrl: controller.detailProduct?.images?[index] ?? '',
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 92.h,
+                        decoration: BoxDecoration(
+                          borderRadius: AppStyle.borderRadius8Top,
+                          color: kSofterGrey,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) => SizedBox(
+                        height: 92.h,
+                        width: Get.width,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(color: kSoftBlack),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 92.h,
+                        decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius8Top),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius8Top,
+                            color: kSofterGrey,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.error,
+                              color: kPrimaryColor,
+                              size: 20.r,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+            )),
+            Positioned(
+                top: 16.h,
+                right: 16.w,
+                left: 16.w,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: SvgPicture.asset(
+                        arrowForward,
+                        colorFilter:
+                            const ColorFilter.mode(kBlack, BlendMode.srcIn),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 34.hr,
+                        width: 34.hr,
+                        decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius6All,
+                            color: kSofterGrey),
+                        child: Center(
                           child: SvgPicture.asset(
-                            arrowForward,
+                            cartLine,
                             colorFilter:
                                 const ColorFilter.mode(kBlack, BlendMode.srcIn),
                           ),
                         ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 34.hr,
-                            width: 34.hr,
-                            decoration: BoxDecoration(
-                                borderRadius: AppStyle.borderRadius6All,
-                                color: kSofterGrey),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                cartLine,
-                                colorFilter: const ColorFilter.mode(
-                                    kBlack, BlendMode.srcIn),
-                              ),
-                            ),
+                      ),
+                    ),
+                    Gap(12.w),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 34.r,
+                        width: 34.r,
+                        decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius6All,
+                            color: kSofterGrey),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            shareLine,
+                            colorFilter:
+                                const ColorFilter.mode(kBlack, BlendMode.srcIn),
                           ),
                         ),
-                        Gap(12.w),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 34.r,
-                            width: 34.r,
-                            decoration: BoxDecoration(
-                                borderRadius: AppStyle.borderRadius6All,
-                                color: kSofterGrey),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                shareLine,
-                                colorFilter: const ColorFilter.mode(
-                                    kBlack, BlendMode.srcIn),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
-                Positioned(
-                    left: 16.w,
-                    bottom: 16.h,
-                    child: Container(
-                      height: 22.h,
-                      width: 38.w,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(26.r),
-                          color: kWhite),
-                      child: Center(
-                          child: Text('${controller.currentIndexImage + 1}/3',
-                              style: text12BlackRegular)),
-                    ))
-              ],
-            ),
-          );
-        });
+                      ),
+                    )
+                  ],
+                )),
+            Positioned(
+                left: 16.w,
+                bottom: 16.h,
+                child: Container(
+                  height: 22.h,
+                  width: 38.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26.r), color: kWhite),
+                  child: Center(
+                      child: Text(
+                          '${controller.currentIndexImage + 1}/${controller.detailProduct?.images?.length ?? 1}',
+                          style: text12BlackRegular)),
+                ))
+          ],
+        ),
+      );
+    });
   }
 }

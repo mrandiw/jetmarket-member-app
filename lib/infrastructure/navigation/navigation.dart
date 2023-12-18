@@ -94,11 +94,10 @@ class Nav {
       binding: EWalletControllerBinding(),
     ),
     GetPage(
-      name: Routes.MAIN_PAGES,
-      page: () => const MainPagesScreen(),
-      binding: MainPagesControllerBinding(),
-      // middlewares: [AuthMiddleware()]
-    ),
+        name: Routes.MAIN_PAGES,
+        page: () => const MainPagesScreen(),
+        binding: MainPagesControllerBinding(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),
@@ -338,6 +337,31 @@ class Nav {
       name: Routes.DETAIL_PENGAJUAN_PINJAMAN,
       page: () => const DetailPengajuanPinjamanScreen(),
       binding: DetailPengajuanPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.WITHDRAW,
+      page: () => const WithdrawScreen(),
+      binding: WithdrawControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.WITHDRAW_STATUS,
+      page: () => const WithdrawStatusScreen(),
+      binding: WithdrawStatusControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_WITHDRAW,
+      page: () => const DetailWithdrawScreen(),
+      binding: DetailWithdrawControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TOPUP_SALDO,
+      page: () => const TopupSaldoScreen(),
+      binding: TopupSaldoControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYMENT_TOPUP_SALDO,
+      page: () => const PaymentTopupSaldoScreen(),
+      binding: PaymentTopupSaldoControllerBinding(),
     ),
   ];
 }

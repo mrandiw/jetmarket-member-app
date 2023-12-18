@@ -1,15 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:jetmarket/presentation/home_pages/detail_store/controllers/detail_store.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class StoreSection extends StatelessWidget {
-  const StoreSection({super.key});
+  const StoreSection({super.key, required this.controller});
+  final DetailStoreController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +29,33 @@ class StoreSection extends StatelessWidget {
           children: [
             ListTile(
               contentPadding: AppStyle.paddingAll8,
-              leading: CircleAvatar(
-                radius: 26.r,
-                backgroundColor: kPrimaryColor2,
-              ),
-              title: Text('Stationary’s', style: text14BlackMedium),
-              subtitle: Row(
-                children: [
-                  Icon(
-                    Icons.circle,
-                    color: kSuccessColor,
-                    size: 8.r,
-                  ),
-                  Gap(4.w),
-                  Text('Online', style: text11SuccessRegular),
-                ],
-              ),
+              leading: CachedNetworkImage(
+                  imageUrl: controller.detailShop?.avatar ?? '',
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 26.r,
+                        backgroundColor: kPrimaryColor2,
+                        backgroundImage: imageProvider,
+                      ),
+                  placeholder: (context, url) => SizedBox(
+                        height: 72.r,
+                        width: 72.r,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(color: kSoftBlack),
+                        ),
+                      ),
+                  errorWidget: (context, url, error) => CircleAvatar(
+                        radius: 26.r,
+                        backgroundColor: kPrimaryColor2,
+                        child: Center(
+                          child: Icon(
+                            Icons.error,
+                            color: kPrimaryColor,
+                            size: 20.r,
+                          ),
+                        ),
+                      )),
+              title: Text(controller.detailShop?.name ?? '',
+                  style: text14BlackMedium),
               trailing: SizedBox(
                 width: 90.wr,
                 child: Column(
@@ -54,7 +69,8 @@ class StoreSection extends StatelessWidget {
                         Icon(Icons.star_rounded,
                             color: kWarningColor, size: 16.hr),
                         Gap(2.wr),
-                        Text('4.4', style: text12BlackSemiBold)
+                        Text("${controller.detailShop?.rating ?? 0}",
+                            style: text12BlackSemiBold)
                       ],
                     ),
                     Text('Rating & Ulasan', style: text10HintRegular)
@@ -63,7 +79,7 @@ class StoreSection extends StatelessWidget {
               ),
             ),
             Divider(
-              color: kDivider,
+              color: kBorder,
               height: 0,
               thickness: 1,
             ),
@@ -74,22 +90,14 @@ class StoreSection extends StatelessWidget {
                 children: [
                   SvgPicture.asset(pinMapLine),
                   Gap(8.w),
-                  Text('2118 Thornridge Cir. Syracuse, Connecticut 35624',
-                      style: text11GreyRegular),
+                  Expanded(
+                    child: Text(controller.detailShop?.address ?? '',
+                        style: text11GreyRegular),
+                  ),
                   Gap(8.w),
-                  SvgPicture.asset(editLine)
-                ],
-              ),
-            ),
-            Gap(8.h),
-            Padding(
-              padding: AppStyle.paddingSide12,
-              child: Row(
-                children: [
-                  SvgPicture.asset(timeLine),
-                  Gap(8.w),
-                  Text('Setiap Hari (09:00 - 23:00 WIB)',
-                      style: text11GreyRegular),
+                  GestureDetector(
+                      onTap: () => controller.onTapLocationStore(),
+                      child: SvgPicture.asset(editLine))
                 ],
               ),
             ),

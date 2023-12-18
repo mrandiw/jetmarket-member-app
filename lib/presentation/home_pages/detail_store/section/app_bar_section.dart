@@ -30,15 +30,16 @@ class AppBarDetailStore extends StatelessWidget {
       pinned: true,
       floating: true,
       elevation: 0.3,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: kWhite,
+      surfaceTintColor: kWhite,
       automaticallyImplyLeading: false,
-      expandedHeight: 276.hr,
+      expandedHeight: 246.hr,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [
             Container(
               color: kWhite,
-              padding: EdgeInsets.symmetric(vertical: 12.hr),
+              padding: EdgeInsets.symmetric(vertical: 3.hr),
               child: Row(
                 children: [
                   IconButton(
@@ -56,15 +57,17 @@ class AppBarDetailStore extends StatelessWidget {
               thickness: 1,
             ),
             Gap(4.h),
-            const StoreSection()
+            StoreSection(
+              controller: controller,
+            )
           ],
         ),
       ),
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 12.hr),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: kWhite,
             border: Border(bottom: BorderSide(color: kDivider)),
           ),
           child: Obx(() {

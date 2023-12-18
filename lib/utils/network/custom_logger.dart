@@ -60,9 +60,9 @@ class CustomLogger {
         "${response.requestOptions.method} ${response.statusCode} | $url";
 
     _baseLogs(response, queryParams, message, port);
-    if (isHeader == null) {
-      _logHeader(response, queryParams, message, port);
-    }
+    // if (isHeader == null) {
+    //   _logHeader(response, queryParams, message, port);
+    // }
     if (requestBody == true) {
       if (isGetMethode == true) {
         if (data is List) {

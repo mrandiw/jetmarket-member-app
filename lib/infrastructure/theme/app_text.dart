@@ -3,6 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
+TextStyle get text24WhiteSemiBold => GoogleFonts.poppins(
+      fontSize: 23.wr,
+      fontWeight: FontWeight.w600,
+      color: kWhite,
+    );
 TextStyle get text20BlackSemiBold => GoogleFonts.poppins(
       fontSize: 19.wr,
       fontWeight: FontWeight.w600,
@@ -48,10 +53,20 @@ TextStyle get text12WhiteRegular => GoogleFonts.poppins(
       fontWeight: FontWeight.w400,
       color: kWhite,
     );
+TextStyle get text12WhiteMedium => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w500,
+      color: kWhite,
+    );
 TextStyle get text8WhiteRegular => GoogleFonts.poppins(
       fontSize: 7.wr,
       fontWeight: FontWeight.w400,
       color: kWhite,
+    );
+TextStyle get text8GreyRegular => GoogleFonts.poppins(
+      fontSize: 7.wr,
+      fontWeight: FontWeight.w400,
+      color: const Color(0xff808080),
     );
 TextStyle get text14BlackMedium => GoogleFonts.poppins(
       fontSize: 13.wr,
@@ -118,6 +133,11 @@ TextStyle get text18WhiteSemiBold => GoogleFonts.poppins(
       fontSize: 17.wr,
       fontWeight: FontWeight.w600,
       color: kWhite,
+    );
+TextStyle get text18BlackSemiBold => GoogleFonts.poppins(
+      fontSize: 17.wr,
+      fontWeight: FontWeight.w600,
+      color: kBlack,
     );
 TextStyle get text12HintForm => GoogleFonts.poppins(
       fontSize: 11.wr,

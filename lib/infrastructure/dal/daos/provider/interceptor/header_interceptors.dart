@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '../../../../../utils/app_preference/app_preferences.dart';
+import '../../../../navigation/routes.dart';
 
 InterceptorsWrapper headerInterceptor({required bool logs}) {
   return InterceptorsWrapper(
@@ -15,7 +15,7 @@ InterceptorsWrapper headerInterceptor({required bool logs}) {
 
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
       var accessToken = AppPreference().getAccessToken();
-      if (accessToken != null) {
+      if (accessToken != null && options.path != 'referral/claim') {
         options.headers[HttpHeaders.authorizationHeader] =
             'Bearer $accessToken';
       }
@@ -28,7 +28,7 @@ InterceptorsWrapper headerInterceptor({required bool logs}) {
     onError: (err, handler) {
       if (err.response?.statusCode == 401) {
         AppPreference().clearAccessToken();
-        // Get.offAllNamed(Routes.LOGIN);
+        Get.offAllNamed(Routes.LOGIN);
       }
       return handler.reject(err);
     },

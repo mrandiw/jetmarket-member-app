@@ -173,6 +173,7 @@ class FormSection extends StatelessWidget {
                           type: AppFormType.withLabel,
                           controller: controller.referralController,
                           // focusNode: controller.focusNodeReferral,
+
                           label: 'Kode Referal',
                           hintText: 'Isi kode referal disini',
                         ),
@@ -182,6 +183,7 @@ class FormSection extends StatelessWidget {
                         flex: 4,
                         child: SizedBox(
                           child: AppButton.primary(
+                            actionStatus: controller.actionClaimStatus,
                             text: 'Claim',
                             onPressed: () => controller.checkReferralCode(),
                           ),

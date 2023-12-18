@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -24,27 +26,41 @@ class StoreSection extends StatelessWidget {
                   bottom: AppStyle.borderSide, top: AppStyle.borderSide)),
           child: ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: CircleAvatar(
-              radius: 26.r,
-              backgroundColor: kPrimaryColor2,
-            ),
-            title: Text('Stationary’s', style: text14BlackMedium),
-            subtitle: Row(
-              children: [
-                Icon(
-                  Icons.circle,
-                  color: kSuccessColor,
-                  size: 8.r,
-                ),
-                Gap(4.w),
-                Text('Online', style: text11SuccessRegular),
-              ],
-            ),
+            leading: CachedNetworkImage(
+                imageUrl: controller.detailProduct?.seller?.avatar ?? '',
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 26.r,
+                      backgroundColor: kPrimaryColor2,
+                      backgroundImage: imageProvider,
+                    ),
+                placeholder: (context, url) => SizedBox(
+                      height: 72.r,
+                      width: 72.r,
+                      child: const Center(
+                        child: CupertinoActivityIndicator(color: kSoftBlack),
+                      ),
+                    ),
+                errorWidget: (context, url, error) => CircleAvatar(
+                      radius: 26.r,
+                      backgroundColor: kPrimaryColor2,
+                      child: Center(
+                        child: Icon(
+                          Icons.error,
+                          color: kPrimaryColor,
+                          size: 20.r,
+                        ),
+                      ),
+                    )),
+            title: Text(controller.detailProduct?.seller?.name ?? '',
+                style: text14BlackMedium),
+            subtitle: Text(controller.detailProduct?.seller?.city ?? '',
+                style: text12HintRegular),
             trailing: SizedBox(
-                width: 100.wr,
+                width: 124.wr,
                 child: AppButton.primary(
                   text: 'Lihat Toko',
-                  onPressed: () => controller.toDetailStore(),
+                  onPressed: () => controller
+                      .toDetailStore(controller.detailProduct?.seller?.id ?? 0),
                 )),
           ),
         ),

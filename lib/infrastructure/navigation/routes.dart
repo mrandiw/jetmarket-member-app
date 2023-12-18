@@ -23,9 +23,11 @@ class Routes {
   static const DETAIL_MENABUNG = '/detail-menabung';
   static const DETAIL_ORDER = '/detail-order';
   static const DETAIL_PAYMENT_REGISTER = '/detail-payment-register';
+  static const DETAIL_PENGAJUAN_PINJAMAN = '/detail-pengajuan-pinjaman';
   static const DETAIL_PRODUCT = '/detail-product';
   static const DETAIL_RETURN = '/detail-return';
   static const DETAIL_STORE = '/detail-store';
+  static const DETAIL_WITHDRAW = '/detail-withdraw';
   static const EDIT_ACCOUNT = '/edit-account';
   static const EDIT_ADDRESS = '/edit-address';
   static const E_WALLET = '/e-wallet';
@@ -62,9 +64,12 @@ class Routes {
   static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
   static const TABUNGAN = '/tabungan';
   static const TABUNGAN_PAYMENT = '/tabungan-payment';
+  static const TOPUP_SALDO = '/topup-saldo';
   static const TRACKING_RETURN = '/tracking-return';
   static const TRACKING_RETURN_ORDER = '/tracking-return-order';
   static const VOUCHER = '/voucher';
   static const WAITING_PAYMENT = '/waiting-payment';
-  static const DETAIL_PENGAJUAN_PINJAMAN = '/detail-pengajuan-pinjaman';
+  static const WITHDRAW = '/withdraw';
+  static const WITHDRAW_STATUS = '/withdraw-status';
+  static const PAYMENT_TOPUP_SALDO = '/payment-topup-saldo';
 }
