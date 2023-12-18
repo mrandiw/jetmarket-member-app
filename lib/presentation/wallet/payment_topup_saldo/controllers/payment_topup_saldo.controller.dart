@@ -1,23 +1,19 @@
 import 'package:get/get.dart';
+import 'package:jetmarket/domain/core/interfaces/product_repository.dart';
+
+import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 
 class PaymentTopupSaldoController extends GetxController {
-  //TODO: Implement PaymentTopupSaldoController
+  final ProductRepository _productRepository;
+  PaymentTopupSaldoController(this._productRepository);
+  TutorialPaymentVaModel? tutorialPayment;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  getTutorial(String path) async {
+    final response = await _productRepository.fetchDataFromJsonFile(path);
+    // ignore: unnecessary_null_comparison
+    if (response != null) {
+      tutorialPayment = response;
+      update();
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

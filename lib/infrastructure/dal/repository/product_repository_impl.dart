@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/model/model_data/category_product.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_shop.dart';
@@ -9,6 +11,7 @@ import '../../../domain/core/interfaces/product_repository.dart';
 import '../../../domain/core/model/model_data/banner.dart';
 import '../../../domain/core/model/model_data/detail_product.dart';
 import '../../../domain/core/model/model_data/product.dart';
+import '../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../domain/core/model/params/product/product_seller_param.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
@@ -132,6 +135,20 @@ class ProductRepositoryImpl implements ProductRepository {
           status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<DetailShop>().dio(e);
+    }
+  }
+
+  @override
+  Future<TutorialPaymentVaModel> fetchDataFromJsonFile(String path) async {
+    try {
+      String jsonString =
+          await rootBundle.loadString('assets/json/tutorial_$path.json');
+      Map<String, dynamic> jsonMap = json.decode(jsonString);
+      TutorialPaymentVaModel tutorialModel =
+          TutorialPaymentVaModel.fromJson(jsonMap);
+      return tutorialModel;
+    } catch (e) {
+      throw "Error: $e";
     }
   }
 }
