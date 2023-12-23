@@ -148,7 +148,7 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           backgroundColor: kSecondaryColor,
           elevation: 0,
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 8.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
@@ -209,9 +209,12 @@ class AppButton extends StatelessWidget {
       child: SizedBox(
         height: 24.hr,
         width: 24.hr,
-        child: const CircularProgressIndicator(
+        child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: Colors.white,
+          color: buttonType == AppButtonType.primary ||
+                  buttonType == AppButtonType.primaryIcon
+              ? Colors.white
+              : kPrimaryColor,
         ),
       ),
     );
@@ -249,7 +252,7 @@ class AppButton extends StatelessWidget {
           colorFilter: const ColorFilter.mode(kWhite, BlendMode.srcIn),
         ),
         Gap(8.w),
-        Text(text, style: text14WhiteSemiBold)
+        Text(text, style: text14WhiteSemiBold),
       ],
     );
   }
@@ -266,6 +269,7 @@ class AppButton extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Gap(8.w),
         SvgPicture.asset(
           icon ?? '',
           colorFilter: const ColorFilter.mode(kPrimaryColor, BlendMode.srcIn),
@@ -275,8 +279,10 @@ class AppButton extends StatelessWidget {
         ),
         Gap(8.w),
         Text(text,
-            style:
-                onPressed == null ? text14WhiteSemiBold : text14PrimarySemiBold)
+            style: onPressed == null
+                ? text14WhiteSemiBold
+                : text14PrimarySemiBold),
+        Gap(8.w),
       ],
     );
   }

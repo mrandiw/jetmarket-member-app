@@ -24,9 +24,14 @@ class RemoteProvider {
         data: data, queryParameters: queryParameters, options: options);
   }
 
-  static Future<Response> put({required String path, Object? data}) async {
+  static Future<Response> put({
+    required String path,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _dioInstance.options = _baseOptionBaseUrl;
-    return await _dioInstance.put(path, data: data);
+    return await _dioInstance.put(path,
+        data: data, queryParameters: queryParameters);
   }
 
   static Future<Response> get(
@@ -45,8 +50,9 @@ class RemoteProvider {
     return await _dioInstance.get(path, queryParameters: queryParameters);
   }
 
-  static Future<Response> delete({required String path}) async {
+  static Future<Response> delete(
+      {required String path, Map<String, dynamic>? queryParameters}) async {
     _dioInstance.options = _baseOptionBaseUrl;
-    return await _dioInstance.delete(path);
+    return await _dioInstance.delete(path, queryParameters: queryParameters);
   }
 }

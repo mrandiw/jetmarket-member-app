@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/product_repository.dart';
 
@@ -15,5 +16,16 @@ class PaymentTopupSaldoController extends GetxController {
       tutorialPayment = response;
       update();
     }
+  }
+
+  void copyVa(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    HapticFeedback.vibrate();
+  }
+
+  @override
+  void onInit() {
+    getTutorial('mandiri');
+    super.onInit();
   }
 }

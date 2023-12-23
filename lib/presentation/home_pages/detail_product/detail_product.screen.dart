@@ -45,7 +45,7 @@ class DetailProductScreen extends GetView<DetailProductController> {
           ),
         ),
       ),
-      bottomNavigationBar: const FooterSection(),
+      bottomNavigationBar: FooterSection(controller: controller),
     );
   }
 }

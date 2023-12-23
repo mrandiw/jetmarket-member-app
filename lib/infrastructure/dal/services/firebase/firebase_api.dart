@@ -23,6 +23,10 @@ Future<void> updateUnreadNotification() async {
   await controller.getUnreadNotification();
 }
 
+void toMainPage() {
+  Get.offAllNamed(Routes.MAIN_PAGES);
+}
+
 settingShowNotification(RemoteMessage message) async {
   var androidDetails = const AndroidNotificationDetails(
     'high_importance_channel',
@@ -43,7 +47,11 @@ settingShowNotification(RemoteMessage message) async {
     platformDetails,
     payload: message.data.toString(),
   );
-  await updateUnreadNotification();
+  if (message.data['status'] == 'SUCCEEDED') {
+    Get.offAllNamed(Routes.MAIN_PAGES);
+  } else {
+    await updateUnreadNotification();
+  }
 }
 
 class FirebaseApi {

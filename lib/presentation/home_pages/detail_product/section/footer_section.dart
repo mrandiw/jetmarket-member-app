@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
+import 'package:jetmarket/presentation/home_pages/detail_product/controllers/detail_product.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class FooterSection extends StatelessWidget {
-  const FooterSection({super.key});
+  const FooterSection({super.key, required this.controller});
+
+  final DetailProductController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +39,14 @@ class FooterSection extends StatelessWidget {
           Gap(4.w),
           Expanded(
             flex: 4,
-            child: AppButton.secondaryIcon(
-              icon: plus,
-              text: 'Keranjang',
-              onPressed: () {},
-            ),
+            child: Obx(() {
+              return AppButton.secondaryIcon(
+                actionStatus: controller.actionAddToCart.value,
+                icon: plus,
+                text: 'Keranjang',
+                onPressed: () => controller.addToCart(),
+              );
+            }),
           ),
           Gap(4.w),
           Expanded(

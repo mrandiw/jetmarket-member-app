@@ -23,6 +23,8 @@ class AuthMiddleware extends GetMiddleware {
     print("Registered : $isRegistered");
     print("Verified : $isVerified");
     print("Create Payment : $isCreatePayment");
+    print("Veri : ${userData?.user?.isVerified}");
+    print(userData?.trxId);
 
     if (isRegistered && !isVerified) {
       return const RouteSettings(name: Routes.REGISTER_OTP);

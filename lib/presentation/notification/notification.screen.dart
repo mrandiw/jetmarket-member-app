@@ -12,6 +12,7 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/notification/widget/card_notification.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../components/infiniti_page/infiniti_page.dart';
 import 'controllers/notification.controller.dart';
 import 'section/app_bar_section.dart';
 
@@ -32,29 +33,11 @@ class NotificationScreen extends GetView<NotificationController> {
                     itemBuilder: (context, item, index) => CardNotification(
                       data: item,
                     ),
-                    newPageProgressIndicatorBuilder: (_) {
-                      return SizedBox(
-                        height: 120.h,
-                        child: Center(
-                          child: CupertinoActivityIndicator(
-                            radius: 12.r,
-                          ),
-                        ),
-                      );
-                    },
-                    firstPageProgressIndicatorBuilder: (_) {
-                      return Center(
-                        child: CupertinoActivityIndicator(
-                          radius: 12.r,
-                        ),
-                      );
-                    },
-                    noItemsFoundIndicatorBuilder: (_) {
-                      return Center(
-                        child: Text("Oops! Notifikasi belum tersedia",
-                            style: text12BlackRegular),
-                      );
-                    },
+                    newPageProgressIndicatorBuilder: InfinitiPage.progress,
+                    firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+                    noItemsFoundIndicatorBuilder: (_) =>
+                        InfinitiPage.empty(_, 'Notifikasi'),
+                    firstPageErrorIndicatorBuilder: InfinitiPage.error,
                   ),
                   separatorBuilder: (_, i) => Gap(12.h))),
         ],

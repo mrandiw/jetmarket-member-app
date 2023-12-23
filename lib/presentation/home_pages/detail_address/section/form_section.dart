@@ -16,73 +16,73 @@ class FormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailAddressController>(
-        init: DetailAddressController(),
-        builder: (controller) {
-          return Padding(
-              padding: AppStyle.paddingAll16,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppForm(
-                      type: AppFormType.withLabel,
-                      controller: controller.addressController,
-                      label: 'Alamat',
-                      hintText: 'Masukkan alamat disini',
-                      textArea: true,
-                    ),
-                    Gap(12.h),
-                    Text('Label Alamat', style: text12BlackRegular),
-                    Gap(8.h),
-                    Container(
-                      height: 44.h,
-                      padding: AppStyle.paddingSide12,
-                      decoration: BoxDecoration(
-                          borderRadius: AppStyle.borderRadius8All,
-                          border: AppStyle.borderAll),
-                      child: DropdownButton(
-                        value: controller.selectedLabel,
-                        underline: const SizedBox.shrink(),
-                        isExpanded: true,
-                        style: text12BlackRegular,
-                        icon: SvgPicture.asset(
-                          arrowDown,
-                          colorFilter:
-                              const ColorFilter.mode(kBlack, BlendMode.srcIn),
-                        ),
-                        items: controller.labels
-                            .map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(
-                                  e,
-                                  style: text12BlackRegular,
-                                )))
-                            .toList(),
-                        onChanged: (value) => controller.onChangeLabel(value!),
-                      ),
-                    ),
-                    Gap(12.h),
-                    AppForm(
-                      type: AppFormType.withLabel,
-                      controller: controller.noteController,
-                      label: 'Catatan Untuk Kurir (Opsional)',
-                      hintText: 'Masukan warna rumah, patokan, dll',
-                    ),
-                    Gap(12.h),
-                    AppForm(
-                      type: AppFormType.withLabel,
-                      controller: controller.nameController,
-                      label: 'Masukan Nama Penerima',
-                      hintText: 'Masukan nama penerima disini',
-                    ),
-                    Gap(12.h),
-                    AppForm(
-                      type: AppFormType.withLabel,
-                      controller: controller.phoneController,
-                      label: 'Nomor Hp',
-                      hintText: 'Masukan Nomor Hp disini',
-                    )
-                  ]));
-        });
+    return GetBuilder<DetailAddressController>(builder: (controller) {
+      return Padding(
+          padding: AppStyle.paddingAll16,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            AppForm(
+              type: AppFormType.withLabel,
+              controller: controller.addressController,
+              label: 'Alamat',
+              hintText: 'Masukkan alamat disini',
+              textArea: true,
+            ),
+            Gap(12.h),
+            Text('Label Alamat', style: text12BlackRegular),
+            Gap(8.h),
+            Container(
+              height: 44.h,
+              padding: AppStyle.paddingSide12,
+              decoration: BoxDecoration(
+                  borderRadius: AppStyle.borderRadius8All,
+                  border: AppStyle.borderAll),
+              child: DropdownButton(
+                value: controller.selectedLabel,
+                underline: const SizedBox.shrink(),
+                isExpanded: true,
+                style: text12BlackRegular,
+                icon: SvgPicture.asset(
+                  arrowDown,
+                  colorFilter: const ColorFilter.mode(kBlack, BlendMode.srcIn),
+                ),
+                items: controller.labels
+                    .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          style: text12BlackRegular,
+                        )))
+                    .toList(),
+                onChanged: (value) => controller.onChangeLabel(value!),
+              ),
+            ),
+            Gap(12.h),
+            AppForm(
+              type: AppFormType.withLabel,
+              controller: controller.noteController,
+              label: 'Catatan Untuk Kurir (Opsional)',
+              hintText: 'Masukan warna rumah, patokan, dll',
+            ),
+            Gap(12.h),
+            AppForm(
+              type: AppFormType.withLabel,
+              controller: controller.nameController,
+              label: 'Masukan Nama Penerima',
+              hintText: 'Masukan nama penerima disini',
+            ),
+            Gap(12.h),
+            AppForm(
+                type: AppFormType.withLabel,
+                controller: controller.phoneController,
+                label: 'Nomor Hp',
+                hintText: 'Masukan Nomor Hp disini',
+                keyboardType: TextInputType.number,
+                inputFormatters: controller.formaterNumber(),
+                onChanged: (value) {
+                  controller.listenPhoneForm(value);
+                })
+          ]));
+    });
   }
 }

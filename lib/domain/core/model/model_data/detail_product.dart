@@ -75,29 +75,54 @@ class DetailProduct {
 }
 
 class Variants {
+  String? barcode;
+  int? gramature;
   int? id;
   String? image;
-  String? label;
+  bool? isActive;
   String? name;
   int? price;
+  int? productId;
+  int? promo;
+  int? stock;
 
-  Variants({this.id, this.image, this.label, this.name, this.price});
+  Variants(
+      {this.barcode,
+      this.gramature,
+      this.id,
+      this.image,
+      this.isActive,
+      this.name,
+      this.price,
+      this.productId,
+      this.promo,
+      this.stock});
 
   Variants.fromJson(Map<String, dynamic> json) {
+    barcode = json['barcode'];
+    gramature = json['gramature'];
     id = json['id'];
     image = json['image'];
-    label = json['label'];
+    isActive = json['is_active'];
     name = json['name'];
     price = json['price'];
+    productId = json['product_id'];
+    promo = json['promo'];
+    stock = json['stock'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['barcode'] = barcode;
+    data['gramature'] = gramature;
     data['id'] = id;
     data['image'] = image;
-    data['label'] = label;
+    data['is_active'] = isActive;
     data['name'] = name;
     data['price'] = price;
+    data['product_id'] = productId;
+    data['promo'] = promo;
+    data['stock'] = stock;
     return data;
   }
 }

@@ -90,7 +90,7 @@ class HeaderSection extends StatelessWidget {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => controller.toCartProduct(),
                       child: Container(
                         height: 34.hr,
                         width: 34.hr,

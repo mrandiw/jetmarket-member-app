@@ -79,8 +79,12 @@ class LocationController extends GetxController {
   }
 
   void selectLocation() {
-    Get.toNamed(Routes.DETAIL_ADDRESS,
-        arguments: {'label': label, 'address': address});
+    Get.toNamed(Routes.DETAIL_ADDRESS, arguments: {
+      'label': label,
+      'address': address,
+      'lat': latitude,
+      'lng': longitude
+    });
   }
 
   @override

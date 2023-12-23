@@ -1,23 +1,11 @@
 import 'package:get/get.dart';
 
+enum StatusWdType { success, failed }
+
 class DetailWithdrawController extends GetxController {
-  //TODO: Implement DetailWithdrawController
+  var statusWd = StatusWdType.failed;
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
 }

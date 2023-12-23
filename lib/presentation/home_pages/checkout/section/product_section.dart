@@ -1,11 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../domain/core/model/model_data/cart_product.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
+import '../widget/product_item.dart';
 
 class ProductSection extends StatelessWidget {
   const ProductSection({super.key});
@@ -14,71 +20,46 @@ class ProductSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: AppStyle.paddingSide16,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Gap(12.h),
-          Text('Produk Yang Dibeli', style: text14BlackMedium),
-          Gap(12.h),
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: AppStyle.borderRadius8All,
-                child: Image.network(
-                  'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                  height: 64.h,
-                  width: 77.w,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Gap(8.h),
-              Expanded(
-                child: Column(
+      child: GetBuilder<CheckoutController>(builder: (controller) {
+        return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, index) {
+              var data = controller.productCart[index];
+              if (index > 0 &&
+                  data.sellerId == controller.productCart[index - 1].sellerId) {
+                return ProductItem(
+                    data: data,
+                    increment: () => controller.incrementProduct(
+                        index, data.id ?? 0, data.qty ?? 0),
+                    decrement: () => controller.decrementProduct(
+                        index, data.id ?? 0, data.qty ?? 0));
+              } else {
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Pensil Warna 2in1 12 Pcs', style: text12BlackRegular),
-                    Text('43000'.toIdrFormat, style: text10lineThroughRegular),
-                    Gap(6.h),
-                    Text('13000'.toIdrFormat, style: text12PrimaryMedium),
+                    Gap(index != 0 ? 16.h : 0),
+                    Text(data.sellerName ?? '', style: text12BlackRegular),
+                    Gap(8.h),
+                    Divider(
+                      color: kBorder,
+                      thickness: 1,
+                      height: 0,
+                    ),
+                    Gap(8.h),
+                    ProductItem(
+                        data: data,
+                        increment: () => controller.incrementProduct(
+                            index, data.id ?? 0, data.qty ?? 0),
+                        decrement: () => controller.decrementProduct(
+                            index, data.id ?? 0, data.qty ?? 0)),
                   ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: AppStyle.borderRadius6All,
-                      color: kWhite,
-                      border: AppStyle.borderAll),
-                  child: const Center(
-                      child: Icon(
-                    Icons.remove,
-                    color: kSofterGrey,
-                  )),
-                ),
-              ),
-              Gap(12.w),
-              Text("1", style: text12BlackRegular),
-              Gap(12.w),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: AppStyle.borderRadius6All,
-                      color: kWhite,
-                      border: AppStyle.borderAll),
-                  child: const Center(
-                      child: Icon(
-                    Icons.add,
-                    color: kSofterGrey,
-                  )),
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
+                );
+              }
+            },
+            separatorBuilder: (_, i) => Gap(8.h),
+            itemCount: controller.productCart.length);
+      }),
     );
   }
 }

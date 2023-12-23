@@ -139,6 +139,11 @@ TextStyle get text18BlackSemiBold => GoogleFonts.poppins(
       fontWeight: FontWeight.w600,
       color: kBlack,
     );
+TextStyle get text18PrimaryBold => GoogleFonts.poppins(
+      fontSize: 17.wr,
+      fontWeight: FontWeight.w700,
+      color: kPrimaryColor,
+    );
 TextStyle get text12HintForm => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w400,

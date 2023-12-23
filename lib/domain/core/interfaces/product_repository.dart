@@ -7,6 +7,8 @@ import '../model/model_data/banner.dart';
 import '../model/model_data/category_product.dart';
 import '../model/model_data/detail_product.dart';
 import '../model/model_data/product.dart';
+import '../model/model_data/tutorial_payment_va_model.dart';
+import '../model/model_data/vouchers.dart';
 import '../model/params/product/product_seller_param.dart';
 
 abstract class ProductRepository {
@@ -18,4 +20,8 @@ abstract class ProductRepository {
   Future<DataState<List<Product>>> getProductBySeller(ProductSellerParam param);
   Future<DataState<List<ProductReviewCustomer>>> getProductReview(int id);
   Future<DataState<DetailShop>> getDetailShop(int id);
+  Future<TutorialPaymentVaModel> fetchDataFromJsonFile(String param);
+  Future<DataState<List<Vouchers>>> getVouchers(
+      {required int page, required int size});
+  Future<DataState<Vouchers>> claimVoucher({required String code});
 }

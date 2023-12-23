@@ -172,8 +172,6 @@ class FormSection extends StatelessWidget {
                         child: AppForm(
                           type: AppFormType.withLabel,
                           controller: controller.referralController,
-                          // focusNode: controller.focusNodeReferral,
-
                           label: 'Kode Referal',
                           hintText: 'Isi kode referal disini',
                         ),

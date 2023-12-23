@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -71,21 +73,21 @@ class DetailPaymentRegisterController extends GetxController
     if (response.status == StatusResponse.success) {
       paymentCustomer = response.result;
       update();
-      if (paymentCustomer?.status == "SUCCEEDED") {
+      if (response.result?.status == "SUCCEEDED") {
         await AppPreference().clearOnSuccessPayment();
         await Future.delayed(1.seconds, () {
           Get.offAllNamed(Routes.MAIN_PAGES);
         });
-      } else if (paymentCustomer?.status == 'REQUIRED_ACTION') {
-        if (paymentCustomer?.channel?.type == 'EWALLET') {
+      } else if (response.result?.status == 'REQUIRES_ACTION') {
+        if (response.result?.channel?.type == 'EWALLET') {
           methodeType = PaymentMethodeType.wallet;
-        } else if (paymentCustomer?.channel?.type == 'OTC') {
-          getTutorial(paymentCustomer?.channel?.code ?? '');
+        } else if (response.result?.channel?.type == 'OTC') {
+          getTutorial(response.result?.channel?.code ?? '');
           methodeType = PaymentMethodeType.retail;
-        } else if (paymentCustomer?.channel?.type == 'QR_CODE') {
+        } else if (response.result?.channel?.type == 'QR_CODE') {
           methodeType = PaymentMethodeType.qris;
         } else {
-          String? lowerCaseCode = paymentCustomer?.channel?.code?.toLowerCase();
+          String? lowerCaseCode = response.result?.channel?.code?.toLowerCase();
           getTutorial(lowerCaseCode ?? '');
           methodeType = PaymentMethodeType.va;
         }
@@ -203,9 +205,28 @@ class DetailPaymentRegisterController extends GetxController
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
+  Future<bool> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) async {
+    if (message.notification != null) {
+      log(message.notification?.body ?? 'o');
+    }
+  }
+
   @override
   void onInit() {
     // setScreen();
+    setupInteractedMessage();
     startTimer();
     setArgument();
     // getPaymentCustomerOnReister();

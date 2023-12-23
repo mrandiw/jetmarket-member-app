@@ -40,7 +40,7 @@ class FooterSection extends StatelessWidget {
             )),
             AppButton.primary(
               text: 'Beli',
-              onPressed: controller.addForBuy.isNotEmpty
+              onPressed: controller.selectedId.isNotEmpty
                   ? () => controller.buyProduct()
                   : null,
             ),

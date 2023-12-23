@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
 import 'controllers/add_address.controller.dart';
 import 'section/app_bar_section.dart';
@@ -12,6 +13,7 @@ class AddAddressScreen extends GetView<AddAddressController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: kWhite,
         appBar: appBarAddAddress,
         body: ListView(
           children: const [HeaderSection(), ListAddress()],

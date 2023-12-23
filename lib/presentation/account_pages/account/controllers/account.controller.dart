@@ -6,6 +6,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 
+import '../../../../domain/core/model/model_data/user_profile.dart';
 import '../../../../utils/network/action_status.dart';
 
 class AccountController extends GetxController {
@@ -13,7 +14,15 @@ class AccountController extends GetxController {
   AccountController(this._authRepository);
 
   var actionStatus = ActionStatus.initalize.obs;
-  UserModel? userData;
+  UserProfile? userData;
+
+  Future<void> getProfile(int id) async {
+    final response = await _authRepository.getUserProfile(id);
+    if (response.status == StatusResponse.success) {
+      userData = response.result;
+      update();
+    }
+  }
 
   Future<void> logout() async {
     Get.back();
@@ -40,7 +49,8 @@ class AccountController extends GetxController {
   }
 
   setDataUser() {
-    userData = AppPreference().getUserData();
+    UserModel? userData = AppPreference().getUserData();
+    getProfile(userData?.user?.id ?? 0);
   }
 
   @override

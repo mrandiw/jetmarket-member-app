@@ -89,24 +89,6 @@ class RegisterController extends GetxController {
     }
   }
 
-  // Future<void> nextToSendOtp() async {
-  //   actionStatus = ActionStatus.loading;
-  //   update();
-
-  //   final response =
-  //       await _authRepository.sendRegisterOtp(phoneController.text);
-  //   if (response.status == StatusResponse.success) {
-  //     actionStatus = ActionStatus.success;
-  //     AppPreference().referalSuccess();
-  //     update();
-  //     Get.toNamed(Routes.REGISTER_OTP, arguments: phoneController.text);
-  //   } else {
-  //     actionStatus = ActionStatus.failed;
-  //     update();
-  //     AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
-  //   }
-  // }
-
   listenNameForm(String value) {
     if (value.isNotEmpty) {
       isNameValidated(true);
@@ -192,7 +174,7 @@ class RegisterController extends GetxController {
       actionClaimStatus = ActionStatus.success;
       update();
     } else {
-      referralMessage.value = response.result ?? '';
+      referralMessage.value = 'Kode tidak ditemukan';
       isKodeReveralError(true);
       actionClaimStatus = ActionStatus.failed;
       update();

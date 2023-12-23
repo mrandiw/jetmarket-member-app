@@ -26,6 +26,7 @@ class User {
   int? id;
   String? name;
   String? gender;
+  String? birthDate;
   String? phone;
   String? referral;
   String? email;
@@ -37,6 +38,7 @@ class User {
       {this.id,
       this.name,
       this.gender,
+      this.birthDate,
       this.phone,
       this.referral,
       this.email,
@@ -48,6 +50,7 @@ class User {
     id = json['id'];
     name = json['name'];
     gender = json['gender'];
+    birthDate = json['birth_date'];
     phone = json['phone'];
     referral = json['referral'];
     email = json['email'];
@@ -61,6 +64,7 @@ class User {
     data['id'] = id;
     data['name'] = name;
     data['gender'] = gender;
+    data['birth_date'] = birthDate;
     data['phone'] = phone;
     data['referral'] = referral;
     data['email'] = email;

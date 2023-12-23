@@ -13,6 +13,7 @@ import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/card/product_item.dart';
+import '../../../../components/infiniti_page/infiniti_page.dart';
 import '../../../../domain/core/model/model_data/product.dart';
 
 class ProductSection extends StatelessWidget {
@@ -71,29 +72,11 @@ class ProductSection extends StatelessWidget {
               itemBuilder: (context, item, index) => ProductItem(
                   item: item,
                   onTap: () => controller.toDetailProduct(item.id ?? 0)),
-              newPageProgressIndicatorBuilder: (_) {
-                return SizedBox(
-                  height: 120.h,
-                  child: Center(
-                    child: CupertinoActivityIndicator(
-                      radius: 12.r,
-                    ),
-                  ),
-                );
-              },
-              firstPageProgressIndicatorBuilder: (_) {
-                return Center(
-                  child: CupertinoActivityIndicator(
-                    radius: 12.r,
-                  ),
-                );
-              },
-              noItemsFoundIndicatorBuilder: (_) {
-                return Center(
-                  child: Text("Oops! Produk belum tersedia",
-                      style: text12BlackRegular),
-                );
-              }),
+              newPageProgressIndicatorBuilder: InfinitiPage.progress,
+              firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+              noItemsFoundIndicatorBuilder: (_) =>
+                  InfinitiPage.empty(_, 'Produk'),
+              firstPageErrorIndicatorBuilder: InfinitiPage.error),
         ),
       ),
       SliverToBoxAdapter(

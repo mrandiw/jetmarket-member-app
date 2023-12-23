@@ -58,3 +58,5 @@ const wdWaiting = 'assets/svg/wd_waiting.svg';
 const wdCancel = 'assets/svg/wd_cancel.svg';
 const doneLine = 'assets/svg/done_line.svg';
 const clockLine = 'assets/svg/clock_line.svg';
+const dbSuccess = 'assets/svg/db_success.svg';
+const dbError = 'assets/svg/db_error.svg';

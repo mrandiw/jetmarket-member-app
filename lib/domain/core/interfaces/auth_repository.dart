@@ -5,10 +5,12 @@ import '../model/model_data/payment_customer_model.dart';
 import '../model/model_data/payment_methode_model.dart';
 import '../model/model_data/tutorial_payment_va_model.dart';
 import '../model/model_data/user_model.dart';
+import '../model/model_data/user_profile.dart';
 import '../model/params/auth/forgot_param.dart';
 import '../model/params/auth/forgot_verify_otp_param.dart';
 import '../model/params/auth/login_param.dart';
 import '../model/params/auth/payment_param.dart';
+import '../model/params/auth/profile_body.dart';
 import '../model/params/auth/register_virify_otp_param.dart';
 
 abstract class AuthRepository {
@@ -28,4 +30,9 @@ abstract class AuthRepository {
   Future<DataState<String>> claimReferral(String param);
   Future<DataState<bool>> logout();
   Future<DataState<String>> deleteAccount();
+  Future<DataState<UserProfile>> getUserProfile(int id);
+  Future<DataState<String>> uploadFile(
+      {required String name, required String image});
+  Future<DataState<UserProfile>> editUserProfile(
+      {required int id, required ProfileBody body});
 }
