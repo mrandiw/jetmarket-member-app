@@ -17,7 +17,7 @@ class OrderController extends GetxController
   final OrderRepository _orderRepository;
   OrderController(this._orderRepository);
   late TabController tabController;
-  static const _pageSize = 10;
+  static const _pageSize = 1;
 
   PagingController<int, OrderProductModel> pagingController =
       PagingController(firstPageKey: 1);
