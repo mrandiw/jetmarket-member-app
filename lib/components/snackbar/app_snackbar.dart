@@ -32,7 +32,7 @@ class AppSnackbar {
       padding:
           type == SnackType.dark ? AppStyle.paddingAll8 : AppStyle.paddingAll16,
       margin: type == SnackType.dark
-          ? EdgeInsets.symmetric(vertical: 82.h, horizontal: 76.w)
+          ? EdgeInsets.symmetric(vertical: 82.h, horizontal: 46.w)
           : EdgeInsets.all(16.r),
       borderRadius: 8.r,
       snackPosition: onTop ? SnackPosition.TOP : SnackPosition.BOTTOM,

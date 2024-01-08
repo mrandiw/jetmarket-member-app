@@ -56,9 +56,12 @@ class EditAddressController extends GetxController {
   }
 
   void choiceAddress() {
+    print(pagingController.itemList![selectedAddress].id);
+    AppPreference().saveAddress(pagingController.itemList![selectedAddress]);
     Get.back();
     final controller = Get.find<CheckoutController>();
-    controller.selectAddress(pagingController.itemList![selectedAddress]);
+    controller.setAddress();
+    // controller.selectAddress(pagingController.itemList![selectedAddress]);
   }
 
   void editAddress(AddressModel data) {

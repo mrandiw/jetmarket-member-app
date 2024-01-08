@@ -9,8 +9,6 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/action_status.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
-import 'package:jetmarket/utils/style/app_style.dart';
-
 import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/detail_product.dart';

@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../domain/core/interfaces/auth_repository.dart';
+import '../../../../domain/core/interfaces/payment_repository.dart';
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../../utils/app_preference/app_preferences.dart';
@@ -19,10 +19,10 @@ enum PaymentMethodeType { va, retail, qris, wallet }
 
 class DetailPaymentRegisterController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  final AuthRepository _authRepository;
-  int lenghTabs = 0;
+  final PaymentRepository _paymentRepository;
 
-  DetailPaymentRegisterController(this._authRepository);
+  DetailPaymentRegisterController(this._paymentRepository);
+  int lenghTabs = 0;
   TextEditingController numberController = TextEditingController();
   var screenStatus = (ScreenStatus.initalize).obs;
   var methodeType = PaymentMethodeType.va;
@@ -69,7 +69,7 @@ class DetailPaymentRegisterController extends GetxController
 
   Future<void> getPaymentCustomer(int id) async {
     screenStatus(ScreenStatus.loading);
-    final response = await _authRepository.getPaymentCustomer(id);
+    final response = await _paymentRepository.getPaymentCustomer(id);
     if (response.status == StatusResponse.success) {
       paymentCustomer = response.result;
       update();
@@ -104,7 +104,7 @@ class DetailPaymentRegisterController extends GetxController
   }
 
   getTutorial(String path) async {
-    final response = await _authRepository.fetchDataFromJsonFile(path);
+    final response = await _paymentRepository.fetchDataFromJsonFile(path);
     // ignore: unnecessary_null_comparison
     if (response != null) {
       tutorialPayment = response;

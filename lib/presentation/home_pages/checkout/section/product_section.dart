@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -7,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
-
-import '../../../../domain/core/model/model_data/cart_product.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
+import '../widget/delivery_item.dart';
 import '../widget/product_item.dart';
 
 class ProductSection extends StatelessWidget {
@@ -22,44 +19,98 @@ class ProductSection extends StatelessWidget {
       padding: AppStyle.paddingSide16,
       child: GetBuilder<CheckoutController>(builder: (controller) {
         return ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (_, index) {
-              var data = controller.productCart[index];
-              if (index > 0 &&
-                  data.sellerId == controller.productCart[index - 1].sellerId) {
-                return ProductItem(
-                    data: data,
-                    increment: () => controller.incrementProduct(
-                        index, data.id ?? 0, data.qty ?? 0),
-                    decrement: () => controller.decrementProduct(
-                        index, data.id ?? 0, data.qty ?? 0));
-              } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Gap(index != 0 ? 16.h : 0),
-                    Text(data.sellerName ?? '', style: text12BlackRegular),
-                    Gap(8.h),
-                    Divider(
-                      color: kBorder,
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    Gap(8.h),
-                    ProductItem(
-                        data: data,
-                        increment: () => controller.incrementProduct(
-                            index, data.id ?? 0, data.qty ?? 0),
-                        decrement: () => controller.decrementProduct(
-                            index, data.id ?? 0, data.qty ?? 0)),
-                  ],
-                );
-              }
-            },
-            separatorBuilder: (_, i) => Gap(8.h),
-            itemCount: controller.productCart.length);
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) {
+            var data = controller.productCart[index];
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: AppStyle.paddingBottom8,
+                  child:
+                      Text(data.seller?.name ?? '', style: text12BlackRegular),
+                ),
+                Divider(
+                  color: kBorder,
+                  thickness: 1,
+                  height: 0,
+                ),
+                Column(
+                  children: List.generate(
+                    data.products?.length ?? 0,
+                    (indexProduct) {
+                      int indexDelivery = controller.listDelivery.isNotEmpty
+                          ? controller.listDelivery
+                              .indexWhere((e) => e.sellerId == data.seller?.id)
+                          : -1;
+
+                      return Column(
+                        children: [
+                          ProductItem(
+                            data: data.products?[indexProduct],
+                          ),
+                          if (indexProduct == data.products!.length - 1 &&
+                              controller.listDelivery.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Column(
+                                children: [
+                                  DeliveryItem(
+                                      data: controller.listDelivery,
+                                      sellerId: data.seller?.id ?? 0,
+                                      isExpandedTile:
+                                          controller.isExpandedTile[index],
+                                      onExpansionChanged: (value) =>
+                                          controller.onExpandTile(index)),
+                                  if (indexDelivery != -1 &&
+                                      indexDelivery <
+                                          controller.selectedDelivery.length)
+                                    _selectedDelivery(
+                                        controller, indexDelivery),
+                                ],
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
+          separatorBuilder: (_, __) => Gap(8.h),
+          itemCount: controller.productCart.length,
+        );
       }),
+    );
+  }
+
+  Padding _selectedDelivery(CheckoutController controller, int indexDelivery) {
+    return Padding(
+      padding: AppStyle.paddingBottom16,
+      child: Card(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: AppStyle.borderRadius8All,
+        ),
+        color: kBorder,
+        elevation: 0,
+        child: ListTile(
+          contentPadding: AppStyle.paddingSide12,
+          visualDensity: VisualDensity.compact,
+          dense: true,
+          title: Text(
+            '${controller.selectedDelivery[indexDelivery].packets?.name ?? ''} ${controller.selectedDelivery[indexDelivery].packets?.rate.toString().toIdrFormat ?? ''}',
+            style: text12BlackRegular,
+          ),
+          subtitle: Text(
+            controller.selectedDelivery[indexDelivery].packets?.duration ?? '',
+            style: text12HintRegular,
+          ),
+        ),
+      ),
     );
   }
 }

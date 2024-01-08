@@ -29,33 +29,11 @@ class FormSection extends StatelessWidget {
               textArea: true,
             ),
             Gap(12.h),
-            Text('Label Alamat', style: text12BlackRegular),
-            Gap(8.h),
-            Container(
-              height: 44.h,
-              padding: AppStyle.paddingSide12,
-              decoration: BoxDecoration(
-                  borderRadius: AppStyle.borderRadius8All,
-                  border: AppStyle.borderAll),
-              child: DropdownButton(
-                value: controller.selectedLabel,
-                underline: const SizedBox.shrink(),
-                isExpanded: true,
-                style: text12BlackRegular,
-                icon: SvgPicture.asset(
-                  arrowDown,
-                  colorFilter: const ColorFilter.mode(kBlack, BlendMode.srcIn),
-                ),
-                items: controller.labels
-                    .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(
-                          e,
-                          style: text12BlackRegular,
-                        )))
-                    .toList(),
-                onChanged: (value) => controller.onChangeLabel(value!),
-              ),
+            AppForm(
+              type: AppFormType.withLabel,
+              controller: controller.labelController,
+              label: 'Label Alamat',
+              hintText: 'Masukan label alamat',
             ),
             Gap(12.h),
             AppForm(
@@ -81,7 +59,14 @@ class FormSection extends StatelessWidget {
                 inputFormatters: controller.formaterNumber(),
                 onChanged: (value) {
                   controller.listenPhoneForm(value);
-                })
+                }),
+            Gap(12.h),
+            AppForm(
+                type: AppFormType.withLabel,
+                controller: controller.kodePosController,
+                label: 'Kode Pos',
+                hintText: 'Masukan kode pos disini',
+                keyboardType: TextInputType.number)
           ]));
     });
   }

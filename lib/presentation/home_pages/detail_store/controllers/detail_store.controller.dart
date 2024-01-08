@@ -200,4 +200,10 @@ class DetailStoreController extends GetxController
     });
     super.onInit();
   }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 }

@@ -7,13 +7,12 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 
 AppBar get appBarCaraBayar {
   return AppBar(
-    backgroundColor: kWhite,
-    elevation: 0.3,
-    automaticallyImplyLeading: false,
-    leading: IconButton(
-      onPressed: () => Get.back(),
-      icon: SvgPicture.asset(arrowForward),
-    ),
-    title: Text('Cara Bayar', style: text16BlackSemiBold),
-  );
+      backgroundColor: kWhite,
+      elevation: 0.3,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        onPressed: () => Get.back(),
+        icon: SvgPicture.asset(arrowForward),
+      ),
+      title: Text('Cara Bayar', style: text16BlackSemiBold));
 }

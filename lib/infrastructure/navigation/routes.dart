@@ -17,11 +17,13 @@ class Routes {
   static const CHECKOUT = '/checkout';
   static const CHECKOUT_PAYMENT = '/checkout-payment';
   static const CHECKOUT_PAYMENT_RETAIL = '/checkout-payment-retail';
+  static const CHOICE_DELIVERY = '/choice-delivery';
   static const CHOICE_PAYMENT = '/choice-payment';
   static const DETAIL_ADDRESS = '/detail-address';
   static const DETAIL_CHECKOUT = '/detail-checkout';
   static const DETAIL_MENABUNG = '/detail-menabung';
   static const DETAIL_ORDER = '/detail-order';
+  static const DETAIL_PAYMENT_CUSTOMER = '/detail-payment-customer';
   static const DETAIL_PAYMENT_REGISTER = '/detail-payment-register';
   static const DETAIL_PENGAJUAN_PINJAMAN = '/detail-pengajuan-pinjaman';
   static const DETAIL_PRODUCT = '/detail-product';
@@ -38,17 +40,22 @@ class Routes {
   static const KOPERASI = '/koperasi';
   static const LIST_ADDRESS = '/list-address';
   static const LIST_ORDER = '/list-order';
+  static const LIST_ORDER_BY_TRANSACTIONS = '/list-order-by-transactions';
   static const LOCATION = '/location';
   static const LOGIN = '/login';
   static const MAIN_PAGES = '/main-pages';
   static const NOTIFICATION = '/notification';
   static const ONBOARDING = '/onboarding';
   static const ORDER = '/order';
+  static const ORDER_LIST_TRANSACTION = '/order-list-transaction';
   static const OTP = '/otp';
+  static const PAYLETTER_SUCCESS = '/payletter-success';
+  static const PAYMENT_PAYLETTER = '/payment-payletter';
   static const PAYMENT_REGISTER = '/payment-register';
   static const PAYMENT_STATUS = '/payment-status';
   static const PAYMENT_SUCCESS_RETAIL = '/payment-success-retail';
   static const PAYMENT_TABUNGAN_SUCCESS = '/payment-tabungan-success';
+  static const PAYMENT_TOPUP_SALDO = '/payment-topup-saldo';
   static const PENGAJUAN_PROSES_PINJAMAN = '/pengajuan-proses-pinjaman';
   static const PINJAMAN = '/pinjaman';
   static const PRODUCT_BYCATEGORY = '/product-bycategory';
@@ -59,6 +66,8 @@ class Routes {
   static const RESET_SUCESS = '/reset-sucess';
   static const REVIEW_ORDER = '/review-order';
   static const REVIEW_PRODUCT = '/review-product';
+  static const RINCIAN_REFUND = '/rincian-refund';
+  static const SET_REFUND = '/set-refund';
   static const SPLASH_SCREEN = '/splash-screen';
   static const SUCCESS_CHANGE_PASSWORD = '/success-change-password';
   static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
@@ -71,5 +80,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const PAYMENT_TOPUP_SALDO = '/payment-topup-saldo';
+  static const CHOICE_DELIVERY_REFUND = '/choice-delivery-refund';
 }

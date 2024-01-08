@@ -18,7 +18,8 @@ class ProductReviewCustomer {
     id = json['id'];
     customer =
         json['customer'] != null ? Customer.fromJson(json['customer']) : null;
-    rating = json['rating'];
+
+    rating = double.parse("${json['rating']}");
     image = json['image'];
     text = json['text'];
     createdAt = json['created_at'];

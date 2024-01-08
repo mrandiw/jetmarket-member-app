@@ -37,7 +37,7 @@ class DetailProduct {
     if (json['rating'] == 0) {
       rating = 0.0;
     } else {
-      rating = json['rating'];
+      rating = double.parse("${json['rating']}");
     }
     description = json['description'];
     if (json['variants'] != null) {
@@ -159,7 +159,7 @@ class Review {
   Review({this.averrage, this.total});
 
   Review.fromJson(Map<String, dynamic> json) {
-    averrage = json['averrage'];
+    averrage = double.parse("${json['averrage']}");
     total = json['total'];
   }
 

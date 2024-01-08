@@ -30,7 +30,7 @@ class AppBarDetailOrder extends StatelessWidget {
       elevation: 0.3,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       automaticallyImplyLeading: false,
-      expandedHeight: 222,
+      expandedHeight: 210,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [
@@ -85,14 +85,14 @@ class AppBarDetailOrder extends StatelessWidget {
           child: TabBar(
             isScrollable: true,
             controller: tabController,
-            labelStyle: text14PrimarySemiBold,
+            labelStyle: text12PrimarySemiBold,
             indicatorColor: kSecondaryColor,
             labelColor: kSecondaryColor,
             unselectedLabelColor: kSofterGrey,
             indicatorSize: TabBarIndicatorSize.label,
-            tabs: controller.tabs.map((e) {
+            tabs: controller.statusTabs.map((e) {
               return Tab(
-                text: e,
+                text: e['name'],
               );
             }).toList(),
           ),

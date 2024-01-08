@@ -35,7 +35,20 @@ class Endpoint {
 
   // Voucher
   static String voucher = 'voucher/customer';
-  static String claimVoucher = '/voucher/customer/claim';
+  static String claimVoucher = 'voucher/customer/claim';
+
+  // Delivery
+  static String checkOngkir = 'delivery/customer/check_ongkir';
+  static String deliverySetRefund = 'delivery/customer/set_refund';
+
+  // Order Customer
+  static String orderCustomer = 'order/customer';
+  static String orderWaitingCustomer = 'order/waiting_payment/customer';
+  static String payletterPayment = 'payment/paylater';
+  static String orderWaitingProductCustomer =
+      'order/waiting_payment/product/customer';
+  static String orderRefundStatus = 'order/customer/refund_status';
+  static String orderRefundTracking = 'order/customer/refund/tracking';
 
   // Notification
   static String notification = 'notification/user';

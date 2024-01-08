@@ -33,20 +33,10 @@ class CartScreen extends GetView<CartController> {
                 builderDelegate: PagedChildBuilderDelegate<CartProduct>(
                   itemBuilder: (context, item, index) {
                     var data = controller.productCart[index];
-                    if (index > 0 &&
-                        item.sellerId ==
-                            controller.pagingController.itemList?[index - 1]
-                                .sellerId) {
-                      return CardProduct(
-                        data: data,
-                        index: index,
-                      );
-                    } else {
-                      return CartProductBySeller(
-                        data: data,
-                        index: index,
-                      );
-                    }
+                    return CardProduct(
+                      data: data,
+                      index: index,
+                    );
                   },
                   newPageProgressIndicatorBuilder: InfinitiPage.progress,
                   firstPageProgressIndicatorBuilder: InfinitiPage.progress,

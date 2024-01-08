@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/vouchers.dart';
 import 'package:jetmarket/presentation/home_pages/voucher/controllers/voucher.controller.dart';
-import 'package:jetmarket/utils/extension/currency.dart';
-
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/extension/format_price.dart';

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -15,12 +17,13 @@ class CartController extends GetxController {
   CartController(this._cartRepository);
   static const _pageSize = 10;
   late PagingController<int, CartProduct> pagingController;
-  List<int> selectedId = [];
-  List<CartProduct> selectedProduct = [];
+  // List<int> selectedId = [];
+  // List<CartProduct> selectedProduct = [];
   List<CartProduct> productCart = [];
+  List<CartProduct> selectProductCart = [];
 
-  List<TextEditingController> notesController = [];
-  List<bool> isWriteNote = [];
+  List<List<TextEditingController>> notesController = [];
+  List<List<bool>> isWriteNote = [];
   bool selectAll = false;
   int totalPrice = 0;
 
@@ -36,24 +39,37 @@ class CartController extends GetxController {
         pagingController.appendLastPage(response.result ?? []);
         productCart = pagingController.itemList ?? [];
         update();
+        int productLenght = 0;
 
-        setTextEditingController(pagingController.itemList?.length ?? 0);
+        for (CartProduct item in productCart) {
+          productLenght += item.products?.length ?? 0;
+        }
+        setTextEditingController(
+            pagingController.itemList?.length ?? 0, productLenght);
       } else {
         final nextPageKey = pageKey + 1;
         pagingController.appendPage(response.result ?? [], nextPageKey);
         productCart = pagingController.itemList ?? [];
         update();
 
-        setTextEditingController(pagingController.itemList?.length ?? 0);
+        int productLenght = 0;
+
+        for (CartProduct item in productCart) {
+          productLenght += item.products?.length ?? 0;
+        }
+        setTextEditingController(
+            pagingController.itemList?.length ?? 0, productLenght);
       }
     } catch (error) {
       pagingController.error = error;
     }
   }
 
-  setTextEditingController(int lenght) {
-    notesController = List.generate(lenght, (index) => TextEditingController());
-    isWriteNote = List.generate(lenght, (index) => false);
+  setTextEditingController(int lenghtSeller, int lenght) {
+    notesController = List.generate(lenghtSeller,
+        (index) => List.generate(lenght, (i) => TextEditingController()));
+    isWriteNote = List.generate(
+        lenghtSeller, (index) => List.generate(lenght, (i) => false));
   }
 
   Future<bool> updateQty(int id, int qty) async {
@@ -93,95 +109,94 @@ class CartController extends GetxController {
     selectAll = value;
     totalPrice = 0;
     if (value == false) {
-      selectedId.clear();
-      update();
+      selectProductCart.clear();
     } else {
-      selectedId.clear();
-      List<int> idProduct =
-          productCart.map((product) => product.id ?? 0).toList();
-      selectedId.assignAll(idProduct);
-      for (var item in productCart) {
-        totalPrice += (item.promo ?? 0) * (item.qty ?? 0);
-      }
-
-      update();
-    }
-  }
-
-  void selectProduct(bool value, CartProduct data) {
-    selectAll = false;
-    if (selectedId.any((e) => e == data.id)) {
-      selectedId.removeWhere((e) => e == data.id);
-    } else {
-      selectedId.add(data.id ?? 0);
-    }
-    totalPrice = 0;
-    for (var item in productCart) {
-      if (selectedId.contains(item.id)) {
-        totalPrice += (item.promo ?? 0) * (item.qty ?? 0);
-      }
+      selectProductCart.clear();
+      selectProductCart.assignAll(productCart);
+      updateTotalPrice();
     }
     update();
+  }
+
+  void selectProduct(bool value, CartProduct data, int cartId) {
+    selectAll = false;
+
+    bool sellerIdExists =
+        selectProductCart.any((e) => e.seller?.id == data.seller?.id);
+    bool cartIdExists = selectProductCart
+        .any((element) => element.products!.any((p) => p.cartId == cartId));
+
+    if (!sellerIdExists) {
+      selectProductCart.add(data);
+    } else {
+      if (cartIdExists) {
+        for (CartProduct item in selectProductCart) {
+          if (item.products!.any((p) => p.cartId == cartId)) {
+            item.products!.removeWhere((p) => p.cartId == cartId);
+            break;
+          }
+        }
+      } else {
+        CartProduct existingSeller = selectProductCart
+            .firstWhere((e) => e.seller?.id == data.seller?.id);
+        existingSeller.products!.add(data.products!.first);
+      }
+    }
+
+    totalPrice = 0;
+    update();
+    updateTotalPrice();
+  }
+
+  bool isSelectedCartId(int id) {
+    return selectProductCart.any((cartProduct) =>
+        cartProduct.products!.any((product) => product.cartId == id));
+  }
+
+  bool isSelectedAllCartIdBySeller(CartProduct data) {
+    int sellerId = data.seller?.id ?? 0;
+    int productLength = data.products?.length ?? 0;
+
+    return selectProductCart.any((e) => e.seller?.id == sellerId) &&
+        selectProductCart
+            .where((p) => p.seller?.id == sellerId)
+            .every((p) => p.products?.length == productLength);
   }
 
   void selectProductBySeller(bool value, CartProduct data) {
     selectAll = false;
-    final selectedItem =
-        productCart.where((e) => e.sellerId == data.sellerId).toList();
-    List<int> grupId = [];
-    for (CartProduct item in selectedItem) {
-      if (selectedId.any((e) => e == item.id)) {
-        grupId.add(item.sellerId ?? 0);
-      }
+    if (selectProductCart
+        .any((element) => element.seller?.id == data.seller?.id)) {
+      selectProductCart.removeWhere((e) => e.seller?.id == data.seller?.id);
+    } else {
+      selectProductCart.add(data);
     }
-    for (var item in selectedItem) {
-      if (selectedId.any((e) => e == item.id) &&
-          productCart.where((e) => e.sellerId == data.sellerId).length !=
-              grupId.length) {
-        selectedId.removeWhere((e) => e == item.id);
-        selectedId.add(item.id ?? 0);
-      } else if (selectedId.any((e) => e == item.id) &&
-          productCart.where((e) => e.sellerId == data.sellerId).length ==
-              grupId.length) {
-        selectedId.removeWhere((e) => e == item.id);
-      } else {
-        selectedId.add(item.id ?? 0);
-      }
-    }
-
     totalPrice = 0;
-    for (var item in productCart) {
-      if (selectedId.contains(item.id)) {
-        totalPrice += (item.promo ?? 0) * (item.qty ?? 0);
-      }
-    }
+    updateTotalPrice();
 
     update();
   }
 
-  bool selectAllBySeller(CartProduct data) {
-    List<int> grupId = [];
-    final selectedItem =
-        productCart.where((e) => e.sellerId == data.sellerId).toList();
-    for (CartProduct item in selectedItem) {
-      if (selectedId.any((e) => e == item.id)) {
-        grupId.add(item.sellerId ?? 0);
+  int countProductsBySellerId(int sellerId, CartProduct data) {
+    List<Products> products = data.products ?? [];
+    int count = 0;
+    for (Products product in products) {
+      // Selama sellerId pada data produk sama dengan sellerId yang diinginkan, tambahkan ke hitungan
+      if (data.seller?.id == sellerId) {
+        count++;
       }
     }
-    if (productCart.where((e) => e.sellerId == data.sellerId).length ==
-        grupId.length) {
-      return true;
-    } else {
-      return false;
-    }
+    return count;
   }
 
-  void deleteProduct(CartProduct value, int index, int id) async {
+  void deleteProduct(int index, int id) async {
     bool isDelete = await deleteBulkProduct([id]);
     if (isDelete) {
       pagingController.refresh();
-      if (selectedId.any((e) => e == id)) {
-        selectedId.removeWhere((e) => e == id);
+      if (selectProductCart
+          .any((e) => e.products!.any((p) => p.cartId == id))) {
+        selectProductCart
+            .removeWhere((e) => e.products!.any((p) => p.cartId == id));
         await updateTotalPrice();
       } else {
         update();
@@ -192,39 +207,56 @@ class CartController extends GetxController {
   }
 
   void deleteAllProduct() async {
-    if (selectedId.isNotEmpty) {
-      List<int> idsToDelete = selectedId.map((id) => id).toList();
+    if (selectProductCart.isNotEmpty) {
+      List<int> idsToDelete = [];
+      for (CartProduct item in selectProductCart) {
+        for (Products data in item.products ?? []) {
+          idsToDelete.add(data.cartId ?? 0);
+        }
+      }
       bool isDelete = await deleteBulkProduct(idsToDelete);
       if (isDelete) {
         pagingController.refresh();
-        selectedId.clear();
+        selectProductCart.clear();
         totalPrice = 0;
         update();
       }
     }
   }
 
-  void incrementProduct(int index, int id, int qty) async {
+  void incrementProduct(int id, int qty) async {
     bool isUpdateQty = await updateQty(id, qty + 1);
     if (isUpdateQty) {
-      productCart.where((e) => e.id == id).first.qty = qty + 1;
-
+      for (CartProduct item in productCart) {
+        var product = item.products
+            ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
+        if (product != null) {
+          product.qty = qty + 1;
+        }
+      }
       update();
       updateTotalPrice();
     }
   }
 
-  void decrementProduct(int index, int id, int qty) async {
+  void decrementProduct(int id, int qty) async {
     bool isUpdateQty = await updateQty(id, qty - 1);
     if (isUpdateQty) {
       if ((qty - 1) >= 1) {
-        productCart.where((e) => e.id == id).first.qty = qty - 1;
+        for (CartProduct item in productCart) {
+          var product = item.products
+              ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
+          if (product != null) {
+            product.qty = qty - 1;
+          }
+        }
         update();
         updateTotalPrice();
       } else {
         bool isDelete = await deleteBulkProduct([id]);
         if (isDelete) {
-          selectedId.remove(id);
+          selectProductCart.removeWhere(
+              (e) => e.products?.any((p) => p.cartId == id) ?? false);
           pagingController.refresh();
           update();
         }
@@ -236,36 +268,30 @@ class CartController extends GetxController {
 
   updateTotalPrice() {
     totalPrice = 0;
-    for (var item in productCart) {
-      if (selectedId.contains(item.id)) {
-        totalPrice += (item.promo ?? 0) * (item.qty ?? 0);
+    for (CartProduct item in selectProductCart) {
+      for (Products product in item.products ?? []) {
+        totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
       }
     }
-
     update();
   }
 
-  void openWriteNote(int index) {
-    isWriteNote[index] = true;
-    notesController[index].clear();
+  void openWriteNote(int indexSeller, int index) {
+    isWriteNote[indexSeller][index] = true;
+    notesController[indexSeller][index].clear();
     update();
   }
 
-  void closeWriteNote(int index, int id) async {
-    isWriteNote[index] = false;
-    updateNote(id, notesController[index].text);
-    productCart[index].note = notesController[index].text;
+  void closeWriteNote(int indexSeller, int index, int id) async {
+    isWriteNote[indexSeller][index] = false;
+    updateNote(id, notesController[indexSeller][index].text);
+    productCart[indexSeller].products?[index].note =
+        notesController[indexSeller][index].text;
     update();
   }
 
   void buyProduct() {
-    List<CartProduct> products = [];
-    for (var item in pagingController.itemList ?? []) {
-      if (selectedId.contains(item.id)) {
-        products.add(item);
-      }
-    }
-    Get.toNamed(Routes.CHECKOUT, arguments: products);
+    Get.toNamed(Routes.CHECKOUT, arguments: selectProductCart);
   }
 
   @override

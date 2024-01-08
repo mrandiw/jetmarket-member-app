@@ -9,6 +9,7 @@ class AddressBody {
     required this.note,
     required this.personName,
     required this.personPhone,
+    required this.posCode,
     required this.isMain,
   });
 
@@ -21,6 +22,7 @@ class AddressBody {
   final String note;
   final String personName;
   final String personPhone;
+  final int posCode;
   final bool isMain;
 
   Map<String, dynamic> toMap() {
@@ -33,6 +35,7 @@ class AddressBody {
       'note': note,
       'person_name': personName,
       'person_phone': personPhone,
+      'pos_code': posCode,
       'is_main': isMain
     };
     map.removeWhere((key, value) =>

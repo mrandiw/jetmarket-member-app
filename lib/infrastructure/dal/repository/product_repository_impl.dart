@@ -116,6 +116,7 @@ class ProductRepositoryImpl implements ProductRepository {
           path: Endpoint.productReview,
           queryParameters: {'product_id': id, 'page': 1, 'size': 10});
       List<dynamic> datas = response.data['data']['items'];
+      print(datas);
 
       return DataState<List<ProductReviewCustomer>>(
           result: datas.map((e) => ProductReviewCustomer.fromJson(e)).toList(),
@@ -161,7 +162,7 @@ class ProductRepositoryImpl implements ProductRepository {
           path: Endpoint.voucher,
           queryParameters: {'page': page, 'size': size});
 
-      List<dynamic> datas = response.data['data'];
+      List<dynamic> datas = response.data['data']['items'];
       return DataState<List<Vouchers>>(
           result: datas.map((e) => Vouchers.fromJson(e)).toList(),
           status: StatusCodeResponse.cek(response: response, showLogs: true),

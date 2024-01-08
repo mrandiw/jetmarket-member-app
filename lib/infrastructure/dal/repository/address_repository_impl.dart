@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/address_model.dart';
 import 'package:jetmarket/domain/core/model/params/address/address_body.dart';
 import 'package:jetmarket/domain/core/model/params/address/address_param.dart';
+import 'package:jetmarket/domain/core/model/params/address/item_product_for_delivery.dart';
 import 'package:jetmarket/infrastructure/dal/daos/provider/endpoint/endpoint.dart';
 import 'package:jetmarket/utils/network/data_state.dart';
 import '../../../../domain/core/model/model_data/location_model.dart';
 import '../../../../domain/core/model/params/location_param.dart';
+import '../../../domain/core/model/model_data/delivery_model.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/path/environment.dart';
@@ -98,6 +102,21 @@ class AddressRepositoryImpl implements AddressRepository {
 
   @override
   Future<DataState<List<AddressModel>>> getAddress(AddressParam param) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.address, queryParameters: param.toMap());
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<AddressModel>>(
+          result: datas.map((e) => AddressModel.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
+    } on DioException catch (e) {
+      return CustomException<List<AddressModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<AddressModel>>> getAddressMain(
+      AddressParam param) async {
     try {
       final response = await RemoteProvider.get(
           path: Endpoint.address, queryParameters: param.toMap());

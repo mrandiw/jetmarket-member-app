@@ -72,6 +72,7 @@ class VoucherController extends GetxController {
         (pagingController.itemList?[selectedVoucher].discount ?? '')
             .parsePercentageToDouble;
     final controller = Get.find<CheckoutController>();
+    controller.voucherId = pagingController.itemList?[selectedVoucher].id;
     controller.discount = discount;
     controller.updateTotalPrice();
   }

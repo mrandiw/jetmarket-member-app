@@ -33,6 +33,7 @@ class AddressSection extends StatelessWidget {
               Visibility(
                 visible: controller.address != null,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [

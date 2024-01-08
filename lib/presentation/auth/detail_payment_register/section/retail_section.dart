@@ -39,8 +39,10 @@ class RetailSection extends StatelessWidget {
                         fit: BoxFit.contain,
                         height: 24.h,
                         width: 44.w,
-                        controller.assetImage(
-                            controller.paymentCustomer?.channel?.code ?? 'BCA'))
+                        controller.assetImage(controller
+                                .paymentCustomer?.channel?.code
+                                ?.toLowerCase() ??
+                            'BCA'))
                   ],
                 ),
               ),

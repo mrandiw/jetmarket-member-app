@@ -11,6 +11,7 @@ class LocationController extends GetxController {
   final AddressRepository _addressRepository;
   LocationController(this._addressRepository);
   String address = "";
+  String posCode = "";
   String label = "";
   double latitude = 0.0;
   double longitude = 0.0;
@@ -44,6 +45,7 @@ class LocationController extends GetxController {
         final Placemark placemark = placemarks[0];
         address =
             "${placemark.thoroughfare} ${placemark.locality} ${placemark.subLocality} ${placemark.subAdministrativeArea} ${placemark.postalCode}";
+        posCode = placemark.postalCode ?? "";
         label =
             "${placemark.thoroughfare == '' ? placemark.locality : placemark.thoroughfare}";
         update();
@@ -79,9 +81,11 @@ class LocationController extends GetxController {
   }
 
   void selectLocation() {
+    print("Code Pos : $posCode");
     Get.toNamed(Routes.DETAIL_ADDRESS, arguments: {
       'label': label,
       'address': address,
+      'pos_code': posCode,
       'lat': latitude,
       'lng': longitude
     });

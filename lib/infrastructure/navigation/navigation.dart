@@ -363,5 +363,45 @@ class Nav {
       page: () => const PaymentTopupSaldoScreen(),
       binding: PaymentTopupSaldoControllerBinding(),
     ),
+    GetPage(
+      name: Routes.CHOICE_DELIVERY,
+      page: () => const ChoiceDeliveryScreen(),
+      binding: ChoiceDeliveryControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_PAYMENT_CUSTOMER,
+      page: () => const DetailPaymentCustomerScreen(),
+      binding: DetailPaymentCustomerControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYMENT_PAYLETTER,
+      page: () => const PaymentPayletterScreen(),
+      binding: PaymentPayletterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYLETTER_SUCCESS,
+      page: () => const PayletterSuccessScreen(),
+      binding: PayletterSuccessControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ORDER_LIST_TRANSACTION,
+      page: () => const OrderListTransactionScreen(),
+      binding: OrderListTransactionControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.RINCIAN_REFUND,
+      page: () => const RincianRefundScreen(),
+      binding: RincianRefundControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SET_REFUND,
+      page: () => const SetRefundScreen(),
+      binding: SetRefundControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_DELIVERY_REFUND,
+      page: () => const ChoiceDeliveryRefundScreen(),
+      binding: ChoiceDeliveryRefundControllerBinding(),
+    ),
   ];
 }

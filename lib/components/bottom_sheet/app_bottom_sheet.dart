@@ -35,6 +35,7 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: Get.width,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

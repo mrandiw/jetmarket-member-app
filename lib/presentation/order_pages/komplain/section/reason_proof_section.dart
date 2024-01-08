@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,7 @@ import 'package:jetmarket/presentation/order_pages/komplain/controllers/komplain
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/picker/picker_images.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 
 class ReasonProofSection extends StatelessWidget {
@@ -18,7 +21,7 @@ class ReasonProofSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
+    return GetBuilder<KomplainController>(builder: (controller) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,7 +34,7 @@ class ReasonProofSection extends StatelessWidget {
             style: text11GreyRegular,
           ),
           Gap(16.h),
-          Text('Bukti Foto/Video', style: text14BlackMedium),
+          Text('Bukti Foto', style: text14BlackMedium),
           Gap(12.h),
           Visibility(
               visible: controller.dataProof.isNotEmpty,
@@ -51,15 +54,47 @@ class ReasonProofSection extends StatelessWidget {
                                 side: AppStyle.borderSide),
                             child: ListTile(
                               contentPadding: AppStyle.paddingSide8,
-                              leading: Container(
+                              leading: CachedNetworkImage(
+                                imageUrl:
+                                    Uri.tryParse(controller.proofImages[index])
+                                                ?.isAbsolute ==
+                                            true
+                                        ? controller.proofImages[index]
+                                        : '',
                                 height: 40.r,
                                 width: 40.r,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    image: DecorationImage(
-                                        image: FileImage(
-                                            controller.proofImagesView[index]),
-                                        fit: BoxFit.cover)),
+                                fit: BoxFit.cover,
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    height: 120.w,
+                                    decoration: BoxDecoration(
+                                        color: kSofterGrey,
+                                        borderRadius: AppStyle.borderRadius8All,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover)),
+                                  );
+                                },
+                                placeholder: (context, url) => const Center(
+                                    child: CupertinoActivityIndicator()),
+                                errorWidget: (context, url, error) {
+                                  return Container(
+                                    height: 40.r,
+                                    width: 40.r,
+                                    padding: EdgeInsets.all(5.w),
+                                    decoration: BoxDecoration(
+                                      color: kSofterGrey,
+                                      borderRadius: AppStyle.borderRadius8All,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.error,
+                                        color: kPrimaryColor,
+                                        size: 18.r,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                               title:
                                   Text('Deskripsi', style: text12BlackMedium),
@@ -95,27 +130,38 @@ class ReasonProofSection extends StatelessWidget {
                       ],
                     );
                   })))),
-          GestureDetector(
-            onTap: () => controller.pickImagePfoof(),
-            child: Container(
-              padding: AppStyle.paddingAll12,
-              decoration: BoxDecoration(
-                  color: kPrimaryColor2,
-                  borderRadius: AppStyle.borderRadius8All,
-                  border: AppStyle.borderAll),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.add_circle_outline_rounded,
-                    color: kPrimaryColor,
-                  ),
-                  Gap(8.w),
-                  Text(
-                    'Upload Bukti',
-                    style: text14PrimarySemiBold,
-                  )
-                ],
+          Visibility(
+            visible: controller.dataProof.length < 3,
+            child: GestureDetector(
+              onTap: () {
+                Get.bottomSheet(
+                    enterBottomSheetDuration: 200.milliseconds,
+                    exitBottomSheetDuration: 200.milliseconds,
+                    PickerImages.double(
+                      onTapCamera: () => controller.getImageCamera(),
+                      onTapGallery: () => controller.getImageGalery(),
+                    ));
+              },
+              child: Container(
+                padding: AppStyle.paddingAll12,
+                decoration: BoxDecoration(
+                    color: kPrimaryColor2,
+                    borderRadius: AppStyle.borderRadius8All,
+                    border: AppStyle.borderAll),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.add_circle_outline_rounded,
+                      color: kPrimaryColor,
+                    ),
+                    Gap(8.w),
+                    Text(
+                      'Upload Bukti',
+                      style: text14PrimarySemiBold,
+                    )
+                  ],
+                ),
               ),
             ),
           )

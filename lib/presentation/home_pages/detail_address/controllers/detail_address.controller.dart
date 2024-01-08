@@ -17,9 +17,12 @@ class DetailAddressController extends GetxController {
   final AddressRepository _addressRepository;
   DetailAddressController(this._addressRepository);
   TextEditingController addressController = TextEditingController();
+  TextEditingController labelController = TextEditingController();
   TextEditingController noteController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController kodePosController = TextEditingController();
+
   var actionStatus = ActionStatus.initalize.obs;
 
   var mainAddress = false.obs;
@@ -53,6 +56,7 @@ class DetailAddressController extends GetxController {
         note: noteController.text,
         personName: nameController.text,
         personPhone: phoneController.text,
+        posCode: int.parse(kodePosController.text),
         isMain: mainAddress.value);
     final response = await _addressRepository.addAddress(body);
     if (response.status == StatusResponse.success) {
@@ -94,6 +98,7 @@ class DetailAddressController extends GetxController {
         note: noteController.text,
         personName: nameController.text,
         personPhone: phoneController.text,
+        posCode: int.parse(kodePosController.text),
         isMain: mainAddress.value);
     final response = await _addressRepository.editAddress(body);
     if (response.status == StatusResponse.success) {
@@ -156,6 +161,8 @@ class DetailAddressController extends GetxController {
   setData() {
     if (Get.arguments['type'] != 'edit') {
       addressController = TextEditingController(text: Get.arguments['address']);
+      kodePosController =
+          TextEditingController(text: Get.arguments['pos_code']);
       latitude = Get.arguments['lat'];
       longitude = Get.arguments['lng'];
       typeAddress = true;
@@ -167,7 +174,9 @@ class DetailAddressController extends GetxController {
       latitude = data.lat ?? 0;
       longitude = data.lng ?? 0;
       nameController = TextEditingController(text: data.personName);
+      labelController = TextEditingController(text: data.label);
       phoneController = TextEditingController(text: data.personPhone);
+      kodePosController = TextEditingController(text: data.posCode.toString());
       noteController = TextEditingController(text: data.note);
       mainAddress(data.isMain ?? false);
       selectedLabel = data.label ?? 'Rumah';

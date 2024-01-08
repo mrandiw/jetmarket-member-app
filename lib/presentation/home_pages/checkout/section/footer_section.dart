@@ -39,7 +39,8 @@ class FooterSection extends StatelessWidget {
             )),
             AppButton.primary(
               text: 'Bayar Sekarang',
-              onPressed: controller.selectedDelivery != 99
+              onPressed: controller.selectedDelivery.length ==
+                      controller.productCart.length
                   ? () => controller.toChoicePayment()
                   : null,
             ),

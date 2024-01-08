@@ -13,13 +13,14 @@ class EWalletScreen extends GetView<EWalletController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarEwallet,
-        backgroundColor: kWhite,
-        body: ListView(
-          children: [
-            HeaderSection(controller: controller),
-            const HistorySection()
-          ],
-        ));
+      appBar: appBarEwallet,
+      backgroundColor: kWhite,
+      // body: ListView(
+      //   children: [
+      //     HeaderSection(controller: controller),
+      //     const HistorySection()
+      //   ],
+      // )
+    );
   }
 }

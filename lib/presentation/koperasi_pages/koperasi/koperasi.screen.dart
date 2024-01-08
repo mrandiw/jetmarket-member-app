@@ -13,13 +13,14 @@ class KoperasiScreen extends GetView<KoperasiController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarKoperasi,
-        backgroundColor: kWhite,
-        body: ListView(
-          children: [
-            HeaderSection(controller: controller),
-            const HistorySection()
-          ],
-        ));
+      appBar: appBarKoperasi,
+      backgroundColor: kWhite,
+      // body: ListView(
+      //   children: [
+      //     HeaderSection(controller: controller),
+      //     const HistorySection()
+      //   ],
+      // )
+    );
   }
 }

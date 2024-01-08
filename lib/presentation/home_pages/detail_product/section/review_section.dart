@@ -198,7 +198,7 @@ class ReviewSection extends StatelessWidget {
                                         rating: controller
                                                 .productReviewCustomer[index]
                                                 .rating ??
-                                            0),
+                                            0.0),
                                     Gap(12.h),
                                     CachedNetworkImage(
                                       imageUrl: controller

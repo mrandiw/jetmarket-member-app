@@ -10,27 +10,25 @@ class TabBarSection extends StatelessWidget {
   final DetailPaymentRegisterController controller;
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailPaymentRegisterController>(
-        init: DetailPaymentRegisterController(AuthRepositoryImpl()),
-        builder: (controller) {
-          return Container(
-            decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: kPrimaryColor2))),
-            child: TabBar(
-              controller: controller.tabController,
-              tabs: controller.tutorialPayment?.tabs
-                      ?.map((e) => Tab(
-                            text: e,
-                          ))
-                      .toList() ??
-                  <Tab>[],
-              isScrollable: (controller.tutorialPayment?.tabs?.length ?? 0) > 3,
-              labelStyle: text14PrimarySemiBold,
-              indicatorColor: kSecondaryColor,
-              labelColor: kSecondaryColor,
-              unselectedLabelColor: kBorder,
-            ),
-          );
-        });
+    return GetBuilder<DetailPaymentRegisterController>(builder: (controller) {
+      return Container(
+        decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: kPrimaryColor2))),
+        child: TabBar(
+          controller: controller.tabController,
+          tabs: controller.tutorialPayment?.tabs
+                  ?.map((e) => Tab(
+                        text: e,
+                      ))
+                  .toList() ??
+              <Tab>[],
+          isScrollable: (controller.tutorialPayment?.tabs?.length ?? 0) > 3,
+          labelStyle: text14PrimarySemiBold,
+          indicatorColor: kSecondaryColor,
+          labelColor: kSecondaryColor,
+          unselectedLabelColor: kBorder,
+        ),
+      );
+    });
   }
 }

@@ -22,7 +22,7 @@ class MenuSection extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              onTap: () => Get.toNamed(Routes.REFERRAL),
+              // onTap: () => Get.toNamed(Routes.REFERRAL),
               contentPadding: AppStyle.paddingSide16,
               leading: Container(
                 height: 28.r,
@@ -44,7 +44,7 @@ class MenuSection extends StatelessWidget {
             ),
             Gap(12.h),
             ListTile(
-              onTap: () => Get.toNamed(Routes.REVIEW_PRODUCT),
+              // onTap: () => Get.toNamed(Routes.REVIEW_PRODUCT),
               contentPadding: AppStyle.paddingSide16,
               leading: Container(
                 height: 28.r,

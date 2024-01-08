@@ -6,6 +6,7 @@ import '../../../../presentation/koperasi_pages/koperasi/controllers/koperasi.co
 import '../../../../presentation/main_pages/controllers/main_pages.controller.dart';
 import '../../../../presentation/order_pages/order/controllers/order.controller.dart';
 import '../../../dal/repository/auth_repository_impl.dart';
+import '../../../dal/repository/order_repository_impl.dart';
 import '../../../dal/repository/product_repository_impl.dart';
 
 class MainPagesControllerBinding extends Bindings {
@@ -18,7 +19,7 @@ class MainPagesControllerBinding extends Bindings {
       () => HomeController(ProductRepositoryImpl()),
     );
     Get.lazyPut<OrderController>(
-      () => OrderController(),
+      () => OrderController(OrderRepositoryImpl()),
     );
     Get.lazyPut<AccountController>(
       () => AccountController(AuthRepositoryImpl()),

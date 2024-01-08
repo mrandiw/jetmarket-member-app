@@ -23,12 +23,15 @@ class FooterSection extends StatelessWidget {
               offset: const Offset(0, -6),
               blurRadius: 10)
         ]),
-        child: AppButton.primary(
-          text: 'Kirim Pengajuan',
-          onPressed: controller.addProduct.isNotEmpty
-              ? () => controller.sendComplain()
-              : null,
-        ),
+        child: Obx(() {
+          return AppButton.primary(
+            actionStatus: controller.actionButton.value,
+            text: 'Kirim Pengajuan',
+            onPressed: controller.addProduct.isNotEmpty
+                ? () => controller.sendComplain()
+                : null,
+          );
+        }),
       );
     });
   }

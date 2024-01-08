@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -37,6 +39,7 @@ class ProductSection extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: AppStyle.borderRadius6All,
                         ),
+                        side: const BorderSide(color: kSoftGrey, width: 1.2),
                         onChanged: (value) =>
                             controller.selectAllProduct(value!)),
                   ),
@@ -48,7 +51,7 @@ class ProductSection extends StatelessWidget {
             Gap(12.h),
             Column(
               children: List.generate(
-                  controller.products.length,
+                  controller.submitRefundModel?.productVariants?.length ?? 0,
                   (index) => Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -58,8 +61,9 @@ class ProductSection extends StatelessWidget {
                             child: Transform.scale(
                               scale: 1,
                               child: Checkbox(
-                                  value: controller.addProduct
-                                      .contains(controller.products[index]),
+                                  value: controller.addProduct.contains(
+                                      controller.submitRefundModel
+                                          ?.productVariants?[index]),
                                   activeColor: kPrimaryColor,
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.shrinkWrap,
@@ -67,9 +71,13 @@ class ProductSection extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: AppStyle.borderRadius6All,
                                   ),
+                                  side: const BorderSide(
+                                      color: kSoftGrey, width: 1.2),
                                   onChanged: (value) =>
                                       controller.selectProduct(
-                                          value!, controller.products[index])),
+                                          value!,
+                                          controller.submitRefundModel
+                                              ?.productVariants?[index])),
                             ),
                           ),
                           Gap(8.w),
@@ -82,20 +90,50 @@ class ProductSection extends StatelessWidget {
                                   side: AppStyle.borderSide),
                               child: ListTile(
                                 contentPadding: AppStyle.paddingSide8,
-                                leading: ClipRRect(
-                                  borderRadius: AppStyle.borderRadius8All,
-                                  child: Image.network(
-                                    'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    height: 40.r,
-                                    width: 40.r,
-                                    fit: BoxFit.cover,
+                                leading: CachedNetworkImage(
+                                  imageUrl: controller.submitRefundModel
+                                          ?.productVariants?[index].image ??
+                                      '',
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    height: 40.h,
+                                    width: 40.h,
+                                    decoration: BoxDecoration(
+                                      color: kSofterGrey,
+                                      borderRadius: AppStyle.borderRadius8All,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      const CupertinoActivityIndicator(
+                                          color: kSoftBlack),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: 40.h,
+                                    width: 40.h,
+                                    decoration: BoxDecoration(
+                                        color: kSofterGrey,
+                                        borderRadius:
+                                            AppStyle.borderRadius6All),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.error,
+                                        color: kPrimaryColor,
+                                        size: 18.r,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                title: Text(controller.products[index]['name'],
+                                title: Text(
+                                    controller.submitRefundModel
+                                            ?.productVariants?[index].title ??
+                                        '',
                                     style: text12BlackMedium),
                                 subtitle: Text(
-                                    controller.products[index]['price']
-                                        .toString()
+                                    "${controller.submitRefundModel?.productVariants?[index].price}"
                                         .toIdrFormat,
                                     style: text12HintRegular),
                               ),

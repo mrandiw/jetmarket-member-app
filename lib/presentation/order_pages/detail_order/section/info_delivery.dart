@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class InfoDelivery extends StatelessWidget {
-  const InfoDelivery({super.key});
+  const InfoDelivery({super.key, required this.controller});
+
+  final DetailOrderController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,9 @@ class InfoDelivery extends StatelessWidget {
                 const Spacer(),
                 Expanded(
                     flex: 4,
-                    child: Text('Reguler - JNE', style: text12BlackMedium)),
+                    child: Text(
+                        "${controller.detailOrderCustomer?.delivery?.serviceName?.capitalizeFirst} - ${controller.detailOrderCustomer?.delivery?.code?.capitalizeFirst}",
+                        style: text12BlackMedium)),
               ],
             ),
             Gap(6.h),
@@ -45,7 +51,7 @@ class InfoDelivery extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Text(
-                      'John Doe4517 Washington Ave. Manchester, Kentucky 39495',
+                      '${controller.detailOrderCustomer?.address?.personName} ${controller.detailOrderCustomer?.address?.address} ${controller.detailOrderCustomer?.address?.posCode}',
                       style: text12BlackMedium),
                 ),
               ],
