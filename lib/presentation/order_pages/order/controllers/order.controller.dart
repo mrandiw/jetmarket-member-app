@@ -12,15 +12,13 @@ import '../../../../domain/core/model/model_data/order_product_model.dart';
 import '../../../../domain/core/model/params/order/list_order_param.dart';
 import '../widget/filter_order.dart';
 
-class OrderController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class OrderController extends GetxController with GetSingleTickerProviderStateMixin {
   final OrderRepository _orderRepository;
   OrderController(this._orderRepository);
   late TabController tabController;
-  static const _pageSize = 10;
+  static const _pageSize = 2;
 
-  PagingController<int, OrderProductModel> pagingController =
-      PagingController(firstPageKey: 1);
+  PagingController<int, OrderProductModel> pagingController = PagingController(firstPageKey: 1);
 
   TextEditingController searchController = TextEditingController();
   var currentIndexTab = 0;
@@ -148,14 +146,14 @@ class OrderController extends GetxController
   }
 
   Future<void> refreshData() async {
-    searchOrder = null;
-    setFirstFilter();
-    selectedFilterSortOrder = null;
-    selectedFilterStatusOrder = null;
-    currentIndexTab = 0;
-    tabController.animateTo(0);
+    // searchOrder = null;
+    // setFirstFilter();
+    // selectedFilterSortOrder = null;
+    // selectedFilterStatusOrder = null;
+    // currentIndexTab = 0;
+    // tabController.animateTo(0);
     pagingController.refresh();
-    update();
+    // update();
   }
 
   void toDetailOrder(int id) {
@@ -184,7 +182,8 @@ class OrderController extends GetxController
 
   setProductByStatus(int? index) {
     selectedStatusOrder = statusTabs[index ?? 0];
-    pagingController.refresh();
+    pagingController.itemList?.clear();
+    getListOrderProduct(1);
   }
 
   @override
@@ -196,7 +195,10 @@ class OrderController extends GetxController
     });
     tabController = TabController(length: 5, vsync: this);
     tabController.addListener(() {
-      setProductByStatus(tabController.index);
+      // FIX Multiple call tabController
+      if (!tabController.indexIsChanging) {
+        setProductByStatus(tabController.index);
+      }
     });
     super.onInit();
   }
