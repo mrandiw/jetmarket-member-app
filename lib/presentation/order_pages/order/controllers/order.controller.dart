@@ -180,8 +180,6 @@ class OrderController extends GetxController
 
   void toTrackingRefund(int id) {
     Get.toNamed(Routes.TRACKING_RETURN, arguments: id);
-    // Get.toNamed(Routes.RINCIAN_REFUND, arguments: id);
-    // Get.toNamed(Routes.SET_REFUND, arguments: id);
   }
 
   setProductByStatus(int? index) {
