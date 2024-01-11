@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'controllers/choice_delivery_refund.controller.dart';
+import 'section/app_bar_section.dart';
+import 'section/list_packet.dart';
 
 class ChoiceDeliveryRefundScreen
     extends GetView<ChoiceDeliveryRefundController> {
@@ -10,15 +12,9 @@ class ChoiceDeliveryRefundScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ChoiceDeliveryRefundScreen'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'ChoiceDeliveryRefundScreen is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      appBar: appBarChoiceDelivery(controller),
+      body: ListPacket(
+        controller: controller,
       ),
     );
   }

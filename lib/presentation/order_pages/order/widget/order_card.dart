@@ -46,7 +46,7 @@ class OrderCard extends StatelessWidget {
                     Text(convertTypeStatus(data.status ?? ''),
                         style: textStatusStyle(data.status ?? '')),
                     Visibility(
-                      visible: data.status == 'REQUEST_REFUND_CUSTOMER',
+                      visible: data.status == 'ON_DELIVERY',
                       child: GestureDetector(
                           onTap: tracking,
                           child: Text('Lacak', style: text12SucessRegular)),
@@ -155,11 +155,16 @@ class OrderCard extends StatelessWidget {
                       ],
                     ),
                     AppButton.primarySmall(
-                      text: data.status == 'REFUNDED'
+                      text: data.status == 'REFUNDED' ||
+                              data.status == "REQUEST_REFUND_CUSTOMER"
                           ? 'Rincian Pengembalian'
-                          : data.status == 'FINISHED'
-                              ? 'Review'
-                              : 'Beli Lagi',
+                          : data.status == 'WAITING_REFUND_DELIVERY'
+                              ? 'Atur Pengembalian'
+                              : data.status == 'REFUND_ON_DELIVERY'
+                                  ? 'Lihat Pengembalian'
+                                  : data.status == 'FINISHED'
+                                      ? 'Review'
+                                      : 'Beli Lagi',
                       onPressed: actionOrder,
                     )
                   ],
@@ -220,7 +225,7 @@ class OrderCard extends StatelessWidget {
       case "CANCELLED_BY_CUSTOMER":
         return 'Dibatalkan Oleh Anda';
       case "REQUEST_REFUND_CUSTOMER":
-        return 'Permintaan Pengembalian Dana';
+        return 'Permintaan Pengembalian Customer';
       case "REFUND_ON_DELIVERY":
         return 'Sedang dikirim ke alamat pengembalian';
       case "WAITING_REFUND_DELIVERY":

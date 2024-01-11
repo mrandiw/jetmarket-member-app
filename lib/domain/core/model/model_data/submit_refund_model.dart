@@ -1,14 +1,14 @@
 class SubmitRefundModel {
-  List<ProductVariants>? productVariants;
+  List<Products>? products;
   int? totalAmount;
 
-  SubmitRefundModel({this.productVariants, this.totalAmount});
+  SubmitRefundModel({this.products, this.totalAmount});
 
   SubmitRefundModel.fromJson(Map<String, dynamic> json) {
-    if (json['product_variants'] != null) {
-      productVariants = <ProductVariants>[];
-      json['product_variants'].forEach((v) {
-        productVariants!.add(ProductVariants.fromJson(v));
+    if (json['products'] != null) {
+      products = <Products>[];
+      json['products'].forEach((v) {
+        products!.add(Products.fromJson(v));
       });
     }
     totalAmount = json['total_amount'];
@@ -16,39 +16,38 @@ class SubmitRefundModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (productVariants != null) {
-      data['product_variants'] =
-          productVariants!.map((v) => v.toJson()).toList();
+    if (products != null) {
+      data['products'] = products!.map((v) => v.toJson()).toList();
     }
     data['total_amount'] = totalAmount;
     return data;
   }
 }
 
-class ProductVariants {
-  int? id;
+class Products {
   String? image;
-  String? title;
   int? price;
   int? quantity;
+  String? title;
+  int? variantId;
 
-  ProductVariants({this.id, this.image, this.title, this.price, this.quantity});
+  Products({this.image, this.price, this.quantity, this.title, this.variantId});
 
-  ProductVariants.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  Products.fromJson(Map<String, dynamic> json) {
     image = json['image'];
-    title = json['title'];
     price = json['price'];
     quantity = json['quantity'];
+    title = json['title'];
+    variantId = json['variant_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
     data['image'] = image;
-    data['title'] = title;
     data['price'] = price;
     data['quantity'] = quantity;
+    data['title'] = title;
+    data['variant_id'] = variantId;
     return data;
   }
 }

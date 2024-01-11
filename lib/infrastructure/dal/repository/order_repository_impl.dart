@@ -11,6 +11,7 @@ import '../../../domain/core/model/model_data/order_customer_payment.dart';
 import '../../../domain/core/model/model_data/order_product_model.dart';
 import '../../../domain/core/model/model_data/product_order_customer.dart';
 import '../../../domain/core/model/model_data/submit_refund_model.dart';
+import '../../../domain/core/model/model_data/tracking_order.dart';
 import '../../../domain/core/model/model_data/tracking_refund_model.dart';
 import '../../../domain/core/model/model_data/waiting_payment.dart';
 import '../../../domain/core/model/params/order/list_order_param.dart';
@@ -195,7 +196,6 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response =
           await RemoteProvider.get(path: '${Endpoint.orderRefundStatus}/$id');
-      print(response.data['data']);
       return DataState<DetailRefundModel>(
         status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: DetailRefundModel.fromJson(response.data['data']),
@@ -203,6 +203,35 @@ class OrderRepositoryImpl implements OrderRepository {
       );
     } on DioException catch (e) {
       return CustomException<DetailRefundModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<String>> receiveOrder(int id) async {
+    try {
+      final response = await RemoteProvider.post(
+          path: '${Endpoint.orderCustomer}/$id/receive', data: {'id': id});
+      return DataState<String>(
+        status: StatusCodeResponse.cek(response: response),
+        result: response.data['data'],
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<String>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<TrackingOrderModel>> trackingOrder(int id) async {
+    try {
+      final response =
+          await RemoteProvider.get(path: '${Endpoint.orderTracking}/$id');
+      return DataState<TrackingOrderModel>(
+        status: StatusCodeResponse.cek(response: response),
+        result: TrackingOrderModel.fromJson(response.data['data']),
+      );
+    } on DioException catch (e) {
+      return CustomException<TrackingOrderModel>().dio(e);
     }
   }
 }

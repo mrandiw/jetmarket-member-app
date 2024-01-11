@@ -67,6 +67,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/success
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan_payment.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/topup_saldo.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tracking_order.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tracking_return.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tracking_return_order.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/voucher.controller.binding.dart';

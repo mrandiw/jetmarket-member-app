@@ -43,6 +43,7 @@ class FooterSection extends StatelessWidget {
               Gap(12.w),
               Expanded(
                 child: AppButton.primary(
+                  actionStatus: controller.actionButton,
                   text: 'Konfirmasi Pesanan',
                   onPressed: controller.onDelivery
                       ? null
@@ -56,7 +57,8 @@ class FooterSection extends StatelessWidget {
           controller.statusOrder == "WAITING_DELIVERY" ||
           controller.statusOrder == "WAITING_PAYMENT" ||
           controller.statusOrder == "WAITING_SELLER_CONFIRMATION" ||
-          controller.statusOrder == 'FINISHED') {
+          controller.statusOrder == 'FINISHED' ||
+          controller.statusOrder == 'REVIEWED') {
         return Container(
           height: 76.h,
           width: Get.width,
@@ -74,7 +76,7 @@ class FooterSection extends StatelessWidget {
                       : 'Kembali',
                   onPressed: controller.statusOrder == 'FINISHED'
                       ? () => Get.toNamed(Routes.REVIEW_ORDER, arguments: [
-                            controller.detailOrderCustomer?.trxId,
+                            controller.detailOrderCustomer?.id,
                             'review-detail'
                           ])
                       : () => Get.back(),

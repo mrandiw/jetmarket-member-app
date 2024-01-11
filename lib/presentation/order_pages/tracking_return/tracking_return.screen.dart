@@ -23,7 +23,6 @@ class TrackingReturnScreen extends GetView<TrackingReturnController> {
         status: controller.screenStatus.value,
       );
     });
-    // return successWidget(controller);
   }
 
   Scaffold successWidget(TrackingReturnController controller) {

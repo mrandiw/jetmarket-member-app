@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -79,7 +77,6 @@ class CartController extends GetxController {
       // pagingController.refresh();
       return true;
     } else {
-      print("Error : ${response.message}");
       return false;
     }
   }
@@ -90,7 +87,6 @@ class CartController extends GetxController {
     if (response.status == StatusResponse.success) {
       return true;
     } else {
-      print("Error : ${response.message}");
       return false;
     }
   }
@@ -100,7 +96,6 @@ class CartController extends GetxController {
     if (response.status == StatusResponse.success) {
       return true;
     } else {
-      print("Error : ${response.message}");
       return false;
     }
   }
@@ -180,6 +175,7 @@ class CartController extends GetxController {
   int countProductsBySellerId(int sellerId, CartProduct data) {
     List<Products> products = data.products ?? [];
     int count = 0;
+    // ignore: unused_local_variable
     for (Products product in products) {
       // Selama sellerId pada data produk sama dengan sellerId yang diinginkan, tambahkan ke hitungan
       if (data.seller?.id == sellerId) {
@@ -201,9 +197,7 @@ class CartController extends GetxController {
       } else {
         update();
       }
-    } else {
-      print("Error Delete");
-    }
+    } else {}
   }
 
   void deleteAllProduct() async {

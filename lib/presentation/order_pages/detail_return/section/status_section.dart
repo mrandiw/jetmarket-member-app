@@ -28,14 +28,10 @@ class StatusSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-              controller.detailRefund?.note?.title ??
-                  'Menunggu Persetujuan Penjual',
+          Text(controller.detailRefund?.note?.title ?? '',
               style: text12BlackMedium),
           Gap(2.h),
-          Text(
-              controller.detailRefund?.note?.description ??
-                  'Mohon menunggu penjual menyetujui permintaanmu. Penjual harus merespon sebelum 30 Nov 2023',
+          Text(controller.detailRefund?.note?.description ?? '',
               style: text11GreyRegular),
           Gap(12.h),
           SizedBox(

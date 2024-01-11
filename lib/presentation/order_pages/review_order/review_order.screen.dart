@@ -26,11 +26,17 @@ class ReviewOrderScreen extends GetView<ReviewOrderController> {
   }
 
   Widget successWidget(ReviewOrderController controller) {
-    return Scaffold(
-      appBar: appBarDetailOrderReview,
-      backgroundColor: kWhite,
-      body: ListProductSection(controller: controller),
-      bottomNavigationBar: ButtonSection(controller: controller),
+    return WillPopScope(
+      onWillPop: () async {
+        controller.backToOrder();
+        return true;
+      },
+      child: Scaffold(
+        appBar: appBarDetailOrderReview,
+        backgroundColor: kWhite,
+        body: ListProductSection(controller: controller),
+        bottomNavigationBar: ButtonSection(controller: controller),
+      ),
     );
   }
 }

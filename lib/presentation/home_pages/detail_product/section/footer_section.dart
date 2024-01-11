@@ -53,7 +53,7 @@ class FooterSection extends StatelessWidget {
             flex: 4,
             child: AppButton.primary(
               text: 'Beli Sekarang',
-              onPressed: () {},
+              onPressed: () => controller.buyProduct(),
             ),
           ),
         ],

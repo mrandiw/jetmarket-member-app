@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 
 import '../../../../domain/core/model/model_data/detail_refund_model.dart';
+import '../../order/controllers/order.controller.dart';
 
 class DetailReturnController extends GetxController {
   DetailRefundModel? detailRefund;
@@ -29,9 +30,19 @@ class DetailReturnController extends GetxController {
     Get.toNamed(Routes.TRACKING_RETURN, arguments: 1);
   }
 
+  void backToOrder() {
+    Get.back();
+    refreshOrder();
+  }
+
+  void refreshOrder() {
+    final controller = Get.find<OrderController>();
+    controller.pagingController.refresh();
+  }
+
   @override
   void onInit() {
-    // detailRefund = Get.arguments;
+    detailRefund = Get.arguments;
     super.onInit();
   }
 }

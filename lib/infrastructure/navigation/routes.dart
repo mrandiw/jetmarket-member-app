@@ -18,6 +18,7 @@ class Routes {
   static const CHECKOUT_PAYMENT = '/checkout-payment';
   static const CHECKOUT_PAYMENT_RETAIL = '/checkout-payment-retail';
   static const CHOICE_DELIVERY = '/choice-delivery';
+  static const CHOICE_DELIVERY_REFUND = '/choice-delivery-refund';
   static const CHOICE_PAYMENT = '/choice-payment';
   static const DETAIL_ADDRESS = '/detail-address';
   static const DETAIL_CHECKOUT = '/detail-checkout';
@@ -80,5 +81,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const CHOICE_DELIVERY_REFUND = '/choice-delivery-refund';
+  static const TRACKING_ORDER = '/tracking-order';
 }

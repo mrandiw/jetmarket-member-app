@@ -51,7 +51,7 @@ class ProductSection extends StatelessWidget {
             Gap(12.h),
             Column(
               children: List.generate(
-                  controller.submitRefundModel?.productVariants?.length ?? 0,
+                  controller.submitRefundModel?.products?.length ?? 0,
                   (index) => Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -62,8 +62,8 @@ class ProductSection extends StatelessWidget {
                               scale: 1,
                               child: Checkbox(
                                   value: controller.addProduct.contains(
-                                      controller.submitRefundModel
-                                          ?.productVariants?[index]),
+                                      controller
+                                          .submitRefundModel?.products?[index]),
                                   activeColor: kPrimaryColor,
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.shrinkWrap,
@@ -77,7 +77,7 @@ class ProductSection extends StatelessWidget {
                                       controller.selectProduct(
                                           value!,
                                           controller.submitRefundModel
-                                              ?.productVariants?[index])),
+                                              ?.products?[index])),
                             ),
                           ),
                           Gap(8.w),
@@ -92,7 +92,7 @@ class ProductSection extends StatelessWidget {
                                 contentPadding: AppStyle.paddingSide8,
                                 leading: CachedNetworkImage(
                                   imageUrl: controller.submitRefundModel
-                                          ?.productVariants?[index].image ??
+                                          ?.products?[index].image ??
                                       '',
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
@@ -129,11 +129,11 @@ class ProductSection extends StatelessWidget {
                                 ),
                                 title: Text(
                                     controller.submitRefundModel
-                                            ?.productVariants?[index].title ??
+                                            ?.products?[index].title ??
                                         '',
                                     style: text12BlackMedium),
                                 subtitle: Text(
-                                    "${controller.submitRefundModel?.productVariants?[index].price}"
+                                    "${controller.submitRefundModel?.products?[index].price}"
                                         .toIdrFormat,
                                     style: text12HintRegular),
                               ),

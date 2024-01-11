@@ -49,6 +49,7 @@ class Endpoint {
       'order/waiting_payment/product/customer';
   static String orderRefundStatus = 'order/customer/refund_status';
   static String orderRefundTracking = 'order/customer/refund/tracking';
+  static String orderTracking = 'order/tracking';
 
   // Notification
   static String notification = 'notification/user';

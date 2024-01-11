@@ -6,6 +6,7 @@ import '../model/model_data/order_customer_payment.dart';
 import '../model/model_data/order_product_model.dart';
 import '../model/model_data/product_order_customer.dart';
 import '../model/model_data/submit_refund_model.dart';
+import '../model/model_data/tracking_order.dart';
 import '../model/model_data/tracking_refund_model.dart';
 import '../model/model_data/waiting_payment.dart';
 import '../model/params/order/list_order_param.dart';
@@ -26,4 +27,6 @@ abstract class OrderRepository {
   Future<DataState<SubmitRefundModel>> getRefund(int id);
   Future<DataState<DetailRefundModel>> submitRefund(RefundParam param);
   Future<DataState<DetailRefundModel>> getRefundStatus(int id);
+  Future<DataState<String>> receiveOrder(int id);
+  Future<DataState<TrackingOrderModel>> trackingOrder(int id);
 }

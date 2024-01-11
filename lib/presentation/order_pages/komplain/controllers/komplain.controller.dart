@@ -31,7 +31,7 @@ class KomplainController extends GetxController {
   File? imageFile;
   int? seledtedSolutionIndex;
 
-  List<ProductVariants> addProduct = [];
+  List<Products> addProduct = [];
   var dataProof = <Proofs>[];
   var proofImagesView = <File>[];
   var proofImages = <String>[];
@@ -65,7 +65,7 @@ class KomplainController extends GetxController {
       update();
     } else {
       addProduct.clear();
-      addProduct.assignAll(submitRefundModel?.productVariants ?? []);
+      addProduct.assignAll(submitRefundModel?.products ?? []);
       totalPrice = addProduct.fold(0, (subtotal, element) {
         return subtotal + (element.price! * element.quantity!);
       });
@@ -223,7 +223,7 @@ class KomplainController extends GetxController {
         id: Get.arguments,
         body: BodyRefundParam(
             itemIds: List.generate(
-                addProduct.length, (index) => addProduct[index].id ?? 0),
+                addProduct.length, (index) => addProduct[index].variantId ?? 0),
             reason: reasonController.text,
             proofs: newDataProofs,
             requestReturn: seledtedSolutionIndex == 0));

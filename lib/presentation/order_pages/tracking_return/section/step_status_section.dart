@@ -51,21 +51,29 @@ class StepStatusSection extends StatelessWidget {
                             Text(
                                 controller.trackingRefund?.histories?[index]
                                         .title ??
-                                    'Menunggu persetujuan penjual',
+                                    '',
                                 style: index == 0
                                     ? text16PrimarySemiBold
                                     : text16HintSemiBold),
                             Gap(4.h),
-                            Text(
-                                controller.trackingRefund?.histories?[index]
-                                        .createdAt ??
-                                    '2024-01-07T00:00:00Z'.toCustomFormat,
-                                style: text12HintRegular),
+                            GestureDetector(
+                              onTap: () {
+                                print(controller
+                                    .trackingRefund
+                                    ?.histories?[index]
+                                    .createdAt
+                                    ?.convertToCustomFormat);
+                              },
+                              child: Text(
+                                  "2024-01-10 10:44:15.135794 +0000 +0000"
+                                      .convertToCustomFormat,
+                                  style: text12HintRegular),
+                            ),
                             Gap(4.h),
                             Text(
                                 controller.trackingRefund?.histories?[index]
                                         .content ??
-                                    'Penjual harus merespon sebelum 30 Nov 2023',
+                                    '',
                                 style: text12HintRegular)
                           ],
                         )

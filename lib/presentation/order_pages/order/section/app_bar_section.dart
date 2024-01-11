@@ -31,6 +31,7 @@ class AppBarDetailOrder extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       automaticallyImplyLeading: false,
       expandedHeight: 210,
+      forceElevated: isScroll,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [

@@ -12,14 +12,20 @@ class DetailReturnScreen extends GetView<DetailReturnController> {
   const DetailReturnScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBarDetailKomplain,
-        body: ListView(
-          padding: AppStyle.paddingAll16,
-          children: [
-            StatusSection(controller: controller),
-            DetailRefundSection(controller: controller)
-          ],
-        ));
+    return WillPopScope(
+      onWillPop: () async {
+        controller.backToOrder();
+        return true;
+      },
+      child: Scaffold(
+          appBar: appBarDetailKomplain(controller),
+          body: ListView(
+            padding: AppStyle.paddingAll16,
+            children: [
+              StatusSection(controller: controller),
+              DetailRefundSection(controller: controller)
+            ],
+          )),
+    );
   }
 }

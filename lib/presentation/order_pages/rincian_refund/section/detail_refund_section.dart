@@ -158,22 +158,26 @@ class DetailRefundSection extends StatelessWidget {
                 style: text12BlackRegular)
           ],
         ),
-        Gap(8.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Pengembalian Dana Ke', style: text12HintRegular),
-            Text('${controller.detailRefund?.totalAmount ?? 2000}'.toIdrFormat,
-                style: text12BlackRegular)
-          ],
-        ),
+        // Gap(8.h),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text('Pengembalian Dana Ke', style: text12HintRegular),
+        //     Text('${controller.detailRefund?.totalAmount ?? 2000}'.toIdrFormat,
+        //         style: text12BlackRegular)
+        //   ],
+        // ),
         Gap(8.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Disetujui pada', style: text12HintRegular),
             Text(
-                '${controller.detailRefund?.approvedAt?.split('.').first.formatDate}',
+                controller.detailRefund?.approvedAt
+                        ?.split('.')
+                        .first
+                        .formatDate ??
+                    '-',
                 style: text12BlackRegular)
           ],
         ),

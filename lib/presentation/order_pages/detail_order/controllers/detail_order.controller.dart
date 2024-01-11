@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
 
 import '../../../../domain/core/model/model_data/detail_order_customer.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
 import '../../order/controllers/order.controller.dart';
@@ -16,7 +18,9 @@ class DetailOrderController extends GetxController {
   DetailOrderCustomer? detailOrderCustomer;
 
   var screenStatus = (ScreenStatus.initalize).obs;
+  var actionButton = ActionStatus.initalize;
   String statusOrder = "";
+  String? argumentBack;
   int totalPrice = 0;
   bool onDelivery = false;
 
@@ -41,6 +45,7 @@ class DetailOrderController extends GetxController {
       case "WAITING_CUSTOMER_CONFIRMATION":
         return 1;
       case 'FINISHED':
+      case 'REVIEWED':
         return 2;
       case "PENDING":
       case "WAITING_DELIVERY":
@@ -62,6 +67,7 @@ class DetailOrderController extends GetxController {
       case "WAITING_CUSTOMER_CONFIRMATION":
         return 'Sampai Tujuan';
       case 'FINISHED':
+      case 'REVIEWED':
         return 'Selesai';
       case "WAITING_DELIVERY":
         return 'Menunggu Pengiriman';
@@ -92,20 +98,57 @@ class DetailOrderController extends GetxController {
   }
 
   void toComplain() {
-    Get.toNamed(Routes.KOMPLAIN, arguments: detailOrderCustomer?.trxId);
+    Get.toNamed(Routes.KOMPLAIN, arguments: detailOrderCustomer?.id);
   }
 
-  void confirmOrder() {}
+  void confirmOrder() {
+    AppDialogConfirmation.show(
+        title: 'Konfirmasi Pesanan',
+        message:
+            'Pastikan pesananmu aman dan sesuai sebelum melakukan konfirmasi pesanan.',
+        onTesText: 'Sesuai',
+        onPressed: () => receiveOrder());
+  }
+
+  Future<void> receiveOrder() async {
+    Get.back();
+    actionButton = ActionStatus.loading;
+    update();
+    final response =
+        await _orderRepository.receiveOrder(detailOrderCustomer?.id ?? 0);
+    if (response.status == StatusResponse.success) {
+      actionButton = ActionStatus.success;
+      update();
+      Get.toNamed(Routes.REVIEW_ORDER,
+          arguments: [detailOrderCustomer?.id ?? 0, 'receive-review']);
+    } else {
+      actionButton = ActionStatus.failed;
+      update();
+    }
+  }
 
   void backToOrder() {
-    if (Get.arguments[1] != null) {
-      if (Get.arguments[1] == 'review') {
-        print('Jalan---');
-      } else if (Get.arguments[1] == 'review-detail') {
+    // Get.back();
+
+    if (argumentBack != null) {
+      if (argumentBack == 'review') {
+        Get.back();
         refreshOrder();
+      } else if (argumentBack == '') {
+        Get.back();
       }
+    } else {
+      Get.back();
     }
     print("Jln--");
+  }
+
+  void toTracking(int id, String status) {
+    if (status == 'ON_DELIVERY') {
+      Get.toNamed(Routes.TRACKING_ORDER, arguments: id);
+    } else {
+      Get.toNamed(Routes.TRACKING_RETURN, arguments: id);
+    }
   }
 
   void refreshOrder() {
@@ -113,8 +156,15 @@ class DetailOrderController extends GetxController {
     controller.pagingController.refresh();
   }
 
+  setArgument() {
+    if (Get.arguments[1] != null) {
+      argumentBack = Get.arguments[1];
+    }
+  }
+
   @override
   void onInit() {
+    setArgument();
     getDetailOrder();
     super.onInit();
   }

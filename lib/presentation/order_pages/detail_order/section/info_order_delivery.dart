@@ -10,6 +10,8 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../infrastructure/navigation/routes.dart';
+
 class InfoOrderDelivery extends StatelessWidget {
   const InfoOrderDelivery({super.key});
 
@@ -30,10 +32,10 @@ class InfoOrderDelivery extends StatelessWidget {
                     children: [
                       Text('${controller.detailOrderCustomer?.trxRef}',
                           style: text12BlackRegular),
-                      GestureDetector(
-                        child:
-                            Text('Lihat Invoice', style: text12SucessRegular),
-                      ),
+                      // GestureDetector(
+                      //   child:
+                      //       Text('Lihat Invoice', style: text12SucessRegular),
+                      // ),
                     ],
                   ),
                   Gap(6.h),
@@ -86,10 +88,13 @@ class InfoOrderDelivery extends StatelessWidget {
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
+                              onTap: () => Get.toNamed(Routes.TRACKING_ORDER,
+                                  arguments:
+                                      controller.detailOrderCustomer?.id),
                               child: Text(
-                            'Lacak Pesanan',
-                            style: text12SucessRegular,
-                          ))),
+                                'Lacak Pesanan',
+                                style: text12SucessRegular,
+                              ))),
                     ),
                   )
                 ],

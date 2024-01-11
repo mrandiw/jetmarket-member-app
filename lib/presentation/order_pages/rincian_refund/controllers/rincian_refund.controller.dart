@@ -23,7 +23,7 @@ class RincianRefundController extends GetxController {
 
   Future<void> getRefundStatus() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _orderRepository.getRefundStatus(1);
+    final response = await _orderRepository.getRefundStatus(Get.arguments);
     if (response.status == StatusResponse.success) {
       detailRefund = response.result;
       screenStatus(ScreenStatus.success);

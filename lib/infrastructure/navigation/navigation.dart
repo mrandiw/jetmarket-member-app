@@ -403,5 +403,10 @@ class Nav {
       page: () => const ChoiceDeliveryRefundScreen(),
       binding: ChoiceDeliveryRefundControllerBinding(),
     ),
+    GetPage(
+      name: Routes.TRACKING_ORDER,
+      page: () => const TrackingOrderScreen(),
+      binding: TrackingOrderControllerBinding(),
+    ),
   ];
 }

@@ -30,7 +30,9 @@ class ReviewRepositoryImpl implements ReviewRepository {
     try {
       final response = await RemoteProvider.post(
           path: "${Endpoint.orderCustomer}/${param?.id}/review",
-          data: param?.toMap()['body']);
+          data: param?.toMap()['body'],
+          queryParameters: {'id': param?.id});
+      print(response.data);
       return DataState<String>(
         status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: response.data['data'],

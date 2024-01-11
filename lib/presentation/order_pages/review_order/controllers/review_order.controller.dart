@@ -8,7 +8,10 @@ import 'package:jetmarket/domain/core/interfaces/file_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/review_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/product_review_model.dart';
 import 'package:jetmarket/domain/core/model/params/review/review_param.dart';
+import 'package:jetmarket/infrastructure/navigation/bindings/controllers/controllers_bindings.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
+import 'package:jetmarket/presentation/order_pages/order/controllers/order.controller.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/action_status.dart';
@@ -60,7 +63,6 @@ class ReviewOrderController extends GetxController {
   void changeRating(int value, int index) {
     selectedRating[index] = value;
     update();
-    print(selectedRating);
   }
 
   Future getImageCamera(String name, int index) async {
@@ -116,7 +118,7 @@ class ReviewOrderController extends GetxController {
   Future<void> sendReview() async {
     actionButton(ActionStatus.loading);
     var param = ReviewParam(
-        id: 1,
+        id: Get.arguments[0],
         body: List.generate(
             reviewController.length,
             (index) => BodyDataReview(
@@ -125,7 +127,7 @@ class ReviewOrderController extends GetxController {
                   review: reviewController[index].text,
                   image: imagesReview[index],
                 )));
-    print(param.toMap()['body']);
+
     final response = await _reviewRepository.sendReview(param);
     if (response.status == StatusResponse.success) {
       actionButton(ActionStatus.success);
@@ -133,12 +135,35 @@ class ReviewOrderController extends GetxController {
         if (Get.arguments[1] == 'review') {
           Get.offNamed(Routes.DETAIL_ORDER,
               arguments: [Get.arguments[0], "review"]);
-        } else if (Get.arguments[1] == 'review-detail') {
+        } else if (Get.arguments[1] == 'review-detail' ||
+            Get.arguments[1] == 'receive-review') {
           Get.back();
+          refreshDetailOrder();
         }
       }
     } else {
       actionButton(ActionStatus.failed);
+    }
+  }
+
+  void refreshOrder() {
+    final controller = Get.find<OrderController>();
+    controller.pagingController.refresh();
+  }
+
+  void refreshDetailOrder() {
+    final controller = Get.find<DetailOrderController>();
+    controller.getDetailOrder();
+    controller.argumentBack = 'review';
+  }
+
+  void backToOrder() {
+    if (Get.arguments[1] == 'receive-review') {
+      Get.back();
+      Get.back();
+      refreshOrder();
+    } else {
+      Get.back();
     }
   }
 

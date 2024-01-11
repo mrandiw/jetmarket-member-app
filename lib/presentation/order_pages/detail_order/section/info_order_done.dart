@@ -59,17 +59,6 @@ class InfoOrderDone extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Waktu Pengiriman Selesai',
-                          style: text12BlackRegular),
-                      Text(
-                          '${controller.detailOrderCustomer?.createdAt?.split('.').first.formatDate}',
-                          style: text12BlackMedium),
-                    ],
-                  ),
-                  Gap(6.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       Text('Status Pesanan', style: text12BlackRegular),
                       AppBadge(
                           icon: done,

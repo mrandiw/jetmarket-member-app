@@ -34,7 +34,7 @@ class DetailOrderScreen extends GetView<DetailOrderController> {
         return true;
       },
       child: Scaffold(
-        appBar: appBarDetailOrder,
+        appBar: appBarDetailOrder(controller),
         body: ListView(
           children: [
             InfoOrder(

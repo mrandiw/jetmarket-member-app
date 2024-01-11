@@ -1,4 +1,5 @@
 class DetailOrderCustomer {
+  int? id;
   int? trxId;
   String? trxRef;
   String? customerName;
@@ -14,7 +15,8 @@ class DetailOrderCustomer {
   int? totalAmount;
 
   DetailOrderCustomer(
-      {this.trxId,
+      {this.id,
+      this.trxId,
       this.trxRef,
       this.customerName,
       this.createdAt,
@@ -28,6 +30,7 @@ class DetailOrderCustomer {
       this.totalOngkir});
 
   DetailOrderCustomer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     trxId = json['trx_id'];
     trxRef = json['trx_ref'];
     customerName = json['customer_name'];
@@ -54,6 +57,7 @@ class DetailOrderCustomer {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['trx_id'] = trxId;
     data['trx_ref'] = trxRef;
     data['customer_name'] = customerName;

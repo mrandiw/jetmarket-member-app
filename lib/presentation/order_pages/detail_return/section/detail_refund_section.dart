@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
@@ -22,44 +23,48 @@ class DetailRefundSection extends StatelessWidget {
     return GetBuilder<DetailReturnController>(builder: (controller) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Gap(20.h),
-        Row(
-          children: [
-            CachedNetworkImage(
-                imageUrl: controller.detailRefund?.seller?.image ?? '',
-                imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 22.r,
-                      backgroundColor: kPrimaryColor2,
-                      backgroundImage: imageProvider,
-                    ),
-                placeholder: (context, url) => SizedBox(
-                      height: 22.r,
-                      width: 22.r,
-                      child: const Center(
-                        child: CupertinoActivityIndicator(color: kSoftBlack),
+        GestureDetector(
+          onTap: () => Get.toNamed(Routes.DETAIL_STORE,
+              arguments: {'seller_id': controller.detailRefund?.seller?.id}),
+          child: Row(
+            children: [
+              CachedNetworkImage(
+                  imageUrl: controller.detailRefund?.seller?.image ?? '',
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 22.r,
+                        backgroundColor: kPrimaryColor2,
+                        backgroundImage: imageProvider,
                       ),
-                    ),
-                errorWidget: (context, url, error) => CircleAvatar(
-                      radius: 22.r,
-                      backgroundColor: kPrimaryColor2,
-                      child: Center(
-                        child: Icon(
-                          Icons.error,
-                          color: kPrimaryColor,
-                          size: 18.r,
+                  placeholder: (context, url) => SizedBox(
+                        height: 22.r,
+                        width: 22.r,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(color: kSoftBlack),
                         ),
                       ),
-                    )),
-            Gap(12.w),
-            Text(
-              controller.detailRefund?.seller?.shopName ?? '-',
-              style: text12BlackMedium,
-            ),
-            const Spacer(),
-            Text('Kunjungi toko', style: text12HintRegular),
-            Gap(8.w),
-            Icon(Icons.chevron_right,
-                color: const Color(0xff808080).withOpacity(0.7), size: 20.r)
-          ],
+                  errorWidget: (context, url, error) => CircleAvatar(
+                        radius: 22.r,
+                        backgroundColor: kPrimaryColor2,
+                        child: Center(
+                          child: Icon(
+                            Icons.error,
+                            color: kPrimaryColor,
+                            size: 18.r,
+                          ),
+                        ),
+                      )),
+              Gap(12.w),
+              Text(
+                controller.detailRefund?.seller?.shopName ?? '-',
+                style: text12BlackMedium,
+              ),
+              const Spacer(),
+              Text('Kunjungi toko', style: text12HintRegular),
+              Gap(8.w),
+              Icon(Icons.chevron_right,
+                  color: const Color(0xff808080).withOpacity(0.7), size: 20.r)
+            ],
+          ),
         ),
         Gap(16.h),
         Divider(
@@ -70,7 +75,7 @@ class DetailRefundSection extends StatelessWidget {
         Gap(16.h),
         Column(
           children: List.generate(
-            2,
+            controller.detailRefund?.refundItems?.length ?? 0,
             (index) => Padding(
               padding: EdgeInsets.only(bottom: 12.h),
               child: Row(
@@ -124,7 +129,7 @@ class DetailRefundSection extends StatelessWidget {
                       children: [
                         Text(
                             controller.detailRefund?.refundItems?[index].name ??
-                                'Name',
+                                '',
                             style: text12BlackSemiBold),
                         Gap(6.h),
                         Row(
@@ -160,21 +165,24 @@ class DetailRefundSection extends StatelessWidget {
           children: [
             Text('Disetujui pada', style: text12HintRegular),
             Text(
-                '${controller.detailRefund?.approvedAt?.split('.').first.formatDate}',
+                controller.detailRefund?.approvedAt
+                        ?.split('.')
+                        .first
+                        .formatDate ??
+                    '-',
                 style: text12BlackRegular)
           ],
         ),
         Gap(8.h),
         Text('Bukti', style: text12HintRegular),
-        Gap(8.h),
+        Gap(16.h),
         Row(
             children: List.generate(
-          2,
+          controller.detailRefund?.proofs?.length ?? 0,
           (index) => Padding(
             padding: EdgeInsets.only(right: 12.w),
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1704212607070-ed740ea8c7e7?q=80&w=2688&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              imageUrl: controller.detailRefund?.proofs?[index].image ?? '',
               height: 66.r,
               width: 66.r,
               fit: BoxFit.cover,
@@ -183,7 +191,7 @@ class DetailRefundSection extends StatelessWidget {
                   onTap: () => controller.setSelectedProofsIndex(
                       index,
                       controller.detailRefund?.proofs?[index].description ??
-                          'text$index'),
+                          ''),
                   child: Container(
                     decoration: BoxDecoration(
                         color: kSofterGrey,
