@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
-import 'package:jetmarket/utils/extension/format_text.dart';
 
 import '../../../../components/badge/app_badge.dart';
 import '../../../../infrastructure/theme/app_colors.dart';

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:jetmarket/components/form/app_form.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/home_pages/choice_payment/controllers/choice_payment.controller.dart';
 import 'package:jetmarket/presentation/koperasi_pages/add_tabungan_manual/controllers/add_tabungan_manual.controller.dart';
 
 class OvoForm extends StatelessWidget {

@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
-import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 
 import '../../../../components/button/app_button.dart';

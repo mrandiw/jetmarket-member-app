@@ -1,12 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/order_pages/order/section/app_bar_section.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/order.controller.dart';
 import 'section/list_order_section.dart';

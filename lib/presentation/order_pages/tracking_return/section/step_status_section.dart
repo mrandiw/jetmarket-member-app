@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -58,11 +60,11 @@ class StepStatusSection extends StatelessWidget {
                             Gap(4.h),
                             GestureDetector(
                               onTap: () {
-                                print(controller
+                                log("${controller
                                     .trackingRefund
                                     ?.histories?[index]
                                     .createdAt
-                                    ?.convertToCustomFormat);
+                                    ?.convertToCustomFormat}");
                               },
                               child: Text(
                                   "2024-01-10 10:44:15.135794 +0000 +0000"

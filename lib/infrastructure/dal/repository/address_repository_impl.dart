@@ -1,16 +1,13 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/address_model.dart';
 import 'package:jetmarket/domain/core/model/params/address/address_body.dart';
 import 'package:jetmarket/domain/core/model/params/address/address_param.dart';
-import 'package:jetmarket/domain/core/model/params/address/item_product_for_delivery.dart';
 import 'package:jetmarket/infrastructure/dal/daos/provider/endpoint/endpoint.dart';
 import 'package:jetmarket/utils/network/data_state.dart';
 import '../../../../domain/core/model/model_data/location_model.dart';
 import '../../../../domain/core/model/params/location_param.dart';
-import '../../../domain/core/model/model_data/delivery_model.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/path/environment.dart';

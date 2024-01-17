@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
-import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/edit_address/controllers/edit_address.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';

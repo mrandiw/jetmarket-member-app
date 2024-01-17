@@ -5,13 +5,10 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_payletter.dart';
 
-import '../../../domain/core/model/model_data/order_customer.dart';
-import '../../../domain/core/model/model_data/order_customer_payment.dart';
 import '../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../domain/core/model/params/auth/payment_param.dart';
-import '../../../domain/core/model/params/product/order_customer_body.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/network/data_state.dart';

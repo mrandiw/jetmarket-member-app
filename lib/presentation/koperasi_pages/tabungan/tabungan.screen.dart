@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../components/loading/load_pages.dart';
-import '../../../components/parent/parent_scaffold.dart';
 import 'controllers/tabungan.controller.dart';
 import 'section/app_bar_section.dart';
 import 'section/choice_option.dart';

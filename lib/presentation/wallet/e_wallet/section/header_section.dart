@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/wallet/e_wallet/controllers/e_wallet.controller.dart';
-import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';

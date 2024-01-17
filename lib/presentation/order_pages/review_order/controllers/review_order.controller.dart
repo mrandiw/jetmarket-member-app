@@ -8,7 +8,6 @@ import 'package:jetmarket/domain/core/interfaces/file_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/review_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/product_review_model.dart';
 import 'package:jetmarket/domain/core/model/params/review/review_param.dart';
-import 'package:jetmarket/infrastructure/navigation/bindings/controllers/controllers_bindings.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/presentation/order_pages/order/controllers/order.controller.dart';

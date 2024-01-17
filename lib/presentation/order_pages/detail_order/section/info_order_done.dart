@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
-import 'package:jetmarket/utils/extension/format_text.dart';
 
 import '../../../../components/badge/app_badge.dart';
 import '../../../../infrastructure/theme/app_colors.dart';

@@ -1,18 +1,14 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/form/app_form.dart';
-import 'package:jetmarket/components/form/app_form_icon.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/forgot_password/controllers/forgot_password.controller.dart';
-import 'package:jetmarket/presentation/auth/login/controllers/login.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/button/app_button.dart';
-import '../../../../infrastructure/navigation/routes.dart';
 
 class FormSection extends StatelessWidget {
   const FormSection({super.key});

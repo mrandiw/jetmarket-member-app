@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../path/environment.dart';
 
 class CustomLogger {
   static onResponseLogger(

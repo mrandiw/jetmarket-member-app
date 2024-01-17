@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/model/model_data/notification.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
-import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/notification/widget/card_notification.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 

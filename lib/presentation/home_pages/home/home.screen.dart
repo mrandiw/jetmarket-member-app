@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
-import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/home_pages/home/section/app_bar_section.dart';
 import 'package:jetmarket/presentation/home_pages/home/section/banner_section.dart';

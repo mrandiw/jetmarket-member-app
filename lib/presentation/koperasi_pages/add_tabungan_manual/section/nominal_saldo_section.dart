@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/components/form/app_form.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/koperasi_pages/add_tabungan_manual/controllers/add_tabungan_manual.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
-import 'package:jetmarket/utils/extension/remove_comma.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 import '../../../../components/form/app_form_nominal.dart';

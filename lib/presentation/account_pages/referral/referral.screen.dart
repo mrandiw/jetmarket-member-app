@@ -5,7 +5,6 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
 import 'controllers/referral.controller.dart';
 import 'section/app_bar_section.dart';
-import 'section/code_referral_section.dart';
 import 'section/history_section.dart';
 import 'section/list_account_section.dart';
 

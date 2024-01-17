@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -10,7 +9,6 @@ import 'package:jetmarket/presentation/home_pages/cart/section/cart_product.dart
 import 'package:jetmarket/presentation/home_pages/cart/section/select_all_product.dart';
 
 import '../../../components/infiniti_page/infiniti_page.dart';
-import '../../../infrastructure/theme/app_text.dart';
 import '../../../utils/style/app_style.dart';
 import 'controllers/cart.controller.dart';
 import 'section/app_bar_section.dart';

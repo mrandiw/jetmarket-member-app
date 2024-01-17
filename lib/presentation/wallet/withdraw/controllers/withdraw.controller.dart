@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog.dart';
-import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/wallet/withdraw/widget/dialog_withdraw.dart';
 import 'package:jetmarket/utils/extension/currency.dart';

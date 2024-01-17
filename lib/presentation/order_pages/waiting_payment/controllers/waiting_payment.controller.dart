@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';

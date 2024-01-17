@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/presentation/koperasi_pages/add_tabungan/controllers/add_tabungan.controller.dart';
 import 'package:jetmarket/presentation/koperasi_pages/ajukan_pinjaman/controllers/ajukan_pinjaman.controller.dart';
 
 import '../../../../components/button/app_button.dart';

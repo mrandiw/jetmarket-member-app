@@ -55,7 +55,6 @@ class SetRefundController extends GetxController {
           rate: setRefundModel?.services?[selectedIndexService ?? 0]
               .packets?[selectedIndexPackage ?? 0].delivery?.rate,
         ));
-    print(param.body?.toMap());
     final response = await _deliveryRepository.setRefundOrder(param);
     if (response.status == StatusResponse.success) {
       actionButton(ActionStatus.success);

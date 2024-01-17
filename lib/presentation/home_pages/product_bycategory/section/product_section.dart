@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/product_bycategory/controllers/product_bycategory.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 import '../../../../components/card/product_item.dart';
