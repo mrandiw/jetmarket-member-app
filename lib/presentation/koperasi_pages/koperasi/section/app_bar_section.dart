@@ -15,7 +15,7 @@ import '../../../../infrastructure/dal/services/firebase/firebase_controller.dar
 AppBar get appBarKoperasi {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     toolbarHeight: 52.hr,
     centerTitle: false,
     title: Text('Koperasi', style: text14BlackMedium),

@@ -27,7 +27,7 @@ class AppBarDetailOrder extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       floating: true,
-      elevation: 0.3,
+      elevation: 0,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       automaticallyImplyLeading: false,
       expandedHeight: 210,

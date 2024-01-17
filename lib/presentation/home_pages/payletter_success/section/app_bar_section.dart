@@ -8,7 +8,7 @@ import '../../../../utils/assets/assets_svg.dart';
 AppBar get appBarSuccessPayletter {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     automaticallyImplyLeading: false,
     leading: IconButton(
       onPressed: () => Get.back(),

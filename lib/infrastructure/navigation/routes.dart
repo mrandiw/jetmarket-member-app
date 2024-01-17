@@ -20,6 +20,7 @@ class Routes {
   static const CHOICE_DELIVERY = '/choice-delivery';
   static const CHOICE_DELIVERY_REFUND = '/choice-delivery-refund';
   static const CHOICE_PAYMENT = '/choice-payment';
+  static const DAFTAR_PENGAJUAN_PINJAMAN = '/daftar-pengajuan-pinjaman';
   static const DETAIL_ADDRESS = '/detail-address';
   static const DETAIL_CHECKOUT = '/detail-checkout';
   static const DETAIL_MENABUNG = '/detail-menabung';
@@ -74,12 +75,14 @@ class Routes {
   static const SUCCESS_VERIFY_OTP = '/success-verify-otp';
   static const TABUNGAN = '/tabungan';
   static const TABUNGAN_PAYMENT = '/tabungan-payment';
+  static const TAGIHAN_BULANAN_PINJAMAN = '/tagihan-bulanan-pinjaman';
   static const TOPUP_SALDO = '/topup-saldo';
+  static const TRACKING_ORDER = '/tracking-order';
   static const TRACKING_RETURN = '/tracking-return';
   static const TRACKING_RETURN_ORDER = '/tracking-return-order';
   static const VOUCHER = '/voucher';
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const TRACKING_ORDER = '/tracking-order';
+  static const DETAIL_CHAT = '/detail-chat';
 }

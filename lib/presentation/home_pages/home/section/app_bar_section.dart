@@ -15,7 +15,7 @@ import 'package:jetmarket/utils/extension/responsive_size.dart';
 AppBar get appBarHome {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     toolbarHeight: 52.hr,
     title: GetBuilder<AccountController>(builder: (controller) {
       return Column(

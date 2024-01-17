@@ -14,7 +14,9 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/checkou
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_delivery.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_delivery_refund.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_payment.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/daftar_pengajuan_pinjaman.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_address.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_chat.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_checkout.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_menabung.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_order.controller.binding.dart';
@@ -66,6 +68,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/success
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/success_verify_otp.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan_payment.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tagihan_bulanan_pinjaman.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/topup_saldo.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tracking_order.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tracking_return.controller.binding.dart';

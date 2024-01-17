@@ -7,6 +7,7 @@ import 'package:jetmarket/domain/core/model/model_data/product.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../domain/core/model/model_data/banner.dart';
@@ -26,6 +27,8 @@ class HomeController extends GetxController {
 
   late PagingController<int, Product> pagingController;
   late PagingController<int, Product> pagingPopularController;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   List<CategoryProduct> categoryProduct = [];
   List<Banners> banners = [];
@@ -268,6 +271,24 @@ class HomeController extends GetxController {
       getProductPopularOnPage(1);
       pagingPopularController.refresh();
     }
+  }
+
+  void onRefresh() async {
+    await Future.delayed(1.seconds, () {
+      pagingController.itemList?.clear();
+      // getSavingHistory(1);
+      if (isHomeScreen.value) {
+        pagingController.refresh();
+      } else {
+        pagingPopularController.refresh();
+      }
+    });
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await Future.delayed(1.seconds);
+    if (isClosed) refreshController.loadComplete();
   }
 
   @override

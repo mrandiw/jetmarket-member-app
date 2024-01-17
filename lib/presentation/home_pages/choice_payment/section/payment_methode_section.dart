@@ -23,7 +23,6 @@ class PaymentMethodeSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Pilih Metode Pembayaran', style: text14BlackSemiBold),
-
               Gap(16.h),
               // Payment Method Bank
               Container(

@@ -178,7 +178,6 @@ class ChoicePaymentController extends GetxController {
   }
 
   Future<void> payOrder() async {
-    print(orderCustomer?.toJson());
     if (selectedchType != 'PAYLATER') {
       actionStatus = ActionStatus.loading;
       update();
@@ -193,7 +192,6 @@ class ChoicePaymentController extends GetxController {
         update();
       }
     } else {
-      print(selectedPayletter);
       Get.toNamed(Routes.PAYMENT_PAYLETTER, arguments: orderCustomer);
     }
   }

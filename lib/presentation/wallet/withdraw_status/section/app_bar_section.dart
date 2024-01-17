@@ -6,7 +6,7 @@ import 'package:jetmarket/utils/extension/responsive_size.dart';
 AppBar get appBarWithdraw {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     toolbarHeight: 52.hr,
     title: Text('Withdraw', style: text16BlackSemiBold),
   );

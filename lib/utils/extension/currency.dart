@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension CurrencyFormat on String {
   String get toIdrFormat {
     try {
@@ -12,4 +14,12 @@ extension CurrencyFormat on String {
       return 'Rp. 0';
     }
   }
+}
+
+String getFormattedAmount(amount) {
+  return NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp',
+    decimalDigits: 0,
+  ).format(amount ?? 0);
 }

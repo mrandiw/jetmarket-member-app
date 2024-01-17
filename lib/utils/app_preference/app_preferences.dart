@@ -22,6 +22,7 @@ class AppPreference {
   final String _isReferal = 'referal';
   final String _phoneNumber = 'phone';
   final String _countDown = 'count_down';
+  final String _countDownPaymentSaving = 'count_down_payment_saving';
   final String _countDownOrder = 'count_down_order';
 
   final String _trxId = 'trx_id';
@@ -45,12 +46,38 @@ class AppPreference {
     await _prefs?.setString(_countDownOrder, json.encode(countDownMap));
   }
 
+  Future<void> saveCountDownSavingPayment(int countDown, String id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownPaymentSaving);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id] = startTime;
+    await _prefs?.setString(_countDownPaymentSaving, json.encode(countDownMap));
+  }
+
   int? getCountDownOrder(int id) {
     String? countDownData = _prefs?.getString(_countDownOrder);
 
     if (countDownData != null) {
       Map<String, dynamic> countDownMap = json.decode(countDownData);
       if (countDownMap.containsKey(id.toString())) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
+  }
+
+  int? getCountDownSavingPayment(String id) {
+    String? countDownData = _prefs?.getString(_countDownPaymentSaving);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id)) {
         return countDownMap[id.toString()];
       }
     }

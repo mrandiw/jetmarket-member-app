@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'controllers/koperasi.controller.dart';
 import 'section/app_bar_section.dart';
@@ -13,14 +15,27 @@ class KoperasiScreen extends GetView<KoperasiController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarKoperasi,
-      backgroundColor: kWhite,
-      // body: ListView(
-      //   children: [
-      //     HeaderSection(controller: controller),
-      //     const HistorySection()
-      //   ],
-      // )
-    );
+        appBar: appBarKoperasi,
+        backgroundColor: kWhite,
+        body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          controller: controller.refreshController,
+          onRefresh: controller.onRefresh,
+          onLoading: controller.onLoading,
+          header: const WaterDropHeader(
+            waterDropColor: kPrimaryColor,
+            complete: SizedBox.shrink(),
+            refresh: CupertinoActivityIndicator(
+              color: kSoftGrey,
+            ),
+          ),
+          child: CustomScrollView(
+            slivers: [
+              HeaderSection(controller: controller),
+              HistorySection(controller: controller)
+            ],
+          ),
+        ));
   }
 }

@@ -28,7 +28,7 @@ class AppBarReferral extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       floating: true,
-      elevation: 0.3,
+      elevation: 0,
       backgroundColor: kWhite,
       automaticallyImplyLeading: false,
       expandedHeight: 248,

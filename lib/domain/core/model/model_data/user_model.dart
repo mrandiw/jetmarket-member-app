@@ -54,9 +54,9 @@ class User {
     phone = json['phone'];
     referral = json['referral'];
     email = json['email'];
-    isEmployee = json['is _employee'];
-    isVerified = json['is verified'];
-    activatedAt = json['activated at'];
+    isEmployee = json['is_employee'];
+    isVerified = json['is_verified'];
+    activatedAt = json['activated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -68,9 +68,9 @@ class User {
     data['phone'] = phone;
     data['referral'] = referral;
     data['email'] = email;
-    data['is _employee'] = isEmployee;
-    data['is verified'] = isVerified;
-    data['activated at'] = activatedAt;
+    data['is_employee'] = isEmployee;
+    data['is_verified'] = isVerified;
+    data['activated_at'] = activatedAt;
     return data;
   }
 }

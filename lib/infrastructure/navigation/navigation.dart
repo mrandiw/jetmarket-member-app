@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../config/config.dart';
+import '../../presentation/koperasi_pages/tagihan_bulanan_pinjaman/tagihan_bulanan_pinjaman.screen.dart';
 import '../../presentation/screens.dart';
 import '../middleware/auth_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
@@ -407,6 +408,21 @@ class Nav {
       name: Routes.TRACKING_ORDER,
       page: () => const TrackingOrderScreen(),
       binding: TrackingOrderControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DAFTAR_PENGAJUAN_PINJAMAN,
+      page: () => const DaftarPengajuanPinjamanScreen(),
+      binding: DaftarPengajuanPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TAGIHAN_BULANAN_PINJAMAN,
+      page: () => const TagihanBulananPinjamanScreen(),
+      binding: TagihanBulananPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_CHAT,
+      page: () => const DetailChatScreen(),
+      binding: DetailChatControllerBinding(),
     ),
   ];
 }

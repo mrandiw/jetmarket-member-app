@@ -10,7 +10,7 @@ import '../controllers/choice_delivery_refund.controller.dart';
 AppBar appBarChoiceDelivery(ChoiceDeliveryRefundController controller) {
   return AppBar(
       backgroundColor: kWhite,
-      elevation: 0.3,
+      elevation: 0,
       automaticallyImplyLeading: false,
       leading: IconButton(
         onPressed: () => Get.back(),

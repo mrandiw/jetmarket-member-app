@@ -62,4 +62,18 @@ class Endpoint {
 
   // Address
   static String address = 'address/customer';
+
+  // Saving
+  static String saving = 'saving';
+  static String savingTotal = 'saving/total';
+  static String savingHistory = 'saving/history';
+  static String savingInstallment = 'saving/installment';
+  static String savingDirect = 'saving/direct';
+  static String savingPaymentMethode = 'saving/payment_method';
+  static String savingWaitingPayment = 'saving/waiting_payment';
+
+  // Loan
+  static String loanEntry = 'loan/entry';
+  static String loanPropose = 'loan/propose';
+  static String loanBill = 'loan/bill';
 }

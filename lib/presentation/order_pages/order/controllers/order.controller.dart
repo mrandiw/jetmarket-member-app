@@ -212,7 +212,7 @@ class OrderController extends GetxController
     }
   }
 
-  setProductByStatus(int? index) {
+  setOrderByStatus(int? index) {
     selectedStatusOrder = statusTabs[index ?? 0];
     currentIndexTab = index ?? 0;
     pagingController.itemList?.clear();
@@ -226,7 +226,8 @@ class OrderController extends GetxController
   void onRefresh() async {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
-      getListOrderProduct(1);
+      pagingController.refresh();
+      // getListOrderProduct(1);
     });
     refreshController[currentIndexTab].refreshCompleted();
   }
@@ -248,7 +249,7 @@ class OrderController extends GetxController
       // FIX Multiple call tabController
       loadingOnChangeTab(true);
       if (!tabController.indexIsChanging) {
-        setProductByStatus(tabController.index);
+        setOrderByStatus(tabController.index);
       }
     });
     super.onInit();
