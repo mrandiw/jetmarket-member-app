@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:915263156671:ios:92875587e3e1b8923bf10a",
-  "FIREBASE_PROJECT_ID": "jetmarket-customer",
-  "GCM_SENDER_ID": "915263156671"
+  "GOOGLE_APP_ID": "1:418835362647:ios:3dec94af294f0866094412",
+  "FIREBASE_PROJECT_ID": "jetmarket-app",
+  "GCM_SENDER_ID": "418835362647"
 }
