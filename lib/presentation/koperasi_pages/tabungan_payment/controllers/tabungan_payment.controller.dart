@@ -52,8 +52,6 @@ class TabunganPaymentController extends GetxController
     final response = await _savingRepository.waitingPayment();
     if (response.status == StatusResponse.success) {
       waitingPayment = response.result;
-      print(waitingPayment?.ewallet?.deeplink);
-      print(waitingPayment?.ewallet?.qrCode);
 
       update();
       if (response.result?.id == null) {

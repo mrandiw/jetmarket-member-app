@@ -163,7 +163,7 @@ class AddTabunganManualController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionButton = ActionStatus.success;
       update();
-      if (selectedChCode == 'saldo') {
+      if (selectedChCode == 'SALDO') {
         Get.offNamed(Routes.PAYMENT_TABUNGAN_SUCCESS,
             arguments: response.result);
       } else {

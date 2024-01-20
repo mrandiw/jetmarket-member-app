@@ -1,6 +1,5 @@
 import 'package:jetmarket/domain/core/model/model_data/saving_direct_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/saving_history_model.dart';
-import 'package:jetmarket/domain/core/model/model_data/saving_installment_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/saving_payment_methode_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/waiting_payment_model.dart';
 import 'package:jetmarket/domain/core/model/params/saving/saving_direct_param.dart';
