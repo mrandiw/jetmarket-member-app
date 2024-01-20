@@ -140,7 +140,6 @@ class DetailOrderController extends GetxController {
     } else {
       Get.back();
     }
-    print("Jln--");
   }
 
   void toTracking(int id, String status) {

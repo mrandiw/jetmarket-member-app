@@ -33,9 +33,14 @@ class Main extends StatelessWidget {
               initialRoute: initialRoute,
               debugShowCheckedModeBanner: false,
               useInheritedMediaQuery: true,
+
               // locale: DevicePreview.locale(context),
               // builder: DevicePreview.appBuilder,
-              theme: ThemeData(useMaterial3: true),
+              theme: ThemeData(
+                  useMaterial3: true,
+                  bottomSheetTheme: const BottomSheetThemeData(
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent)),
               getPages: Nav.routes,
             ),
           );

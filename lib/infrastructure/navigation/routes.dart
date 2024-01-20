@@ -1,6 +1,7 @@
+// ignore_for_file: constant_identifier_names
+
 class Routes {
   static Future<String> get initialRoute async {
-    // TODO: implement method
     return Routes.SPLASH_SCREEN;
   }
 
@@ -14,6 +15,7 @@ class Routes {
   static const CARA_BAYAR = '/cara-bayar';
   static const CART = '/cart';
   static const CHANGE_PASSWORD = '/change-password';
+  static const CHATS = '/chats';
   static const CHECKOUT = '/checkout';
   static const CHECKOUT_PAYMENT = '/checkout-payment';
   static const CHECKOUT_PAYMENT_RETAIL = '/checkout-payment-retail';
@@ -22,6 +24,7 @@ class Routes {
   static const CHOICE_PAYMENT = '/choice-payment';
   static const DAFTAR_PENGAJUAN_PINJAMAN = '/daftar-pengajuan-pinjaman';
   static const DETAIL_ADDRESS = '/detail-address';
+  static const DETAIL_CHAT = '/detail-chat';
   static const DETAIL_CHECKOUT = '/detail-checkout';
   static const DETAIL_MENABUNG = '/detail-menabung';
   static const DETAIL_ORDER = '/detail-order';
@@ -84,5 +87,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const DETAIL_CHAT = '/detail-chat';
+  static const DETAIL_TAGIHAN_BULANAN = '/detail-tagihan-bulanan';
 }

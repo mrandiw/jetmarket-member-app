@@ -45,7 +45,7 @@ class AjukanPinjamanController extends GetxController {
     "Mandiri",
     "CIMB",
   ];
-  var imagesUser;
+  String? imagesUser;
   File? userFile;
   Future getImageMenu() async {
     Get.back();

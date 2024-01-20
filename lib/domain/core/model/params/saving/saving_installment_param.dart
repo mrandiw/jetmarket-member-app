@@ -1,12 +1,12 @@
 class SavingInstallmentParam {
-  String? scheduledAt;
+  String? dueAt;
   int? amount;
 
-  SavingInstallmentParam({this.scheduledAt, this.amount});
+  SavingInstallmentParam({this.dueAt, this.amount});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['scheduled_at'] = scheduledAt;
+    data['due_at'] = dueAt;
     data['amount'] = amount;
     data.removeWhere((key, value) => value == null || value == '');
     return data;

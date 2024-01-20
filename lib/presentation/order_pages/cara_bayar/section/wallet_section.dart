@@ -89,7 +89,6 @@ class WalletSection extends StatelessWidget {
                 onTap: () {
                   controller.onTapQrCode(
                       controller.paymentCustomer?.ewallet?.deeplink ?? '');
-                  print(controller.paymentCustomer?.ewallet?.deeplink);
                 },
                 child: SfBarcodeGenerator(
                     value: controller.paymentCustomer?.ewallet?.qrCode,

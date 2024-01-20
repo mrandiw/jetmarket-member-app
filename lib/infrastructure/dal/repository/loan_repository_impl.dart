@@ -6,6 +6,8 @@ import 'package:jetmarket/domain/core/model/params/loan/loan_entry_param.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_propose_list_param.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_propose_param.dart';
 
+import '../../../domain/core/model/model_data/detail_loan_bill_model.dart';
+import '../../../domain/core/model/model_data/loan_bill_model.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/network/data_state.dart';
@@ -72,13 +74,43 @@ class LoanRepositoryImpl implements LoanRepository {
   @override
   Future<DataState<DetailLoanModel>> getDetailLoanPropose(int id) async {
     try {
-      final response =
-          await RemoteProvider.get(path: "${Endpoint.loanPropose}/$id");
+      final response = await RemoteProvider.get(
+          path: "${Endpoint.loanPropose}/$id", queryParameters: {'id': id});
       return DataState<DetailLoanModel>(
           result: DetailLoanModel.fromJson(response.data['data']),
           status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<DetailLoanModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<LoanBillModel>>> getLoanBill(
+      {required int page, required int size}) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.loanBill,
+          queryParameters: {'page': page, 'size': size});
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<LoanBillModel>>(
+          result: datas.map((e) => LoanBillModel.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response),
+          message: response.data['message']);
+    } on DioException catch (e) {
+      return CustomException<List<LoanBillModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<DetailLoanBillModel>> getDetailLoanBill(int id) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: "${Endpoint.loanBill}/$id", queryParameters: {'id': id});
+      return DataState<DetailLoanBillModel>(
+          result: DetailLoanBillModel.fromJson(response.data['data']),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<DetailLoanBillModel>().dio(e);
     }
   }
 }

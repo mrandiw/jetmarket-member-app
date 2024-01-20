@@ -57,8 +57,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
           queryParameters: {'trx_id': id});
 
       return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(
-            response: response, showLogs: true, queryParams: true),
+        status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: PaymentCustomerModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {

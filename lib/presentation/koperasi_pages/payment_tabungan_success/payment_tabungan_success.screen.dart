@@ -32,7 +32,8 @@ class PaymentTabunganSuccessScreen
           Gap(32.hr),
           AppButton.primary(
             text: 'Lihat Rincian',
-            onPressed: () => Get.offNamed(Routes.DETAIL_MENABUNG),
+            onPressed: () => Get.offNamed(Routes.DETAIL_MENABUNG,
+                arguments: controller.savingDirect?.savingId),
           ),
           Gap(12.hr),
           AppButton.secondaryGrey(

@@ -3,13 +3,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import '../../../../domain/core/interfaces/address_repository.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 
 class LocationController extends GetxController {
-  final AddressRepository _addressRepository;
-  LocationController(this._addressRepository);
   String address = "";
   String posCode = "";
   String label = "";
@@ -51,7 +47,7 @@ class LocationController extends GetxController {
         update();
       }
     } catch (e) {
-      print("Error: $e");
+      throw Exception(e);
     }
   }
 
@@ -81,7 +77,6 @@ class LocationController extends GetxController {
   }
 
   void selectLocation() {
-    print("Code Pos : $posCode");
     Get.toNamed(Routes.DETAIL_ADDRESS, arguments: {
       'label': label,
       'address': address,

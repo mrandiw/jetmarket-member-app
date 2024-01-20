@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../infrastructure/dal/daos/provider/remote/remote_provider.dart';
-import '../infrastructure/dal/services/firebase/firebase_api.dart';
+// import '../infrastructure/dal/services/firebase/firebase_api.dart';
 import '../infrastructure/dal/services/firebase/firebase_options.dart';
 import '../utils/path/environment.dart';
 
@@ -20,7 +20,7 @@ class AppConfig {
     });
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    await FirebaseApi().initNotification();
+    // await FirebaseApi().initNotification();
     await AppPreference.init();
     await RemoteProvider.init();
   }

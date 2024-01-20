@@ -24,6 +24,7 @@ class NominalSaldoSection extends StatelessWidget {
           Gap(8.hr),
           AppFormNominal(
             controller: controller.nominalController,
+            onChanged: controller.listenNominalForm,
             inputFormatters: [NominalFormatter()],
           ),
           Gap(20.hr),

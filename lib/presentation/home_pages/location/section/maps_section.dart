@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jetmarket/infrastructure/dal/repository/address_repository_impl.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/home_pages/location/controllers/location.controller.dart';
 
@@ -12,9 +11,10 @@ class MapsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     late GoogleMapController gmapsControl;
     return GetBuilder<LocationController>(
-        init: LocationController(AddressRepositoryImpl()),
+        init: LocationController(),
         builder: (controller) {
           return SizedBox(
             height: Get.height,

@@ -27,7 +27,6 @@ class OrderListTransactionController extends GetxController {
 
   @override
   void onInit() {
-    print("JJL");
     getListOrder(Get.arguments);
     super.onInit();
   }

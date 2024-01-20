@@ -179,7 +179,6 @@ class OrderController extends GetxController
     //                               : data.status == 'FINISHED'
     //                                   ? 'Review'
     // : 'Beli Lagi',
-    print(data.status);
     if (data.status == 'FINISHED') {
       Get.toNamed(Routes.REVIEW_ORDER, arguments: [data.id, 'review']);
     } else if (data.status == "REFUNDED" ||

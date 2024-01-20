@@ -1,11 +1,3 @@
 import 'package:get/get.dart';
 
-class HistoryTabunganController extends GetxController {
-  //TODO: Implement HistoryTabunganController
-
-  final count = 0.obs;
-
-
-
-  void increment() => count.value++;
-}
+class HistoryTabunganController extends GetxController {}

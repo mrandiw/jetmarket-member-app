@@ -15,8 +15,7 @@ abstract class SavingRepository {
   Future<DataState<List<SavingHistoryModel>>> getSavingHistory(
       {required int page, required int size});
   Future<DataState<SavingPaymentMethodeModel>> getSavingPaymentMethode();
-  Future<DataState<SavingInstallmentModel>> savingInstallment(
-      SavingInstallmentParam param);
+  Future<DataState<String>> savingInstallment(SavingInstallmentParam param);
   Future<DataState<SavingDirectModel>> savingDirect(SavingDirectParam param);
   Future<DataState<WaitingPaymentModel?>> waitingPayment();
 }

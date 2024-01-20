@@ -8,6 +8,8 @@ import 'package:jetmarket/presentation/koperasi_pages/add_tabungan/controllers/a
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/form/app_form_nominal.dart';
+import '../../../../components/formatter/nominal_formatter.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/assets/assets_svg.dart';
@@ -60,12 +62,11 @@ class FormSection extends StatelessWidget {
             Gap(16.hr),
             Text('Nominal', style: text12BlackRegular),
             Gap(8.hr),
-            AppForm(
+            AppFormNominal(
               controller: controller.nominalController,
-              hintText: '',
-              keyboardType: TextInputType.number,
               onChanged: controller.listenNominalForm,
-            )
+              inputFormatters: [NominalFormatter()],
+            ),
           ],
         );
       }),

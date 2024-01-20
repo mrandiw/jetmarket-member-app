@@ -34,21 +34,26 @@ class FilterSection extends StatelessWidget {
                         }
                       },
                       child: Row(children: [
-                        Text('Semua', style: text12BlackMedium),
+                        Text(
+                            controller.selectedFilter == 0
+                                ? 'Terbaru'
+                                : 'Terlama',
+                            style: text12BlackMedium),
                         Gap(4.wr),
                         const Icon(Icons.keyboard_arrow_down_rounded)
                       ]),
                     );
                   },
                   menuChildren: List<MenuItemButton>.generate(
-                    3,
+                    2,
                     (int index) => MenuItemButton(
                       child: Text(
-                        'Item ${index + 1}',
+                        index == 0 ? 'Terbaru' : 'Terlama',
                         style: text12BlackRegular,
                       ),
                       onPressed: () {
                         controller.menuController?.close();
+                        controller.selectedFilterIndex(index);
                       },
                     ),
                   ),

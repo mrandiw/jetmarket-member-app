@@ -179,7 +179,7 @@ class AuthRepositoryImpl implements AuthRepository {
           await RemoteProvider.get(path: '${Endpoint.profile}/$id');
 
       return DataState<UserProfile>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(response: response),
         result: UserProfile.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -220,7 +220,6 @@ class AuthRepositoryImpl implements AuthRepository {
       //   'foto':
       //       await MultipartFile.fromFile(body.image ?? '', filename: 'users'),
       // });
-      // print(formData.fields);
       final response = await RemoteProvider.put(
           path: '${Endpoint.profile}/$id', data: body.toMap());
 

@@ -32,9 +32,8 @@ class ReviewRepositoryImpl implements ReviewRepository {
           path: "${Endpoint.orderCustomer}/${param?.id}/review",
           data: param?.toMap()['body'],
           queryParameters: {'id': param?.id});
-      print(response.data);
       return DataState<String>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(response: response),
         result: response.data['data'],
       );
     } on DioException catch (e) {

@@ -124,8 +124,7 @@ class OrderRepositoryImpl implements OrderRepository {
       List<dynamic> datas = response.data['data']['items'];
       log(datas.length.toString());
       return DataState<List<OrderProductModel>>(
-        status: StatusCodeResponse.cek(
-            response: response, queryParams: true, showLogs: true),
+        status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
       );
     } on DioException catch (e) {
@@ -197,7 +196,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response =
           await RemoteProvider.get(path: '${Endpoint.orderRefundStatus}/$id');
       return DataState<DetailRefundModel>(
-        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        status: StatusCodeResponse.cek(response: response),
         result: DetailRefundModel.fromJson(response.data['data']),
         message: response.data['message'],
       );

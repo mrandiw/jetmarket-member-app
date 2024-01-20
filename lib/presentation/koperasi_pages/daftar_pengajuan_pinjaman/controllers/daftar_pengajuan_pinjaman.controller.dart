@@ -12,7 +12,8 @@ class DaftarPengajuanPinjamanController extends GetxController {
 
   DaftarPengajuanPinjamanController(this._loanRepository);
   MenuController? menuController;
-  List<dynamic> histories = [];
+  List<String> filters = ['latest', 'oldest'];
+  int selectedFilter = 0;
 
   static const _pageSize = 10;
   PagingController<int, LoanProposeModel> pagingController =
@@ -20,11 +21,9 @@ class DaftarPengajuanPinjamanController extends GetxController {
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
-  String selectedSortBy = 'lates';
-
   Future<void> getLoanPropose(int pageKey) async {
     var param = LoanProposeListParam(
-        page: pageKey, size: _pageSize, sortBy: selectedSortBy);
+        page: pageKey, size: _pageSize, sortBy: filters[selectedFilter]);
     try {
       final response = await _loanRepository.getLoanPropose(param);
       final isLastPage = response.result!.length < _pageSize;
@@ -37,6 +36,12 @@ class DaftarPengajuanPinjamanController extends GetxController {
     } catch (error) {
       pagingController.error = error;
     }
+  }
+
+  void selectedFilterIndex(int index) {
+    selectedFilter = index;
+    update();
+    pagingController.refresh();
   }
 
   @override

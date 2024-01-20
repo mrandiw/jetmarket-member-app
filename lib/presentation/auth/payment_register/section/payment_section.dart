@@ -252,14 +252,14 @@ class PaymentSection extends StatelessWidget {
                                   controller
                                           .paymentMethodes?.ewalletQr?.length ??
                                       0, (index) {
-                                String assets = index ==
-                                        controller.paymentMethodes!.ewalletQr!
-                                                .length -
-                                            1
-                                    ? 'qris'
-                                    : controller.paymentMethodes
-                                            ?.ewalletQr?[index].chCode ??
-                                        '';
+                                // String assets = index ==
+                                //         controller.paymentMethodes!.ewalletQr!
+                                //                 .length -
+                                //             1
+                                //     ? 'qris'
+                                //     : controller.paymentMethodes
+                                //             ?.ewalletQr?[index].chCode ??
+                                //         '';
                                 return GestureDetector(
                                   onTap: () {
                                     controller.actionPayment(

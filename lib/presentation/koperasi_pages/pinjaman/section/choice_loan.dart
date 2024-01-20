@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/koperasi_pages/pinjaman/controllers/pinjaman.controller.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -24,7 +25,7 @@ class ChoiceLoanSection extends StatelessWidget {
         itemBuilder: (_, index) => GestureDetector(
           onTap: () => controller.actionChoice(index),
           child: Container(
-            padding: AppStyle.paddingAll12,
+            padding: EdgeInsets.symmetric(vertical: 8.hr, horizontal: 12.wr),
             decoration: BoxDecoration(
                 borderRadius: AppStyle.borderRadius8All,
                 color: kWhite,
@@ -34,13 +35,15 @@ class ChoiceLoanSection extends StatelessWidget {
                 dense: true,
                 leading: CircleAvatar(
                   backgroundColor: kSecondaryColor2,
-                  radius: 22.r,
+                  radius: 20.r,
                   child: SvgPicture.asset(
                     controller.choiceLoan[index]['icon'],
+                    height: 18.r,
+                    width: 18.r,
                   ),
                 ),
                 title: Text(controller.choiceLoan[index]['title'],
-                    style: text14BlackRegular)),
+                    style: text12BlackRegular)),
           ),
         ),
         separatorBuilder: (_, i) => Gap(12.h),

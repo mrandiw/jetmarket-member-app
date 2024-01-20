@@ -31,6 +31,8 @@ class AddTabunganManualController extends GetxController {
   final String countryCode = '+62';
   final String idrPrefix = 'Rp. ';
 
+  bool isNominalValue = false;
+
   bool isBankTransferExpanded = false;
   bool isEwalletExpanded = false;
   bool isRetailExpanded = false;
@@ -130,13 +132,23 @@ class AddTabunganManualController extends GetxController {
     }
   }
 
+  void listenNominalForm(String value) {
+    if (value.isNotEmpty) {
+      isNominalValue = true;
+      update();
+    } else {
+      isNominalValue = false;
+      update();
+    }
+  }
+
   void confirmationDialogSavingSaldo() {
     AppDialogConfirmationSaving.show(controller: this);
   }
 
   void selectSaldoPayment() {
     selectedChCode = savingPaymentMethode?.saldo?.chCode;
-    selectedChType = 'SALDO';
+    selectedChType = savingPaymentMethode?.saldo?.chType;
     update();
   }
 

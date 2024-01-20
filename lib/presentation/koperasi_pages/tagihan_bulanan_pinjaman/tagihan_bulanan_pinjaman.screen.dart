@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jetmarket/presentation/koperasi_pages/tagihan_bulanan_pinjaman/section/app_bar_section.dart';
+import 'package:jetmarket/presentation/koperasi_pages/tagihan_bulanan_pinjaman/section/list_pengajuan.dart';
 
 import 'controllers/tagihan_bulanan_pinjaman.controller.dart';
 
@@ -10,16 +12,9 @@ class TagihanBulananPinjamanScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TagihanBulananPinjamanScreen'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'TagihanBulananPinjamanScreen is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+        body: CustomScrollView(slivers: [
+      const AppBarTagihanBulanan(),
+      ListTagihanBulanan(controller: controller)
+    ]));
   }
 }

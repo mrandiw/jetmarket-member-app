@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
-import '../../../../domain/core/interfaces/address_repository.dart';
 import '../../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../../domain/core/model/model_data/address_model.dart';
 import '../../../../domain/core/model/model_data/cart_product.dart' as c;
@@ -12,9 +11,8 @@ import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/network/status_response.dart';
 
 class CheckoutController extends GetxController {
-  final AddressRepository _addressRepository;
   final DeliveryRepository _deliveryRepository;
-  CheckoutController(this._addressRepository, this._deliveryRepository);
+  CheckoutController(this._deliveryRepository);
   List<dynamic> deliverys = [];
   List<c.CartProduct> productCart = [];
   List<DeliveryModel> listDelivery = [];

@@ -17,12 +17,13 @@ class OvoForm extends StatelessWidget {
       return AppBottomSheet(
         title: '',
         textButton: 'Bayar',
-        onPressed: controller.isPhoneValidated.value
-            ? () {
-                Get.back();
-                // controller.payOrder();
-              }
-            : null,
+        onPressed:
+            controller.isPhoneValidated.value && controller.isNominalValue
+                ? () {
+                    Get.back();
+                    controller.savingDirect();
+                  }
+                : null,
         gapBottom: 72.h,
         child: content,
       );

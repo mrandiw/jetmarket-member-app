@@ -53,6 +53,12 @@ TextStyle get text12HintRegular => GoogleFonts.poppins(
       fontWeight: FontWeight.w400,
       color: const Color(0xff808080),
     );
+TextStyle get text12HintRegularItalic => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w400,
+      color: const Color(0xff808080),
+      fontStyle: FontStyle.italic,
+    );
 TextStyle get text12HintMedium => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w500,

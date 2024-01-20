@@ -35,7 +35,7 @@ class CartRepositoryImpl implements CartRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<CartProduct>>(
           result: datas.map((e) => CartProduct.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<List<CartProduct>>().dio(e);
     }
@@ -74,7 +74,7 @@ class CartRepositoryImpl implements CartRepository {
           path: Endpoint.cartBulkDelete, queryParameters: {'cart_ids': id});
       return DataState<String>(
           result: response.data['message'],
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<String>().dio(e);
     }

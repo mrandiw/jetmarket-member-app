@@ -34,7 +34,7 @@ class SavingHistoryItem extends StatelessWidget {
                 children: [
                   Text(data.title ?? '', style: text12BlackMedium),
                   Text(
-                    data.createdAt?.formatDate ?? '',
+                    data.createdAt?.convertToDateFormat ?? '',
                     style: text10HintRegular,
                   ),
                 ],

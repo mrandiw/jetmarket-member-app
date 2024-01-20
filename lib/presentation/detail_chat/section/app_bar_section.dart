@@ -18,45 +18,62 @@ class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DetailChatController>(builder: (controller) {
       return AppBar(
-        backgroundColor: kWhite,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: SvgPicture.asset(arrowForward),
-        ),
-        title: Row(
-          children: [
-            CachedNetworkImage(
-                imageUrl: controller.seller?.avatar ?? '',
-                imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 26.r,
-                      backgroundColor: kPrimaryColor2,
-                      backgroundImage: imageProvider,
-                    ),
-                placeholder: (context, url) => SizedBox(
-                      height: 72.r,
-                      width: 72.r,
-                      child: const Center(
-                        child: CupertinoActivityIndicator(color: kSoftBlack),
-                      ),
-                    ),
-                errorWidget: (context, url, error) => CircleAvatar(
-                      radius: 26.r,
-                      backgroundColor: kPrimaryColor2,
-                      child: Center(
-                        child: Icon(
-                          Icons.error,
-                          color: kPrimaryColor,
-                          size: 20.r,
+          backgroundColor: kWhite,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: SvgPicture.asset(arrowForward),
+          ),
+          title: Row(
+            children: [
+              Visibility(
+                visible: !controller.isChatDelet.value,
+                child: CachedNetworkImage(
+                    imageUrl: controller.seller?.avatar ?? '',
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 14.r,
+                          backgroundColor: kPrimaryColor2,
+                          backgroundImage: imageProvider,
                         ),
-                      ),
-                    )),
-            Gap(6.wr),
-            Text(controller.seller?.name ?? '', style: text16BlackSemiBold),
-          ],
-        ),
-      );
+                    placeholder: (context, url) => SizedBox(
+                          height: 14.r,
+                          width: 14.r,
+                          child: const Center(
+                            child:
+                                CupertinoActivityIndicator(color: kSoftBlack),
+                          ),
+                        ),
+                    errorWidget: (context, url, error) => CircleAvatar(
+                          radius: 14.r,
+                          backgroundColor: kPrimaryColor2,
+                          child: Center(
+                            child: Icon(
+                              Icons.error,
+                              color: kPrimaryColor,
+                              size: 20.r,
+                            ),
+                          ),
+                        )),
+              ),
+              Gap(!controller.isChatDelet.value ? 12.wr : 0),
+              Text(
+                  !controller.isChatDelet.value
+                      ? controller.seller?.name ?? ''
+                      : '1 Dipilih',
+                  style: text16BlackSemiBold),
+            ],
+          ),
+          actions: [
+            Visibility(
+                visible: controller.isChatDelet.value,
+                child: IconButton(
+                    onPressed: () => controller.deletedChat(),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: kPrimaryColor,
+                    )))
+          ]);
     });
   }
 

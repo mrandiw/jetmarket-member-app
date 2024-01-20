@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/presentation/koperasi_pages/detail_menabung/controllers/detail_menabung.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
@@ -59,7 +60,7 @@ class DetailSaving extends StatelessWidget {
           Gap(12.hr),
           Text('Tanggal Menabung', style: text12HintRegular),
           Gap(4.hr),
-          Text(controller.detailSaving?.createdAt ?? '',
+          Text(controller.detailSaving?.createdAt?.convertToDateFormat ?? '',
               style: text12BlackRegular),
           Gap(12.hr),
           Text('Nominal Simpanan', style: text12HintRegular),
@@ -80,8 +81,10 @@ class DetailSaving extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return kWarning2Color;
+      case 'SUCCEEDED':
+        return kSuccessColor2;
       default:
-        return kSuccessColor;
+        return kDivider;
     }
   }
 
@@ -89,8 +92,10 @@ class DetailSaving extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return kWarningColor;
+      case 'SUCCEEDED':
+        return kSuccessColor;
       default:
-        return kSuccessColor2;
+        return kGrey;
     }
   }
 
@@ -98,8 +103,10 @@ class DetailSaving extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return historyCircle;
-      default:
+      case 'SUCCEEDED':
         return done;
+      default:
+        return canceled;
     }
   }
 }

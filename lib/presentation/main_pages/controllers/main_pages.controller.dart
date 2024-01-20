@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
@@ -123,7 +122,6 @@ class MainPagesController extends GetxController {
 
   setEmploye() {
     isEmployee = AppPreference().getUserData()?.user?.isEmployee ?? false;
-    print("Employe : ${AppPreference().getUserData()?.user?.isEmployee}");
     update();
   }
 

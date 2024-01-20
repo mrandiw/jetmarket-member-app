@@ -25,9 +25,10 @@ class ButtonSection extends StatelessWidget {
         child: AppButton.primary(
           actionStatus: controller.actionButton,
           text: 'Submit',
-          onPressed: controller.selectedChCode != null
-              ? () => controller.savingDirect()
-              : null,
+          onPressed:
+              controller.selectedChCode != null && controller.isNominalValue
+                  ? () => controller.savingDirect()
+                  : null,
         ),
       );
     });

@@ -37,8 +37,6 @@ class AddAddressController extends GetxController {
   }
 
   void toLocationMap(LocationModel location) {
-    print("Lat halaman 1 : ${location.latitude}");
-    print("Lat halaman 2 : ${location.longitude}");
     Get.toNamed(Routes.LOCATION, arguments: {
       "lat": location.latitude,
       "lng": location.longitude,

@@ -1,4 +1,3 @@
-
 export 'package:jetmarket/presentation/account_pages/account/account.screen.dart';
 export 'package:jetmarket/presentation/account_pages/change_password/change_password.screen.dart';
 export 'package:jetmarket/presentation/account_pages/edit_account/edit_account.screen.dart';
@@ -16,6 +15,7 @@ export 'package:jetmarket/presentation/auth/register_otp/register_otp.screen.dar
 export 'package:jetmarket/presentation/auth/reset_password/reset_password.screen.dart';
 export 'package:jetmarket/presentation/auth/reset_sucess/reset_sucess.screen.dart';
 export 'package:jetmarket/presentation/auth/success_verify_otp/success_verify_otp.screen.dart';
+export 'package:jetmarket/presentation/chats/chats.screen.dart';
 export 'package:jetmarket/presentation/detail_chat/detail_chat.screen.dart';
 export 'package:jetmarket/presentation/home_pages/add_address/add_address.screen.dart';
 export 'package:jetmarket/presentation/home_pages/address/address.screen.dart';
@@ -45,6 +45,7 @@ export 'package:jetmarket/presentation/koperasi_pages/ajukan_pinjaman/ajukan_pin
 export 'package:jetmarket/presentation/koperasi_pages/daftar_pengajuan_pinjaman/daftar_pengajuan_pinjaman.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/detail_menabung/detail_menabung.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/detail_pengajuan_pinjaman/detail_pengajuan_pinjaman.screen.dart';
+export 'package:jetmarket/presentation/koperasi_pages/detail_tagihan_bulanan/detail_tagihan_bulanan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/history_tabungan/history_tabungan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/koperasi/koperasi.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/payment_tabungan_success/payment_tabungan_success.screen.dart';
@@ -52,6 +53,7 @@ export 'package:jetmarket/presentation/koperasi_pages/pengajuan_proses_pinjaman/
 export 'package:jetmarket/presentation/koperasi_pages/pinjaman/pinjaman.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/tabungan/tabungan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/tabungan_payment/tabungan_payment.screen.dart';
+export 'package:jetmarket/presentation/koperasi_pages/tagihan_bulanan_pinjaman/tagihan_bulanan_pinjaman.screen.dart';
 export 'package:jetmarket/presentation/main_pages/main_pages.screen.dart';
 export 'package:jetmarket/presentation/notification/notification.screen.dart';
 export 'package:jetmarket/presentation/onboarding/onboarding.screen.dart';

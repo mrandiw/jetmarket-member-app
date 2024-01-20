@@ -27,7 +27,6 @@ class DetailPengajuanPinjamanController extends GetxController {
 
   @override
   void onInit() {
-    // detailLoan = Get.arguments;
     getDetailLoan();
     super.onInit();
   }

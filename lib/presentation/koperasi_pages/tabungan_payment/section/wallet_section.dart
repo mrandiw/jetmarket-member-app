@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -101,7 +100,7 @@ class WalletSection extends StatelessWidget {
           ),
         ),
         Visibility(
-            visible: controller.waitingPayment?.ewallet?.qrCode == "" &&
+            visible: controller.waitingPayment?.ewallet?.qrCode == "" ||
                 controller.waitingPayment?.ewallet?.deeplink == "",
             child: Container(
               width: 200.r,

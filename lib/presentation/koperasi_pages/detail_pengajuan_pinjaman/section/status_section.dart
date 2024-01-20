@@ -8,6 +8,8 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../infrastructure/theme/app_colors.dart';
+
 class StatusPengajuanPinjaman extends StatelessWidget {
   const StatusPengajuanPinjaman({super.key, required this.controller});
 
@@ -18,13 +20,18 @@ class StatusPengajuanPinjaman extends StatelessWidget {
     return Container(
       padding: AppStyle.paddingAll12,
       width: Get.width.wr,
-      decoration: const BoxDecoration(
-          color: Color(0xffEEF0F8),
-          border: Border(left: BorderSide(color: Color(0xffCACDE4), width: 2))),
+      decoration: BoxDecoration(
+        color: backgroundColor(controller.detailLoan?.status ?? ''),
+        border: Border(
+          left: BorderSide(
+              color: borderColor(controller.detailLoan?.status ?? ''),
+              width: 2),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SvgPicture.asset(canceled),
+          SvgPicture.asset(iconStatus(controller.detailLoan?.status ?? '')),
           Gap(8.wr),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,5 +46,38 @@ class StatusPengajuanPinjaman extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color backgroundColor(String status) {
+    switch (status) {
+      case 'PENDING':
+        return kWarning2Color;
+      case 'SUCCEEDED':
+        return kSuccessColor2;
+      default:
+        return kBorder;
+    }
+  }
+
+  Color borderColor(String status) {
+    switch (status) {
+      case 'PENDING':
+        return kWarningColor;
+      case 'SUCCEEDED':
+        return kSuccessColor;
+      default:
+        return kGrey;
+    }
+  }
+
+  String iconStatus(String status) {
+    switch (status) {
+      case 'PENDING':
+        return historyCircle;
+      case 'SUCCEEDED':
+        return done;
+      default:
+        return canceled;
+    }
   }
 }

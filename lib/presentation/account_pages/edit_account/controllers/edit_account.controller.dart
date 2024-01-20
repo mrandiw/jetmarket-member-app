@@ -49,7 +49,7 @@ class EditAccountController extends GetxController {
   int selectedGender = 0;
   String nameGender = "L";
 
-  var imagesUser;
+  String? imagesUser;
   File? userFile;
   Future getImageMenu() async {
     Get.back();
@@ -59,7 +59,7 @@ class EditAccountController extends GetxController {
         await picker1.pickImage(source: ImageSource.camera, imageQuality: 30);
 
     imagesUser = imagePicked1!.path;
-    await sharedPref.setString('foto', imagesUser);
+    await sharedPref.setString('foto', imagesUser ?? '');
     userFile = File(imagePicked1.path);
     imageUrl = null;
 
@@ -80,7 +80,7 @@ class EditAccountController extends GetxController {
         await picker1.pickImage(source: ImageSource.gallery, imageQuality: 30);
 
     imagesUser = imagePicked1!.path;
-    await sharedPref.setString('foto', imagesUser);
+    await sharedPref.setString('foto', imagesUser ?? '');
     userFile = File(imagePicked1.path);
     imageUrl = null;
     update();

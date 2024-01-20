@@ -124,15 +124,27 @@ class ProductItem extends StatelessWidget {
                     Text(item.name ?? '', style: text12BlackRegular),
                     Gap(2.h),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            "${item.promo != 0 ? item.promo : item.price}"
-                                .toIdrFormat,
-                            style: text14SuccessSemiBold),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                              "${item.promo != 0 ? item.promo : item.price}"
+                                  .toIdrFormat,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: text14SuccessSemiBold),
+                        ),
                         item.promo != 0
-                            ? Text(item.price.toString().toIdrFormat,
-                                style: text10lineThroughRegular)
+                            ? Expanded(
+                                flex: 4,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(item.price.toString().toIdrFormat,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: text10lineThroughRegular),
+                                ),
+                              )
                             : const SizedBox.shrink(),
                       ],
                     ),

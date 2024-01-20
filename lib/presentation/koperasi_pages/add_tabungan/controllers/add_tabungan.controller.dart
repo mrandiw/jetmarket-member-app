@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
+import 'package:jetmarket/utils/extension/remove_comma.dart';
 import 'package:jetmarket/utils/network/action_status.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
@@ -46,8 +47,8 @@ class AddTabunganController extends GetxController {
     actionStatus = ActionStatus.loading;
     update();
     var param = SavingInstallmentParam(
-        scheduledAt: selectedDatePicker,
-        amount: int.parse(nominalController.text));
+        dueAt: selectedDatePicker,
+        amount: int.parse(nominalController.text.removeComma));
     final response = await _savingRepository.savingInstallment(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;

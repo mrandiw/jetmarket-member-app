@@ -71,9 +71,7 @@ class ProductRepositoryImpl implements ProductRepository {
           await RemoteProvider.get(path: "${Endpoint.product}/$id");
       return DataState<DetailProduct>(
           result: DetailProduct.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(
-            response: response,
-          ));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<DetailProduct>().dio(e);
     }
@@ -116,7 +114,6 @@ class ProductRepositoryImpl implements ProductRepository {
           path: Endpoint.productReview,
           queryParameters: {'product_id': id, 'page': 1, 'size': 10});
       List<dynamic> datas = response.data['data']['items'];
-      print(datas);
 
       return DataState<List<ProductReviewCustomer>>(
           result: datas.map((e) => ProductReviewCustomer.fromJson(e)).toList(),
@@ -134,7 +131,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final response = await RemoteProvider.get(path: "${Endpoint.shop}/$id");
       return DataState<DetailShop>(
           result: DetailShop.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<DetailShop>().dio(e);
     }
@@ -165,7 +162,7 @@ class ProductRepositoryImpl implements ProductRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<Vouchers>>(
           result: datas.map((e) => Vouchers.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(response: response, showLogs: true),
+          status: StatusCodeResponse.cek(response: response),
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<List<Vouchers>>().dio(e);

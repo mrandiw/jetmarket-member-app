@@ -1,31 +1,27 @@
-import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
-import '../../config/config.dart';
-import '../../presentation/koperasi_pages/tagihan_bulanan_pinjaman/tagihan_bulanan_pinjaman.screen.dart';
 import '../../presentation/screens.dart';
 import '../middleware/auth_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
 
-class EnvironmentsBadge extends StatelessWidget {
-  final Widget child;
-  const EnvironmentsBadge({super.key, required this.child});
-  @override
-  Widget build(BuildContext context) {
-    var env = ConfigEnvironments.getEnvironments()['env'];
-    return env != Environments.PRODUCTION
-        ? Banner(
-            location: BannerLocation.topStart,
-            message: env!,
-            color: env == Environments.QAS ? Colors.blue : Colors.purple,
-            child: child,
-          )
-        : SizedBox(child: child);
-  }
-}
+// class EnvironmentsBadge extends StatelessWidget {
+//   final Widget child;
+//   const EnvironmentsBadge({super.key, required this.child});
+//   @override
+//   Widget build(BuildContext context) {
+//     var env = ConfigEnvironments.getEnvironments()['env'];
+//     return env != Environments.PRODUCTION
+//         ? Banner(
+//             location: BannerLocation.topStart,
+//             message: env!,
+//             color: env == Environments.QAS ? Colors.blue : Colors.purple,
+//             child: child,
+//           )
+//         : SizedBox(child: child);
+//   }
+// }
 
 class Nav {
   static List<GetPage> routes = [
@@ -423,6 +419,16 @@ class Nav {
       name: Routes.DETAIL_CHAT,
       page: () => const DetailChatScreen(),
       binding: DetailChatControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHATS,
+      page: () => const ChatsScreen(),
+      binding: ChatsControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_TAGIHAN_BULANAN,
+      page: () => const DetailTagihanBulananScreen(),
+      binding: DetailTagihanBulananControllerBinding(),
     ),
   ];
 }

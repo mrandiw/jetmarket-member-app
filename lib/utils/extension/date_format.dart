@@ -74,4 +74,36 @@ extension DateFormatExtension on String {
   String _formatTwoDigits(int num) {
     return num < 10 ? '0$num' : '$num';
   }
+
+  String get formatToHourMinute {
+    // DateTime dateTime = DateTime.parse(this);
+    // return '${dateTime.hour}:${dateTime.minute}';
+    try {
+      final parsedDate = DateTime.parse(this);
+      final formattedTime =
+          "${parsedDate.hour}:${parsedDate.minute.toString().padLeft(2, '0')}";
+      return formattedTime;
+    } catch (e) {
+      return this; // return original string jika parsing gagal
+    }
+  }
+
+  String get convertToDateFormat {
+    try {
+      // Remove trailing "+0000 +0000"
+      String cleanedDate = replaceAll("+0000 +0000", "").trim();
+
+      // Parse the cleaned string to a DateTime object
+      DateTime dateTime = DateTime.parse(cleanedDate);
+
+      // Format the DateTime object to the desired format
+      String formattedDate =
+          "${dateTime.day}/${dateTime.month}/${dateTime.year}";
+
+      return formattedDate;
+    } catch (e) {
+      // Handle the case where the input string is not a valid date
+      return "Invalid Date";
+    }
+  }
 }

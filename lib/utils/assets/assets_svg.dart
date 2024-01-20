@@ -71,3 +71,5 @@ const billList = 'assets/svg/bill-list.svg';
 const todoList = 'assets/svg/list-todo.svg';
 const warningProccess = 'assets/svg/warning-proccess.svg';
 const monayBag = 'assets/svg/monay-bag.svg';
+const solarGallery = 'assets/svg/solar-gallery.svg';
+const chatFill = 'assets/svg/chat-fill.svg';

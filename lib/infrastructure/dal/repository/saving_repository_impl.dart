@@ -51,6 +51,7 @@ class SavingRepositoryImpl implements SavingRepository {
           path: Endpoint.savingHistory,
           queryParameters: {'page': page, 'size': size});
       List<dynamic> datas = response.data['data']['items'];
+
       return DataState<List<SavingHistoryModel>>(
           result: datas.map((e) => SavingHistoryModel.fromJson(e)).toList(),
           status: StatusCodeResponse.cek(response: response),
@@ -67,7 +68,7 @@ class SavingRepositoryImpl implements SavingRepository {
           await RemoteProvider.get(path: Endpoint.savingPaymentMethode);
       return DataState<SavingPaymentMethodeModel>(
           result: SavingPaymentMethodeModel.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true),
+          status: StatusCodeResponse.cek(response: response),
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<SavingPaymentMethodeModel>().dio(e);
@@ -75,17 +76,17 @@ class SavingRepositoryImpl implements SavingRepository {
   }
 
   @override
-  Future<DataState<SavingInstallmentModel>> savingInstallment(
+  Future<DataState<String>> savingInstallment(
       SavingInstallmentParam param) async {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.savingInstallment, data: param.toMap());
-      return DataState<SavingInstallmentModel>(
-          result: SavingInstallmentModel.fromJson(response.data['data']),
+      return DataState<String>(
+          result: response.data['message'],
           status: StatusCodeResponse.cek(response: response),
           message: response.data['message']);
     } on DioException catch (e) {
-      return CustomException<SavingInstallmentModel>().dio(e);
+      return CustomException<String>().dio(e);
     }
   }
 
@@ -97,7 +98,7 @@ class SavingRepositoryImpl implements SavingRepository {
           path: Endpoint.savingDirect, data: param.toMap());
       return DataState<SavingDirectModel>(
           result: SavingDirectModel.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true),
+          status: StatusCodeResponse.cek(response: response),
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<SavingDirectModel>().dio(e);

@@ -8,6 +8,7 @@ class SelectedRating extends StatefulWidget {
   const SelectedRating({Key? key, this.onChanged}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SelectedRatingState createState() => _SelectedRatingState();
 }
 
