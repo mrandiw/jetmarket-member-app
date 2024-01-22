@@ -18,44 +18,42 @@ class ChatSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverPadding(
         padding: EdgeInsets.only(bottom: 72.hr, top: 16.hr),
-        sliver: PagedSliverList(pagingController: controller.pagingController, builderDelegate: builderDelegate)
-        // sliver: PagedSliverList.separated(
-        //     pagingController: controller.pagingController,
-        //     builderDelegate: PagedChildBuilderDelegate<ChatModel>(
-        //       itemBuilder: (context, item, index) {
-        //         bool isSender =
-        //             item.sender?.role == controller.dataArgument?.fromRole;
-        //         bool isReplySender = item.pinnedMessage?.role ==
-        //             controller.dataArgument?.fromRole;
-        //         return ItemChat(
-        //           data: item,
-        //           controller: controller,
-        //           isSender: isSender,
-        //           isReplySender: isReplySender,
-        //           index: index,
-        //           onHorizontalDragStart: (detail) {
-        //             var pinnedMessage = PinnedMessage(
-        //                 senderId: item.sender?.id,
-        //                 receiverId: item.receiver?.id,
-        //                 text: item.text,
-        //                 senderName: AppPreference().getUserData()?.user?.name,
-        //                 receiverName: controller.dataArgument?.name,
-        //                 isSender: isSender,
-        //                 role: item.sender?.role);
-        //             controller.slidePinChat(
-        //                 detail, index, isSender, pinnedMessage);
-        //           },
-        //           onLongPress: () => controller.selectedChatDelet(item),
-        //           onTapCancel: () => controller.selectedCancelChatDelet(item),
-        //         );
-        //       },
-        //       newPageProgressIndicatorBuilder: InfinitiPage.progress,
-        //       firstPageProgressIndicatorBuilder: InfinitiPage.progress,
-        //       noItemsFoundIndicatorBuilder: (_) =>
-        //           InfinitiPage.empty(_, 'Riwayat'),
-        //       firstPageErrorIndicatorBuilder: InfinitiPage.error,
-        //     ),
-            separatorBuilder: (_, i) => Gap(12.h))
-            )
+        sliver: PagedSliverList.separated(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<ChatModel>(
+              itemBuilder: (context, item, index) {
+                bool isSender =
+                    item.sender?.role == controller.dataArgument?.fromRole;
+                bool isReplySender = item.pinnedMessage?.role ==
+                    controller.dataArgument?.fromRole;
+                return ItemChat(
+                  data: item,
+                  controller: controller,
+                  isSender: isSender,
+                  isReplySender: isReplySender,
+                  index: index,
+                  onHorizontalDragStart: (detail) {
+                    var pinnedMessage = PinnedMessage(
+                        senderId: item.sender?.id,
+                        receiverId: item.receiver?.id,
+                        text: item.text,
+                        senderName: AppPreference().getUserData()?.user?.name,
+                        receiverName: controller.dataArgument?.name,
+                        isSender: isSender,
+                        role: item.sender?.role);
+                    controller.slidePinChat(
+                        detail, index, isSender, pinnedMessage);
+                  },
+                  onLongPress: () => controller.selectedChatDelet(item),
+                  onTapCancel: () => controller.selectedCancelChatDelet(item),
+                );
+              },
+              newPageProgressIndicatorBuilder: InfinitiPage.progress,
+              firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+              noItemsFoundIndicatorBuilder: (_) =>
+                  InfinitiPage.empty(_, 'Riwayat'),
+              firstPageErrorIndicatorBuilder: InfinitiPage.error,
+            ),
+            separatorBuilder: (_, i) => Gap(12.h)));
   }
 }
