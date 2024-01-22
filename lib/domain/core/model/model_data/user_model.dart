@@ -30,6 +30,7 @@ class User {
   String? phone;
   String? referral;
   String? email;
+  String? image;
   bool? isEmployee;
   bool? isVerified;
   String? activatedAt;
@@ -42,6 +43,7 @@ class User {
       this.phone,
       this.referral,
       this.email,
+      this.image,
       this.isEmployee,
       this.isVerified,
       this.activatedAt});
@@ -54,6 +56,7 @@ class User {
     phone = json['phone'];
     referral = json['referral'];
     email = json['email'];
+    image = json['image'];
     isEmployee = json['is_employee'];
     isVerified = json['is_verified'];
     activatedAt = json['activated_at'];
@@ -68,6 +71,7 @@ class User {
     data['phone'] = phone;
     data['referral'] = referral;
     data['email'] = email;
+    data['image'] = image;
     data['is_employee'] = isEmployee;
     data['is_verified'] = isVerified;
     data['activated_at'] = activatedAt;

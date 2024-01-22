@@ -14,45 +14,59 @@ import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_product.dart';
 import 'package:jetmarket/domain/core/model/params/chat/chat_param.dart';
-import 'package:jetmarket/domain/core/model/params/chat/pinned_chat.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../../domain/core/interfaces/file_repository.dart';
-import '../../../infrastructure/theme/app_colors.dart';
-import '../../../infrastructure/theme/app_text.dart';
-import '../../../utils/network/status_response.dart';
+import '../../../../domain/core/interfaces/file_repository.dart';
+import '../../../../domain/core/model/argument/chat_room_argument.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
+import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../utils/network/status_response.dart';
 
 class DetailChatController extends GetxController {
   final FileRepository _fileRepository;
   final ChatRepository _chatRepository;
   DetailChatController(this._fileRepository, this._chatRepository);
   ScrollController scrollController = ScrollController();
+  final ItemScrollController itemScrollController = ItemScrollController();
+  final ScrollOffsetController scrollOffsetController =
+      ScrollOffsetController();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
   TextEditingController messageController = TextEditingController();
+
+  ChatRoomArgument? dataArgument;
+
   FocusNode? focusNode;
   var isSlideChat = false.obs;
   var isChatDelet = false.obs;
-  var selectedIndexDelete = 1000.obs;
+  // var selectedIndexDelete = 1000.obs;
+  var selectedItemDelete = <ChatModel>[].obs;
   static const _pageSize = 10;
   Seller? seller;
   Variants? variants;
   bool isSendProduct = false;
   int maxLines = 1;
   String? imageUrl;
-  PinnedChat? selectedPinnedMessage;
+  PinnedMessage? pinnedMessage;
+  bool isScroolBottom = false;
   final CollectionReference chatCollection =
       FirebaseFirestore.instance.collection('chat');
+
   PagingController<int, ChatModel> pagingController =
       PagingController(firstPageKey: 1);
-  bool isScroolBottom = false;
 
   Future<void> getChat(int pageKey) async {
     int id = AppPreference().getUserData()?.user?.id ?? 0;
-    String chatId = "2#1#1";
-    var param =
-        ChatParam(id: id, chatIdStore: chatId, page: pageKey, size: _pageSize);
+    var param = ChatParam(
+        id: id,
+        chatIdStore: "${dataArgument?.chatId}",
+        page: pageKey,
+        size: _pageSize);
     try {
       final response = await _chatRepository.getChat(param);
       final isLastPage = response.result!.length < _pageSize;
+
       if (isLastPage) {
         pagingController.appendLastPage(response.result ?? []);
       } else {
@@ -68,56 +82,48 @@ class DetailChatController extends GetxController {
   }
 
   void sendNewMessage() {
+    var userData = AppPreference().getUserData()?.user;
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    final Map<String, dynamic> data = <String, dynamic>{};
-    final Map<String, dynamic> dataProduct = <String, dynamic>{};
-    final Map<String, dynamic> dataMessage = <String, dynamic>{};
-    final Map<String, dynamic> dataOrder = <String, dynamic>{};
+    var product = PinnedProduct(
+      image: dataArgument?.variants?.image,
+      name: dataArgument?.variants?.name,
+      price: dataArgument?.variants?.price,
+      promo: dataArgument?.variants?.promo,
+      productId: dataArgument?.variants?.id,
+    );
+    var message = pinnedMessage;
+    var order = PinnedOrder();
+    var sender = Sender(
+        id: dataArgument?.fromId,
+        name: userData?.name,
+        image: userData?.image,
+        role: dataArgument?.fromRole);
+    var receiver = Receiver(
+        id: dataArgument?.toId,
+        name: dataArgument?.name,
+        image: dataArgument?.image,
+        role: dataArgument?.toRole);
+    var dataChat = ChatModel(
+        createdAt: formattedDate,
+        deletedAt: null,
+        readAt: null,
+        sender: sender,
+        receiver: receiver,
+        image: imageUrl,
+        text: messageController.text,
+        pinnedProduct: product,
+        pinnedMessage: message,
+        pinnedOrder: order);
 
-    data['created_at'] = formattedDate;
-    data['deleted_at'] = null;
-    data['from_id'] = 1;
-    data['id'] = 2;
-    data['image'] = imageUrl;
-    data['read_at'] = null;
-    data['text'] = messageController.text;
-    data['to_id'] = 1;
-
-    dataProduct['id'] = variants?.id;
-    dataProduct['image'] = variants?.image;
-    dataProduct['name'] = variants?.name;
-    dataProduct['price'] = variants?.price;
-    dataProduct['promo'] = variants?.promo;
-    dataProduct.removeWhere((key, value) => value == null || value == '');
-    // data['pinned_product'] = dataProduct;
-
-    dataMessage['id'] = selectedPinnedMessage?.id;
-    dataMessage['message'] = selectedPinnedMessage?.message;
-    dataMessage.removeWhere((key, value) => value == null || value == '');
-    data['pinned_message'] = dataMessage;
-
-    dataOrder['address'] = null;
-    dataOrder['address_id'] = null;
-    dataOrder['customer_id'] = null;
-    dataOrder['customer_name'] = null;
-    dataOrder['lat'] = null;
-    dataOrder['lng'] = null;
-    dataOrder['order_id'] = null;
-    dataOrder['status'] = null;
-    dataOrder.removeWhere((key, value) => value == null || value == '');
-    data['pinned_order'] = dataOrder;
-
-    data.removeWhere((key, value) =>
-        value == null || value == '' || (value is Map && value.isEmpty));
-    send("2#1#1", data);
+    send("${dataArgument?.chatId}", dataChat.toMap());
   }
 
   Future<void> send(String documentTitle, Map<String, dynamic> message) async {
     try {
       final docSnapshot = await chatCollection.doc(documentTitle).get();
       final now = DateTime.now();
-      final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+      final formattedDate = DateFormat('yyyy-MM-dd').format(now);
       final messages = [message];
       final document = docSnapshot.data() as Map<String, dynamic>;
       if (document.isEmpty) {
@@ -137,18 +143,17 @@ class DetailChatController extends GetxController {
       messageController.clear();
       imageUrl = null;
       variants = null;
-      selectedPinnedMessage = null;
+      pinnedMessage = null;
       maxLines = 1;
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500), // durasi animasi
-        curve: Curves.easeOut, // kurva animasi
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
       );
 
       update();
     } catch (error) {
       throw Exception(error);
-      // Handle error appropriately
     }
   }
 
@@ -213,63 +218,69 @@ class DetailChatController extends GetxController {
     }
   }
 
-  void selectMessage(PinnedChat chat) {
-    if (selectedPinnedMessage?.message == chat.message) {
-      selectedPinnedMessage = null;
+  void selectMessage(PinnedMessage? chat) {
+    if (pinnedMessage?.senderId == chat?.senderId) {
+      pinnedMessage = null;
       focusNode?.unfocus();
     } else {
-      selectedPinnedMessage = chat;
+      pinnedMessage = chat;
+
       focusNode?.requestFocus();
     }
     update();
   }
 
   void cancelPinMessage() {
-    selectedPinnedMessage = null;
+    pinnedMessage = null;
     update();
   }
 
-  void selectedChatDelet(int index) {
+  void selectedChatDelet(ChatModel item) {
     isChatDelet.value = true;
-    selectedIndexDelete.value = index;
+    if (selectedItemDelete.contains(item)) {
+      selectedItemDelete.remove(item);
+    } else {
+      selectedItemDelete.add(item);
+    }
     update();
     HapticFeedback.mediumImpact();
   }
 
-  void selectedCancelChatDelet() {
+  void selectedCancelChatDelet(ChatModel item) {
     isChatDelet.value = false;
-    selectedIndexDelete.value = 1000;
+    if (selectedItemDelete.contains(item)) {
+      selectedItemDelete.remove(item);
+    }
     update();
   }
 
   Future<void> deletedChat() async {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    List<String> itemTextList = [];
+    for (var item in selectedItemDelete) {
+      itemTextList.add(item.text ?? '');
+    }
     final response = await _chatRepository.deletedChat(
+        id: "${dataArgument?.chatId}",
         fromStore: true,
-        dataIndex: selectedIndexDelete.value,
+        itemTextList: itemTextList,
         time: formattedDate);
     if (response.result == true) {
-      selectedCancelChatDelet();
+      // selectedCancelChatDelet();
       pagingController.itemList?.clear();
       getChat(1);
     }
   }
 
   setData() {
-    seller = Get.arguments[0];
-    if (Get.arguments[1] != null) {
-      variants = Get.arguments[1];
-      isSendProduct = true;
-      update();
-      // sendNewMessage();
-    }
+    dataArgument = Get.arguments;
   }
 
   var positionSlideChat = 0.0.obs;
   var indexSlide = 1000.obs;
-  void slidePinChat(
-      DragStartDetails detail, int index, bool sender, PinnedChat pinnedChat) {
+  void slidePinChat(DragStartDetails detail, int index, bool sender,
+      PinnedMessage pinnedChat) {
     indexSlide.value = index;
 
     positionSlideChat.value = (detail.globalPosition.dx / 7);
@@ -287,8 +298,8 @@ class DetailChatController extends GetxController {
     await Future.delayed(300.milliseconds, () {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
-        duration: 200.milliseconds, // durasi animasi
-        curve: Curves.easeOut, // kurva animasi
+        duration: 200.milliseconds,
+        curve: Curves.easeOut,
       );
       isScroolBottom = true;
     });

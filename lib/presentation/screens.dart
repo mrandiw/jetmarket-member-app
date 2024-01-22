@@ -15,8 +15,8 @@ export 'package:jetmarket/presentation/auth/register_otp/register_otp.screen.dar
 export 'package:jetmarket/presentation/auth/reset_password/reset_password.screen.dart';
 export 'package:jetmarket/presentation/auth/reset_sucess/reset_sucess.screen.dart';
 export 'package:jetmarket/presentation/auth/success_verify_otp/success_verify_otp.screen.dart';
-export 'package:jetmarket/presentation/chats/chats.screen.dart';
-export 'package:jetmarket/presentation/detail_chat/detail_chat.screen.dart';
+export 'package:jetmarket/presentation/chat_pages/chats/chats.screen.dart';
+export 'package:jetmarket/presentation/chat_pages/detail_chat/detail_chat.screen.dart';
 export 'package:jetmarket/presentation/home_pages/add_address/add_address.screen.dart';
 export 'package:jetmarket/presentation/home_pages/address/address.screen.dart';
 export 'package:jetmarket/presentation/home_pages/all_category/all_category.screen.dart';
@@ -79,3 +79,4 @@ export 'package:jetmarket/presentation/wallet/payment_topup_saldo/payment_topup_
 export 'package:jetmarket/presentation/wallet/topup_saldo/topup_saldo.screen.dart';
 export 'package:jetmarket/presentation/wallet/withdraw/withdraw.screen.dart';
 export 'package:jetmarket/presentation/wallet/withdraw_status/withdraw_status.screen.dart';
+export 'package:jetmarket/presentation/chat_pages/check_existing_chat/check_existing_chat.screen.dart';

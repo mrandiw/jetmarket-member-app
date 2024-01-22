@@ -124,6 +124,22 @@ class AppPreference {
     }
   }
 
+  void updateUserData(UserModel newUserData) {
+    String? existingUserDataJson = _prefs?.getString(_userDataKey);
+
+    if (existingUserDataJson != null) {
+      Map<String, dynamic> existingUserDataMap =
+          json.decode(existingUserDataJson);
+      existingUserDataMap.forEach((key, value) {
+        if (newUserData.toJson().containsKey(key)) {
+          existingUserDataMap[key] = newUserData.toJson()[key];
+        }
+      });
+      String updatedUserDataJson = json.encode(existingUserDataMap);
+      _prefs?.setString(_userDataKey, updatedUserDataJson);
+    }
+  }
+
   Future<void> removeUserData() async {
     await _prefs?.remove(_userDataKey);
   }

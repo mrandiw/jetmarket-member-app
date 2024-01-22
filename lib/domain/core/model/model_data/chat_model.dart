@@ -1,120 +1,131 @@
 class ChatModel {
   String? createdAt;
-  int? id;
   String? image;
-  String? deletedAt;
-  int? fromId;
   String? readAt;
-  int? toId;
-  PinnedProduct? pinnedProduct;
+  String? deletedAt;
+  bool? fromStore;
   PinnedMessage? pinnedMessage;
   PinnedOrder? pinnedOrder;
+  PinnedProduct? pinnedProduct;
+  Receiver? receiver;
+  Sender? sender;
   String? text;
-  bool? fromStore;
 
   ChatModel(
       {this.createdAt,
-      this.id,
       this.image,
-      this.deletedAt,
-      this.fromId,
       this.readAt,
-      this.toId,
-      this.pinnedProduct,
+      this.deletedAt,
+      this.fromStore,
       this.pinnedMessage,
       this.pinnedOrder,
-      this.text,
-      this.fromStore});
+      this.pinnedProduct,
+      this.receiver,
+      this.sender,
+      this.text});
 
   ChatModel.fromJson(Map<String, dynamic> json) {
     createdAt = json['created_at'];
-    id = json['id'];
     image = json['image'];
-    deletedAt = json['deleted_at'];
-    fromId = json['from_id'];
     readAt = json['read_at'];
-    toId = json['to_id'];
-    pinnedProduct = json['pinned_product'] != null
-        ? PinnedProduct.fromJson(json['pinned_product'])
-        : null;
+    deletedAt = json['deleted_at'];
+    fromStore = json['from_store'];
     pinnedMessage = json['pinned_message'] != null
         ? PinnedMessage.fromJson(json['pinned_message'])
         : null;
     pinnedOrder = json['pinned_order'] != null
         ? PinnedOrder.fromJson(json['pinned_order'])
         : null;
+    pinnedProduct = json['pinned_product'] != null
+        ? PinnedProduct.fromJson(json['pinned_product'])
+        : null;
+    receiver =
+        json['receiver'] != null ? Receiver.fromJson(json['receiver']) : null;
+    sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
     text = json['text'];
-    fromStore = json['from_store'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['created_at'] = createdAt;
-    data['id'] = id;
     data['image'] = image;
-    data['deleted_at'] = deletedAt;
-    data['from_id'] = fromId;
     data['read_at'] = readAt;
-    data['to_id'] = toId;
-    if (pinnedProduct != null) {
-      data['pinned_product'] = pinnedProduct!.toJson();
-    }
+    data['deleted_at'] = deletedAt;
     if (pinnedMessage != null) {
-      data['pinned_message'] = pinnedMessage!.toJson();
+      data['pinned_message'] = pinnedMessage!.toMap();
     }
     if (pinnedOrder != null) {
-      data['pinned_order'] = pinnedOrder!.toJson();
+      data['pinned_order'] = pinnedOrder!.toMap();
+    }
+    if (pinnedProduct != null) {
+      data['pinned_product'] = pinnedProduct!.toMap();
+    }
+    if (receiver != null) {
+      data['receiver'] = receiver!.toMap();
+    }
+    if (sender != null) {
+      data['sender'] = sender!.toMap();
     }
     data['text'] = text;
-    data['from_store'] = fromStore;
-    return data;
-  }
-}
-
-class PinnedProduct {
-  String? image;
-  String? name;
-  int? price;
-  int? productId;
-  int? promo;
-
-  PinnedProduct(
-      {this.image, this.name, this.price, this.productId, this.promo});
-
-  PinnedProduct.fromJson(Map<String, dynamic> json) {
-    image = json['image'];
-    name = json['name'];
-    price = json['price'];
-    productId = json['product_id'];
-    promo = json['promo'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['image'] = image;
-    data['name'] = name;
-    data['price'] = price;
-    data['product_id'] = productId;
-    data['promo'] = promo;
+    data.removeWhere((key, value) =>
+        value == null ||
+        value == '' ||
+        value == 0.0 ||
+        value == 0 ||
+        (value is Map && value.isEmpty));
     return data;
   }
 }
 
 class PinnedMessage {
+  String? deletedAt;
   int? id;
-  String? message;
+  String? image;
+  int? receiverId;
+  String? receiverName;
+  int? senderId;
+  String? senderName;
+  String? text;
+  bool? isSender;
+  String? role;
 
-  PinnedMessage({this.id, this.message});
+  PinnedMessage(
+      {this.deletedAt,
+      this.id,
+      this.image,
+      this.receiverId,
+      this.receiverName,
+      this.senderId,
+      this.senderName,
+      this.text,
+      this.isSender,
+      this.role});
 
   PinnedMessage.fromJson(Map<String, dynamic> json) {
+    deletedAt = json['deleted_at'];
     id = json['id'];
-    message = json['message'];
+    image = json['image'];
+    receiverId = json['receiver_id'];
+    receiverName = json['receiver_name'];
+    senderId = json['sender_id'];
+    senderName = json['sender_name'];
+    text = json['text'];
+    role = json['role'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['deleted_at'] = deletedAt;
     data['id'] = id;
-    data['message'] = message;
+    data['image'] = image;
+    data['receiver_id'] = receiverId;
+    data['receiver_name'] = receiverName;
+    data['sender_id'] = senderId;
+    data['sender_name'] = senderName;
+    data['text'] = text;
+    data['role'] = role;
+    data.removeWhere((key, value) =>
+        value == null || value == '' || value == 0.0 || value == 0);
     return data;
   }
 }
@@ -124,8 +135,8 @@ class PinnedOrder {
   int? addressId;
   int? customerId;
   String? customerName;
-  int? lat;
-  int? lng;
+  double? lat;
+  double? lng;
   int? orderId;
   String? status;
 
@@ -150,7 +161,7 @@ class PinnedOrder {
     status = json['status'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['address'] = address;
     data['address_id'] = addressId;
@@ -160,6 +171,93 @@ class PinnedOrder {
     data['lng'] = lng;
     data['order_id'] = orderId;
     data['status'] = status;
+    data.removeWhere((key, value) =>
+        value == null || value == '' || value == 0.0 || value == 0);
+    return data;
+  }
+}
+
+class PinnedProduct {
+  String? image;
+  String? name;
+  int? price;
+  int? productId;
+  int? promo;
+
+  PinnedProduct(
+      {this.image, this.name, this.price, this.productId, this.promo});
+
+  PinnedProduct.fromJson(Map<String, dynamic> json) {
+    image = json['image'];
+    name = json['name'];
+    price = json['price'];
+    productId = json['product_id'];
+    promo = json['promo'];
+  }
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['image'] = image;
+    data['name'] = name;
+    data['price'] = price;
+    data['product_id'] = productId;
+    data['promo'] = promo;
+    data.removeWhere((key, value) =>
+        value == null || value == '' || value == 0.0 || value == 0);
+    return data;
+  }
+}
+
+class Receiver {
+  int? id;
+  String? image;
+  String? name;
+  String? role;
+
+  Receiver({this.id, this.image, this.name, this.role});
+
+  Receiver.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    name = json['name'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['image'] = image;
+    data['name'] = name;
+    data['role'] = role;
+    data.removeWhere((key, value) =>
+        value == null || value == '' || value == 0.0 || value == 0);
+    return data;
+  }
+}
+
+class Sender {
+  int? id;
+  String? image;
+  String? name;
+  String? role;
+
+  Sender({this.id, this.image, this.name, this.role});
+
+  Sender.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    name = json['name'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['image'] = image;
+    data['name'] = name;
+    data['role'] = role;
+    data.removeWhere((key, value) =>
+        value == null || value == '' || value == 0.0 || value == 0);
     return data;
   }
 }

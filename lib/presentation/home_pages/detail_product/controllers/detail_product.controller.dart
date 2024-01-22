@@ -14,6 +14,7 @@ import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/detail_product.dart';
 import '../../../../domain/core/model/model_data/product_review_customer.dart';
+import '../../../../domain/core/model/params/chat/check_existing_param.dart';
 import '../../../../utils/network/screen_status.dart';
 
 class DetailProductController extends GetxController {
@@ -142,6 +143,16 @@ class DetailProductController extends GetxController {
                       promo: selectedVariant?.promo,
                     ))));
     Get.toNamed(Routes.CHECKOUT, arguments: data);
+  }
+
+  void chatSeller() {
+    var data = CheckExisting(
+        fromId: AppPreference().getUserData()?.user?.id ?? 0,
+        toId: detailProduct?.seller?.id ?? 0,
+        fromRole: 'customer',
+        toRole: 'seller');
+    Get.toNamed(Routes.CHECK_EXISTING_CHAT,
+        arguments: [data, detailProduct?.seller, selectedVariant]);
   }
 
   @override

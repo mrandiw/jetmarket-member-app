@@ -9,6 +9,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/cara_ba
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/cart.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/change_password.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/chats.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/check_existing_chat.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/checkout.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/checkout_payment.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/checkout_payment_retail.controller.binding.dart';

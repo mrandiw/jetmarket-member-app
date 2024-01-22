@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/detail_chat/controllers/detail_chat.controller.dart';
+import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
-import '../../../components/picker/picker_images.dart';
-import '../../../infrastructure/theme/app_colors.dart';
-import '../../../utils/assets/assets_svg.dart';
+import '../../../../components/picker/picker_images.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
+import '../../../../utils/assets/assets_svg.dart';
 
 class MessageSection extends StatelessWidget {
   const MessageSection({super.key, required this.controller});
@@ -26,7 +26,7 @@ class MessageSection extends StatelessWidget {
             left: 17.wr,
             right: 17.wr,
             child: Visibility(
-                visible: controller.selectedPinnedMessage != null,
+                visible: controller.pinnedMessage != null,
                 child: Container(
                   height: controller.maxLines <= 2
                       ? 120.hr
@@ -54,8 +54,7 @@ class MessageSection extends StatelessWidget {
                             color: const Color(0xffDFDFDF),
                             border: Border(
                                 left: BorderSide(
-                                    color: controller.selectedPinnedMessage
-                                                ?.isSender ==
+                                    color: controller.pinnedMessage?.isSender ==
                                             true
                                         ? const Color(0xff87FF8B)
                                         : const Color(0xffFF8787),
@@ -64,13 +63,13 @@ class MessageSection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              controller.selectedPinnedMessage?.isSender == true
+                              controller.pinnedMessage?.isSender == true
                                   ? 'Anda'
-                                  : controller.seller?.name ?? '',
+                                  : controller.dataArgument?.name ?? '',
                               style: text12BlackMedium,
                             ),
                             Text(
-                              controller.selectedPinnedMessage?.message ?? '',
+                              controller.pinnedMessage?.text ?? '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: text12BlackRegular.copyWith(

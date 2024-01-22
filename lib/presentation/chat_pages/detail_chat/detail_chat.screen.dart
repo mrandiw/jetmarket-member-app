@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/presentation/detail_chat/section/chat_section.dart';
-import 'package:jetmarket/presentation/detail_chat/section/message_section.dart';
+import 'package:jetmarket/presentation/chat_pages/detail_chat/section/chat_section.dart';
+import 'package:jetmarket/presentation/chat_pages/detail_chat/section/message_section.dart';
 import 'controllers/detail_chat.controller.dart';
 import 'section/app_bar_section.dart';
 
@@ -15,11 +15,7 @@ class DetailChatScreen extends GetView<DetailChatController> {
           children: [
             CustomScrollView(
               controller: controller.scrollController,
-              slivers: [
-                ChatSection(controller: controller)
-                // TodayChat(controller: controller),
-                // ProviousDayChat(controller: controller)
-              ],
+              slivers: [ChatSection(controller: controller)],
             ),
             MessageSection(controller: controller),
           ],

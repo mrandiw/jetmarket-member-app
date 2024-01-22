@@ -6,13 +6,13 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/detail_chat/controllers/detail_chat.controller.dart';
+import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
-import '../../../domain/core/model/model_data/chat_model.dart';
-import '../../../utils/style/app_style.dart';
+import '../../../../domain/core/model/model_data/chat_model.dart';
+import '../../../../utils/style/app_style.dart';
 
 class ItemChat extends StatelessWidget {
   const ItemChat(
@@ -38,8 +38,9 @@ class ItemChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double sellerNameLenght = controller.seller?.name?.length.toDouble() ?? 0;
-    double replyLenght = data.pinnedMessage?.message?.length.toDouble() ?? 0;
+    double sellerNameLenght =
+        controller.dataArgument?.name?.length.toDouble() ?? 0;
+    double replyLenght = data.pinnedMessage?.text?.length.toDouble() ?? 0;
     double textLenght = data.text?.length.toDouble() ?? 0;
     double maxWidth = Get.width.wr * 0.8;
     double minWidth = [sellerNameLenght, replyLenght, textLenght]
@@ -51,15 +52,6 @@ class ItemChat extends StatelessWidget {
         crossAxisAlignment:
             isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          // if (index == 0)
-          //   Center(
-          //       child: Padding(
-          //     padding: AppStyle.paddingBottom12,
-          //     child: Text(
-          //       'Today',
-          //       style: text12BlackRegular,
-          //     ),
-          //   )),
           Visibility(
               visible: data.pinnedProduct != null,
               child: data.deletedAt == null
@@ -226,99 +218,100 @@ class ItemChat extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                         left: !isSender ? 16.wr : 0,
                                         right: isSender ? 16.wr : 0),
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          maxWidth: Get.width.wr * 0.8,
-                                          minWidth: 5 * minWidth < maxWidth
-                                              ? 5 * minWidth
-                                              : maxWidth),
-                                      child: Container(
-                                        padding: data.pinnedMessage != null
-                                            ? EdgeInsets.fromLTRB(
-                                                6.wr, 6.hr, 6.wr, 8.hr)
-                                            : AppStyle.paddingAll12,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                AppStyle.borderRadius8All,
-                                            color: isSender
-                                                ? const Color(0xffF9F7F7)
-                                                : const Color(0xffFFE4E2)),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Visibility(
-                                              visible:
-                                                  data.pinnedMessage != null,
-                                              child: Container(
-                                                padding: AppStyle.paddingAll8,
-                                                width: 6 * minWidth <= maxWidth
-                                                    ? 6 * minWidth
-                                                    : maxWidth,
-                                                decoration: BoxDecoration(
-                                                    border: Border(
-                                                        left: BorderSide(
-                                                            color: isReplySender ==
-                                                                    true
-                                                                ? const Color(
-                                                                    0xff87FF8B)
-                                                                : const Color(
-                                                                    0xffFF8787),
-                                                            width: 2)),
-                                                    color: kBorder),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      isReplySender == true
-                                                          ? 'Anda'
-                                                          : controller.seller
-                                                                  ?.name ??
-                                                              '',
-                                                      style: text12HintRegular,
+                                    child: Column(
+                                      crossAxisAlignment: isSender
+                                          ? CrossAxisAlignment.start
+                                          : CrossAxisAlignment.end,
+                                      children: [
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxWidth: Get.width.wr * 0.8,
+                                              minWidth: 5 * minWidth < maxWidth
+                                                  ? 5 * minWidth
+                                                  : maxWidth),
+                                          child: Container(
+                                            padding: data.pinnedMessage != null
+                                                ? EdgeInsets.fromLTRB(
+                                                    6.wr, 6.hr, 6.wr, 8.hr)
+                                                : AppStyle.paddingAll12,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    AppStyle.borderRadius8All,
+                                                color: isSender
+                                                    ? const Color(0xffF9F7F7)
+                                                    : const Color(0xffFFE4E2)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Visibility(
+                                                  visible: data.pinnedMessage !=
+                                                      null,
+                                                  child: Container(
+                                                    padding:
+                                                        AppStyle.paddingAll8,
+                                                    width:
+                                                        6 * minWidth <= maxWidth
+                                                            ? 6 * minWidth
+                                                            : maxWidth,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            left: BorderSide(
+                                                                color: isReplySender
+                                                                    ? const Color(
+                                                                        0xff87FF8B)
+                                                                    : const Color(
+                                                                        0xffFF8787),
+                                                                width: 2)),
+                                                        color: kBorder),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          isReplySender
+                                                              ? 'Anda'
+                                                              : data.pinnedMessage
+                                                                      ?.receiverName ??
+                                                                  '',
+                                                          style:
+                                                              text12HintRegular,
+                                                        ),
+                                                        Text(
+                                                          data.pinnedMessage
+                                                                  ?.text ??
+                                                              'No Text',
+                                                          style: text12HintForm,
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      data.pinnedMessage
-                                                              ?.message ??
-                                                          'No Text',
-                                                      style: text12HintForm,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
+                                                Gap(data.pinnedMessage != null
+                                                    ? 6.h
+                                                    : 0),
+                                                Text(data.text ?? 'No Text',
+                                                    style: text12BlackRegular),
+                                              ],
                                             ),
-                                            Gap(data.pinnedMessage != null
-                                                ? 6.h
-                                                : 0),
-                                            Text(data.text ?? 'No Text',
-                                                style: text12BlackRegular),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                        Gap(4.hr),
+                                        // if (isNewDay && index == resultList.length - 1)
+                                        Text(
+                                          "${data.createdAt}"
+                                              .formatToHourMinute,
+                                          // "${data.createdAt}",
+
+                                          style: text10HintRegular,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Gap(4.hr),
-                                  // if (isNewDay && index == resultList.length - 1)
-                                  SizedBox(
-                                    width: 7 * minWidth <= maxWidth
-                                        ? 7 * minWidth
-                                        : maxWidth,
-                                    child: Align(
-                                      alignment: isSender
-                                          ? Alignment.centerLeft
-                                          : Alignment.centerRight,
-                                      child: Text(
-                                        "${data.createdAt}".formatToHourMinute,
-                                        // "${data.createdAt}",
-
-                                        style: text10HintRegular,
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
@@ -327,8 +320,7 @@ class ItemChat extends StatelessWidget {
                       }),
                       Obx(() {
                         return Visibility(
-                          visible:
-                              controller.selectedIndexDelete.value == index,
+                          visible: controller.selectedItemDelete.contains(data),
                           child: Positioned(
                             bottom: -8,
                             top: -8,

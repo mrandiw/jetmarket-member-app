@@ -7,7 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/presentation/detail_chat/controllers/detail_chat.controller.dart';
+import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
@@ -28,9 +28,9 @@ class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
           title: Row(
             children: [
               Visibility(
-                visible: !controller.isChatDelet.value,
+                visible: controller.selectedItemDelete.isEmpty,
                 child: CachedNetworkImage(
-                    imageUrl: controller.seller?.avatar ?? '',
+                    imageUrl: controller.dataArgument?.image ?? '',
                     imageBuilder: (context, imageProvider) => CircleAvatar(
                           radius: 14.r,
                           backgroundColor: kPrimaryColor2,
@@ -56,17 +56,17 @@ class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         )),
               ),
-              Gap(!controller.isChatDelet.value ? 12.wr : 0),
+              Gap(controller.selectedItemDelete.isEmpty ? 12.wr : 0),
               Text(
-                  !controller.isChatDelet.value
-                      ? controller.seller?.name ?? ''
-                      : '1 Dipilih',
+                  controller.selectedItemDelete.isEmpty
+                      ? controller.dataArgument?.name ?? ''
+                      : '${controller.selectedItemDelete.length} Dipilih',
                   style: text16BlackSemiBold),
             ],
           ),
           actions: [
             Visibility(
-                visible: controller.isChatDelet.value,
+                visible: controller.selectedItemDelete.isNotEmpty,
                 child: IconButton(
                     onPressed: () => controller.deletedChat(),
                     icon: const Icon(

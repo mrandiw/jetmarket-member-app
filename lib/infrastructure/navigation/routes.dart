@@ -34,6 +34,7 @@ class Routes {
   static const DETAIL_PRODUCT = '/detail-product';
   static const DETAIL_RETURN = '/detail-return';
   static const DETAIL_STORE = '/detail-store';
+  static const DETAIL_TAGIHAN_BULANAN = '/detail-tagihan-bulanan';
   static const DETAIL_WITHDRAW = '/detail-withdraw';
   static const EDIT_ACCOUNT = '/edit-account';
   static const EDIT_ADDRESS = '/edit-address';
@@ -87,5 +88,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const DETAIL_TAGIHAN_BULANAN = '/detail-tagihan-bulanan';
+  static const CHECK_EXISTING_CHAT = '/check-existing-chat';
 }

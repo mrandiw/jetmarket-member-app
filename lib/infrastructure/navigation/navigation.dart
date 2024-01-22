@@ -430,5 +430,10 @@ class Nav {
       page: () => const DetailTagihanBulananScreen(),
       binding: DetailTagihanBulananControllerBinding(),
     ),
+    GetPage(
+      name: Routes.CHECK_EXISTING_CHAT,
+      page: () => const CheckExistingChatScreen(),
+      binding: CheckExistingChatControllerBinding(),
+    ),
   ];
 }

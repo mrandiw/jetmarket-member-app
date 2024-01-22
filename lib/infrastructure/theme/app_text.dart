@@ -190,6 +190,11 @@ TextStyle get text10BlackRegular => GoogleFonts.poppins(
       fontWeight: FontWeight.w400,
       color: kBlack,
     );
+TextStyle get text10WhiteRegular => GoogleFonts.poppins(
+      fontSize: 9.wr,
+      fontWeight: FontWeight.w400,
+      color: kWhite,
+    );
 TextStyle get text11NormalMedium => GoogleFonts.poppins(
       fontSize: 10.wr,
       fontWeight: FontWeight.w500,

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
+import 'package:jetmarket/domain/core/model/model_data/user_model.dart';
 import 'package:jetmarket/domain/core/model/params/auth/profile_body.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/account_pages/account/controllers/account.controller.dart';
@@ -247,6 +248,8 @@ class EditAccountController extends GetxController {
         id: userData?.id ?? 0, body: body);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
+      AppPreference().updateUserData(
+          UserModel(user: User.fromJson(response.result!.toJson())));
       update();
       Get.showSnackbar(GetSnackBar(
         margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
