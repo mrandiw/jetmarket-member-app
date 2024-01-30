@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,13 +8,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_product.dart';
 import 'package:jetmarket/domain/core/model/params/chat/chat_param.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
 import '../../../../domain/core/interfaces/file_repository.dart';
 import '../../../../domain/core/model/argument/chat_room_argument.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -27,12 +24,7 @@ class DetailChatController extends GetxController {
   final FileRepository _fileRepository;
   final ChatRepository _chatRepository;
   DetailChatController(this._fileRepository, this._chatRepository);
-  ScrollController scrollController = ScrollController();
-  final ItemScrollController itemScrollController = ItemScrollController();
-  final ScrollOffsetController scrollOffsetController =
-      ScrollOffsetController();
-  final ItemPositionsListener itemPositionsListener =
-      ItemPositionsListener.create();
+  late ScrollController scrollController;
   TextEditingController messageController = TextEditingController();
 
   ChatRoomArgument? dataArgument;
@@ -40,9 +32,8 @@ class DetailChatController extends GetxController {
   FocusNode? focusNode;
   var isSlideChat = false.obs;
   var isChatDelet = false.obs;
-  // var selectedIndexDelete = 1000.obs;
   var selectedItemDelete = <ChatModel>[].obs;
-  static const _pageSize = 10;
+  int _pageSize = 10;
   Seller? seller;
   Variants? variants;
   bool isSendProduct = false;
@@ -50,38 +41,64 @@ class DetailChatController extends GetxController {
   String? imageUrl;
   PinnedMessage? pinnedMessage;
   bool isScroolBottom = false;
-  final CollectionReference chatCollection =
-      FirebaseFirestore.instance.collection('chat');
+  var isCurrnetPositionOnTop = false.obs;
+  var chatFromStore = false.obs;
+  var positionSlideChat = 0.0.obs;
+  var indexSlide = 1000.obs;
+  var isScroolReply = false.obs;
+  var indexScroll = (-0).obs;
 
   PagingController<int, ChatModel> pagingController =
-      PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 0);
 
   Future<void> getChat(int pageKey) async {
-    int id = AppPreference().getUserData()?.user?.id ?? 0;
-    var param = ChatParam(
-        id: id,
-        chatIdStore: "${dataArgument?.chatId}",
-        page: pageKey,
-        size: _pageSize);
+    log("Page : $pageKey");
     try {
-      final response = await _chatRepository.getChat(param);
-      final isLastPage = response.result!.length < _pageSize;
+      List<ChatModel>? response;
+
+      if (pageKey > 0) {
+        _pageSize = 10;
+        response = await getChatFromApi(pageKey);
+      } else {
+        await for (final data in getChatStream()) {
+          response = data.reversed.toList();
+        }
+
+        _pageSize = response?.length ?? 0;
+      }
+
+      final isLastPage = response!.length < _pageSize;
 
       if (isLastPage) {
-        pagingController.appendLastPage(response.result ?? []);
+        pagingController.appendLastPage(response);
       } else {
         final nextPageKey = pageKey + 1;
-        pagingController.appendPage(response.result ?? [], nextPageKey);
-      }
-      if (!isScroolBottom) {
-        scroolToNewChat();
+        pagingController.appendPage(response, nextPageKey);
       }
     } catch (error) {
       pagingController.error = error;
     }
   }
 
-  void sendNewMessage() {
+  Future<List<ChatModel>> getChatFromApi(int pageKey) async {
+    int id = AppPreference().getUserData()?.user?.id ?? 0;
+    var param = ChatParam(
+        id: id,
+        chatIdStore: "${dataArgument?.chatId}",
+        page: pageKey,
+        size: _pageSize);
+    final apiResponse = await _chatRepository.getChat(param);
+    return apiResponse.result?.reversed.toList() ?? [];
+  }
+
+  Stream<List<ChatModel>> getChatStream() {
+    final response =
+        _chatRepository.streamChatFromStore("${dataArgument?.chatId}");
+
+    return response;
+  }
+
+  Future<void> sendNewMessage() async {
     var userData = AppPreference().getUserData()?.user;
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
@@ -95,7 +112,7 @@ class DetailChatController extends GetxController {
     var message = pinnedMessage;
     var order = PinnedOrder();
     var sender = Sender(
-        id: dataArgument?.fromId,
+        id: userData?.id,
         name: userData?.name,
         image: userData?.image,
         role: dataArgument?.fromRole);
@@ -115,45 +132,29 @@ class DetailChatController extends GetxController {
         pinnedProduct: product,
         pinnedMessage: message,
         pinnedOrder: order);
-
-    send("${dataArgument?.chatId}", dataChat.toMap());
-  }
-
-  Future<void> send(String documentTitle, Map<String, dynamic> message) async {
-    try {
-      final docSnapshot = await chatCollection.doc(documentTitle).get();
-      final now = DateTime.now();
-      final formattedDate = DateFormat('yyyy-MM-dd').format(now);
-      final messages = [message];
-      final document = docSnapshot.data() as Map<String, dynamic>;
-      if (document.isEmpty) {
-        await chatCollection.doc(documentTitle).set({
-          formattedDate: messages,
-        });
-      } else {
-        Map<String, dynamic> data =
-            json.decode(json.encode(docSnapshot.data()));
-        String key = data.keys.first;
-        await chatCollection
-            .doc(documentTitle)
-            .update({key: FieldValue.arrayUnion(messages)});
-      }
+// send message
+    final response = await _chatRepository.sendMessage(
+        documentTitle: "${dataArgument?.chatId}", message: dataChat.toMap());
+    if (response.result == true) {
       pagingController.itemList?.clear();
-      getChat(1);
+      await getChat(0);
+      isCurrnetPositionOnTop(false);
       messageController.clear();
       imageUrl = null;
       variants = null;
       pinnedMessage = null;
       maxLines = 1;
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-
       update();
-    } catch (error) {
-      throw Exception(error);
+
+      // add scroll to top
+      scrollController.animateTo(
+        0,
+        duration: 300.milliseconds,
+        curve: Curves.easeInOut,
+      );
+    } else {
+      AppSnackbar.show(
+          message: response.message, type: SnackType.error, onTop: true);
     }
   }
 
@@ -219,14 +220,17 @@ class DetailChatController extends GetxController {
   }
 
   void selectMessage(PinnedMessage? chat) {
+    log("Pin Id : ${pinnedMessage?.senderId}");
+    log("Sender Id : ${chat?.senderId}");
+
     if (pinnedMessage?.senderId == chat?.senderId) {
       pinnedMessage = null;
       focusNode?.unfocus();
     } else {
       pinnedMessage = chat;
-
       focusNode?.requestFocus();
     }
+    log("Pesan TerPin : ${pinnedMessage?.text}");
     update();
   }
 
@@ -268,8 +272,10 @@ class DetailChatController extends GetxController {
         time: formattedDate);
     if (response.result == true) {
       // selectedCancelChatDelet();
+      selectedItemDelete.value = [];
+      update();
       pagingController.itemList?.clear();
-      getChat(1);
+      getChat(0);
     }
   }
 
@@ -277,32 +283,75 @@ class DetailChatController extends GetxController {
     dataArgument = Get.arguments;
   }
 
-  var positionSlideChat = 0.0.obs;
-  var indexSlide = 1000.obs;
   void slidePinChat(DragStartDetails detail, int index, bool sender,
       PinnedMessage pinnedChat) {
     indexSlide.value = index;
-
     positionSlideChat.value = (detail.globalPosition.dx / 7);
     HapticFeedback.mediumImpact();
-    if (sender && positionSlideChat.value > 20 ||
-        !sender && positionSlideChat.value > 8) {
-      Future.delayed(100.milliseconds, () {
-        selectMessage(pinnedChat);
-        positionSlideChat.value = 0.0;
+    log("Sender : $sender");
+    log("Position Slide Chat : ${positionSlideChat.value}");
+    Future.delayed(200.milliseconds, () {
+      selectMessage(pinnedChat);
+      positionSlideChat.value = 0.0;
+    });
+  }
+
+  void scrollToOriginalMessage(
+      String originalText, String role, bool isSender) {
+    int originalIndex = pagingController.itemList!.indexWhere(
+      (message) =>
+          message.text != null &&
+          message.text == originalText &&
+          message.sender?.role == role,
+    );
+    if (originalIndex != -1) {
+      double totalHeight = 0;
+      for (int i = 0; i < originalIndex; i++) {
+        double itemHeight = 100;
+        totalHeight += itemHeight;
+      }
+      double offset =
+          totalHeight - (scrollController.position.viewportDimension / 2);
+      indexScroll(originalIndex);
+      isScroolReply(true);
+
+      scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      Future.delayed(800.milliseconds, () {
+        isScroolReply(false);
+        indexScroll(-1);
       });
     }
   }
 
-  Future<void> scroolToNewChat() async {
-    await Future.delayed(300.milliseconds, () {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: 200.milliseconds,
-        curve: Curves.easeOut,
-      );
-      isScroolBottom = true;
-    });
+  DateTime returnDateAndTimeFormat(String time) {
+    var dt = DateTime.parse(time);
+    return DateTime(dt.year, dt.month, dt.day);
+  }
+
+  String groupMessageDateAndTime(String time) {
+    DateTime createdAt = DateTime.parse(time);
+
+    final todayDate = DateTime.now();
+
+    final today = DateTime(todayDate.year, todayDate.month, todayDate.day);
+    final yesterday =
+        DateTime(todayDate.year, todayDate.month, todayDate.day - 1);
+    String difference = '';
+    final aDate = DateTime(createdAt.year, createdAt.month, createdAt.day);
+
+    if (aDate == today) {
+      difference = "Today";
+    } else if (aDate == yesterday) {
+      difference = "Yesterday";
+    } else {
+      difference = DateFormat.yMMMd().format(createdAt).toString();
+    }
+
+    return difference;
   }
 
   @override
@@ -310,7 +359,11 @@ class DetailChatController extends GetxController {
     setData();
     pagingController.addPageRequestListener((page) {
       getChat(page);
+
+      log(page.toString());
+      log(_pageSize.toString());
     });
+    scrollController = ScrollController();
 
     super.onInit();
   }

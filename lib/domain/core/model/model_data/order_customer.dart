@@ -83,6 +83,7 @@ class Products {
   int? variantId;
   int? price;
   int? quantity;
+  String? note;
 
   Products({this.productName, this.variantId, this.price, this.quantity});
 
@@ -91,6 +92,7 @@ class Products {
     variantId = json['variant_id'];
     price = json['price'];
     quantity = json['quantity'];
+    note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +101,7 @@ class Products {
     data['variant_id'] = variantId;
     data['price'] = price;
     data['quantity'] = quantity;
+    data['note'] = data;
     data.removeWhere((key, value) =>
         value == null || value == '' || value == 0.0 || value == 0);
     return data;

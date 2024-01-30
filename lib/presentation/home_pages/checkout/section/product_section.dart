@@ -50,6 +50,17 @@ class ProductSection extends StatelessWidget {
                         children: [
                           ProductItem(
                             data: data.products?[indexProduct],
+                            isWriteNote: controller.isWriteNote[index]
+                                    [indexProduct] ==
+                                false,
+                            openWriteNote: () =>
+                                controller.openWriteNote(index, indexProduct),
+                            closeWriteNote: () => controller.closeWriteNote(
+                                index,
+                                indexProduct,
+                                data.products?[indexProduct].cartId ?? 0),
+                            controller: controller.notesController[index]
+                                [indexProduct],
                           ),
                           if (indexProduct == data.products!.length - 1 &&
                               controller.listDelivery.isNotEmpty)

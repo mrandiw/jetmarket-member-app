@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -175,6 +177,7 @@ class ChoicePaymentController extends GetxController {
         totalAmount: Get.arguments[3],
         paymentMethodId: paymentId,
         items: items.map((e) => Items.fromJson(e)).toList());
+    log(orderCustomer?.toJson().toString() ?? '');
   }
 
   Future<void> payOrder() async {

@@ -25,4 +25,7 @@ abstract class ChatRepository {
   Future<DataState<CheckExistingModel>> checkExisting(CheckExisting param);
   Future<DataState<CreateChatModel>> createChat(CreateChatParam param);
   Future<DataState<bool>> createDocument(int id);
+  Stream<List<ChatModel>> streamChatFromStore(String id);
+  Future<DataState<bool>> sendMessage(
+      {required String documentTitle, required Map<String, dynamic> message});
 }

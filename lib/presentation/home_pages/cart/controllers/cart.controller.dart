@@ -271,8 +271,9 @@ class CartController extends GetxController {
   }
 
   void openWriteNote(int indexSeller, int index) {
+    String note = productCart[indexSeller].products?[index].note ?? '';
     isWriteNote[indexSeller][index] = true;
-    notesController[indexSeller][index].clear();
+    notesController[indexSeller][index].text = note;
     update();
   }
 

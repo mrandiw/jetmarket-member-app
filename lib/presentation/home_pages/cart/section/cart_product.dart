@@ -145,38 +145,45 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                     ),
                   ),
                   Gap(12.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data?.name ?? '',
-                        style: text12BlackRegular,
-                      ),
-                      Gap(4.h),
-                      Row(
-                        children: [
-                          Text(
-                            "${data?.promo}".toIdrFormat,
-                            style: text12BlackRegular,
-                          ),
-                          Gap(12.w),
-                          Text(
-                            "${data?.price}".toIdrFormat,
-                            style: text10lineThroughRegular,
-                          ),
-                        ],
-                      ),
-                      Gap(6.h),
-                      Text(
-                        "${data?.weight ?? 0} gram",
-                        style: text10HintRegular,
-                      ),
-                      Gap(6.h),
-                      Text(
-                        "Variasi: ${data?.variantName ?? '-'}",
-                        style: text10BlackRegular,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data?.name ?? '',
+                          style: text12BlackRegular,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Gap(4.h),
+                        Row(
+                          children: [
+                            Text(
+                              "${data?.promo}".toIdrFormat,
+                              style: text12BlackRegular,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Gap(12.w),
+                            Text(
+                              "${data?.price}".toIdrFormat,
+                              style: text10lineThroughRegular,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        Gap(6.h),
+                        Text(
+                          "${data?.weight ?? 0} gram",
+                          style: text10HintRegular,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Gap(6.h),
+                        Text(
+                          "Variasi: ${data?.variantName ?? '-'}",
+                          style: text10BlackRegular,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),

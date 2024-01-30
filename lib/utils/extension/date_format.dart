@@ -107,3 +107,25 @@ extension DateFormatExtension on String {
     }
   }
 }
+
+extension FormatCreatedAtExtension on String {
+  String get formatCreatedAt {
+    // ignore: unnecessary_null_comparison
+    if (this == null) {
+      return ""; // Return an empty string if the string is null
+    }
+
+    // Identifikasi nilai "0001-01-01 00:00:00 +0000 +0000" dan ganti dengan nilai yang sesuai
+    if (this == "0001-01-01 00:00:00 +0000 +0000") {
+      return "2024-01-27 15:41:27";
+    }
+
+    try {
+      DateTime createdAt = DateTime.parse(this);
+      return DateFormat("yyyy-MM-dd").format(createdAt);
+    } catch (e) {
+      // Jika parsing gagal, kembalikan string tanpa perubahan
+      return this;
+    }
+  }
+}

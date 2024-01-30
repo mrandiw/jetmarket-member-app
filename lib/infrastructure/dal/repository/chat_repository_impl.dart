@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/list_chat_model.dart';
@@ -17,6 +22,12 @@ import '../../../utils/network/custom_exception.dart';
 import '../../../utils/network/data_state.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
+  late final CollectionReference _chatCollection;
+
+  ChatRepositoryImpl() {
+    _chatCollection = FirebaseFirestore.instance.collection('chat');
+  }
+
   @override
   Future<DataState<List<dynamic>>> getProviousChat() async {
     try {
@@ -51,46 +62,19 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<DataState<List<ChatModel>>> getChat(ChatParam param) async {
     try {
-      if (param.page == 1) {
-        final responseStore = await getChatFromStore(param.chatIdStore);
-        return DataState<List<ChatModel>>(result: responseStore.result);
-      } else {
-        final response = await RemoteProvider.get(
-          path: '${Endpoint.chat}/${param.id}',
-          queryParameters: param.toMap(),
-        );
-        List<dynamic> datas = response.data['data']['items'];
-        return DataState<List<ChatModel>>(
-            result: datas
-                .map((e) => ChatModel.fromJson(e)..fromStore = false)
-                .toList());
-      }
+      final response = await RemoteProvider.get(
+        path: '${Endpoint.chat}/${param.id}',
+        queryParameters: param.toMap(),
+      );
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<ChatModel>>(
+          result: datas
+              .map((e) => ChatModel.fromJson(e)..fromStore = false)
+              .toList());
     } on DioException catch (e) {
       return CustomException<List<ChatModel>>().dio(e);
     }
   }
-
-  //  Future<DataState<List<ChatModel>>> getChat(ChatParam param) async {
-  //   try {
-  //     final responseStore = await getChatFromStore(param.chatIdStore);
-
-  //     final response = await RemoteProvider.get(
-  //       path: '${Endpoint.chat}/${param.id}',
-  //       queryParameters: param.toMap(),
-  //     );
-
-  //     List<dynamic> datas = response.data['data']['items'];
-
-  //     List<ChatModel> combinedList = [
-  //       ...?responseStore.result,
-  //       ...datas.map((e) => ChatModel.fromJson(e)..fromStore = false),
-  //     ];
-
-  //     return DataState<List<ChatModel>>(result: combinedList);
-  //   } on DioException catch (e) {
-  //     return CustomException<List<ChatModel>>().dio(e);
-  //   }
-  // }
 
   @override
   Future<DataState<bool>> deletedChat(
@@ -150,10 +134,8 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<DataState<List<ChatModel>>> getChatFromStore(String id) async {
-    final CollectionReference chatCollection =
-        FirebaseFirestore.instance.collection('chat');
     try {
-      final querySnapshot = await chatCollection.doc(id).get();
+      final querySnapshot = await _chatCollection.doc(id).get();
       final data = querySnapshot.data();
       String? firstKey;
       Map<String, dynamic>? dataMap;
@@ -170,8 +152,7 @@ class ChatRepositoryImpl implements ChatRepository {
         resultList = [];
       }
       return DataState<List<ChatModel>>(
-        result: resultList.reversed
-            .toList()
+        result: resultList
             .map((e) => ChatModel.fromJson(e)..fromStore = true)
             .toList(),
       );
@@ -186,10 +167,8 @@ class ChatRepositoryImpl implements ChatRepository {
     required List<String> itemTextList,
     required String time,
   }) async {
-    final CollectionReference chatCollection =
-        FirebaseFirestore.instance.collection('chat');
     try {
-      final docSnapshot = await chatCollection.doc(id).get();
+      final docSnapshot = await _chatCollection.doc(id).get();
       final data = docSnapshot.data();
       String? firstKey;
       Map<String, dynamic>? dataMap;
@@ -203,22 +182,15 @@ class ChatRepositoryImpl implements ChatRepository {
       if (firstKey != null) {
         List<Map<String, dynamic>> resultList =
             dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-
-        // Iterasi melalui List itemText
         for (String itemText in itemTextList) {
-          // Mencari indeks dengan nilai 'text' yang sesuai
           int foundIndex =
               resultList.indexWhere((element) => element['text'] == itemText);
 
           if (foundIndex != -1) {
-            // Memperbarui data pada indeks yang sesuai
             resultList[foundIndex]['deleted_at'] = time;
           }
-          // Tambahkan logika lain jika ingin menghandle kasus indeks tidak ditemukan
         }
-
-        // Memperbarui koleksi dengan hasil akhir
-        await chatCollection.doc(id).update({
+        await _chatCollection.doc(id).update({
           firstKey: resultList,
         });
 
@@ -233,15 +205,69 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<DataState<bool>> createDocument(int id) async {
-    final CollectionReference chatCollection =
-        FirebaseFirestore.instance.collection('chat');
     try {
-      final DocumentReference docRef = chatCollection.doc(id.toString());
+      final DocumentReference docRef = _chatCollection.doc(id.toString());
       Map<String, dynamic> data = {};
       await docRef.set(data);
       return DataState(result: true);
     } on DioException catch (e) {
       return CustomException<bool>().dio(e);
+    }
+  }
+
+  @override
+  Stream<List<ChatModel>> streamChatFromStore(String id) async* {
+    try {
+      final querySnapshot = await _chatCollection.doc(id).get();
+      final data = querySnapshot.data();
+      String? firstKey;
+      Map<String, dynamic>? dataMap;
+      if (data != null && data is Map) {
+        dataMap = Map<String, dynamic>.from(data);
+        if (dataMap.isNotEmpty) {
+          firstKey = dataMap.keys.first;
+        }
+      }
+      List<Map<String, dynamic>> resultList;
+      if (firstKey != null) {
+        resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
+      } else {
+        resultList = [];
+      }
+      log("Panjang Chat : ${resultList.length}");
+      yield resultList
+          .map((e) => ChatModel.fromJson(e)..fromStore = true)
+          .toList();
+    } on DioException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<DataState<bool>> sendMessage(
+      {required String documentTitle,
+      required Map<String, dynamic> message}) async {
+    try {
+      final docSnapshot = await _chatCollection.doc(documentTitle).get();
+      final now = DateTime.now();
+      final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+      final messages = [message];
+      final document = docSnapshot.data() as Map<String, dynamic>;
+      if (document.isEmpty) {
+        await _chatCollection.doc(documentTitle).set({
+          formattedDate: messages,
+        });
+      } else {
+        Map<String, dynamic> data =
+            json.decode(json.encode(docSnapshot.data()));
+        String key = data.keys.first;
+        await _chatCollection
+            .doc(documentTitle)
+            .update({key: FieldValue.arrayUnion(messages)});
+      }
+      return DataState(result: true, message: 'Success');
+    } on FirebaseException catch (e) {
+      return DataState(result: false, message: e.message.toString());
     }
   }
 }

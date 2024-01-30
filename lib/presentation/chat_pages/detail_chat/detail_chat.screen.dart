@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/presentation/chat_pages/detail_chat/section/chat_section.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/section/message_section.dart';
 import 'controllers/detail_chat.controller.dart';
 import 'section/app_bar_section.dart';
+import 'section/chat_section.dart';
 
 class DetailChatScreen extends GetView<DetailChatController> {
   const DetailChatScreen({Key? key}) : super(key: key);
@@ -13,10 +13,28 @@ class DetailChatScreen extends GetView<DetailChatController> {
         appBar: const AppBarDetailChat(),
         body: Stack(
           children: [
-            CustomScrollView(
-              controller: controller.scrollController,
-              slivers: [ChatSection(controller: controller)],
+            // CustomScrollView(
+            //   controller: controller.scrollController,
+            //   slivers: [ChatSection(controller: controller)],
+            // ),
+            ChatSection(
+              controller: controller,
+              scrollController: controller.scrollController,
             ),
+
+            // Obx(() {
+            //   if (controller.isCurrnetPositionOnTop.value) {
+            //     return ChatSection(
+            //       controller: controller,
+            //       scrollController: controller.scrollController,
+            //     );
+            //   } else {
+            //     return ChatFromStore(
+            //       controller: controller,
+            //       scrollController: controller.scrollController,
+            //     );
+            //   }
+            // }),
             MessageSection(controller: controller),
           ],
         ));
