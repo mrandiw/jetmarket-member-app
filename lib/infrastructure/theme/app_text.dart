@@ -175,6 +175,16 @@ TextStyle get text10SuccessMedium => GoogleFonts.poppins(
       fontWeight: FontWeight.w500,
       color: kSuccessColor,
     );
+TextStyle get text10WarningMedium => GoogleFonts.poppins(
+      fontSize: 9.wr,
+      fontWeight: FontWeight.w500,
+      color: kWarningColor,
+    );
+TextStyle get text10ErrorMedium => GoogleFonts.poppins(
+      fontSize: 9.wr,
+      fontWeight: FontWeight.w500,
+      color: kErrorColor,
+    );
 TextStyle get text10HintRegular => GoogleFonts.poppins(
       fontSize: 9.wr,
       fontWeight: FontWeight.w400,

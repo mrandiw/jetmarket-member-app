@@ -1,28 +1,36 @@
 class BalanceHistoryModel {
+  int? amount;
+  String? createdAt;
+  String? description;
   int? id;
   String? refId;
-  String? description;
-  String? createdAt;
-  int? amount;
+  String? status;
 
   BalanceHistoryModel(
-      {this.id, this.refId, this.description, this.createdAt, this.amount});
+      {this.amount,
+      this.createdAt,
+      this.description,
+      this.id,
+      this.refId,
+      this.status});
 
   BalanceHistoryModel.fromJson(Map<String, dynamic> json) {
+    amount = json['amount'];
+    createdAt = json['created_at'];
+    description = json['description'];
     id = json['id'];
     refId = json['ref_id'];
-    description = json['description'];
-    createdAt = json['created_at'];
-    amount = json['amount'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['amount'] = amount;
+    data['created_at'] = createdAt;
+    data['description'] = description;
     data['id'] = id;
     data['ref_id'] = refId;
-    data['description'] = description;
-    data['created_at'] = createdAt;
-    data['amount'] = amount;
+    data['status'] = status;
     return data;
   }
 }

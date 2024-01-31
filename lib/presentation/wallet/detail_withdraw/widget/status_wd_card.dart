@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
-import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../utils/style/app_style.dart';
@@ -13,10 +12,14 @@ import '../controllers/detail_withdraw.controller.dart';
 
 class StatusWdCard extends StatelessWidget {
   const StatusWdCard(
-      {super.key, this.type = StatusWdType.success, this.amount = 0});
+      {super.key,
+      this.type = StatusWdType.success,
+      this.title = '',
+      this.subtitle = ''});
 
   final StatusWdType type;
-  final int amount;
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +45,9 @@ class StatusWdCard extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title(type), style: text12BlackMedium),
+                      Text(title, style: text12BlackMedium),
                       Gap(4.h),
-                      Text(subtitle(type, amount.toString()),
-                          style: text12HintRegular)
+                      Text(subtitle, style: text12HintRegular)
                     ]),
               )
             ],
@@ -76,6 +78,8 @@ class StatusWdCard extends StatelessWidget {
         return kSuccessColor;
       case StatusWdType.failed:
         return kPrimaryColor;
+      default:
+        return kWarningColor;
     }
   }
 
@@ -85,6 +89,8 @@ class StatusWdCard extends StatelessWidget {
         return kSuccessColor2.withOpacity(0.4);
       case StatusWdType.failed:
         return kPrimaryColor2.withOpacity(0.4);
+      default:
+        return kWarningColor.withOpacity(0.2);
     }
   }
 
@@ -94,24 +100,8 @@ class StatusWdCard extends StatelessWidget {
         return dbSuccess;
       case StatusWdType.failed:
         return dbError;
-    }
-  }
-
-  String title(StatusWdType type) {
-    switch (type) {
-      case StatusWdType.success:
-        return 'Penarikan Dana Berhasil';
-      case StatusWdType.failed:
-        return 'Penarikan Dana Gagal';
-    }
-  }
-
-  String subtitle(StatusWdType type, String amount) {
-    switch (type) {
-      case StatusWdType.success:
-        return 'Dana sebesar ${amount.toIdrFormat} telah dikirim. Silakan cek rekeningmu';
-      case StatusWdType.failed:
-        return 'Penarikan dana sebesar ${amount.toIdrFormat} gagal. Silakan coba lagi nanti';
+      default:
+        return dbWarning;
     }
   }
 }

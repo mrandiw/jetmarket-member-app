@@ -9,6 +9,8 @@ import 'package:jetmarket/presentation/wallet/withdraw/controllers/withdraw.cont
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/form/app_form_nominal.dart';
+import '../../../../components/formatter/nominal_formatter.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 
 class FormSection extends StatelessWidget {
@@ -49,19 +51,26 @@ class FormSection extends StatelessWidget {
           Gap(8.h),
           AppForm(
             type: AppFormType.withLabel,
+            label: 'Nama Pemilik',
+            controller: controller.nameHolderController,
+            hintText: 'Masukkan nama pemilik rekening',
+            keyboardType: TextInputType.name,
+          ),
+          Gap(8.h),
+          AppForm(
+            type: AppFormType.withLabel,
             label: 'Nomor Rekening',
             controller: controller.rekeningNumberController,
             hintText: 'Masukkan nomor rekening',
             keyboardType: TextInputType.number,
           ),
           Gap(8.h),
-          AppForm(
-            type: AppFormType.withLabel,
-            label: 'Nominal',
+          Text('Nominal', style: text12BlackRegular),
+          Gap(8.h),
+          AppFormNominal(
             controller: controller.nominalController,
-            hintText: 'Masukkan nominal withdraw',
-            keyboardType: TextInputType.number,
-            onChanged: controller.changeToIdrFormat,
+            onChanged: controller.listenNominalForm,
+            inputFormatters: [NominalFormatter()],
           ),
           Gap(8.h),
           Row(
@@ -92,8 +101,10 @@ class FormSection extends StatelessWidget {
                       )))),
           Gap(12.h),
           AppButton.primary(
+            actionStatus: controller.actionStatus,
             text: 'Withdraw',
             onPressed: controller.selectedRekening != null &&
+                    controller.isNameHolderNotEmpty &&
                     controller.isNominalNotEmpty &&
                     controller.isRekeningNotEmpty
                 ? () => controller.withdraw()

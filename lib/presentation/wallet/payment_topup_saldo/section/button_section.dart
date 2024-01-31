@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
+import 'package:jetmarket/presentation/wallet/payment_topup_saldo/controllers/payment_topup_saldo.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class ButtonSection extends StatelessWidget {
-  const ButtonSection({super.key});
+  const ButtonSection({super.key, required this.controller});
+
+  final PaymentTopupSaldoController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +24,10 @@ class ButtonSection extends StatelessWidget {
             blurRadius: 10)
       ]),
       child: AppButton.primary(
-        text: 'Ok',
-        onPressed: () => Get.back(),
+        text: 'Back to Merchant',
+        onPressed: () {
+          controller.refreshEwalletPage();
+        },
       ),
     );
   }

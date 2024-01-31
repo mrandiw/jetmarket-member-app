@@ -435,5 +435,15 @@ class Nav {
       page: () => const CheckExistingChatScreen(),
       binding: CheckExistingChatControllerBinding(),
     ),
+    GetPage(
+      name: Routes.CHOICE_PAYMENT_TOPUP,
+      page: () => const ChoicePaymentTopupScreen(),
+      binding: ChoicePaymentTopupControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_TOPUP,
+      page: () => const DetailTopupScreen(),
+      binding: DetailTopupControllerBinding(),
+    ),
   ];
 }

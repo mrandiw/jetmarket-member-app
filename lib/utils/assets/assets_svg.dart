@@ -60,6 +60,8 @@ const doneLine = 'assets/svg/done_line.svg';
 const clockLine = 'assets/svg/clock_line.svg';
 const dbSuccess = 'assets/svg/db_success.svg';
 const dbError = 'assets/svg/db_error.svg';
+const dbWarning = 'assets/svg/db-warning.svg';
+
 const timeDash = 'assets/svg/time_dash.svg';
 const successBlue = 'assets/svg/success_blue.svg';
 const inboxSuccess = 'assets/svg/inbox-success.svg';

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/dal/repository/ewallet_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/saving_repository_impl.dart';
 import 'package:jetmarket/presentation/wallet/e_wallet/controllers/e_wallet.controller.dart';
 import '../../../../presentation/account_pages/account/controllers/account.controller.dart';
@@ -29,7 +30,7 @@ class MainPagesControllerBinding extends Bindings {
       () => KoperasiController(SavingRepositoryImpl()),
     );
     Get.lazyPut<EWalletController>(
-      () => EWalletController(),
+      () => EWalletController(EwalletRepositoryImpl()),
     );
   }
 }

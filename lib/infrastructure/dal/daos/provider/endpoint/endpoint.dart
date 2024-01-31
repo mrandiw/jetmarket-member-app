@@ -80,14 +80,14 @@ class Endpoint {
   // Chat
   static String chat = 'chat';
   static String chatCheckExisting = 'chat/check_existing';
-  static String chatUnreadChat = '/chat/unread_chat';
+  static String chatUnreadChat = 'chat/unread_chat';
 
   // E-Wallet
   static String eWalletBalance = 'ewallet/balance';
-  static String eWalletBalanceHistory = '/ewallet/balance/history';
+  static String eWalletBalanceHistory = 'ewallet/balance/history';
   static String eWalletWithdrawPaymentMethod =
       'ewallet/withdraw/payment_method';
   static String eWalletWithdraw = 'ewallet/withdraw';
-  static String eWalletWithdrawApproval = '/ewallet/withdraw/approval';
-  static String ewalletTopup = '/ewallet/topup';
+  static String eWalletWithdrawApproval = 'ewallet/withdraw/approval';
+  static String ewalletTopup = 'ewallet/topup';
 }

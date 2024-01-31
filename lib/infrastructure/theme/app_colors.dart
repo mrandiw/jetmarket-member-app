@@ -30,6 +30,8 @@ const kSecondaryColor3 = Color.fromARGB(255, 155, 3, 3);
 const kAccentColor = Color(0xffF5F5F5);
 const kBackgroundColor = Color(0xffFFF5F5);
 const kErrorColor = Color(0xffED4C4D);
+const kErrorColor2 = Color(0xffF8C8AD);
+
 const kSuccessColor = Color(0xff19C85F);
 const kSuccessColor2 = Color(0xffDAFFE9);
 

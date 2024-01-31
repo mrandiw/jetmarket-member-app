@@ -174,7 +174,7 @@ class PaymentRegisterController extends GetxController {
   String getImage(String image) {
     String img;
     try {
-      img = 'assets/images/$image.png';
+      img = 'assets/images/${image.toLowerCase()}.png';
     } catch (e) {
       img = 'assets/images/warning.png';
     }

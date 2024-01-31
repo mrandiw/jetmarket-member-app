@@ -34,7 +34,7 @@ class CancelWithdraw extends StatelessWidget {
               return AppButton.primary(
                 actionStatus: controller.actionStatus.value,
                 text: 'Kembali ke Beranda',
-                onPressed: () => Get.back(),
+                onPressed: () => controller.refreshEwalletPage(),
               );
             }))
       ],
