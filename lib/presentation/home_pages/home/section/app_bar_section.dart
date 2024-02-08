@@ -8,21 +8,24 @@ import 'package:jetmarket/infrastructure/dal/services/firebase/firebase_controll
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:jetmarket/presentation/account_pages/account/controllers/account.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 AppBar get appBarHome {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     toolbarHeight: 52.hr,
-    title: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Hi Clara!', style: text14BlackRegular),
-        Text('Ayo checkout keranjangmu!', style: text14BlackMedium)
-      ],
-    ),
+    title: GetBuilder<AccountController>(builder: (controller) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Hi ${controller.userData?.name}!', style: text14BlackRegular),
+          Text('Ayo checkout keranjangmu!', style: text14BlackMedium)
+        ],
+      );
+    }),
     actions: [
       GestureDetector(
         onTap: () => Get.toNamed(Routes.CART),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class PaymentMethode extends StatelessWidget {
-  const PaymentMethode({super.key});
+  const PaymentMethode({super.key, required this.controller});
+  final DetailOrderController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +19,45 @@ class PaymentMethode extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Metode Pembayaran', style: text14BlackMedium),
+            Row(
+              children: [
+                Text('Metode Pembayaran', style: text14BlackMedium),
+              ],
+            ),
             Gap(8.h),
-            Text('Transfer', style: text12BlackRegular),
+            Visibility(
+              visible: controller.detailOrderCustomer?.paymentMethod?.chType !=
+                  'PAYLATER',
+              child: Text(
+                  controller.detailOrderCustomer?.paymentMethod?.chCode ?? '',
+                  style: text12BlackRegular),
+            ),
+            Visibility(
+              visible: controller.detailOrderCustomer?.paymentMethod?.chType ==
+                  'PAYLATER',
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Paylater', style: text12BlackRegular),
+                  GestureDetector(
+                    onTap: () => Get.toNamed(Routes.PAYLATER_CUSTOMER),
+                    child: Text('Lihat Tagihan', style: text11NormalMedium),
+                  )
+                ],
+              ),
+            ),
             Gap(12.h),
             Text('Rincian Pembayaran', style: text14BlackMedium),
             Gap(8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total Harga (2 Barang)', style: text12BlackRegular),
-                Text('30000'.toIdrFormat, style: text12BlackMedium),
+                Text(
+                    'Total Harga (${controller.detailOrderCustomer?.products?.length} Barang)',
+                    style: text12BlackRegular),
+                Text(
+                    '${controller.detailOrderCustomer?.totalPrice}'.toIdrFormat,
+                    style: text12BlackMedium),
               ],
             ),
             Gap(8.h),
@@ -33,23 +65,29 @@ class PaymentMethode extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total Ongkos Kirim', style: text12BlackRegular),
-                Text('30000'.toIdrFormat, style: text12BlackMedium),
+                Text(
+                    '${controller.detailOrderCustomer?.totalOngkir}'
+                        .toIdrFormat,
+                    style: text12BlackMedium),
               ],
             ),
-            Gap(8.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Biaya Tambahan Penjual', style: text12BlackRegular),
-                Text('30000'.toIdrFormat, style: text12BlackMedium),
-              ],
-            ),
+            // Gap(8.h),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Biaya Tambahan Penjual', style: text12BlackRegular),
+            //     Text('30000'.toIdrFormat, style: text12BlackMedium),
+            //   ],
+            // ),
             Gap(8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total Biaya', style: text12BlackSemiBold),
-                Text('30000'.toIdrFormat, style: text12BlackSemiBold),
+                Text(
+                    '${controller.detailOrderCustomer?.totalAmount}'
+                        .toIdrFormat,
+                    style: text12BlackSemiBold),
               ],
             ),
           ],

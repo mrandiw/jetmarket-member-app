@@ -8,7 +8,7 @@ import '../navigation/routes.dart';
 
 class AuthMiddleware extends GetMiddleware {
   @override
-  int? get priority => 1;
+  int? get priority => 2;
 
   @override
   RouteSettings? redirect(String? route) {
@@ -18,11 +18,6 @@ class AuthMiddleware extends GetMiddleware {
     bool isCreatePayment = AppPreference().getTrxId() != null;
     int? timePayment = AppPreference().getCountDown();
     UserModel? userData = AppPreference().getUserData();
-    print("Token : ${AppPreference().getAccessToken()}");
-    print("Time : $timePayment");
-    print("Registered : $isRegistered");
-    print("Verified : $isVerified");
-    print("Create Payment : $isCreatePayment");
 
     if (isRegistered && !isVerified) {
       return const RouteSettings(name: Routes.REGISTER_OTP);

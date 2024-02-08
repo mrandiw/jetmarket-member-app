@@ -14,10 +14,15 @@ class DetailStoreScreen extends GetView<DetailStoreController> {
   const DetailStoreScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ParentScaffold(
-        onLoading: const LoadingPages(),
+    return Obx(() {
+      return ParentScaffold(
         onSuccess: _succesPage(),
-        status: controller.screenStatus.value));
+        onLoading: const LoadingPages(),
+        onError: const SizedBox.shrink(),
+        onTimeout: const SizedBox.shrink(),
+        status: controller.screenStatus.value,
+      );
+    });
   }
 
   Widget _succesPage() {

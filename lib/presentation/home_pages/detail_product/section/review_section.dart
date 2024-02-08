@@ -1,9 +1,7 @@
-import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/rating/rating_star.dart';
@@ -12,7 +10,6 @@ import 'package:jetmarket/presentation/home_pages/detail_product/controllers/det
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../infrastructure/theme/app_text.dart';
-import '../../../../utils/assets/assets_svg.dart';
 
 class ReviewSection extends StatelessWidget {
   const ReviewSection({super.key});
@@ -134,7 +131,9 @@ class ReviewSection extends StatelessWidget {
                             ),
                           ),
                       separatorBuilder: (_, i) => Gap(8.w),
-                      itemCount: 4),
+                      itemCount: controller.productReviewCustomer.length >= 4
+                          ? 4
+                          : controller.productReviewCustomer.length),
                 ),
                 Gap(16.h),
               ],
@@ -199,7 +198,7 @@ class ReviewSection extends StatelessWidget {
                                         rating: controller
                                                 .productReviewCustomer[index]
                                                 .rating ??
-                                            0),
+                                            0.0),
                                     Gap(12.h),
                                     CachedNetworkImage(
                                       imageUrl: controller

@@ -78,8 +78,7 @@ class DetailStoreController extends GetxController
           page: pageKey,
           size: _pageSize,
           name: searchProduct,
-          // sellerId: sellerId,
-          sellerId: 1,
+          sellerId: sellerId,
           minRating: double.parse(selectedStars ?? '0'),
           sortBy: convertToEnglish(selectedSortProduct),
           categoryId: selectedCategoryProduct?.id);
@@ -172,8 +171,12 @@ class DetailStoreController extends GetxController
   }
 
   void backToDetailProduct() {
-    Get.offAndToNamed(Routes.DETAIL_PRODUCT,
-        arguments: Get.arguments['product_id']);
+    if (Get.arguments['product_id'] != null) {
+      Get.offAndToNamed(Routes.DETAIL_PRODUCT,
+          arguments: Get.arguments['product_id']);
+    } else {
+      Get.back();
+    }
   }
 
   void applyFilterProduct() {
@@ -199,5 +202,11 @@ class DetailStoreController extends GetxController
       getProduct(page, Get.arguments['seller_id']);
     });
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 }

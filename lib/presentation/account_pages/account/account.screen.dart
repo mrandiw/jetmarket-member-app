@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/account_pages/account/section/app_bar_section.dart';
@@ -18,18 +15,25 @@ class AccountScreen extends GetView<AccountController> {
     return Scaffold(
         backgroundColor: kWhite,
         appBar: appBarAccount,
-        body: ListView(
-          children: [
-            ProfileSection(controller: controller),
-            Padding(
-              padding: AppStyle.paddingSide16,
-              child: Divider(
-                color: kBorder,
-                height: 0,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(1.seconds, () {
+              controller.setDataUser();
+            });
+          },
+          child: ListView(
+            children: [
+              ProfileSection(controller: controller),
+              Padding(
+                padding: AppStyle.paddingSide16,
+                child: Divider(
+                  color: kBorder,
+                  height: 0,
+                ),
               ),
-            ),
-            MenuSection(controller: controller)
-          ],
+              MenuSection(controller: controller)
+            ],
+          ),
         ));
   }
 }

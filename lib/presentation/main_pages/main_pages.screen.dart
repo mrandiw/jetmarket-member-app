@@ -4,8 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
-
-import '../../../utils/assets/assets_svg.dart';
+import 'package:jetmarket/presentation/main_pages/controllers/item_bar_model.dart';
 import 'controllers/main_pages.controller.dart';
 
 class MainPagesScreen extends GetView<MainPagesController> {
@@ -27,40 +26,20 @@ class MainPagesScreen extends GetView<MainPagesController> {
             selectedLabelStyle: text11PrimaryRegular,
             unselectedLabelStyle: text11HintRegular,
             type: BottomNavigationBarType.fixed,
-            items: [
-              _itemButtom(
-                  icon: home, iconFill: homeFill, label: "Home", index: 0),
-              _itemButtom(
-                  icon: pesanan,
-                  iconFill: pesananFill,
-                  label: "Pesanan",
-                  index: 1),
-              _itemButtom(
-                  icon: koperasi,
-                  iconFill: koperasiFill,
-                  label: "Koperasi",
-                  index: 2),
-              _itemButtom(
-                  icon: wallet,
-                  iconFill: walletFill,
-                  label: "E-Wallet",
-                  index: 3),
-              _itemButtom(
-                  icon: akun, iconFill: akunFill, label: "Akun", index: 4),
-            ]),
+            items: List.generate(
+                controller.listItemBar.length,
+                (index) => _itemButtom(
+                    item: controller.listItemBar[index], index: index))),
       );
     });
   }
 
   BottomNavigationBarItem _itemButtom(
-      {required String icon,
-      required String iconFill,
-      String? label,
-      required int index}) {
+      {required ItemBarModel item, required int index}) {
     return BottomNavigationBarItem(
         icon: SvgPicture.asset(
-          controller.selectedIndex == index ? iconFill : icon,
+          controller.selectedIndex == index ? item.iconFill : item.icon,
         ),
-        label: label);
+        label: item.label);
   }
 }

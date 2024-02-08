@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/e_wallet.controller.dart';
@@ -15,11 +17,27 @@ class EWalletScreen extends GetView<EWalletController> {
     return Scaffold(
         appBar: appBarEwallet,
         backgroundColor: kWhite,
-        body: ListView(
-          children: [
-            HeaderSection(controller: controller),
-            const HistorySection()
-          ],
+        body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          controller: controller.refreshController,
+          onRefresh: controller.onRefresh,
+          onLoading: controller.onLoading,
+          header: const WaterDropHeader(
+            waterDropColor: kPrimaryColor,
+            complete: SizedBox.shrink(),
+            refresh: CupertinoActivityIndicator(
+              color: kSoftGrey,
+            ),
+          ),
+          child: CustomScrollView(
+            slivers: [
+              HeaderSection(controller: controller),
+              HistorySection(
+                controller: controller,
+              )
+            ],
+          ),
         ));
   }
 }

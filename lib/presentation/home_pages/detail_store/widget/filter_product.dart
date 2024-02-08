@@ -6,7 +6,6 @@ import 'package:jetmarket/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/detail_store/controllers/detail_store.controller.dart';
-import 'package:jetmarket/presentation/home_pages/home/controllers/home.controller.dart';
 
 class FilterProduct extends StatelessWidget {
   const FilterProduct({super.key});

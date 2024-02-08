@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../path/environment.dart';
-
 class CustomLogger {
   static onResponseLogger(
       {required Response<dynamic> response,
@@ -93,13 +91,13 @@ class CustomLogger {
     log('\x1B[32m${"😁 Message : Success"}\x1B[0m');
   }
 
-  static void _logHeader(
-      Response<dynamic> response, bool? queryParams, String msg, String port) {
-    Headers header = response.headers;
-    log('\x1B[32m${"📇 Headers :"}\x1B[0m');
-    log('\x1B[38;2;205;133;63m${"   1. Authorization : ${header["Authorization"] ?? "null"}"}\x1B[0m');
-    log('\x1B[38;2;205;133;63m${"   2. Content-Type : ${header["Content-Type"] ?? "null"}"}\x1B[0m');
-  }
+  // static void _logHeader(
+  //     Response<dynamic> response, bool? queryParams, String msg, String port) {
+  //   Headers header = response.headers;
+  //   log('\x1B[32m${"📇 Headers :"}\x1B[0m');
+  //   log('\x1B[38;2;205;133;63m${"   1. Authorization : ${header["Authorization"] ?? "null"}"}\x1B[0m');
+  //   log('\x1B[38;2;205;133;63m${"   2. Content-Type : ${header["Content-Type"] ?? "null"}"}\x1B[0m');
+  // }
 
   // Log Data List
 

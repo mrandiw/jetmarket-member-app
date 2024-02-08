@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:jetmarket/presentation/order_pages/order/controllers/order.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
@@ -27,11 +28,12 @@ class HeaderSection extends StatelessWidget {
                     controller: controller.searchController,
                     icon: search,
                     hintText: 'Cari pesanan',
+                    onChanged: (value) => controller.searchOrders(value),
                   ),
                 ),
                 Gap(12.w),
                 GestureDetector(
-                  onTap: null,
+                  onTap: () => controller.openFilter(),
                   child: Container(
                     height: 42.r,
                     width: 42.r,
@@ -59,13 +61,21 @@ class HeaderSection extends StatelessWidget {
                   children: [
                     SvgPicture.asset(paymentClock),
                     Gap(8.w),
-                    Text('Menunggu Pembayaran', style: text14BlackRegular),
+                    Text('Menunggu Pembayaran', style: text12BlackRegular),
                     const Spacer(),
-                    CircleAvatar(
-                      radius: 8.r,
-                      backgroundColor: kPrimaryColor,
-                      child: Text('1', style: text8WhiteRegular),
-                    ),
+                    Obx(() {
+                      return Visibility(
+                        visible:
+                            controller.waitingOrderCustomerLenght.value > 0,
+                        child: CircleAvatar(
+                          radius: 8.r,
+                          backgroundColor: kPrimaryColor,
+                          child: Text(
+                              '${controller.waitingOrderCustomerLenght.value}',
+                              style: text8WhiteRegular),
+                        ),
+                      );
+                    }),
                     Gap(8.w),
                     SvgPicture.asset(
                       arrowRight,

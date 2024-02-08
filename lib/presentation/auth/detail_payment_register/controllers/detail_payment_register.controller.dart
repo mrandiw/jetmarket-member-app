@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../domain/core/interfaces/auth_repository.dart';
+import '../../../../domain/core/interfaces/payment_repository.dart';
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../../utils/app_preference/app_preferences.dart';
@@ -17,10 +19,10 @@ enum PaymentMethodeType { va, retail, qris, wallet }
 
 class DetailPaymentRegisterController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  final AuthRepository _authRepository;
-  int lenghTabs = 0;
+  final PaymentRepository _paymentRepository;
 
-  DetailPaymentRegisterController(this._authRepository);
+  DetailPaymentRegisterController(this._paymentRepository);
+  int lenghTabs = 0;
   TextEditingController numberController = TextEditingController();
   var screenStatus = (ScreenStatus.initalize).obs;
   var methodeType = PaymentMethodeType.va;
@@ -35,11 +37,11 @@ class DetailPaymentRegisterController extends GetxController
   final formattedDuration = '00:00:00'.obs;
 
   List<String> assetsImageForQrisScreen = [
-    'assets/images/OVO.png',
+    'assets/images/ovo.png',
     'assets/images/gopay.png',
-    'assets/images/SHOPEEPAY.png',
-    'assets/images/LINKAJA.png',
-    'assets/images/DANA.png'
+    'assets/images/shopeepay.png',
+    'assets/images/linkaja.png',
+    'assets/images/dana.png'
   ];
 
   Future<void> getPaymentCustomerOnReister() async {
@@ -67,25 +69,25 @@ class DetailPaymentRegisterController extends GetxController
 
   Future<void> getPaymentCustomer(int id) async {
     screenStatus(ScreenStatus.loading);
-    final response = await _authRepository.getPaymentCustomer(id);
+    final response = await _paymentRepository.getPaymentCustomer(id);
     if (response.status == StatusResponse.success) {
       paymentCustomer = response.result;
       update();
-      if (paymentCustomer?.status == "SUCCEEDED") {
+      if (response.result?.status == "SUCCEEDED") {
         await AppPreference().clearOnSuccessPayment();
         await Future.delayed(1.seconds, () {
           Get.offAllNamed(Routes.MAIN_PAGES);
         });
-      } else if (paymentCustomer?.status == 'REQUIRED_ACTION') {
-        if (paymentCustomer?.channel?.type == 'EWALLET') {
+      } else if (response.result?.status == 'REQUIRES_ACTION') {
+        if (response.result?.channel?.type == 'EWALLET') {
           methodeType = PaymentMethodeType.wallet;
-        } else if (paymentCustomer?.channel?.type == 'OTC') {
-          getTutorial(paymentCustomer?.channel?.code ?? '');
+        } else if (response.result?.channel?.type == 'OTC') {
+          getTutorial(response.result?.channel?.code ?? '');
           methodeType = PaymentMethodeType.retail;
-        } else if (paymentCustomer?.channel?.type == 'QR_CODE') {
+        } else if (response.result?.channel?.type == 'QR_CODE') {
           methodeType = PaymentMethodeType.qris;
         } else {
-          String? lowerCaseCode = paymentCustomer?.channel?.code?.toLowerCase();
+          String? lowerCaseCode = response.result?.channel?.code?.toLowerCase();
           getTutorial(lowerCaseCode ?? '');
           methodeType = PaymentMethodeType.va;
         }
@@ -102,7 +104,7 @@ class DetailPaymentRegisterController extends GetxController
   }
 
   getTutorial(String path) async {
-    final response = await _authRepository.fetchDataFromJsonFile(path);
+    final response = await _paymentRepository.fetchDataFromJsonFile(path);
     // ignore: unnecessary_null_comparison
     if (response != null) {
       tutorialPayment = response;
@@ -203,9 +205,28 @@ class DetailPaymentRegisterController extends GetxController
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
+  Future<bool> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) async {
+    if (message.notification != null) {
+      log(message.notification?.body ?? 'o');
+    }
+  }
+
   @override
   void onInit() {
     // setScreen();
+    setupInteractedMessage();
     startTimer();
     setArgument();
     // getPaymentCustomerOnReister();

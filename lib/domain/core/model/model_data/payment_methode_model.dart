@@ -4,8 +4,10 @@ class PaymentMethodeModel {
   List<VirtualAccount>? virtualAccount;
   List<Otc>? otc;
   List<EWalletQr>? ewalletQr;
+  List<Payletter>? paylater;
 
-  PaymentMethodeModel({this.virtualAccount, this.otc, this.ewalletQr});
+  PaymentMethodeModel(
+      {this.virtualAccount, this.otc, this.ewalletQr, this.paylater});
 
   PaymentMethodeModel.fromJson(Map<String, dynamic> json) {
     if (json['ewallet'] != null || json['qr_code'] != null) {
@@ -37,6 +39,12 @@ class PaymentMethodeModel {
         otc!.add(Otc.fromJson(v));
       });
     }
+    if (json['paylater'] != null) {
+      paylater = <Payletter>[];
+      json['paylater'].forEach((v) {
+        paylater!.add(Payletter.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +55,9 @@ class PaymentMethodeModel {
     }
     if (otc != null) {
       data['otc'] = otc!.map((v) => v.toJson()).toList();
+    }
+    if (paylater != null) {
+      data['paylater'] = paylater!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -175,6 +186,34 @@ class EWalletQr {
   EWalletQr({this.id, this.chType, this.chCode, this.name, this.createdAt});
 
   EWalletQr.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    chType = json['ch_type'];
+    chCode = json['ch_code'];
+    name = json['name'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['ch_type'] = chType;
+    data['ch_code'] = chCode;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    return data;
+  }
+}
+
+class Payletter {
+  int? id;
+  String? chType;
+  String? chCode;
+  String? name;
+  String? createdAt;
+
+  Payletter({this.id, this.chType, this.chCode, this.name, this.createdAt});
+
+  Payletter.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     chType = json['ch_type'];
     chCode = json['ch_code'];

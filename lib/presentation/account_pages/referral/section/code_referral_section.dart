@@ -16,49 +16,59 @@ class CodeReferralSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: AppStyle.paddingAll16,
-        child: Container(
-            padding: AppStyle.paddingAll12,
-            decoration: BoxDecoration(
-              borderRadius: AppStyle.borderRadius8All,
-              color: kWhite,
-              boxShadow: [AppStyle.boxShadow],
-            ),
-            child: Column(
-              children: [
-                Container(
-                    width: Get.width,
-                    padding: AppStyle.paddingAll12,
-                    decoration: BoxDecoration(
-                      borderRadius: AppStyle.borderRadius8All,
-                      color: kPrimaryColor2,
-                    ),
-                    child: Text(
-                      'HAGAG116AH',
-                      style: text12BlackSemiBold,
-                    )),
-                Gap(12.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppButton.secondaryIcon(
-                        icon: copy,
-                        text: 'Salin',
-                        onPressed: () => controller.copyVa('value'),
-                      ),
-                    ),
-                    Gap(8.w),
-                    Expanded(
-                      child: AppButton.secondaryIcon(
-                        icon: share,
-                        text: 'Bagikan',
-                        onPressed: () {},
-                      ),
-                    )
-                  ],
-                )
-              ],
-            )));
+    return SliverToBoxAdapter(
+      child: Padding(
+          padding: AppStyle.paddingAll16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  padding: AppStyle.paddingAll12,
+                  decoration: BoxDecoration(
+                    borderRadius: AppStyle.borderRadius8All,
+                    color: kWhite,
+                    boxShadow: [AppStyle.boxShadow],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                          width: Get.width,
+                          padding: AppStyle.paddingAll12,
+                          decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius8All,
+                            color: kPrimaryColor2,
+                          ),
+                          child: Text(
+                            '${controller.codeRefferal}',
+                            style: text12BlackSemiBold,
+                          )),
+                      Gap(12.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton.secondaryIcon(
+                              icon: copy,
+                              text: 'Salin',
+                              onPressed: () => controller.copyVa('value'),
+                            ),
+                          ),
+                          Gap(8.w),
+                          Expanded(
+                            child: AppButton.secondaryIcon(
+                              icon: share,
+                              text: 'Bagikan',
+                              onPressed: () => controller.shareReferral(),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+              Gap(16.h),
+              Text('Riwayat', style: text14BlackSemiBold),
+              Gap(16.h),
+            ],
+          )),
+    );
   }
 }

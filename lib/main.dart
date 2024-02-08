@@ -1,5 +1,7 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
+// ignore_for_file: unnecessary_null_comparison
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +13,9 @@ import 'infrastructure/navigation/routes.dart';
 
 Future<void> main() async {
   await AppConfig.init();
+
   var initialRoute = await Routes.initialRoute;
+
   runApp(
       // DevicePreview(
       //     enabled: !kReleaseMode, builder: (context) => Main(initialRoute)),
@@ -35,9 +39,14 @@ class Main extends StatelessWidget {
               initialRoute: initialRoute,
               debugShowCheckedModeBanner: false,
               useInheritedMediaQuery: true,
+
               // locale: DevicePreview.locale(context),
               // builder: DevicePreview.appBuilder,
-              theme: ThemeData(useMaterial3: true),
+              theme: ThemeData(
+                  useMaterial3: true,
+                  bottomSheetTheme: const BottomSheetThemeData(
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent)),
               getPages: Nav.routes,
             ),
           );

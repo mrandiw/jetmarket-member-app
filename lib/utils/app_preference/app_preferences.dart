@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../domain/core/model/model_data/address_model.dart';
 import '../../domain/core/model/model_data/user_model.dart';
 
 class AppPreference {
@@ -21,11 +22,123 @@ class AppPreference {
   final String _isReferal = 'referal';
   final String _phoneNumber = 'phone';
   final String _countDown = 'count_down';
+  final String _countDownPaymentSaving = 'count_down_payment_saving';
+  final String _countDownPaymentTopupWallet = 'count_down_payment_topup_wallet';
+  final String _countDownPaylaterPayment = 'count_down_paylater_payment';
+  final String _countDownOrder = 'count_down_order';
+
   final String _trxId = 'trx_id';
+  final String _address = 'address';
 
   Future<void> saveCountDown(int countDown) async {
     int startTime = DateTime.now().millisecondsSinceEpoch;
     await _prefs?.setInt(_countDown, startTime);
+  }
+
+  Future<void> saveCountDownOrder(int countDown, int id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownOrder);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id.toString()] = startTime;
+    await _prefs?.setString(_countDownOrder, json.encode(countDownMap));
+  }
+
+  Future<void> saveCountDownSavingPayment(int countDown, String id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownPaymentSaving);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id] = startTime;
+    await _prefs?.setString(_countDownPaymentSaving, json.encode(countDownMap));
+  }
+
+  Future<void> saveCountDownPaymentTopupWallet(int countDown, String id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownPaymentTopupWallet);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id] = startTime;
+    await _prefs?.setString(
+        _countDownPaymentTopupWallet, json.encode(countDownMap));
+  }
+
+    Future<void> saveCountDownPaymentPaylater(int countDown, String id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownPaylaterPayment);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id] = startTime;
+    await _prefs?.setString(
+        _countDownPaylaterPayment, json.encode(countDownMap));
+  }
+
+  int? getCountDownOrder(int id) {
+    String? countDownData = _prefs?.getString(_countDownOrder);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id.toString())) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
+  }
+
+  int? getCountDownSavingPayment(String id) {
+    String? countDownData = _prefs?.getString(_countDownPaymentSaving);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id)) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
+  }
+
+  int? getCountDownPaymentTopupWallet(String id) {
+    String? countDownData = _prefs?.getString(_countDownPaymentTopupWallet);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id)) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
+  }
+
+    int? getCountDownPaymentPaylater(String id) {
+    String? countDownData = _prefs?.getString(_countDownPaylaterPayment);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id)) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
   }
 
   int? getCountDown() {
@@ -64,6 +177,22 @@ class AppPreference {
       return UserModel.fromJson(userDataMap);
     } else {
       return null;
+    }
+  }
+
+  void updateUserData(UserModel newUserData) {
+    String? existingUserDataJson = _prefs?.getString(_userDataKey);
+
+    if (existingUserDataJson != null) {
+      Map<String, dynamic> existingUserDataMap =
+          json.decode(existingUserDataJson);
+      existingUserDataMap.forEach((key, value) {
+        if (newUserData.toJson().containsKey(key)) {
+          existingUserDataMap[key] = newUserData.toJson()[key];
+        }
+      });
+      String updatedUserDataJson = json.encode(existingUserDataMap);
+      _prefs?.setString(_userDataKey, updatedUserDataJson);
     }
   }
 
@@ -133,6 +262,21 @@ class AppPreference {
 
   int? getTrxId() {
     return _prefs?.getInt(_trxId);
+  }
+
+  Future<void> saveAddress(AddressModel address) async {
+    String addressJson = json.encode(address);
+    await _prefs?.setString(_address, addressJson);
+  }
+
+  AddressModel? getAddress() {
+    String? addressJson = _prefs?.getString(_address);
+    if (addressJson != null) {
+      Map<String, dynamic> addressMap = json.decode(addressJson);
+      return AddressModel.fromJson(addressMap);
+    } else {
+      return null;
+    }
   }
 
   Future<void> clearAccessToken() async {

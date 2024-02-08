@@ -55,10 +55,15 @@ class FooterSection extends StatelessWidget {
             ],
           ),
           Gap(8.h),
-          AppButton.primary(
-            text: 'Simpan',
-            onPressed: () => controller.saveAddress(),
-          ),
+          Obx(
+            () => AppButton.primary(
+              actionStatus: controller.actionStatus.value,
+              text: 'Simpan',
+              onPressed: controller.typeAddress
+                  ? () => controller.addAddress()
+                  : () => controller.editAddress(),
+            ),
+          )
         ],
       ),
     );

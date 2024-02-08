@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +12,7 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/form/app_form_icon.dart';
+import '../../../../components/picker/picker_images.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 
@@ -25,12 +28,48 @@ class FormSection extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 46.r,
-                backgroundColor: kPrimaryColor2,
-              ),
+              controller.userFile == null
+                  ? CachedNetworkImage(
+                      imageUrl: controller.userData?.image ?? '',
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                            radius: 46.r,
+                            backgroundColor: kPrimaryColor2,
+                            backgroundImage: imageProvider,
+                          ),
+                      placeholder: (context, url) => SizedBox(
+                            height: 72.r,
+                            width: 72.r,
+                            child: const Center(
+                              child:
+                                  CupertinoActivityIndicator(color: kSoftBlack),
+                            ),
+                          ),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                            radius: 46.r,
+                            backgroundColor: kPrimaryColor2,
+                            child: Center(
+                              child: Icon(
+                                Icons.error,
+                                color: kPrimaryColor,
+                                size: 20.r,
+                              ),
+                            ),
+                          ))
+                  : CircleAvatar(
+                      radius: 46.r,
+                      backgroundColor: kPrimaryColor2,
+                      backgroundImage: FileImage(controller.userFile!),
+                    ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.bottomSheet(
+                        enterBottomSheetDuration: 200.milliseconds,
+                        exitBottomSheetDuration: 200.milliseconds,
+                        PickerImages.double(
+                          onTapCamera: () => controller.getImageMenu(),
+                          onTapGallery: () => controller.getImageGalery(),
+                        ));
+                  },
                   child: Text(
                     'Ubah Foto Profil',
                     style: text12NormalRegular,
@@ -127,6 +166,7 @@ class FormSection extends StatelessWidget {
             type: AppFormIconType.withLabel,
             controller: controller.passwordController,
             keyboardType: TextInputType.visiblePassword,
+            isReadOnly: true,
             label: 'Password',
             hintText: 'Isi password disini',
             onChanged: (value) => controller.listenPasswordForm(value),

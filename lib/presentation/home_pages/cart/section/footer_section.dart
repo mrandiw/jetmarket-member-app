@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
@@ -40,7 +39,7 @@ class FooterSection extends StatelessWidget {
             )),
             AppButton.primary(
               text: 'Beli',
-              onPressed: controller.addForBuy.isNotEmpty
+              onPressed: controller.selectProductCart.isNotEmpty
                   ? () => controller.buyProduct()
                   : null,
             ),

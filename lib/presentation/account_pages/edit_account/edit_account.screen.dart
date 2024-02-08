@@ -12,12 +12,18 @@ class EditAccountScreen extends GetView<EditAccountController> {
   const EditAccountScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhite,
-      appBar: appBarEditAccount,
-      body: const FormSection(),
-      bottomNavigationBar: ButtonSection(
-        controller: controller,
+    return WillPopScope(
+      onWillPop: () async {
+        await controller.updateUser();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: kWhite,
+        appBar: appBarEditAccount,
+        body: const FormSection(),
+        bottomNavigationBar: ButtonSection(
+          controller: controller,
+        ),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:jetmarket/domain/core/model/model_data/product.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../domain/core/model/model_data/banner.dart';
@@ -20,13 +21,19 @@ class HomeController extends GetxController {
   HomeController(this._productRepository);
   TextEditingController searchController = TextEditingController();
   var screenStatus = (ScreenStatus.success).obs;
+  var isHomeScreen = true.obs;
   static const _pageSize = 10;
+  static const _pagePopularSize = 10;
+
+  late PagingController<int, Product> pagingController;
+  late PagingController<int, Product> pagingPopularController;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   List<CategoryProduct> categoryProduct = [];
   List<Banners> banners = [];
   List<Product> popularProducts = [];
 
-  late PagingController<int, Product> pagingController;
   String? searchProduct;
   bool searchActived = false;
 
@@ -119,11 +126,37 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> getProductPopularOnPage(int pageKey) async {
+    try {
+      var param = ProductSellerParam(
+          page: pageKey,
+          size: _pagePopularSize,
+          sellerId: 1,
+          name: searchProduct,
+          minRating: double.parse(selectedStars ?? '0'),
+          sortBy: convertToEnglish(selectedSortProduct),
+          categoryId: selectedCategoryProduct?.id);
+      final response = await _productRepository.getProductBySeller(param);
+      final isLastPage = response.result!.length < _pageSize;
+
+      if (isLastPage) {
+        pagingPopularController.appendLastPage(response.result ?? []);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingPopularController.appendPage(response.result ?? [], nextPageKey);
+      }
+    } catch (error) {
+      pagingPopularController.error = error;
+    }
+  }
+
   Future<void> refreshData() async {
     await Future.delayed(2.seconds, () {
       selectedSortProduct = null;
       selectedCategoryProduct = null;
       selectedStars = null;
+      searchProduct = null;
+      searchController.clear();
       categoryProduct.clear();
       banners.clear();
       popularProducts.clear();
@@ -132,6 +165,25 @@ class HomeController extends GetxController {
       getCategoryProduct();
       getPopularProduct();
     });
+  }
+
+  void seeAllPopular() {
+    selectedSortProduct = null;
+    selectedCategoryProduct = null;
+    selectedStars = null;
+    searchProduct = null;
+    searchController.clear();
+    searchActived = false;
+    update();
+    isHomeScreen.value = !isHomeScreen.value;
+    if (isHomeScreen.value == true) {
+      pagingController.refresh();
+      pagingPopularController.refresh();
+
+      refreshData();
+    } else {
+      pagingPopularController.refresh();
+    }
   }
 
   void openFilter() {
@@ -147,7 +199,11 @@ class HomeController extends GetxController {
       update();
     }
     searchProduct = value;
-    pagingController.refresh();
+    if (isHomeScreen.value) {
+      pagingController.refresh();
+    } else {
+      pagingPopularController.refresh();
+    }
   }
 
   void filterProduct() {}
@@ -208,8 +264,31 @@ class HomeController extends GetxController {
 
   void applyFilterProduct() {
     Get.back();
-    getProduct(1);
-    pagingController.refresh();
+    if (isHomeScreen.value) {
+      getProduct(1);
+      pagingController.refresh();
+    } else {
+      getProductPopularOnPage(1);
+      pagingPopularController.refresh();
+    }
+  }
+
+  void onRefresh() async {
+    await Future.delayed(1.seconds, () {
+      pagingController.itemList?.clear();
+      // getSavingHistory(1);
+      if (isHomeScreen.value) {
+        pagingController.refresh();
+      } else {
+        pagingPopularController.refresh();
+      }
+    });
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await Future.delayed(1.seconds);
+    if (isClosed) refreshController.loadComplete();
   }
 
   @override
@@ -218,9 +297,15 @@ class HomeController extends GetxController {
     getCategoryProduct();
     getPopularProduct();
     pagingController = PagingController(firstPageKey: 1);
+    pagingPopularController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((page) {
       getProduct(page);
     });
+
+    pagingPopularController.addPageRequestListener((page) {
+      getProductPopularOnPage(page);
+    });
+
     super.onInit();
   }
 }

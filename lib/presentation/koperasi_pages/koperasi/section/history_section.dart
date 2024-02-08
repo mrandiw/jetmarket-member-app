@@ -1,69 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:jetmarket/infrastructure/theme/app_colors.dart';
-import 'package:jetmarket/infrastructure/theme/app_text.dart';
-import 'package:jetmarket/utils/assets/assets_svg.dart';
-import 'package:jetmarket/utils/extension/responsive_size.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/model/model_data/saving_history_model.dart';
+import 'package:jetmarket/presentation/koperasi_pages/koperasi/controllers/koperasi.controller.dart';
+import 'package:jetmarket/presentation/koperasi_pages/koperasi/widget/saving_history_item.dart';
+
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/infiniti_page/infiniti_page.dart';
+
 class HistorySection extends StatelessWidget {
-  const HistorySection({super.key});
+  const HistorySection({super.key, required this.controller});
+
+  final KoperasiController controller;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppStyle.paddingAll16,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('All History', style: text14BlackMedium),
-          Gap(12.hr),
-          Column(
-              children: List.generate(
-                  10,
-                  (index) => Padding(
-                      padding: AppStyle.paddingBottom12,
-                      child: Container(
-                          padding: AppStyle.paddingAll12,
-                          decoration: BoxDecoration(
-                              color: kWhite,
-                              borderRadius: AppStyle.borderRadius8All,
-                              border: AppStyle.borderAll),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(index == 0
-                                  ? check
-                                  : index == 2
-                                      ? close
-                                      : index == 3
-                                          ? historyCircle
-                                          : canceled),
-                              Gap(12.wr),
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Pengajuan Berhasil Diterima',
-                                      style: text12BlackMedium),
-                                  Gap(4.hr),
-                                  Text(
-                                    'Pengajuan pinjaman sebesar Rp2.000.000 berhasil ditambahkan ke rekeningmu.',
-                                    style: text11GreyRegular,
-                                  ),
-                                  Gap(6.hr),
-                                  GestureDetector(
-                                      child: Text('Lihat Detail',
-                                          style: text11PrimaryRegular))
-                                ],
-                              ))
-                            ],
-                          )))))
-        ],
-      ),
-    );
+    return SliverPadding(
+        padding: AppStyle.paddingAll16,
+        sliver: PagedSliverList.separated(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<SavingHistoryModel>(
+              itemBuilder: (context, item, index) => SavingHistoryItem(
+                index: index,
+                data: item,
+              ),
+              newPageProgressIndicatorBuilder: InfinitiPage.progress,
+              firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+              noItemsFoundIndicatorBuilder: (_) =>
+                  InfinitiPage.empty(_, 'Riwayat'),
+              firstPageErrorIndicatorBuilder: InfinitiPage.error,
+            ),
+            separatorBuilder: (_, i) => Gap(12.h)));
   }
 }

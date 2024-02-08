@@ -1,52 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:gap/gap.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/model/model_data/vouchers.dart';
+import 'package:jetmarket/presentation/home_pages/voucher/widget/voucher_item.dart';
 
-import '../../../../infrastructure/theme/app_colors.dart';
-import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../components/infiniti_page/infiniti_page.dart';
 import '../../../../utils/style/app_style.dart';
 import '../controllers/voucher.controller.dart';
 
 class VoucherSection extends StatelessWidget {
-  const VoucherSection({super.key});
+  const VoucherSection({super.key, required this.controller});
+  final VoucherController controller;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VoucherController>(builder: (controller) {
-      return ListView.builder(
-          itemCount: controller.vouchers.length,
-          padding: AppStyle.paddingAll16,
-          itemBuilder: (_, index) {
-            return Padding(
-              padding: AppStyle.paddingBottom8,
-              child: Card(
-                elevation: 0,
-                margin: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                    borderRadius: AppStyle.borderRadius8All,
-                    side: AppStyle.borderSide),
-                child: ListTile(
-                  onTap: () => controller.selectVoucher(index),
-                  contentPadding: AppStyle.paddingSide12,
-                  title: Text("${controller.vouchers[index]['title']}",
-                      style: text12BlackRegular),
-                  subtitle: Text(
-                    '${controller.vouchers[index]['subtitle']}',
-                    style: text12HintRegular,
-                  ),
-                  trailing: SizedBox(
-                    width: 26.w,
-                    child: RadioListTile(
-                        activeColor: kPrimaryColor,
-                        value: index,
-                        selected: controller.selectedVoucher == index,
-                        groupValue: controller.selectedVoucher,
-                        onChanged: (value) => controller.selectVoucher(value!)),
-                  ),
-                ),
+    return SliverPadding(
+        padding: AppStyle.paddingAll16,
+        sliver: PagedSliverList.separated(
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<Vouchers>(
+              itemBuilder: (context, item, index) => VoucherItem(
+                index: index,
+                data: item,
+                onTap: () => controller.selectVoucher(index),
               ),
-            );
-          });
-    });
+              newPageProgressIndicatorBuilder: InfinitiPage.progress,
+              firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+              noItemsFoundIndicatorBuilder: (_) =>
+                  InfinitiPage.empty(_, 'Voucher'),
+              firstPageErrorIndicatorBuilder: InfinitiPage.error,
+            ),
+            separatorBuilder: (_, i) => Gap(12.h)));
   }
 }

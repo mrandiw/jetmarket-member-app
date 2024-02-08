@@ -33,7 +33,9 @@ class ProductPopularSection extends StatelessWidget {
                   children: [
                     Text('Produk Terlaris', style: text14BlackMedium),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        controller.seeAllPopular();
+                      },
                       child: Row(
                         children: [
                           Text('Lihat semua', style: text12BlackRegular),

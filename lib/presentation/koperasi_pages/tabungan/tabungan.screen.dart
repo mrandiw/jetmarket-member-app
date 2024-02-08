@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'controllers/tabungan.controller.dart';
+import 'section/app_bar_section.dart';
+import 'section/choice_option.dart';
 
 class TabunganScreen extends GetView<TabunganController> {
   const TabunganScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    return successWidget(controller);
+  }
+
+  Scaffold successWidget(TabunganController controller) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TabunganScreen'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'TabunganScreen is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      appBar: appBarTabungan,
+      body: ListView(
+        children: const [
+          ChoiceOption(),
+        ],
       ),
     );
   }

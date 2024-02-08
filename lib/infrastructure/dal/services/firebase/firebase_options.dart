@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAtmwpBTAeBgDyWnijLwK2liyxwKm7DUJk',
-    appId: '1:915263156671:android:5ed7eea20329cdb03bf10a',
-    messagingSenderId: '915263156671',
-    projectId: 'jetmarket-customer',
-    storageBucket: 'jetmarket-customer.appspot.com',
+    apiKey: 'AIzaSyDaSd3XtBdGgUJ-xNczi9nwjyk80YISzNY',
+    appId: '1:418835362647:android:ed3c567f26b1ffc7094412',
+    messagingSenderId: '418835362647',
+    projectId: 'jetmarket-app',
+    storageBucket: 'jetmarket-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBwQEPc3nPBLrYP3DfzPToOkA28_fU-cpQ',
-    appId: '1:915263156671:ios:92875587e3e1b8923bf10a',
-    messagingSenderId: '915263156671',
-    projectId: 'jetmarket-customer',
-    storageBucket: 'jetmarket-customer.appspot.com',
+    apiKey: 'AIzaSyDR3igio57ezPf2KtM-Cx5ReLaBIPCGdr4',
+    appId: '1:418835362647:ios:3dec94af294f0866094412',
+    messagingSenderId: '418835362647',
+    projectId: 'jetmarket-app',
+    storageBucket: 'jetmarket-app.appspot.com',
     iosBundleId: 'com.jetmarket.customer',
   );
 }

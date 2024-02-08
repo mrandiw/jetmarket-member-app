@@ -13,7 +13,8 @@ enum AppBadgeType {
   primary,
   error,
   success,
-  disable
+  disable,
+  waiting
 }
 
 class AppBadge extends StatelessWidget {
@@ -63,6 +64,8 @@ class AppBadge extends StatelessWidget {
         return kSuccessColor2;
       case AppBadgeType.disable:
         return kDisable2;
+      case AppBadgeType.waiting:
+        return const Color(0xffFEF7F1);
     }
   }
 
@@ -82,6 +85,8 @@ class AppBadge extends StatelessWidget {
         return kSuccessColor;
       case AppBadgeType.disable:
         return kDisable;
+      case AppBadgeType.waiting:
+        return const Color(0xffD6761E);
     }
   }
 }

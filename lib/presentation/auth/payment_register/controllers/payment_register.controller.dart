@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
-import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
+import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
@@ -14,14 +14,15 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../../domain/core/model/params/auth/payment_param.dart';
+import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
 
 class PaymentRegisterController extends GetxController {
-  final AuthRepository _authRepository;
+  final PaymentRepository _paymentRepository;
 
-  PaymentRegisterController(this._authRepository);
+  PaymentRegisterController(this._paymentRepository);
   TextEditingController numberController = TextEditingController();
   var screenStatus = (ScreenStatus.initalize).obs;
   var actionStatus = ActionStatus.initalize;
@@ -60,7 +61,8 @@ class PaymentRegisterController extends GetxController {
 
   Future<void> getPaymentMethode() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _authRepository.getPaymentMethode();
+    final response = await _paymentRepository.getPaymentMethode(
+        type: PaymentMethodeType.register);
     if (response.result?.ewalletQr != null &&
         response.result?.otc != null &&
         response.result?.virtualAccount != null) {
@@ -89,7 +91,7 @@ class PaymentRegisterController extends GetxController {
         id: selectedId.toString(),
         amount: amount,
         mobileNumber: isPhoneValidated.value ? numberController.text : null);
-    final response = await _authRepository.createPaymentCustomer(param);
+    final response = await _paymentRepository.createPaymentCustomer(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
@@ -112,7 +114,7 @@ class PaymentRegisterController extends GetxController {
   }
 
   String assetImage(String path) {
-    return "assets/images/$path.png";
+    return "assets/images/${path.toLowerCase()}.png";
   }
 
   void actionPayment(int id, String chType, String chCode, String name) {
@@ -174,7 +176,7 @@ class PaymentRegisterController extends GetxController {
   String getImage(String image) {
     String img;
     try {
-      img = 'assets/images/$image.png';
+      img = 'assets/images/${image.toLowerCase()}.png';
     } catch (e) {
       img = 'assets/images/warning.png';
     }

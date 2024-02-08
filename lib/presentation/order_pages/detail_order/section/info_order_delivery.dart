@@ -7,7 +7,10 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
+import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
+
+import '../../../../infrastructure/navigation/routes.dart';
 
 class InfoOrderDelivery extends StatelessWidget {
   const InfoOrderDelivery({super.key});
@@ -27,8 +30,21 @@ class InfoOrderDelivery extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text('${controller.detailOrderCustomer?.trxRef}',
+                          style: text12BlackRegular),
+                      // GestureDetector(
+                      //   child:
+                      //       Text('Lihat Invoice', style: text12SucessRegular),
+                      // ),
+                    ],
+                  ),
+                  Gap(6.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text('Nama Pembeli', style: text12BlackRegular),
-                      Text('John Doe', style: text12BlackMedium),
+                      Text('${controller.detailOrderCustomer?.customerName}',
+                          style: text12BlackMedium),
                     ],
                   ),
                   Gap(6.h),
@@ -36,7 +52,9 @@ class InfoOrderDelivery extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Waktu Pemesanan', style: text12BlackRegular),
-                      Text('21 Nov 2023, 12:23', style: text12BlackMedium),
+                      Text(
+                          '${controller.detailOrderCustomer?.createdAt?.split('.').first.formatDate}',
+                          style: text12BlackMedium),
                     ],
                   ),
                   Gap(6.h),
@@ -44,19 +62,10 @@ class InfoOrderDelivery extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Waktu Pembayaran', style: text12BlackRegular),
-                      Text('21 Nov 2023, 12:23', style: text12BlackMedium),
+                      Text(
+                          '${controller.detailOrderCustomer?.paymentMethod?.createdAt?.split('.').first.formatDate}',
+                          style: text12BlackMedium),
                     ],
-                  ),
-                  Gap(6.h),
-                  Visibility(
-                    visible: controller.onDelivery,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Waktu Pengiriman', style: text12BlackRegular),
-                        Text('21 Nov 2023, 12:23', style: text12BlackMedium),
-                      ],
-                    ),
                   ),
                   Gap(6.h),
                   Row(
@@ -65,25 +74,27 @@ class InfoOrderDelivery extends StatelessWidget {
                       Text('Status Pesanan', style: text12BlackRegular),
                       AppBadge(
                           icon: cargo,
-                          text: controller.onDelivery
-                              ? 'Dalam Pengiriman'
-                              : 'Sampai Tujuan',
-                          type: controller.onDelivery
+                          text: controller.convertTypeStatus(
+                              controller.detailOrderCustomer?.status ?? ''),
+                          type: controller.statusOrder == 'ON_DELIVERY'
                               ? AppBadgeType.normal
                               : AppBadgeType.normalAccent)
                     ],
                   ),
                   Visibility(
-                    visible: controller.onDelivery,
+                    visible: controller.statusOrder == 'ON_DELIVERY',
                     child: Padding(
                       padding: EdgeInsets.only(top: 8.h),
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
+                              onTap: () => Get.toNamed(Routes.TRACKING_ORDER,
+                                  arguments:
+                                      controller.detailOrderCustomer?.id),
                               child: Text(
-                            'Lacak Pesanan',
-                            style: text12SucessRegular,
-                          ))),
+                                'Lacak Pesanan',
+                                style: text12SucessRegular,
+                              ))),
                     ),
                   )
                 ],

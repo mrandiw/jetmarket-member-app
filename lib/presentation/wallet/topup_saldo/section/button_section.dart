@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
-import 'package:jetmarket/presentation/auth/payment_register/controllers/payment_register.controller.dart';
 import 'package:jetmarket/presentation/wallet/topup_saldo/controllers/topup_saldo.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
@@ -27,8 +27,9 @@ class ButtonSection extends StatelessWidget {
       child: Obx(() {
         return AppButton.primary(
           text: 'Lanjut',
-          onPressed:
-              controller.selectedPaymentMethode.value != "" ? () {} : null,
+          onPressed: controller.selectedPaymentMethode.value != ""
+              ? () => Get.offNamed(Routes.PAYMENT_TOPUP_SALDO)
+              : null,
         );
       }),
     );

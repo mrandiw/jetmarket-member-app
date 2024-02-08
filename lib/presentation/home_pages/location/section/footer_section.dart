@@ -14,7 +14,7 @@ class FooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140.h,
+      height: 148.h,
       padding: AppStyle.paddingAll16,
       decoration: BoxDecoration(
           color: kWhite,

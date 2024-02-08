@@ -1,30 +1,28 @@
-import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/middleware/uni_link_middleware.dart';
 
-import '../../config/config.dart';
 import '../../presentation/screens.dart';
 import '../middleware/auth_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
 
-class EnvironmentsBadge extends StatelessWidget {
-  final Widget child;
-  const EnvironmentsBadge({super.key, required this.child});
-  @override
-  Widget build(BuildContext context) {
-    var env = ConfigEnvironments.getEnvironments()['env'];
-    return env != Environments.PRODUCTION
-        ? Banner(
-            location: BannerLocation.topStart,
-            message: env!,
-            color: env == Environments.QAS ? Colors.blue : Colors.purple,
-            child: child,
-          )
-        : SizedBox(child: child);
-  }
-}
+// class EnvironmentsBadge extends StatelessWidget {
+//   final Widget child;
+//   const EnvironmentsBadge({super.key, required this.child});
+//   @override
+//   Widget build(BuildContext context) {
+//     var env = ConfigEnvironments.getEnvironments()['env'];
+//     return env != Environments.PRODUCTION
+//         ? Banner(
+//             location: BannerLocation.topStart,
+//             message: env!,
+//             color: env == Environments.QAS ? Colors.blue : Colors.purple,
+//             child: child,
+//           )
+//         : SizedBox(child: child);
+//   }
+// }
 
 class Nav {
   static List<GetPage> routes = [
@@ -34,10 +32,9 @@ class Nav {
       binding: HomeControllerBinding(),
     ),
     GetPage(
-      name: Routes.SPLASH_SCREEN,
-      page: () => const SplashScreenScreen(),
-      binding: SplashScreenControllerBinding(),
-    ),
+        name: Routes.SPLASH_SCREEN,
+        page: () => const SplashScreenScreen(),
+        binding: SplashScreenControllerBinding()),
     GetPage(
       name: Routes.ONBOARDING,
       page: () => const OnboardingScreen(),
@@ -97,7 +94,7 @@ class Nav {
         name: Routes.MAIN_PAGES,
         page: () => const MainPagesScreen(),
         binding: MainPagesControllerBinding(),
-        middlewares: [AuthMiddleware()]),
+        middlewares: [UniLinkMiddleware(), AuthMiddleware()]),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),
@@ -362,6 +359,116 @@ class Nav {
       name: Routes.PAYMENT_TOPUP_SALDO,
       page: () => const PaymentTopupSaldoScreen(),
       binding: PaymentTopupSaldoControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_DELIVERY,
+      page: () => const ChoiceDeliveryScreen(),
+      binding: ChoiceDeliveryControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_PAYMENT_CUSTOMER,
+      page: () => const DetailPaymentCustomerScreen(),
+      binding: DetailPaymentCustomerControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYMENT_PAYLETTER,
+      page: () => const PaymentPayletterScreen(),
+      binding: PaymentPayletterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYLETTER_SUCCESS,
+      page: () => const PayletterSuccessScreen(),
+      binding: PayletterSuccessControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ORDER_LIST_TRANSACTION,
+      page: () => const OrderListTransactionScreen(),
+      binding: OrderListTransactionControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.RINCIAN_REFUND,
+      page: () => const RincianRefundScreen(),
+      binding: RincianRefundControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SET_REFUND,
+      page: () => const SetRefundScreen(),
+      binding: SetRefundControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_DELIVERY_REFUND,
+      page: () => const ChoiceDeliveryRefundScreen(),
+      binding: ChoiceDeliveryRefundControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TRACKING_ORDER,
+      page: () => const TrackingOrderScreen(),
+      binding: TrackingOrderControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DAFTAR_PENGAJUAN_PINJAMAN,
+      page: () => const DaftarPengajuanPinjamanScreen(),
+      binding: DaftarPengajuanPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TAGIHAN_BULANAN_PINJAMAN,
+      page: () => const TagihanBulananPinjamanScreen(),
+      binding: TagihanBulananPinjamanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_CHAT,
+      page: () => const DetailChatScreen(),
+      binding: DetailChatControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHATS,
+      page: () => const ChatsScreen(),
+      binding: ChatsControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_TAGIHAN_BULANAN,
+      page: () => const DetailTagihanBulananScreen(),
+      binding: DetailTagihanBulananControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHECK_EXISTING_CHAT,
+      page: () => const CheckExistingChatScreen(),
+      binding: CheckExistingChatControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_PAYMENT_TOPUP,
+      page: () => const ChoicePaymentTopupScreen(),
+      binding: ChoicePaymentTopupControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_TOPUP,
+      page: () => const DetailTopupScreen(),
+      binding: DetailTopupControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYLATER_CUSTOMER,
+      page: () => const PaylaterCustomerScreen(),
+      binding: PaylaterCustomerControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.BILL_PAYLATER,
+      page: () => const BillPaylaterScreen(),
+      binding: BillPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_BILL_PAYLATER,
+      page: () => const DetailBillPaylaterScreen(),
+      binding: DetailBillPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_PAYMENT_PAYLATER,
+      page: () => const ChoicePaymentPaylaterScreen(),
+      binding: ChoicePaymentPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_PAYMENT_PAYLATER,
+      page: () => const DetailPaymentPaylaterScreen(),
+      binding: DetailPaymentPaylaterControllerBinding(),
     ),
   ];
 }

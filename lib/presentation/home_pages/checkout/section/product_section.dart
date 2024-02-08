@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
-
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
+import '../widget/delivery_item.dart';
+import '../widget/product_item.dart';
 
 class ProductSection extends StatelessWidget {
   const ProductSection({super.key});
@@ -14,70 +17,110 @@ class ProductSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: AppStyle.paddingSide16,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Gap(12.h),
-          Text('Produk Yang Dibeli', style: text14BlackMedium),
-          Gap(12.h),
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: AppStyle.borderRadius8All,
-                child: Image.network(
-                  'https://plus.unsplash.com/premium_photo-1701083991041-16b72d10d2b7?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                  height: 64.h,
-                  width: 77.w,
-                  fit: BoxFit.cover,
+      child: GetBuilder<CheckoutController>(builder: (controller) {
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) {
+            var data = controller.productCart[index];
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: AppStyle.paddingBottom8,
+                  child:
+                      Text(data.seller?.name ?? '', style: text12BlackRegular),
                 ),
-              ),
-              Gap(8.h),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Pensil Warna 2in1 12 Pcs', style: text12BlackRegular),
-                    Text('43000'.toIdrFormat, style: text10lineThroughRegular),
-                    Gap(6.h),
-                    Text('13000'.toIdrFormat, style: text12PrimaryMedium),
-                  ],
+                Divider(
+                  color: kBorder,
+                  thickness: 1,
+                  height: 0,
                 ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: AppStyle.borderRadius6All,
-                      color: kWhite,
-                      border: AppStyle.borderAll),
-                  child: const Center(
-                      child: Icon(
-                    Icons.remove,
-                    color: kSofterGrey,
-                  )),
-                ),
-              ),
-              Gap(12.w),
-              Text("1", style: text12BlackRegular),
-              Gap(12.w),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: AppStyle.borderRadius6All,
-                      color: kWhite,
-                      border: AppStyle.borderAll),
-                  child: const Center(
-                      child: Icon(
-                    Icons.add,
-                    color: kSofterGrey,
-                  )),
-                ),
-              )
-            ],
+                Column(
+                  children: List.generate(
+                    data.products?.length ?? 0,
+                    (indexProduct) {
+                      int indexDelivery = controller.listDelivery.isNotEmpty
+                          ? controller.listDelivery
+                              .indexWhere((e) => e.sellerId == data.seller?.id)
+                          : -1;
+
+                      return Column(
+                        children: [
+                          ProductItem(
+                            data: data.products?[indexProduct],
+                            isWriteNote: controller.isWriteNote[index]
+                                    [indexProduct] ==
+                                false,
+                            openWriteNote: () =>
+                                controller.openWriteNote(index, indexProduct),
+                            closeWriteNote: () => controller.closeWriteNote(
+                                index,
+                                indexProduct,
+                                data.products?[indexProduct].cartId ?? 0),
+                            controller: controller.notesController[index]
+                                [indexProduct],
+                          ),
+                          if (indexProduct == data.products!.length - 1 &&
+                              controller.listDelivery.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Column(
+                                children: [
+                                  DeliveryItem(
+                                      data: controller.listDelivery,
+                                      sellerId: data.seller?.id ?? 0,
+                                      isExpandedTile:
+                                          controller.isExpandedTile[index],
+                                      onExpansionChanged: (value) =>
+                                          controller.onExpandTile(index)),
+                                  if (indexDelivery != -1 &&
+                                      indexDelivery <
+                                          controller.selectedDelivery.length)
+                                    _selectedDelivery(
+                                        controller, indexDelivery),
+                                ],
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
+          separatorBuilder: (_, __) => Gap(8.h),
+          itemCount: controller.productCart.length,
+        );
+      }),
+    );
+  }
+
+  Padding _selectedDelivery(CheckoutController controller, int indexDelivery) {
+    return Padding(
+      padding: AppStyle.paddingBottom16,
+      child: Card(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: AppStyle.borderRadius8All,
+        ),
+        color: kBorder,
+        elevation: 0,
+        child: ListTile(
+          contentPadding: AppStyle.paddingSide12,
+          visualDensity: VisualDensity.compact,
+          dense: true,
+          title: Text(
+            '${controller.selectedDelivery[indexDelivery].packets?.name ?? ''} ${controller.selectedDelivery[indexDelivery].packets?.rate.toString().toIdrFormat ?? ''}',
+            style: text12BlackRegular,
           ),
-        ],
+          subtitle: Text(
+            controller.selectedDelivery[indexDelivery].packets?.duration ?? '',
+            style: text12HintRegular,
+          ),
+        ),
       ),
     );
   }

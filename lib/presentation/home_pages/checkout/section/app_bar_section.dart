@@ -7,21 +7,12 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 
 AppBar get appBarCheckout {
   return AppBar(
-    backgroundColor: kWhite,
-    elevation: 0.3,
-    automaticallyImplyLeading: false,
-    leading: IconButton(
-      onPressed: () => Get.back(),
-      icon: SvgPicture.asset(arrowForward),
-    ),
-    title: Text('Checkout', style: text16BlackSemiBold),
-    actions: [
-      IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.notifications,
-            color: kSoftGrey,
-          ))
-    ],
-  );
+      backgroundColor: kWhite,
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        onPressed: () => Get.back(),
+        icon: SvgPicture.asset(arrowForward),
+      ),
+      title: Text('Checkout', style: text16BlackSemiBold));
 }

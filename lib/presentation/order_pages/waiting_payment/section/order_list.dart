@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/button/app_button.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/order_pages/waiting_payment/controllers/waiting_payment.controller.dart';
-import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 class OrderList extends StatelessWidget {
@@ -18,70 +19,78 @@ class OrderList extends StatelessWidget {
     return GetBuilder<WaitingPaymentController>(builder: (controller) {
       return ListView.builder(
           padding: AppStyle.paddingAll16,
-          itemCount: 2,
+          itemCount: controller.waitingPayment.length,
           itemBuilder: (_, index) {
             return Padding(
               padding: AppStyle.paddingBottom8,
-              child: Card(
-                elevation: 0,
-                margin: EdgeInsets.zero,
-                shadowColor: const Color(0xffE0E0EC).withOpacity(0.4),
-                shape: RoundedRectangleBorder(
-                    borderRadius: AppStyle.borderRadius8All,
-                    side: AppStyle.borderSide),
-                child: Padding(
-                  padding: AppStyle.paddingAll12,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        SvgPicture.asset(timeLine),
-                        Gap(8.w),
-                        Text(
-                          'Bayar Sebelum',
-                          style: text12BlackRegular,
+              child: GestureDetector(
+                onTap: () => controller
+                    .toListOrder(controller.waitingPayment[index].id ?? 0),
+                child: Card(
+                  elevation: 0,
+                  margin: EdgeInsets.zero,
+                  shadowColor: const Color(0xffE0E0EC).withOpacity(0.4),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppStyle.borderRadius8All,
+                      side: AppStyle.borderSide),
+                  child: Padding(
+                    padding: AppStyle.paddingAll12,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          SvgPicture.asset(timeLine),
+                          Gap(8.w),
+                          Text(
+                            'Bayar Sebelum',
+                            style: text12BlackRegular,
+                          ),
+                          const Spacer(),
+                          Text(
+                              '${controller.waitingPayment[index].expiredAt?.split('.').first.formatDate}',
+                              style: text12WarningMedium)
+                        ]),
+                        Gap(8.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                "${controller.waitingPayment[index].paymentInfo?.code} ${controller.waitingPayment[index].paymentInfo?.name == 'VIRTUAL_ACCOUNT' ? 'Virtual Account' : ''}",
+                                style: text12BlackMedium),
+                            Image.asset(
+                              controller.assetImage(controller
+                                      .waitingPayment[index]
+                                      .paymentInfo
+                                      ?.code ??
+                                  ''),
+                              height: 14.h,
+                            )
+                          ],
                         ),
-                        const Spacer(),
-                        Text('30-08-2023  23:00', style: text12WarningMedium)
-                      ]),
-                      Gap(8.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('BCA Virtual Account',
-                                    style: text12BlackMedium),
-                                Gap(4.h),
-                                Text('80777082323872832',
-                                    style: text12BlackRegular),
-                              ]),
-                          Image.asset(bni)
-                        ],
-                      ),
-                      Gap(12.h),
-                      Text('Pembelian Pensil Warna 2in1 12 Pcs',
-                          style: text12BlackMedium),
-                      Gap(8.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Total Pembayaran:',
-                                    style: text10BlackRegular),
-                                Gap(4.h),
-                                Text('23000', style: text16PrimarySemiBold),
-                              ]),
-                          AppButton.secondary(
-                            text: 'Lihat Cara Bayar',
-                            onPressed: () => controller.toCaraBayar(),
-                          )
-                        ],
-                      ),
-                    ],
+                        Gap(16.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Total Pembayaran:',
+                                      style: text10BlackRegular),
+                                  Gap(4.h),
+                                  Text(
+                                      "${controller.waitingPayment[index].amount}"
+                                          .toIdrFormat,
+                                      style: text16PrimarySemiBold),
+                                ]),
+                            AppButton.secondarySmall(
+                              text: 'Lihat Cara Bayar',
+                              onPressed: () => controller.toCaraBayar(
+                                  controller.waitingPayment[index].id ?? 0),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

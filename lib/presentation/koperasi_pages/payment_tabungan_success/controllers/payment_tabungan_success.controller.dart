@@ -1,23 +1,13 @@
 import 'package:get/get.dart';
 
-class PaymentTabunganSuccessController extends GetxController {
-  //TODO: Implement PaymentTabunganSuccessController
+import '../../../../domain/core/model/model_data/saving_direct_model.dart';
 
-  final count = 0.obs;
+class PaymentTabunganSuccessController extends GetxController {
+  SavingDirectModel? savingDirect;
+
   @override
   void onInit() {
+    savingDirect = Get.arguments;
     super.onInit();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

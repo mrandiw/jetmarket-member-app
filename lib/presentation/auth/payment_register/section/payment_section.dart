@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -7,7 +6,6 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/payment_register/controllers/payment_register.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({super.key});
@@ -254,14 +252,14 @@ class PaymentSection extends StatelessWidget {
                                   controller
                                           .paymentMethodes?.ewalletQr?.length ??
                                       0, (index) {
-                                String assets = index ==
-                                        controller.paymentMethodes!.ewalletQr!
-                                                .length -
-                                            1
-                                    ? 'qris'
-                                    : controller.paymentMethodes
-                                            ?.ewalletQr?[index].chCode ??
-                                        '';
+                                // String assets = index ==
+                                //         controller.paymentMethodes!.ewalletQr!
+                                //                 .length -
+                                //             1
+                                //     ? 'qris'
+                                //     : controller.paymentMethodes
+                                //             ?.ewalletQr?[index].chCode ??
+                                //         '';
                                 return GestureDetector(
                                   onTap: () {
                                     controller.actionPayment(

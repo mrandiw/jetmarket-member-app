@@ -1,15 +1,12 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/order_pages/order/section/app_bar_section.dart';
-import 'package:jetmarket/presentation/order_pages/order/section/being_packaged.dart';
-import 'package:jetmarket/presentation/order_pages/order/section/cencel_order.dart';
-import 'package:jetmarket/presentation/order_pages/order/section/done_order.dart';
-import 'package:jetmarket/presentation/order_pages/order/section/on_delivery.dart';
-import 'package:jetmarket/presentation/order_pages/order/section/return_order.dart';
-
+import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/order.controller.dart';
-import 'section/app_bar_section.dart';
+import 'section/list_order_section.dart';
 
 class OrderScreen extends GetView<OrderController> {
   const OrderScreen({Key? key}) : super(key: key);
@@ -18,6 +15,7 @@ class OrderScreen extends GetView<OrderController> {
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
+            floatHeaderSlivers: true,
             headerSliverBuilder: (_, inBoxScrolled) {
               return [
                 AppBarDetailOrder(
@@ -29,13 +27,22 @@ class OrderScreen extends GetView<OrderController> {
             },
             body: TabBarView(
                 controller: controller.tabController,
-                children: const [
-                  BeingPackaged(),
-                  OnDelivery(),
-                  DoneOrder(),
-                  CancelOrder(),
-                  ReturnOrder()
-                ])),
+                children: List.generate(
+                    controller.statusTabs.length,
+                    (index) => Obx(() {
+                          if (!controller.loadingOnChangeTab.value) {
+                            return ListOrderSection(
+                                controller: controller, indexTab: index);
+                          } else {
+                            return SizedBox(
+                              height: Get.height * 0.4,
+                              child: const Center(
+                                  child: CupertinoActivityIndicator(
+                                color: kSoftGrey,
+                              )),
+                            );
+                          }
+                        })))),
       ),
     );
   }

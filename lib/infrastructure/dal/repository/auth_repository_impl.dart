@@ -1,18 +1,13 @@
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
-import 'package:jetmarket/domain/core/model/params/auth/payment_param.dart';
-
 import '../../../../domain/core/interfaces/auth_repository.dart';
-import '../../../../domain/core/model/model_data/payment_customer_model.dart';
-import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../../domain/core/model/model_data/user_model.dart';
 import '../../../../domain/core/model/params/auth/forgot_param.dart';
 import '../../../../domain/core/model/params/auth/forgot_verify_otp_param.dart';
 import '../../../../domain/core/model/params/auth/login_param.dart';
 import '../../../../domain/core/model/params/auth/register_param.dart';
 import '../../../../domain/core/model/params/auth/register_virify_otp_param.dart';
+import '../../../domain/core/model/model_data/user_profile.dart';
+import '../../../domain/core/model/params/auth/profile_body.dart';
 import '../../../utils/app_preference/app_preferences.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
@@ -137,71 +132,6 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<PaymentMethodeModel>> getPaymentMethode() async {
-    try {
-      final response = await RemoteProvider.get(path: Endpoint.paymentMethode);
-      return DataState<PaymentMethodeModel>(
-        status: StatusCodeResponse.cek(
-          response: response,
-        ),
-        result: PaymentMethodeModel.fromJson(response.data['data']),
-      );
-    } on DioException catch (e) {
-      return CustomException<PaymentMethodeModel>().dio(e);
-    }
-  }
-
-  @override
-  Future<DataState<PaymentCustomerModel>> createPaymentCustomer(
-      PaymentParam param) async {
-    try {
-      final response = await RemoteProvider.post(
-          path: Endpoint.paymentCustomerRegister,
-          queryParameters: param.toMap());
-      return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(
-          response: response,
-        ),
-        result: PaymentCustomerModel.fromJson(response.data['data']),
-      );
-    } on DioException catch (e) {
-      return CustomException<PaymentCustomerModel>().dio(e);
-    }
-  }
-
-  @override
-  Future<DataState<PaymentCustomerModel>> getPaymentCustomer(int id) async {
-    try {
-      final response = await RemoteProvider.get(
-          path: Endpoint.paymentCustomerRegister,
-          queryParameters: {'trx_id': id});
-
-      return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(
-          response: response,
-        ),
-        result: PaymentCustomerModel.fromJson(response.data['data']),
-      );
-    } on DioException catch (e) {
-      return CustomException<PaymentCustomerModel>().dio(e);
-    }
-  }
-
-  @override
-  Future<TutorialPaymentVaModel> fetchDataFromJsonFile(String path) async {
-    try {
-      String jsonString =
-          await rootBundle.loadString('assets/json/tutorial_$path.json');
-      Map<String, dynamic> jsonMap = json.decode(jsonString);
-      TutorialPaymentVaModel tutorialModel =
-          TutorialPaymentVaModel.fromJson(jsonMap);
-      return tutorialModel;
-    } catch (e) {
-      throw "Error: $e";
-    }
-  }
-
-  @override
   Future<DataState<String>> claimReferral(String param) async {
     try {
       final response = await RemoteProvider.post(
@@ -239,6 +169,67 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     } on DioException catch (e) {
       return CustomException<String>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<UserProfile>> getUserProfile(int id) async {
+    try {
+      final response =
+          await RemoteProvider.get(path: '${Endpoint.profile}/$id');
+
+      return DataState<UserProfile>(
+        status: StatusCodeResponse.cek(response: response),
+        result: UserProfile.fromJson(response.data['data']),
+      );
+    } on DioException catch (e) {
+      return CustomException<UserProfile>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<String>> uploadFile(
+      {required String name, required String image}) async {
+    try {
+      FormData formData = FormData.fromMap({
+        'name': name,
+        'images': await MultipartFile.fromFile(image, filename: name),
+      });
+      final response =
+          await RemoteProvider.post(path: Endpoint.fileImage, data: formData);
+      return DataState<String>(
+        status: StatusCodeResponse.cek(response: response),
+        result: response.data['data'][0],
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<String>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<UserProfile>> editUserProfile(
+      {required int id, required ProfileBody body}) async {
+    try {
+      // FormData formData = FormData.fromMap({
+      //   'name': body.name,
+      //   'gender': body.gender,
+      //   'birth_date': body.birthDate,
+      //   'phone': body.phone,
+      //   'email': body.email,
+      //   'foto':
+      //       await MultipartFile.fromFile(body.image ?? '', filename: 'users'),
+      // });
+      final response = await RemoteProvider.put(
+          path: '${Endpoint.profile}/$id', data: body.toMap());
+
+      return DataState<UserProfile>(
+        status: StatusCodeResponse.cek(response: response),
+        result: UserProfile.fromJson(response.data['data']),
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<UserProfile>().dio(e);
     }
   }
 }

@@ -12,13 +12,19 @@ class WithdrawStatusScreen extends GetView<WithdrawStatusController> {
   const WithdrawStatusScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBarWithdraw,
-        backgroundColor: kWhite,
-        body: Obx(() => controller.status.value == StatusWithdraw.waiting
-            ? WaitingApprove(controller: controller)
-            : CancelWithdraw(
-                controller: controller,
-              )));
+    return WillPopScope(
+      onWillPop: () async {
+        controller.refreshEwalletPage();
+        return true;
+      },
+      child: Scaffold(
+          appBar: appBarWithdraw(controller),
+          backgroundColor: kWhite,
+          body: Obx(() => controller.status.value == StatusWithdraw.waiting
+              ? WaitingApprove(controller: controller)
+              : CancelWithdraw(
+                  controller: controller,
+                ))),
+    );
   }
 }

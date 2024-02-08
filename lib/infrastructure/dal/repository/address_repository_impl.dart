@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
+import 'package:jetmarket/domain/core/model/model_data/address_model.dart';
+import 'package:jetmarket/domain/core/model/params/address/address_body.dart';
+import 'package:jetmarket/domain/core/model/params/address/address_param.dart';
 import 'package:jetmarket/infrastructure/dal/daos/provider/endpoint/endpoint.dart';
 import 'package:jetmarket/utils/network/data_state.dart';
 import '../../../../domain/core/model/model_data/location_model.dart';
@@ -30,7 +33,6 @@ class AddressRepositoryImpl implements AddressRepository {
             });
         List<dynamic> dataDetail =
             responseDetail.data['result']['address_components'];
-        print(responseDetail.data['result']['geometry']['location']);
         for (var itemDetail in dataDetail) {
           if (itemDetail['types'].contains('postal_code')) {
             location.add(LocationModel(
@@ -62,8 +64,7 @@ class AddressRepositoryImpl implements AddressRepository {
           'radius': '10000',
         },
       );
-      dynamic placeId = response.data;
-      print(placeId);
+      // dynamic placeId = response.data;
       List<LocationModel> location = [];
       // final responseDetail = await RemoteProvider.getLocation(
       //     path: Endpoint.placeDatail,
@@ -74,7 +75,6 @@ class AddressRepositoryImpl implements AddressRepository {
       //     });
       // List<dynamic> dataDetail =
       //     responseDetail.data['result']['address_components'];
-      // print(dataDetail);
       // for (var itemDetail in dataDetail) {
       //   if (itemDetail['types'].contains('postal_code')) {
       //     location.add(LocationModel(
@@ -90,6 +90,61 @@ class AddressRepositoryImpl implements AddressRepository {
           status: StatusCodeResponse.cek(response: response), result: location);
     } on DioException catch (e) {
       return CustomException<List<LocationModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<AddressModel>>> getAddress(AddressParam param) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.address, queryParameters: param.toMap());
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<AddressModel>>(
+          result: datas.map((e) => AddressModel.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<List<AddressModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<AddressModel>>> getAddressMain(
+      AddressParam param) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.address, queryParameters: param.toMap());
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<AddressModel>>(
+          result: datas.map((e) => AddressModel.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<List<AddressModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<String>> addAddress(AddressBody body) async {
+    try {
+      final response =
+          await RemoteProvider.post(path: Endpoint.address, data: body.toMap());
+      return DataState<String>(
+          result: response.data['message'],
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<String>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<String>> editAddress(AddressBody body) async {
+    try {
+      final response = await RemoteProvider.put(
+          path: '${Endpoint.address}/${body.id}', data: body.toMap());
+      return DataState<String>(
+          result: response.data['message'],
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<String>().dio(e);
     }
   }
 }

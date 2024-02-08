@@ -33,12 +33,14 @@ class FooterSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Total Pembayaran', style: text14HintRegular),
-                Text('400000000'.toIdrFormat, style: text20BlackSemiBold)
+                Text('${controller.totalPrice.toInt()}'.toIdrFormat,
+                    style: text20BlackSemiBold)
               ],
             )),
             AppButton.primary(
               text: 'Bayar Sekarang',
-              onPressed: controller.selectedDelivery != 99
+              onPressed: controller.selectedDelivery.length ==
+                      controller.productCart.length
                   ? () => controller.toChoicePayment()
                   : null,
             ),

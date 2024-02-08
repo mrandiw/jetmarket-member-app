@@ -26,9 +26,11 @@ class User {
   int? id;
   String? name;
   String? gender;
+  String? birthDate;
   String? phone;
   String? referral;
   String? email;
+  String? image;
   bool? isEmployee;
   bool? isVerified;
   String? activatedAt;
@@ -37,9 +39,11 @@ class User {
       {this.id,
       this.name,
       this.gender,
+      this.birthDate,
       this.phone,
       this.referral,
       this.email,
+      this.image,
       this.isEmployee,
       this.isVerified,
       this.activatedAt});
@@ -48,12 +52,14 @@ class User {
     id = json['id'];
     name = json['name'];
     gender = json['gender'];
+    birthDate = json['birth_date'];
     phone = json['phone'];
     referral = json['referral'];
     email = json['email'];
-    isEmployee = json['is _employee'];
-    isVerified = json['is verified'];
-    activatedAt = json['activated at'];
+    image = json['image'];
+    isEmployee = json['is_employee'];
+    isVerified = json['is_verified'];
+    activatedAt = json['activated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,12 +67,14 @@ class User {
     data['id'] = id;
     data['name'] = name;
     data['gender'] = gender;
+    data['birth_date'] = birthDate;
     data['phone'] = phone;
     data['referral'] = referral;
     data['email'] = email;
-    data['is _employee'] = isEmployee;
-    data['is verified'] = isVerified;
-    data['activated at'] = activatedAt;
+    data['image'] = image;
+    data['is_employee'] = isEmployee;
+    data['is_verified'] = isVerified;
+    data['activated_at'] = activatedAt;
     return data;
   }
 }

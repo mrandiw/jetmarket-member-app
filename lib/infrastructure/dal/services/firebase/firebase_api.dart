@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -23,6 +21,10 @@ Future<void> updateUnreadNotification() async {
   await controller.getUnreadNotification();
 }
 
+void toMainPage() {
+  Get.offAllNamed(Routes.MAIN_PAGES);
+}
+
 settingShowNotification(RemoteMessage message) async {
   var androidDetails = const AndroidNotificationDetails(
     'high_importance_channel',
@@ -43,7 +45,11 @@ settingShowNotification(RemoteMessage message) async {
     platformDetails,
     payload: message.data.toString(),
   );
-  await updateUnreadNotification();
+  if (message.data['status'] == 'SUCCEEDED') {
+    Get.offAllNamed(Routes.MAIN_PAGES);
+  } else {
+    await updateUnreadNotification();
+  }
 }
 
 class FirebaseApi {
@@ -69,7 +75,7 @@ class FirebaseApi {
         }
       }
     } catch (e) {
-      print("Error : ${e.toString()}");
+      throw Exception(e);
     }
   }
 
@@ -77,7 +83,6 @@ class FirebaseApi {
     updateUnreadNotification();
     log("---------OPEN----------");
     final data = message?.data;
-    print("Open Message : $data");
     if (data != null) {
       // Validasi tipe data
       if (data['status'] == 'SUCCEEDED') {
@@ -120,14 +125,12 @@ class FirebaseApi {
     _local.initialize(
       initializeSetting,
       onDidReceiveNotificationResponse: (details) {
-        Map<String, dynamic> data = json.decode(details.payload ?? '');
         try {
           if (details.payload != null) {
-            print("Details : $data");
             log("Init FCM");
           } else {}
         } catch (e) {
-          print(e.toString());
+          throw Exception(e);
         }
         return;
       },

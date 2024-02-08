@@ -27,6 +27,7 @@ class AppFormIcon extends StatefulWidget {
       this.label,
       this.keyboardType,
       this.isResetPassword = false,
+      this.isReadOnly = false,
       this.onChanged,
       this.onResetPassword});
 
@@ -44,6 +45,7 @@ class AppFormIcon extends StatefulWidget {
       this.label,
       this.keyboardType,
       this.isResetPassword = false,
+      this.isReadOnly = false,
       this.onChanged,
       this.onResetPassword});
 
@@ -61,6 +63,7 @@ class AppFormIcon extends StatefulWidget {
       this.label,
       this.keyboardType,
       this.isResetPassword = true,
+      this.isReadOnly = false,
       this.onChanged,
       this.onResetPassword});
 
@@ -75,6 +78,7 @@ class AppFormIcon extends StatefulWidget {
   final String? label;
   final AppFormIconType type;
   final bool isResetPassword;
+  final bool isReadOnly;
   final TextInputType? keyboardType;
   final Function(String)? onChanged;
   final Function()? onResetPassword;
@@ -109,6 +113,7 @@ class _AppFormIconState extends State<AppFormIcon> {
       height: 42.h,
       width: Get.width,
       child: TextFormField(
+          readOnly: widget.isReadOnly,
           obscureText: showPassword,
           controller: widget.controller,
           cursorColor: kPrimaryColor,
@@ -119,7 +124,7 @@ class _AppFormIconState extends State<AppFormIcon> {
               hintText: widget.hintText,
               hintStyle: text12HintForm,
               filled: true,
-              fillColor: kWhite,
+              fillColor: widget.isReadOnly ? kBorder : kWhite,
               border: border,
               enabledBorder: border,
               focusedBorder: border,

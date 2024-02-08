@@ -12,7 +12,7 @@ import '../../../../infrastructure/dal/services/firebase/firebase_controller.dar
 AppBar get appBarAccount {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     title: Text('Akun Saya', style: text16BlackSemiBold),
     actions: [
       GestureDetector(

@@ -12,6 +12,7 @@ import '../../../domain/core/model/model_data/banner.dart';
 import '../../../domain/core/model/model_data/detail_product.dart';
 import '../../../domain/core/model/model_data/product.dart';
 import '../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
+import '../../../domain/core/model/model_data/vouchers.dart';
 import '../../../domain/core/model/params/product/product_seller_param.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
@@ -70,9 +71,7 @@ class ProductRepositoryImpl implements ProductRepository {
           await RemoteProvider.get(path: "${Endpoint.product}/$id");
       return DataState<DetailProduct>(
           result: DetailProduct.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(
-            response: response,
-          ));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<DetailProduct>().dio(e);
     }
@@ -132,7 +131,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final response = await RemoteProvider.get(path: "${Endpoint.shop}/$id");
       return DataState<DetailShop>(
           result: DetailShop.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<DetailShop>().dio(e);
     }
@@ -149,6 +148,38 @@ class ProductRepositoryImpl implements ProductRepository {
       return tutorialModel;
     } catch (e) {
       throw "Error: $e";
+    }
+  }
+
+  @override
+  Future<DataState<List<Vouchers>>> getVouchers(
+      {required int page, required int size}) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.voucher,
+          queryParameters: {'page': page, 'size': size});
+
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<Vouchers>>(
+          result: datas.map((e) => Vouchers.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response),
+          message: response.data['message']);
+    } on DioException catch (e) {
+      return CustomException<List<Vouchers>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<Vouchers>> claimVoucher({required String code}) async {
+    try {
+      final response = await RemoteProvider.post(
+          path: Endpoint.claimVoucher, data: {'code': code});
+      return DataState<Vouchers>(
+          result: Vouchers.fromJson(response.data['data']),
+          status: StatusCodeResponse.cek(response: response),
+          message: response.data['message']);
+    } on DioException catch (e) {
+      return CustomException<Vouchers>().dio(e);
     }
   }
 }

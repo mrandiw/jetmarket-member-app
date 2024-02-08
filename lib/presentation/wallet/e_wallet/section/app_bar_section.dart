@@ -14,7 +14,7 @@ import 'package:jetmarket/utils/extension/responsive_size.dart';
 AppBar get appBarEwallet {
   return AppBar(
     backgroundColor: kWhite,
-    elevation: 0.3,
+    elevation: 0,
     toolbarHeight: 52.hr,
     title: Text('E-wallet', style: text16BlackSemiBold),
     automaticallyImplyLeading: false,

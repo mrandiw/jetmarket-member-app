@@ -1,45 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jetmarket/infrastructure/theme/app_colors.dart';
-import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:gap/gap.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
+import 'package:jetmarket/presentation/account_pages/referral/controllers/referral.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/infiniti_page/infiniti_page.dart';
+import '../widget/item_history.dart';
+
 class HistorySection extends StatelessWidget {
-  const HistorySection({super.key});
+  const HistorySection({super.key, required this.controller});
+
+  final ReferralController controller;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SliverPadding(
       padding: AppStyle.paddingAll16,
-      child: Column(
-          children: List.generate(
-              3,
-              (index) => Padding(
-                    padding: EdgeInsets.only(bottom: 6.h),
-                    child: Card(
-                      color: kWhite,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: AppStyle.borderRadius8All,
-                      ),
-                      shadowColor: const Color(0xffE0E0EC).withOpacity(0.2),
-                      elevation: 4,
-                      child: ListTile(
-                          tileColor: kWhite,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: AppStyle.borderRadius8All,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.w, vertical: 6.h),
-                          title: Text(
-                            'Selamat! Kamu mendapatkan Rp10.000',
-                            style: text12BlackMedium,
-                          ),
-                          subtitle: Text(
-                            'Kar***n telah bergabung menggunakan kode refferalmu.',
-                            style: text12HintRegular,
-                          )),
-                    ),
-                  ))),
+      sliver: PagedSliverList.separated(
+          pagingController: controller.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<RefferalModel>(
+            itemBuilder: (context, item, index) => ItemHistory(
+              data: item,
+            ),
+            newPageProgressIndicatorBuilder: InfinitiPage.progress,
+            firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+            noItemsFoundIndicatorBuilder: (_) =>
+                InfinitiPage.empty(_, 'Riwayat'),
+            firstPageErrorIndicatorBuilder: InfinitiPage.error,
+          ),
+          separatorBuilder: (_, i) => Gap(12.h)),
     );
   }
 }

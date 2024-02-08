@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
@@ -26,15 +25,13 @@ class ProductDetailSection extends StatelessWidget {
               Gap(8.h),
               Row(
                 children: [
-                  Text(
-                      '${controller.selectedVariant?.price ?? (controller.detailProduct?.promo != 0 ? controller.detailProduct?.promo : controller.detailProduct?.price)}'
-                          .toIdrFormat,
+                  Text('${controller.selectedVariant?.promo}'.toIdrFormat,
                       style: text16BlackSemiBold),
                   Gap(12.w),
                   Visibility(
                       visible: controller.detailProduct?.promo != 0,
                       child: Text(
-                          '${controller.detailProduct?.price}'.toIdrFormat,
+                          '${controller.selectedVariant?.price}'.toIdrFormat,
                           style: text14lineThroughRegular)),
                 ],
               ),
