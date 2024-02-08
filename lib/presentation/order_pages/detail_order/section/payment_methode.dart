@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
@@ -23,8 +25,27 @@ class PaymentMethode extends StatelessWidget {
               ],
             ),
             Gap(8.h),
-            Text(controller.detailOrderCustomer?.paymentMethod?.chCode ?? '',
-                style: text12BlackRegular),
+            Visibility(
+              visible: controller.detailOrderCustomer?.paymentMethod?.chType !=
+                  'PAYLATER',
+              child: Text(
+                  controller.detailOrderCustomer?.paymentMethod?.chCode ?? '',
+                  style: text12BlackRegular),
+            ),
+            Visibility(
+              visible: controller.detailOrderCustomer?.paymentMethod?.chType ==
+                  'PAYLATER',
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Paylater', style: text12BlackRegular),
+                  GestureDetector(
+                    onTap: () => Get.toNamed(Routes.PAYLATER_CUSTOMER),
+                    child: Text('Lihat Tagihan', style: text11NormalMedium),
+                  )
+                ],
+              ),
+            ),
             Gap(12.h),
             Text('Rincian Pembayaran', style: text14BlackMedium),
             Gap(8.h),

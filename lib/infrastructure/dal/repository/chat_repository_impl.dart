@@ -51,9 +51,10 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await RemoteProvider.get(
           path: Endpoint.chat, queryParameters: {'page': page, 'size': size});
       List<dynamic> datas = response.data['data']['items'];
+      print(datas);
       return DataState<List<ListChatModel>>(
           result: datas.map((e) => ListChatModel.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(response: response));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<List<ListChatModel>>().dio(e);
     }
@@ -67,10 +68,13 @@ class ChatRepositoryImpl implements ChatRepository {
         queryParameters: param.toMap(),
       );
       List<dynamic> datas = response.data['data']['items'];
+      log("Total Chat : ${datas.length}");
       return DataState<List<ChatModel>>(
           result: datas
               .map((e) => ChatModel.fromJson(e)..fromStore = false)
-              .toList());
+              .toList(),
+          message: response.data['message'],
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<List<ChatModel>>().dio(e);
     }
@@ -80,24 +84,18 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<DataState<bool>> deletedChat(
       {required bool fromStore,
       required String id,
-      required List<String> itemTextList,
+      required List<int> itemId,
       required String time}) async {
     try {
-      if (fromStore) {
-        final responseStore = await updateChatFromStore(
-            id: id, itemTextList: itemTextList, time: time);
-        return DataState<bool>(result: responseStore.result);
-      } else {
-        return DataState<bool>(result: false);
-
-        // final response = await RemoteProvider.get(
-        //     path: '${Endpoint.chat}/${param.id}',
-        //     queryParameters: param.toMap());
-        // List<dynamic> datas = response.data['data']['items'];
-        // return DataState<bool>(
-        //     result: datas.map((e) => ChatModel.fromJson(e)).toList(),
-        //     status: StatusCodeResponse.cek(response: response));
-      }
+      final response = await RemoteProvider.delete(
+          path: "${Endpoint.chat}/$id/bulk_delete",
+          queryParameters: {
+            'message_ids': itemId,
+          });
+      return DataState<bool>(
+          status: StatusCodeResponse.cek(response: response),
+          result: true,
+          message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<bool>().dio(e);
     }
@@ -162,9 +160,9 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<DataState<bool>> updateChatFromStore({
+  Future<DataState<bool>> deletedChatFromStore({
     required String id,
-    required List<String> itemTextList,
+    required List<String> itemCreatedAt,
     required String time,
   }) async {
     try {
@@ -182,9 +180,9 @@ class ChatRepositoryImpl implements ChatRepository {
       if (firstKey != null) {
         List<Map<String, dynamic>> resultList =
             dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-        for (String itemText in itemTextList) {
-          int foundIndex =
-              resultList.indexWhere((element) => element['text'] == itemText);
+        for (String createdAt in itemCreatedAt) {
+          int foundIndex = resultList
+              .indexWhere((element) => element['created_at'] == createdAt);
 
           if (foundIndex != -1) {
             resultList[foundIndex]['deleted_at'] = time;
@@ -244,6 +242,74 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  Stream<List<ChatModel>> listenStore(String id) {
+    try {
+      final documentReference = _chatCollection.doc(id);
+
+      return documentReference
+          .snapshots()
+          .asyncMap((DocumentSnapshot snapshot) {
+        final data = snapshot.data();
+        String? firstKey;
+        Map<String, dynamic>? dataMap;
+        if (data != null && data is Map) {
+          dataMap = Map<String, dynamic>.from(data);
+          if (dataMap.isNotEmpty) {
+            firstKey = dataMap.keys.first;
+          }
+        }
+        List<Map<String, dynamic>> resultList;
+        if (firstKey != null) {
+          resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
+        } else {
+          resultList = [];
+        }
+        final chatList = resultList
+            .map((e) => ChatModel.fromJson(e)..fromStore = true)
+            .toList();
+
+        return chatList;
+      });
+    } on FirebaseException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  // @override
+  // Stream<List<ChatModel>> streamChatFromStore(String id) {
+  //   try {
+  //     final documentReference = _chatCollection.doc(id);
+
+  //     return documentReference
+  //         .snapshots()
+  //         .asyncMap((DocumentSnapshot snapshot) {
+  //       final data = snapshot.data();
+  //       String? firstKey;
+  //       Map<String, dynamic>? dataMap;
+  //       if (data != null && data is Map) {
+  //         dataMap = Map<String, dynamic>.from(data);
+  //         if (dataMap.isNotEmpty) {
+  //           firstKey = dataMap.keys.first;
+  //         }
+  //       }
+  //       List<Map<String, dynamic>> resultList;
+  //       if (firstKey != null) {
+  //         resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
+  //       } else {
+  //         resultList = [];
+  //       }
+  //       final chatList = resultList
+  //           .map((e) => ChatModel.fromJson(e)..fromStore = true)
+  //           .toList();
+
+  //       return chatList;
+  //     });
+  //   } on FirebaseException catch (e) {
+  //     throw Exception(e.message);
+  //   }
+  // }
+
+  @override
   Future<DataState<bool>> sendMessage(
       {required String documentTitle,
       required Map<String, dynamic> message}) async {
@@ -251,8 +317,26 @@ class ChatRepositoryImpl implements ChatRepository {
       final docSnapshot = await _chatCollection.doc(documentTitle).get();
       final now = DateTime.now();
       final formattedDate = DateFormat('yyyy-MM-dd').format(now);
-      final messages = [message];
       final document = docSnapshot.data() as Map<String, dynamic>;
+      final querySnapshot = await _chatCollection.doc(documentTitle).get();
+      final data = querySnapshot.data();
+      String? firstKey;
+      Map<String, dynamic>? dataMap;
+      if (data != null && data is Map) {
+        dataMap = Map<String, dynamic>.from(data);
+        if (dataMap.isNotEmpty) {
+          firstKey = dataMap.keys.first;
+        }
+      }
+      List<Map<String, dynamic>> resultList;
+      if (firstKey != null) {
+        resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
+      } else {
+        resultList = [];
+      }
+      int nextIndex = resultList.length + 1;
+      message['id'] = nextIndex;
+      final messages = [message];
       if (document.isEmpty) {
         await _chatCollection.doc(documentTitle).set({
           formattedDate: messages,

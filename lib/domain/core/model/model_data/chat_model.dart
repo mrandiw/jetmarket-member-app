@@ -1,4 +1,5 @@
 class ChatModel {
+  int? id;
   String? createdAt;
   String? image;
   String? readAt;
@@ -12,7 +13,8 @@ class ChatModel {
   String? text;
 
   ChatModel(
-      {this.createdAt,
+      {this.id,
+      this.createdAt,
       this.image,
       this.readAt,
       this.deletedAt,
@@ -25,6 +27,7 @@ class ChatModel {
       this.text});
 
   ChatModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     createdAt = json['created_at'];
     image = json['image'];
     readAt = json['read_at'];
@@ -47,6 +50,7 @@ class ChatModel {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['created_at'] = createdAt;
     data['image'] = image;
     data['read_at'] = readAt;

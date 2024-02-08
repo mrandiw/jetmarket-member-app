@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/middleware/uni_link_middleware.dart';
 
 import '../../presentation/screens.dart';
 import '../middleware/auth_middleware.dart';
@@ -31,10 +32,9 @@ class Nav {
       binding: HomeControllerBinding(),
     ),
     GetPage(
-      name: Routes.SPLASH_SCREEN,
-      page: () => const SplashScreenScreen(),
-      binding: SplashScreenControllerBinding(),
-    ),
+        name: Routes.SPLASH_SCREEN,
+        page: () => const SplashScreenScreen(),
+        binding: SplashScreenControllerBinding()),
     GetPage(
       name: Routes.ONBOARDING,
       page: () => const OnboardingScreen(),
@@ -94,7 +94,7 @@ class Nav {
         name: Routes.MAIN_PAGES,
         page: () => const MainPagesScreen(),
         binding: MainPagesControllerBinding(),
-        middlewares: [AuthMiddleware()]),
+        middlewares: [UniLinkMiddleware(), AuthMiddleware()]),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),
@@ -444,6 +444,31 @@ class Nav {
       name: Routes.DETAIL_TOPUP,
       page: () => const DetailTopupScreen(),
       binding: DetailTopupControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PAYLATER_CUSTOMER,
+      page: () => const PaylaterCustomerScreen(),
+      binding: PaylaterCustomerControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.BILL_PAYLATER,
+      page: () => const BillPaylaterScreen(),
+      binding: BillPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_BILL_PAYLATER,
+      page: () => const DetailBillPaylaterScreen(),
+      binding: DetailBillPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHOICE_PAYMENT_PAYLATER,
+      page: () => const ChoicePaymentPaylaterScreen(),
+      binding: ChoicePaymentPaylaterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.DETAIL_PAYMENT_PAYLATER,
+      page: () => const DetailPaymentPaylaterScreen(),
+      binding: DetailPaymentPaylaterControllerBinding(),
     ),
   ];
 }

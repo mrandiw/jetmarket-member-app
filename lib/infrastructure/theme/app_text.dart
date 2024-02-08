@@ -13,6 +13,11 @@ TextStyle get text20BlackSemiBold => GoogleFonts.poppins(
       fontWeight: FontWeight.w600,
       color: kBlack,
     );
+TextStyle get text20WhiteSemiBold => GoogleFonts.poppins(
+      fontSize: 19.wr,
+      fontWeight: FontWeight.w600,
+      color: kWhite,
+    );
 TextStyle get text20PrimarySemiBold => GoogleFonts.poppins(
       fontSize: 19.wr,
       fontWeight: FontWeight.w600,

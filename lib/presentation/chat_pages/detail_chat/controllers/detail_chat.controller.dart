@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_is_empty
+
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -34,6 +36,7 @@ class DetailChatController extends GetxController {
   var isChatDelet = false.obs;
   var selectedItemDelete = <ChatModel>[].obs;
   int _pageSize = 10;
+  int _currentPage = 0;
   Seller? seller;
   Variants? variants;
   bool isSendProduct = false;
@@ -47,6 +50,14 @@ class DetailChatController extends GetxController {
   var indexSlide = 1000.obs;
   var isScroolReply = false.obs;
   var indexScroll = (-0).obs;
+  bool isFirst = true;
+  bool isReverse = false;
+  bool isNewChat = false;
+
+  final StreamController<List<ChatModel>> _streamController =
+      StreamController<List<ChatModel>>();
+
+  Stream<List<ChatModel>> get chatListStream => _streamController.stream;
 
   PagingController<int, ChatModel> pagingController =
       PagingController(firstPageKey: 0);
@@ -58,16 +69,19 @@ class DetailChatController extends GetxController {
 
       if (pageKey > 0) {
         _pageSize = 10;
+        log("Get dari API");
         response = await getChatFromApi(pageKey);
       } else {
+        log("Get dari Store");
+
         await for (final data in getChatStream()) {
           response = data.reversed.toList();
         }
 
-        _pageSize = response?.length ?? 0;
+        _pageSize = response!.length;
       }
 
-      final isLastPage = response!.length < _pageSize;
+      final isLastPage = response.length < _pageSize;
 
       if (isLastPage) {
         pagingController.appendLastPage(response);
@@ -81,9 +95,8 @@ class DetailChatController extends GetxController {
   }
 
   Future<List<ChatModel>> getChatFromApi(int pageKey) async {
-    int id = AppPreference().getUserData()?.user?.id ?? 0;
     var param = ChatParam(
-        id: id,
+        id: dataArgument?.chatId ?? 0,
         chatIdStore: "${dataArgument?.chatId}",
         page: pageKey,
         size: _pageSize);
@@ -136,14 +149,15 @@ class DetailChatController extends GetxController {
     final response = await _chatRepository.sendMessage(
         documentTitle: "${dataArgument?.chatId}", message: dataChat.toMap());
     if (response.result == true) {
-      pagingController.itemList?.clear();
-      await getChat(0);
+      // pagingController.itemList?.clear();
+      // await getChat(0);
       isCurrnetPositionOnTop(false);
       messageController.clear();
       imageUrl = null;
       variants = null;
       pinnedMessage = null;
       maxLines = 1;
+      isNewChat = true;
       update();
 
       // add scroll to top
@@ -220,9 +234,6 @@ class DetailChatController extends GetxController {
   }
 
   void selectMessage(PinnedMessage? chat) {
-    log("Pin Id : ${pinnedMessage?.senderId}");
-    log("Sender Id : ${chat?.senderId}");
-
     if (pinnedMessage?.senderId == chat?.senderId) {
       pinnedMessage = null;
       focusNode?.unfocus();
@@ -230,7 +241,6 @@ class DetailChatController extends GetxController {
       pinnedMessage = chat;
       focusNode?.requestFocus();
     }
-    log("Pesan TerPin : ${pinnedMessage?.text}");
     update();
   }
 
@@ -261,21 +271,41 @@ class DetailChatController extends GetxController {
   Future<void> deletedChat() async {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    List<String> itemTextList = [];
+    List<String> itemFromStore = [];
+    List<int> itemDelete = [];
     for (var item in selectedItemDelete) {
-      itemTextList.add(item.text ?? '');
+      if (item.fromStore == true) {
+        itemFromStore.add(item.createdAt ?? '');
+      }
+      if (item.fromStore == false) {
+        itemDelete.add(item.id ?? 0);
+      }
     }
-    final response = await _chatRepository.deletedChat(
-        id: "${dataArgument?.chatId}",
-        fromStore: true,
-        itemTextList: itemTextList,
-        time: formattedDate);
-    if (response.result == true) {
-      // selectedCancelChatDelet();
-      selectedItemDelete.value = [];
-      update();
-      pagingController.itemList?.clear();
-      getChat(0);
+    if (itemFromStore.isNotEmpty) {
+      final response = await _chatRepository.deletedChatFromStore(
+          id: "${dataArgument?.chatId}",
+          itemCreatedAt: itemFromStore,
+          time: formattedDate);
+      if (response.result == true) {
+        selectedItemDelete.value = [];
+        update();
+        // pagingController.itemList?.clear();
+        // getChat(0);
+      }
+    }
+    if (itemDelete.isNotEmpty) {
+      final response = await _chatRepository.deletedChat(
+          id: "${dataArgument?.chatId}",
+          fromStore: false,
+          itemId: itemDelete,
+          time: formattedDate);
+      if (response.result == true) {
+        // selectedCancelChatDelet();
+        selectedItemDelete.value = [];
+        update();
+        // pagingController.itemList?.clear();
+        // getChat(0);
+      }
     }
   }
 
@@ -354,17 +384,54 @@ class DetailChatController extends GetxController {
     return difference;
   }
 
+  void listenToChatStream(String id) {
+    _chatRepository.listenStore(id).listen((List<ChatModel> chatList) {
+      log("Listen Stream");
+      log("Panjang Paging : ${pagingController.itemList!.length}");
+      log("Panjang Chat List : ${chatList.length}");
+      ChatModel latestChat = chatList[chatList.length - 1];
+      bool wasNewChat = isNewChat;
+      if (pagingController.itemList != null && isNewChat == true) {
+        pagingController.itemList?.insert(0, latestChat);
+        isNewChat = false;
+        _pageSize = chatList.length;
+        update();
+        log("Eks 1");
+      } else if (!wasNewChat && isNewChat == false) {
+        pagingController.itemList
+            ?.replaceRange(0, chatList.length, chatList.reversed.toList());
+        update();
+        log("Eks 2");
+      }
+    });
+  }
+
   @override
   void onInit() {
     setData();
     pagingController.addPageRequestListener((page) {
+      _currentPage = page;
       getChat(page);
-
-      log(page.toString());
-      log(_pageSize.toString());
+      if (_currentPage == 1) {
+        isFirst = false;
+      }
     });
+    listenToChatStream("${dataArgument?.chatId}");
     scrollController = ScrollController();
-
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels == 0) {
+          log('Mencapai batas bawah');
+        } else {
+          log('Mencapai batas atas');
+          log("Tinggi : ${scrollController.position.pixels}");
+          if (scrollController.position.pixels >= 15 && isFirst == true) {
+            pagingController.itemList?.clear();
+            getChat(1);
+          }
+        }
+      }
+    });
     super.onInit();
   }
 }

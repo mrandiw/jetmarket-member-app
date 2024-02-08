@@ -14,6 +14,7 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../../domain/core/model/params/auth/payment_param.dart';
+import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -60,7 +61,8 @@ class PaymentRegisterController extends GetxController {
 
   Future<void> getPaymentMethode() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _paymentRepository.getPaymentMethode();
+    final response = await _paymentRepository.getPaymentMethode(
+        type: PaymentMethodeType.register);
     if (response.result?.ewalletQr != null &&
         response.result?.otc != null &&
         response.result?.virtualAccount != null) {

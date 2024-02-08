@@ -4,9 +4,15 @@ class ProductReviewModel {
   String? name;
   int? quantity;
   int? price;
+  int? productId;
 
   ProductReviewModel(
-      {this.id, this.image, this.name, this.quantity, this.price});
+      {this.id,
+      this.image,
+      this.name,
+      this.quantity,
+      this.price,
+      this.productId});
 
   ProductReviewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -14,6 +20,7 @@ class ProductReviewModel {
     name = json['name'];
     quantity = json['quantity'];
     price = json['price'];
+    productId = json['product_id'];
   }
 
   Map<String, dynamic> toJson() {

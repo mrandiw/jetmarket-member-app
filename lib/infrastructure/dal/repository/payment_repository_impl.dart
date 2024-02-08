@@ -9,6 +9,7 @@ import '../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
 import '../../../domain/core/model/params/auth/payment_param.dart';
+import '../../../utils/extension/payment_methode_type.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/network/data_state.dart';
@@ -17,9 +18,11 @@ import '../daos/provider/remote/remote_provider.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
   @override
-  Future<DataState<PaymentMethodeModel>> getPaymentMethode() async {
+  Future<DataState<PaymentMethodeModel>> getPaymentMethode(
+      {required PaymentMethodeType type}) async {
     try {
-      final response = await RemoteProvider.get(path: Endpoint.paymentMethode);
+      final response = await RemoteProvider.get(
+          path: Endpoint.paymentMethode, queryParameters: {'type': type.label});
       return DataState<PaymentMethodeModel>(
         status: StatusCodeResponse.cek(
           response: response,

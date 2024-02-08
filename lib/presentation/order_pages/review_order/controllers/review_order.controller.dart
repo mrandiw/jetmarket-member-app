@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar_black.dart';
 import 'package:jetmarket/domain/core/interfaces/file_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/review_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/product_review_model.dart';
 import 'package:jetmarket/domain/core/model/params/review/review_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/account_pages/review_product/controllers/review_product.controller.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/controllers/detail_order.controller.dart';
 import 'package:jetmarket/presentation/order_pages/order/controllers/order.controller.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -121,7 +123,8 @@ class ReviewOrderController extends GetxController {
         body: List.generate(
             reviewController.length,
             (index) => BodyDataReview(
-                  id: productReview[index].id,
+                  orderItemId: Get.arguments[0],
+                  productId: productReview[index].productId,
                   rating: selectedRating[index],
                   review: reviewController[index].text,
                   image: imagesReview[index],
@@ -138,6 +141,10 @@ class ReviewOrderController extends GetxController {
             Get.arguments[1] == 'receive-review') {
           Get.back();
           refreshDetailOrder();
+        } else if (Get.arguments[1] == 'review-product') {
+          Get.back();
+          refreshReview();
+          AppSnackbarBlack.show('Produk berhasil direview');
         }
       }
     } else {
@@ -147,6 +154,11 @@ class ReviewOrderController extends GetxController {
 
   void refreshOrder() {
     final controller = Get.find<OrderController>();
+    controller.pagingController.refresh();
+  }
+
+  void refreshReview() {
+    final controller = Get.find<ReviewProductController>();
     controller.pagingController.refresh();
   }
 

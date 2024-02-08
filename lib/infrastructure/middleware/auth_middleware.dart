@@ -8,7 +8,7 @@ import '../navigation/routes.dart';
 
 class AuthMiddleware extends GetMiddleware {
   @override
-  int? get priority => 1;
+  int? get priority => 2;
 
   @override
   RouteSettings? redirect(String? route) {

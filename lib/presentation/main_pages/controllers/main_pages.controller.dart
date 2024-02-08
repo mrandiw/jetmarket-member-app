@@ -1,14 +1,20 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/screens.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import 'package:uni_links/uni_links.dart';
 
 import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../utils/assets/assets_svg.dart';
 import 'item_bar_model.dart';
 
 class MainPagesController extends GetxController {
+  late StreamSubscription sub;
   var selectedIndex = 0;
   bool isEmployee = true;
   void changeTabIndex(int index) {
@@ -123,6 +129,22 @@ class MainPagesController extends GetxController {
   setEmploye() {
     isEmployee = AppPreference().getUserData()?.user?.isEmployee ?? false;
     update();
+  }
+
+  initUnilink() {
+    sub = linkStream.listen((String? link) {
+      // Parse the link and warn the user, if it is not correct
+      log("Uni Link : $link");
+      Uri uri = Uri.parse(link ?? '');
+      String? codeReferral = uri.queryParameters['referral'] ?? '';
+      // ignore: unnecessary_null_comparison
+      if (codeReferral != null) {
+        Get.offAllNamed(Routes.REGISTER, arguments: codeReferral);
+      }
+      log("Code Referral : $codeReferral");
+    }, onError: (err) {
+      // Handle exception by warning the user their action did not succeed
+    });
   }
 
   @override

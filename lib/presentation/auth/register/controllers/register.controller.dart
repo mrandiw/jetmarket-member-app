@@ -200,6 +200,9 @@ class RegisterController extends GetxController {
     phoneController.text = countryCode;
     phoneController.selection = TextSelection.fromPosition(
         TextPosition(offset: phoneController.text.length));
+    if (Get.arguments != null) {
+      referralController = TextEditingController(text: '${Get.arguments}');
+    }
     // focusNodeReferral.addListener(() {
     //   if (!focusNodeReferral.hasFocus) {
     //     checkReferralCode();

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
@@ -14,16 +15,20 @@ import '../../../../utils/app_preference/app_preferences.dart';
 
 class ChatSection extends StatelessWidget {
   const ChatSection(
-      {super.key, required this.controller, this.scrollController});
+      {super.key,
+      required this.controller,
+      this.scrollController,
+      this.reverse = false});
 
   final DetailChatController controller;
   final ScrollController? scrollController;
+  final bool reverse;
 
   @override
   Widget build(BuildContext context) {
     return PagedListView.separated(
         scrollController: scrollController,
-        padding: EdgeInsets.only(bottom: 72.hr, top: 16.hr),
+        padding: EdgeInsets.only(bottom: 16, top: 16.hr),
         pagingController: controller.pagingController,
         dragStartBehavior: DragStartBehavior.start,
         builderDelegate: PagedChildBuilderDelegate<ChatModel>(
@@ -66,28 +71,36 @@ class ChatSection extends StatelessWidget {
                       .toString();
             }
 
-            return ItemChat(
-              data: item,
-              isSender: isSender,
-              isReplySender: isReplySender,
-              index: index,
-              controller: controller,
-              onHorizontalDragStart: (detail) {
-                var pinnedMessage = PinnedMessage(
-                    senderId: item.sender?.id,
-                    receiverId: item.receiver?.id,
-                    text: item.text,
-                    senderName: AppPreference().getUserData()?.user?.name,
-                    receiverName: controller.dataArgument?.name,
-                    isSender: isSender,
-                    role: item.sender?.role);
-                controller.slidePinChat(detail, index, isSender, pinnedMessage);
-              },
-              onLongPress: () => controller.selectedChatDelet(item),
-              onTapCancel: () => controller.selectedCancelChatDelet(item),
-              timeWidget: newDate.isNotEmpty
-                  ? TimeWidget(createdAtString: newDate)
-                  : const SizedBox.shrink(),
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: index == 0
+                      ? paddingBottom(
+                          controller.pagingController.itemList?.length ?? 0)
+                      : 0),
+              child: ItemChat(
+                data: item,
+                isSender: isSender,
+                isReplySender: isReplySender,
+                index: index,
+                controller: controller,
+                onHorizontalDragStart: (detail) {
+                  var pinnedMessage = PinnedMessage(
+                      senderId: item.sender?.id,
+                      receiverId: item.receiver?.id,
+                      text: item.text,
+                      senderName: AppPreference().getUserData()?.user?.name,
+                      receiverName: controller.dataArgument?.name,
+                      isSender: isSender,
+                      role: item.sender?.role);
+                  controller.slidePinChat(
+                      detail, index, isSender, pinnedMessage);
+                },
+                onLongPress: () => controller.selectedChatDelet(item),
+                onTapCancel: () => controller.selectedCancelChatDelet(item),
+                timeWidget: newDate.isNotEmpty
+                    ? TimeWidget(createdAtString: newDate)
+                    : const SizedBox.shrink(),
+              ),
             );
           },
           newPageProgressIndicatorBuilder: InfinitiPage.progress,
@@ -97,5 +110,21 @@ class ChatSection extends StatelessWidget {
         ),
         reverse: true,
         separatorBuilder: (_, i) => Gap(12.h));
+  }
+
+  double paddingBottom(int length) {
+    if (length == 1) {
+      return 530.hr;
+    } else if (length == 2) {
+      return 400.hr;
+    } else if (length == 3) {
+      return 320.hr;
+    } else if (length == 4) {
+      return 250.hr;
+    } else if (length == 5) {
+      return 150.hr;
+    } else {
+      return 72.hr;
+    }
   }
 }

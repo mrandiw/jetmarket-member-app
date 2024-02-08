@@ -5,6 +5,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/add_tab
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/address.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/ajukan_pinjaman.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/all_category.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/bill_paylater.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/cara_bayar.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/cart.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/change_password.controller.binding.dart';
@@ -16,14 +17,17 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/checkou
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_delivery.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_delivery_refund.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_payment.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_payment_paylater.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/choice_payment_topup.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/daftar_pengajuan_pinjaman.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_address.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_bill_paylater.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_chat.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_checkout.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_menabung.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_order.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_customer.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_paylater.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_register.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_pengajuan_pinjaman.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_product.controller.binding.dart';
@@ -49,6 +53,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/onboard
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/order.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/order_list_transaction.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/otp.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/paylater_customer.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/payletter_success.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/payment_payletter.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/payment_register.controller.binding.dart';

@@ -29,4 +29,6 @@ abstract class OrderRepository {
   Future<DataState<DetailRefundModel>> getRefundStatus(int id);
   Future<DataState<String>> receiveOrder(int id);
   Future<DataState<TrackingOrderModel>> trackingOrder(int id);
+  Future<DataState<List<OrderProductModel>>> getListOrderReview(
+      ListOrderParam param);
 }

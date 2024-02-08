@@ -16,11 +16,11 @@ abstract class ChatRepository {
   Future<DataState<bool>> deletedChat(
       {required String id,
       required bool fromStore,
-      required List<String> itemTextList,
+      required List<int> itemId,
       required String time});
-  Future<DataState<bool>> updateChatFromStore(
+  Future<DataState<bool>> deletedChatFromStore(
       {required String id,
-      required List<String> itemTextList,
+      required List<String> itemCreatedAt,
       required String time});
   Future<DataState<CheckExistingModel>> checkExisting(CheckExisting param);
   Future<DataState<CreateChatModel>> createChat(CreateChatParam param);
@@ -28,4 +28,5 @@ abstract class ChatRepository {
   Stream<List<ChatModel>> streamChatFromStore(String id);
   Future<DataState<bool>> sendMessage(
       {required String documentTitle, required Map<String, dynamic> message});
+  Stream<List<ChatModel>> listenStore(String id);
 }

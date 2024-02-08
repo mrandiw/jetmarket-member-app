@@ -25,10 +25,11 @@ class PaymentPayletterController extends GetxController {
   var aggreSkPayletter = false.obs;
   int? seledtedPayleterIndex;
 
-  setDataArgument(int? paymentId) {
-    if (paymentId != null) {
+  setDataArgument(String? chCode, String? chType) {
+    if (chCode != null) {
       orderCustomer = Get.arguments;
-      orderCustomer?.paymentMethodId = paymentId;
+      orderCustomer?.chCode = chCode;
+      orderCustomer?.chType = chType;
       update();
     }
     orderCustomer = Get.arguments;
@@ -52,14 +53,15 @@ class PaymentPayletterController extends GetxController {
     }
   }
 
-  Future<void> getPayleter(int amount, int? id) async {
+  Future<void> getPayleter(int amount, String? chCode, String chType) async {
     screenStatus(ScreenStatus.loading);
     final response = await _paymentRepository.getPaymentPayletter(amount);
     if (response.status == StatusResponse.success) {
       if (response.result != null) {
         paymentPayletter = response.result;
-        seledtedPayleterIndex =
-            paymentPayletter?.installments?.indexWhere((e) => e.id == id);
+        seledtedPayleterIndex = paymentPayletter?.installments
+                ?.indexWhere((e) => e.chCode == chCode && e.chType == chType) ??
+            0;
         selectPayleter(seledtedPayleterIndex ?? 0);
         update();
       } else {
@@ -83,7 +85,8 @@ class PaymentPayletterController extends GetxController {
 
   void selectPayleter(int index) {
     seledtedPayleterIndex = index;
-    setDataArgument(paymentPayletter?.installments?[index].id);
+    setDataArgument(paymentPayletter?.installments?[index].chCode,
+        paymentPayletter?.installments?[index].chType);
     update();
   }
 
@@ -94,9 +97,9 @@ class PaymentPayletterController extends GetxController {
 
   @override
   void onInit() {
-    setDataArgument(null);
-    getPayleter(
-        orderCustomer?.totalAmount ?? 0, orderCustomer?.paymentMethodId);
+    setDataArgument(null, null);
+    getPayleter(orderCustomer?.totalAmount ?? 0, orderCustomer?.chCode,
+        orderCustomer?.chType ?? '');
     super.onInit();
   }
 }

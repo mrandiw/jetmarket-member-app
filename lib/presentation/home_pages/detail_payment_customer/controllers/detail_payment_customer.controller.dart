@@ -36,11 +36,11 @@ class DetailPaymentCustomerController extends GetxController
   final formattedDuration = '00:00:00'.obs;
 
   List<String> assetsImageForQrisScreen = [
-    'assets/images/OVO.png',
+    'assets/images/ovo.png',
     'assets/images/gopay.png',
-    'assets/images/SHOPEEPAY.png',
-    'assets/images/LINKAJA.png',
-    'assets/images/DANA.png'
+    'assets/images/shopeepay.png',
+    'assets/images/linkaja.png',
+    'assets/images/dana.png'
   ];
 
   Future<void> getPaymentCustomerOnReister() async {

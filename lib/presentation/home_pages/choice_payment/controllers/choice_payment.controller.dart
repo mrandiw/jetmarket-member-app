@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,6 +9,7 @@ import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/model/model_data/order_customer.dart';
 import '../../../../domain/core/model/model_data/payment_methode_model.dart';
+import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -88,7 +87,8 @@ class ChoicePaymentController extends GetxController {
 
   Future<void> getPaymentMethode() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _paymentRepository.getPaymentMethode();
+    final response = await _paymentRepository.getPaymentMethode(
+        type: PaymentMethodeType.order);
     if (response.result?.ewalletQr != null &&
         response.result?.otc != null &&
         response.result?.virtualAccount != null) {
@@ -119,7 +119,7 @@ class ChoicePaymentController extends GetxController {
     selectedPayletter = id.toString();
     selectedId = id;
     selectedchType = chType;
-    selectedchCode = id.toString();
+    selectedchCode = chCode;
     selectedName = name;
     setDataArgument(id);
     update();
@@ -175,9 +175,9 @@ class ChoicePaymentController extends GetxController {
         voucherId: Get.arguments[1],
         mobileNumber: Get.arguments[2],
         totalAmount: Get.arguments[3],
-        paymentMethodId: paymentId,
+        chCode: selectedchCode,
+        chType: selectedchType,
         items: items.map((e) => Items.fromJson(e)).toList());
-    log(orderCustomer?.toJson().toString() ?? '');
   }
 
   Future<void> payOrder() async {

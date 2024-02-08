@@ -29,7 +29,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response = await RemoteProvider.post(
           path: Endpoint.orderCustomer, data: body?.toJson());
       return DataState<OrderCustomerPaymentModel>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: OrderCustomerPaymentModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -231,6 +231,23 @@ class OrderRepositoryImpl implements OrderRepository {
       );
     } on DioException catch (e) {
       return CustomException<TrackingOrderModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<OrderProductModel>>> getListOrderReview(
+      ListOrderParam param) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.orderCustomerReview, queryParameters: param.toMap());
+      List<dynamic> datas = response.data['data']['items'];
+      log(datas.length.toString());
+      return DataState<List<OrderProductModel>>(
+        status: StatusCodeResponse.cek(response: response, queryParams: true),
+        result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
+      );
+    } on DioException catch (e) {
+      return CustomException<List<OrderProductModel>>().dio(e);
     }
   }
 }

@@ -46,6 +46,11 @@ dependencies:
   cloud_firestore: ^4.14.0
   scrollable_positioned_list: ^0.3.8
   scroll_to_index: ^3.0.1
+  rxdart: ^0.27.7
+  uni_links: ^0.5.1
+  share_plus: ^7.2.2
+  firebase_dynamic_links: ^5.4.8
+  firebase_analytics: ^10.8.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -3,7 +3,8 @@ class OrderCustomerModel {
   int? voucherId;
   String? mobileNumber;
   int? totalAmount;
-  int? paymentMethodId;
+  String? chType;
+  String? chCode;
   List<Items>? items;
 
   OrderCustomerModel(
@@ -11,7 +12,8 @@ class OrderCustomerModel {
       this.voucherId,
       this.mobileNumber,
       this.totalAmount,
-      this.paymentMethodId,
+      this.chType,
+      this.chCode,
       this.items});
 
   OrderCustomerModel.fromJson(Map<String, dynamic> json) {
@@ -19,7 +21,6 @@ class OrderCustomerModel {
     voucherId = json['voucher_id'];
     mobileNumber = json['mobile_number'];
     totalAmount = json['total_amount'];
-    paymentMethodId = json['payment_method_id'];
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -34,7 +35,8 @@ class OrderCustomerModel {
     data['voucher_id'] = voucherId;
     data['mobile_number'] = mobileNumber;
     data['total_amount'] = totalAmount;
-    data['payment_method_id'] = paymentMethodId;
+    data['ch_type'] = chType;
+    data['ch_code'] = chCode;
     if (items != null) {
       data['items'] = items!.map((v) => v.toJson()).toList();
     }
@@ -101,9 +103,13 @@ class Products {
     data['variant_id'] = variantId;
     data['price'] = price;
     data['quantity'] = quantity;
-    data['note'] = data;
+    data['note'] = note;
     data.removeWhere((key, value) =>
-        value == null || value == '' || value == 0.0 || value == 0);
+        value == null ||
+        value == '' ||
+        value == 0.0 ||
+        value == 0 ||
+        (value is Map && value.isEmpty));
     return data;
   }
 }

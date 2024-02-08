@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,34 +54,50 @@ class ItemChat extends StatelessWidget {
         children: [
           SizedBox(child: timeWidget),
           Visibility(
-              visible: data.pinnedProduct != null,
-              child: data.deletedAt == null ? itemProduct() : deletedItem()),
+            visible: data.pinnedProduct != null,
+            child: data.deletedAt == null
+                ? Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SizedBox(
+                          child: data.deletedAt == null
+                              ? itemProduct()
+                              : deletedItem()),
+                      itemSelectDelete(),
+                      itemHighlightScroll()
+                    ],
+                  )
+                : deletedItem(),
+          ),
           Visibility(
-              visible: data.image != null && data.image != '',
-              child: data.deletedAt == null ? itemImage() : deletedItem()),
-          GestureDetector(
-            onTap: () {
-              log("Seller Name :$sellerNameLenght");
-              log("ReplyLenght :$replyLenght");
-              log("Text Lenght :$textLenght");
-              log("Hasil :$minWidth");
-              double hasilnya =
-                  5 * minWidth < maxWidth ? 5 * minWidth : maxWidth;
-              log("Final : $hasilnya");
-            },
-            child: Visibility(
-              visible: data.text != null && data.text != '',
-              child: data.deletedAt == null
-                  ? Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        itemWithReply(minWidth, maxWidth),
-                        itemSelectDelete(),
-                        itemHighlightScroll()
-                      ],
-                    )
-                  : deletedItem(),
-            ),
+            visible: data.image != null && data.image != '',
+            child: data.deletedAt == null
+                ? Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SizedBox(
+                        child: data.deletedAt == null
+                            ? itemImage()
+                            : deletedItem(),
+                      ),
+                      itemSelectDelete(),
+                      itemHighlightScroll()
+                    ],
+                  )
+                : deletedItem(),
+          ),
+          Visibility(
+            visible: data.text != null && data.text != '',
+            child: data.deletedAt == null
+                ? Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      itemWithReply(minWidth, maxWidth),
+                      itemSelectDelete(),
+                      itemHighlightScroll()
+                    ],
+                  )
+                : deletedItem(),
           )
         ],
       ),
@@ -139,9 +153,10 @@ class ItemChat extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () {
                                     controller.scrollToOriginalMessage(
-                                        data.pinnedMessage?.text ?? 'No Text',
-                                        data.pinnedMessage?.role ?? '',
-                                        isSender);
+                                      data.pinnedMessage?.text ?? 'No Text',
+                                      data.pinnedMessage?.role ?? '',
+                                      isSender,
+                                    );
                                   },
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
@@ -250,126 +265,151 @@ class ItemChat extends StatelessWidget {
   }
 
   Widget itemImage() {
-    return Padding(
-      padding: EdgeInsets.only(
-          bottom: 8.hr,
-          left: !isSender ? 16.wr : 0,
-          right: isSender ? 16.wr : 0),
-      child: CachedNetworkImage(
-          imageUrl: data.image ?? '',
-          imageBuilder: (context, imageProvider) => Column(
-                crossAxisAlignment: isSender
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 120.r,
-                    width: 120.r,
-                    decoration: BoxDecoration(
-                        borderRadius: AppStyle.borderRadius8All,
-                        color: kBorder,
-                        border: Border.all(color: kBorder, width: 2),
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover)),
-                  ),
-                  Gap(4.hr),
-                  Text(
-                    "${data.createdAt}".formatToHourMinute,
-                    style: text10HintRegular,
-                  )
-                ],
-              ),
-          placeholder: (context, url) => SizedBox(
-                height: 120.r,
-                width: 120.r,
-                child: const Center(
-                  child: CupertinoActivityIndicator(color: kSoftBlack),
-                ),
-              ),
-          errorWidget: (context, url, error) => Container(
-                height: 120.r,
-                width: 120.r,
-                decoration: BoxDecoration(
-                  borderRadius: AppStyle.borderRadius8All,
-                  color: kBorder,
-                ),
-              )),
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: SizedBox(
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment:
+              !isSender ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  bottom: 8.hr,
+                  left: !isSender ? 16.wr : 0,
+                  right: isSender ? 16.wr : 0),
+              child: CachedNetworkImage(
+                  imageUrl: data.image ?? '',
+                  imageBuilder: (context, imageProvider) => Column(
+                        crossAxisAlignment: isSender
+                            ? CrossAxisAlignment.start
+                            : CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 120.r,
+                            width: 120.r,
+                            decoration: BoxDecoration(
+                                borderRadius: AppStyle.borderRadius8All,
+                                color: kBorder,
+                                border: Border.all(color: kBorder, width: 2),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover)),
+                          ),
+                          Gap(4.hr),
+                          Text(
+                            "${data.createdAt}".formatToHourMinute,
+                            style: text10HintRegular,
+                          )
+                        ],
+                      ),
+                  placeholder: (context, url) => SizedBox(
+                        height: 120.r,
+                        width: 120.r,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(color: kSoftBlack),
+                        ),
+                      ),
+                  errorWidget: (context, url, error) => Container(
+                        height: 120.r,
+                        width: 120.r,
+                        decoration: BoxDecoration(
+                          borderRadius: AppStyle.borderRadius8All,
+                          color: kBorder,
+                        ),
+                      )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget itemProduct() {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: !isSender ? 16.wr : 0,
-          right: isSender ? 16.wr : 0,
-          bottom: 8.hr),
-      child: Container(
-        padding: AppStyle.paddingAll8,
-        width: Get.width.wr * 0.7,
-        decoration: BoxDecoration(
-          borderRadius: AppStyle.borderRadius8All,
-          color: kWhite,
-          border: AppStyle.borderAll,
-        ),
-        child: Row(
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: SizedBox(
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment:
+              !isSender ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
-            CachedNetworkImage(
-              imageUrl: data.pinnedProduct?.image ?? '',
-              imageBuilder: (context, imageProvider) => Container(
-                height: 50.h,
-                width: 50.h,
+            Padding(
+              padding: EdgeInsets.only(
+                  left: !isSender ? 16.wr : 0,
+                  right: isSender ? 16.wr : 0,
+                  bottom: 16.hr),
+              child: Container(
+                padding: AppStyle.paddingAll8,
+                width: Get.width.wr * 0.7,
                 decoration: BoxDecoration(
-                  color: kSofterGrey,
                   borderRadius: AppStyle.borderRadius8All,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
+                  color: kWhite,
+                  border: AppStyle.borderAll,
                 ),
-              ),
-              placeholder: (context, url) => const CupertinoActivityIndicator(
-                color: kSoftBlack,
-              ),
-              errorWidget: (context, url, error) => Container(
-                height: 50.h,
-                width: 50.h,
-                decoration: BoxDecoration(
-                  color: kSofterGrey,
-                  borderRadius: AppStyle.borderRadius6All,
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.error,
-                    color: kPrimaryColor,
-                    size: 18.r,
-                  ),
-                ),
-              ),
-            ),
-            Gap(8.wr),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  data.pinnedProduct?.name ?? '',
-                  style: text12BlackMedium,
-                ),
-                Gap(4.hr),
-                Row(
+                child: Row(
                   children: [
-                    Text(
-                      "${data.pinnedProduct?.promo}".toIdrFormat,
-                      style: text12BlackRegular,
+                    CachedNetworkImage(
+                      imageUrl: data.pinnedProduct?.image ?? '',
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          color: kSofterGrey,
+                          borderRadius: AppStyle.borderRadius8All,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          const CupertinoActivityIndicator(
+                        color: kSoftBlack,
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          color: kSofterGrey,
+                          borderRadius: AppStyle.borderRadius6All,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.error,
+                            color: kPrimaryColor,
+                            size: 18.r,
+                          ),
+                        ),
+                      ),
                     ),
                     Gap(8.wr),
-                    Text(
-                      "${data.pinnedProduct?.price}".toIdrFormat,
-                      style: text10lineThroughRegular,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          data.pinnedProduct?.name ?? '',
+                          style: text12BlackMedium,
+                        ),
+                        Gap(4.hr),
+                        Row(
+                          children: [
+                            Text(
+                              "${data.pinnedProduct?.promo}".toIdrFormat,
+                              style: text12BlackRegular,
+                            ),
+                            Gap(8.wr),
+                            Text(
+                              "${data.pinnedProduct?.price}".toIdrFormat,
+                              style: text10lineThroughRegular,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ],
         ),

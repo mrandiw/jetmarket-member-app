@@ -43,6 +43,8 @@ class Endpoint {
 
   // Order Customer
   static String orderCustomer = 'order/customer';
+  static String orderCustomerReview = 'order/customer/review';
+
   static String orderWaitingCustomer = 'order/waiting_payment/customer';
   static String payletterPayment = 'payment/paylater';
   static String orderWaitingProductCustomer =
@@ -90,4 +92,12 @@ class Endpoint {
   static String eWalletWithdraw = 'ewallet/withdraw';
   static String eWalletWithdrawApproval = 'ewallet/withdraw/approval';
   static String ewalletTopup = 'ewallet/topup';
+
+  // Paylater
+  static String paylaterDetail = 'paylater/detail';
+  static String paylaterBill = 'paylater/bill';
+  static String paylaterPay = 'paylater/pay';
+
+  // Refferal
+  static String referral = 'referral';
 }

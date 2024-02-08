@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +11,7 @@ import '../../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../../domain/core/model/params/wallet/wallet_topup_body.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -63,7 +62,8 @@ class ChoicePaymentTopupController extends GetxController {
 
   Future<void> getPaymentMethode() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _paymentRepository.getPaymentMethode();
+    final response = await _paymentRepository.getPaymentMethode(
+        type: PaymentMethodeType.topup);
     if (response.result?.ewalletQr != null &&
         response.result?.otc != null &&
         response.result?.virtualAccount != null) {

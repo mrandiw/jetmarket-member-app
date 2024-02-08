@@ -25,7 +25,7 @@ class ButtonSection extends StatelessWidget {
         child: AppButton.primary(
           actionStatus: controller.actionStatus,
           text: 'Bayar',
-          onPressed: controller.orderCustomer?.paymentMethodId != null
+          onPressed: controller.orderCustomer?.chCode != null
               ? () => controller.payOrder()
               : null,
         ),

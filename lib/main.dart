@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +13,9 @@ import 'infrastructure/navigation/routes.dart';
 
 Future<void> main() async {
   await AppConfig.init();
+
   var initialRoute = await Routes.initialRoute;
+
   runApp(
       // DevicePreview(
       //     enabled: !kReleaseMode, builder: (context) => Main(initialRoute)),

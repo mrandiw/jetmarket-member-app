@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
+import 'package:jetmarket/infrastructure/dal/repository/ewallet_repository_impl.dart';
 import 'package:jetmarket/utils/network/action_status.dart';
 
 import '../../../../domain/core/interfaces/ewallet_repository.dart';
@@ -38,7 +39,7 @@ class WithdrawStatusController extends GetxController {
 
   void refreshEwalletPage() {
     Get.back();
-    final controller = Get.find<EWalletController>();
+    final controller = Get.put(EWalletController(EwalletRepositoryImpl()));
     controller.getBalance();
     controller.pagingController.itemList?.clear();
     controller.getBalanceHistory(1);

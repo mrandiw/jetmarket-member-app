@@ -17,10 +17,13 @@ class DetailChatScreen extends GetView<DetailChatController> {
             //   controller: controller.scrollController,
             //   slivers: [ChatSection(controller: controller)],
             // ),
-            ChatSection(
-              controller: controller,
-              scrollController: controller.scrollController,
-            ),
+            GetBuilder<DetailChatController>(builder: (controller) {
+              return ChatSection(
+                controller: controller,
+                scrollController: controller.scrollController,
+                reverse: controller.isReverse,
+              );
+            }),
 
             // Obx(() {
             //   if (controller.isCurrnetPositionOnTop.value) {

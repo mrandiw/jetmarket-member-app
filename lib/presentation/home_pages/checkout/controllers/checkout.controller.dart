@@ -42,7 +42,8 @@ class CheckoutController extends GetxController {
 
   void toChoicePayment() {
     var dataOrder = dataOrderProduct();
-    dataOrder.removeWhere((key, value) => value == null || value == '');
+    dataOrder.removeWhere((key, value) =>
+        value == null || value == '' || (value is Map && value.isEmpty));
     Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
       address?.id,
       voucherId,

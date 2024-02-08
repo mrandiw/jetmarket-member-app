@@ -13,16 +13,19 @@ class ReviewParam {
 }
 
 class BodyDataReview {
-  int? id;
+  int? orderItemId;
+  int? productId;
   int? rating;
   String? review;
   List<String>? image;
 
-  BodyDataReview({this.id, this.rating, this.review, this.image});
+  BodyDataReview(
+      {this.orderItemId, this.productId, this.rating, this.review, this.image});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
+    data['order_item_id'] = orderItemId;
+    data['product_id'] = productId;
     data['rating'] = rating;
     data['review'] = review;
     data['images'] = image;
