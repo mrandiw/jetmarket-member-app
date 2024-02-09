@@ -18,3 +18,22 @@ extension PaymentMethodeTypeExt on PaymentMethodeType {
     }
   }
 }
+
+extension PaymentMethodeTypeExtStr on String {
+  PaymentMethodeType get paymentMethodeType {
+    switch (this) {
+      case 'SAV':
+        return PaymentMethodeType.saving;
+      case 'REG':
+        return PaymentMethodeType.register;
+      case 'TOP':
+        return PaymentMethodeType.topup;
+      case 'BIL':
+        return PaymentMethodeType.biling;
+      case 'ORD':
+        return PaymentMethodeType.order;
+      default:
+        return PaymentMethodeType.saving;
+    }
+  }
+}
