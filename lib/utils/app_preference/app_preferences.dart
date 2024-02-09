@@ -318,6 +318,10 @@ class AppPreference {
     await _prefs?.remove(_currentPage);
   }
 
+  Future<void> removetrxId() async {
+    await _prefs?.remove(_trxId);
+  }
+
   Future<void> clearOnLogout() async {
     await _prefs?.remove(_authTokenKey);
     await _prefs?.remove(_userDataKey);

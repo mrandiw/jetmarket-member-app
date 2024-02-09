@@ -11,6 +11,7 @@ class NotificationData {
   String? type;
   String? path;
   int? pathId;
+  String? refId;
 
   NotificationData(
       {this.body,
@@ -24,7 +25,8 @@ class NotificationData {
       this.title,
       this.type,
       this.path,
-      this.pathId});
+      this.pathId,
+      this.refId});
 
   NotificationData.fromJson(Map<String, dynamic> json) {
     body = json['body'];
@@ -40,13 +42,19 @@ class NotificationData {
     if (json['pagelink'] != null) {
       List<String> parts = json['pagelink'].split('/');
       parts.removeAt(0);
-      if (parts[0] != 'loan' && parts[1] != 'bill' ||
-          parts[0] != 'loan' && parts[0] != 'propose') {
-        path = parts[0];
-        pathId = int.parse(parts[1]);
+      if (parts[0] != 'withdraw' ||
+          parts[0] != 'topup' ||
+          parts[0] != 'transaction') {
+        if (parts[0] != 'loan' && parts[1] != 'bill' ||
+            parts[0] != 'loan' && parts[1] != 'propose') {
+          path = parts[0];
+          pathId = int.parse(parts[1]);
+        } else {
+          path = "${parts[0]}-${parts[1]}";
+          pathId = int.parse(parts[2]);
+        }
       } else {
-        path = "${parts[0]}-${parts[1]}";
-        pathId = int.parse(parts[2]);
+        refId = parts[1];
       }
     }
   }

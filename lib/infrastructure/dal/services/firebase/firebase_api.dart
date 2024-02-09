@@ -49,6 +49,9 @@ settingShowNotification(RemoteMessage message) async {
   if (message.data['pagelink'] == '/main') {
     AppPreference().clearOnSuccessPayment();
     Get.offAllNamed(Routes.MAIN_PAGES);
+  } else if (message.data['pagelink'] == '/payment_method') {
+    AppPreference().removetrxId();
+    Get.offAllNamed(Routes.PAYMENT_REGISTER);
   } else {
     await updateUnreadNotification();
   }
@@ -68,15 +71,14 @@ class FirebaseApi {
 
   handleMessage(RemoteMessage? message) {
     if (message != null) return;
-    log("${message?.notification?.title}");
-    log("${message?.data}");
-    log("${message?.data['pagelink']}");
-    log(message?.notification?.body ?? 'o');
     try {
       if (message?.notification != null) {
         if (message?.data['pagelink'] == '/main') {
           AppPreference().clearOnSuccessPayment();
           Get.offAllNamed(Routes.MAIN_PAGES);
+        } else if (message?.data['pagelink'] == '/payment_method') {
+          AppPreference().removetrxId();
+          Get.offAllNamed(Routes.PAYMENT_REGISTER);
         }
       }
     } catch (e) {
@@ -89,14 +91,12 @@ class FirebaseApi {
     log("---------OPEN----------");
     final data = message?.data;
     if (data != null) {
-      log(message?.data.toString() ?? '');
-      log(message?.data['pagelink']);
-      log(message?.notification?.body ?? 'o');
-      // Validasi tipe data
-
       if (message?.data['pagelink'] == '/main') {
         AppPreference().clearOnSuccessPayment();
         Get.offAllNamed(Routes.MAIN_PAGES);
+      } else if (message?.data['pagelink'] == '/payment_method') {
+        AppPreference().removetrxId();
+        Get.offAllNamed(Routes.PAYMENT_REGISTER);
       }
     } else {
       // Tampilkan Snackbar jika data tidak ditemukan
