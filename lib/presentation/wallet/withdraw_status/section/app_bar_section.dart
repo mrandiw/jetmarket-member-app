@@ -12,6 +12,7 @@ AppBar appBarWithdraw(WithdrawStatusController controller) {
     backgroundColor: kWhite,
     elevation: 0,
     toolbarHeight: 52.hr,
+    automaticallyImplyLeading: false,
     leading: IconButton(
       onPressed: () => controller.refreshEwalletPage(),
       icon: SvgPicture.asset(arrowForward),

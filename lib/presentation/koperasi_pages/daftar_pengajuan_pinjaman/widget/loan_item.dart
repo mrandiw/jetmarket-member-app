@@ -32,7 +32,11 @@ class LoanItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(iconStatus(data.status ?? '')),
+              SvgPicture.asset(
+                iconStatus(data.status ?? ''),
+                height: 22.r,
+                width: 22.r,
+              ),
               Gap(12.wr),
               Expanded(
                   child: Column(

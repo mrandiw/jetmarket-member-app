@@ -48,23 +48,27 @@ class NotificationController extends GetxController {
   }
 
   void onTapNotification(NotificationData data) {
+    print(data.pagelink);
+    print(data.path);
+    print(data.pathId);
+
     switch (data.path) {
       case 'chat':
-        Get.toNamed(Routes.DETAIL_CHAT);
+        Get.toNamed(Routes.DETAIL_CHAT, arguments: data.pathId);
       case 'order':
         Get.toNamed(Routes.DETAIL_ORDER, arguments: [data.pathId, null]);
       case 'withdraw':
-        Get.toNamed(Routes.CHATS);
+        Get.toNamed(Routes.DETAIL_WITHDRAW);
       case 'topup':
-        Get.toNamed(Routes.CHATS);
+        Get.toNamed(Routes.DETAIL_TOPUP, arguments: data.pathId);
       case 'loan-propose':
-        Get.toNamed(Routes.CHATS);
+        Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: data.pathId);
       case 'loan-bill':
         Get.toNamed(Routes.CHATS);
       case 'saving':
-        Get.toNamed(Routes.CHATS);
+        Get.toNamed(Routes.DETAIL_MENABUNG, arguments: data.pathId);
       case 'referral':
-        Get.toNamed(Routes.CHATS);
+        Get.toNamed(Routes.REFERRAL);
       default:
         break;
     }

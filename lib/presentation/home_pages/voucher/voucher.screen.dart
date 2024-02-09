@@ -12,10 +12,11 @@ class VoucherScreen extends GetView<VoucherController> {
   const VoucherScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.updateSelectedVoucer();
+        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

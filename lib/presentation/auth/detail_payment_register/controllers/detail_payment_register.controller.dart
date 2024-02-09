@@ -77,6 +77,7 @@ class DetailPaymentRegisterController extends GetxController
       if (response.result?.status == "SUCCEEDED" ||
           response.result?.status == "PAID") {
         await AppPreference().cleanCurrentPage();
+        AppPreference().clearOnSuccessPayment();
         await Future.delayed(1.seconds, () {
           Get.offAllNamed(Routes.MAIN_PAGES);
         });

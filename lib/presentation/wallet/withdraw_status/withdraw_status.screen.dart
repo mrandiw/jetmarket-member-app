@@ -12,10 +12,11 @@ class WithdrawStatusScreen extends GetView<WithdrawStatusController> {
   const WithdrawStatusScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.refreshEwalletPage();
+        return true;
       },
       child: Scaffold(
           appBar: appBarWithdraw(controller),

@@ -100,11 +100,11 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<DataState<List<ProductOrderCustomer>>> getListOrderCustomer(
-      int id) async {
+      String refId) async {
     try {
       final response = await RemoteProvider.get(
           path: Endpoint.orderWaitingProductCustomer,
-          queryParameters: {'trx_id': id});
+          queryParameters: {'ref_id': refId});
       List<dynamic> datas = response.data['data'];
       return DataState<List<ProductOrderCustomer>>(
         status: StatusCodeResponse.cek(response: response),

@@ -23,10 +23,11 @@ class PaymentTopupSaldoScreen extends GetView<PaymentTopupSaldoController> {
   }
 
   Widget successWidget() {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.refreshEwalletPage();
+        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

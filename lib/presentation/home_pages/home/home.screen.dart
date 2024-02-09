@@ -27,10 +27,11 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _homePageSection() {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         Get.back();
+        return true;
       },
       child: Scaffold(
           appBar: appBarHome,
@@ -63,10 +64,11 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _popularPage() {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.seeAllPopular();
+        return true;
       },
       child: Scaffold(
           appBar: appBarHome,

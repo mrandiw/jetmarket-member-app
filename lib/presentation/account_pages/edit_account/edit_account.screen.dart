@@ -12,10 +12,11 @@ class EditAccountScreen extends GetView<EditAccountController> {
   const EditAccountScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.updateUser();
+        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

@@ -116,7 +116,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                 width: 56.w,
                                 padding: EdgeInsets.all(8.r),
                                 decoration: BoxDecoration(
-                                    color: controller.selectedBankTransfer ==
+                                    color: controller.selectedChCode ==
                                             controller.savingPaymentMethode
                                                 ?.virtualAccount?[index].chCode
                                         ? kNormalAccentColor2
@@ -252,7 +252,7 @@ class PaymentMethodeSection extends StatelessWidget {
                             width: 56.w,
                             padding: EdgeInsets.all(8.r),
                             decoration: BoxDecoration(
-                                color: controller.selectedEwallet ==
+                                color: controller.selectedChCode ==
                                             controller.savingPaymentMethode
                                                 ?.ewalletQr?[index].chCode &&
                                         controller.selectedChType ==
@@ -376,7 +376,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                       width: 56.w,
                                       padding: EdgeInsets.all(8.r),
                                       decoration: BoxDecoration(
-                                          color: controller.selectedRetail ==
+                                          color: controller.selectedChCode ==
                                                   controller
                                                       .savingPaymentMethode
                                                       ?.otc?[index]

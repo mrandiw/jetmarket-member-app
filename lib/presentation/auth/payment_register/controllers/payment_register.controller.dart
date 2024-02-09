@@ -99,7 +99,6 @@ class PaymentRegisterController extends GetxController {
       actionStatus = ActionStatus.success;
       update();
       log("TRXXX : ${response.result?.id}");
-      await AppPreference().setCurrentPage('detail-payment');
       toPaying(response.result, amount);
     } else {
       actionStatus = ActionStatus.failed;

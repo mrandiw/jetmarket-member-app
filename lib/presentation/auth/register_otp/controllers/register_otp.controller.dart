@@ -19,7 +19,7 @@ class RegisterOtpController extends GetxController {
   var enableButton = false;
   var actionStatus = ActionStatus.initalize;
 
-  String phoneNumber = "";
+  String emailUser = "";
   var countdownSendOtp = ''.obs;
   var isCountdownSendOtpRun = false.obs;
 
@@ -30,20 +30,17 @@ class RegisterOtpController extends GetxController {
     }
     actionStatus = ActionStatus.loading;
     update();
-    var param =
-        RegisterVerifyOtpParam(email: phoneNumber, otp: otpNumber.join());
+    var param = RegisterVerifyOtpParam(email: emailUser, otp: otpNumber.join());
     final response = await _authRepository.verifyRegisterOtp(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
-      // AppPreference().verifySuccess();
-      await AppPreference().setCurrentPage('success-verify-otp');
       update();
       Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();
       if (response.message == 'Kode OTP telah Kadaluarsa!') {
-        _authRepository.sendRegisterOtp(phoneNumber);
+        _authRepository.sendRegisterOtp(emailUser);
         if (response.status == StatusResponse.success) {
           for (var item in otpControllers) {
             item.clear();
@@ -108,11 +105,7 @@ class RegisterOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null) {
-      phoneNumber = Get.arguments;
-    } else {
-      phoneNumber = AppPreference().getUserData()?.user?.email ?? '';
-    }
+    emailUser = AppPreference().getUserData()?.user?.email ?? '';
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();
       controller.addListener(_checkIfAllFieldsFilled);

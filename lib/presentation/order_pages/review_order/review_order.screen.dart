@@ -26,10 +26,11 @@ class ReviewOrderScreen extends GetView<ReviewOrderController> {
   }
 
   Widget successWidget(ReviewOrderController controller) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.backToOrder();
+        return true;
       },
       child: Scaffold(
         appBar: appBarDetailOrderReview,

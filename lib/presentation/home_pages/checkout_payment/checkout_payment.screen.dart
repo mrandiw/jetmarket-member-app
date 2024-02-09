@@ -26,10 +26,11 @@ class CheckoutPaymentScreen extends GetView<CheckoutPaymentController> {
   }
 
   Widget successWidget() {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.backtoMerchent();
+        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

@@ -17,6 +17,7 @@ class WalletSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(controller.waitingPayment?.ewallet?.deeplink);
     return Column(
       children: [
         Container(

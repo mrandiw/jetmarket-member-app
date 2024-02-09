@@ -47,7 +47,7 @@ settingShowNotification(RemoteMessage message) async {
     payload: message.data.toString(),
   );
   if (message.data['pagelink'] == '/main') {
-    AppPreference().cleanCurrentPage();
+    AppPreference().clearOnSuccessPayment();
     Get.offAllNamed(Routes.MAIN_PAGES);
   } else {
     await updateUnreadNotification();
@@ -75,7 +75,7 @@ class FirebaseApi {
     try {
       if (message?.notification != null) {
         if (message?.data['pagelink'] == '/main') {
-          AppPreference().cleanCurrentPage();
+          AppPreference().clearOnSuccessPayment();
           Get.offAllNamed(Routes.MAIN_PAGES);
         }
       }
@@ -95,7 +95,7 @@ class FirebaseApi {
       // Validasi tipe data
 
       if (message?.data['pagelink'] == '/main') {
-        AppPreference().cleanCurrentPage();
+        AppPreference().clearOnSuccessPayment();
         Get.offAllNamed(Routes.MAIN_PAGES);
       }
     } else {

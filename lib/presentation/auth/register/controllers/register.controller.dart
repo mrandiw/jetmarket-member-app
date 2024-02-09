@@ -76,14 +76,12 @@ class RegisterController extends GetxController {
 
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
-      //  await AppPreference().registerSuccess();
-      await AppPreference().setCurrentPage('register-otp');
 
       update();
-      // if (isKodeReveralValidated.value) {
-      //   AppPreference().referalSuccess();
-      // } else {}
-      Get.toNamed(Routes.REGISTER_OTP, arguments: emailController.text);
+      if (isKodeReveralValidated.value) {
+        AppPreference().referalSuccess();
+      } else {}
+      Get.toNamed(Routes.REGISTER_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();

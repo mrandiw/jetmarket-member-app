@@ -12,7 +12,7 @@ class OrderListTransactionController extends GetxController {
   OrderListTransactionController(this._orderRepository);
   List<ProductOrderCustomer> products = [];
 
-  Future<void> getListOrder(int id) async {
+  Future<void> getListOrder(String id) async {
     log("Jalan");
     final response = await _orderRepository.getListOrderCustomer(id);
     if (response.status == StatusResponse.success) {

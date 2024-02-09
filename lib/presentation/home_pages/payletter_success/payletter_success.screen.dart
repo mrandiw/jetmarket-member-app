@@ -17,10 +17,11 @@ class PayletterSuccessScreen extends GetView<PayletterSuccessController> {
   const PayletterSuccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.backtoMerchent();
+        return true;
       },
       child: Scaffold(
           appBar: appBarSuccessPayletter,

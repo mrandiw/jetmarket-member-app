@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/middleware/uni_link_middleware.dart';
 
 import '../../presentation/screens.dart';
-import '../middleware/auth_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
@@ -94,7 +93,7 @@ class Nav {
         name: Routes.MAIN_PAGES,
         page: () => const MainPagesScreen(),
         binding: MainPagesControllerBinding(),
-        middlewares: [UniLinkMiddleware(), AuthMiddleware()]),
+        middlewares: [UniLinkMiddleware()]),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),

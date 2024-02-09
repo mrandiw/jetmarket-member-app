@@ -21,6 +21,7 @@ class AppPreference {
   final String _isPaid = 'paid';
   final String _isReferal = 'referal';
   final String _phoneNumber = 'phone';
+  final String _email = 'email';
   final String _countDown = 'count_down';
   final String _countDownPaymentSaving = 'count_down_payment_saving';
   final String _countDownPaymentTopupWallet = 'count_down_payment_topup_wallet';
@@ -30,13 +31,26 @@ class AppPreference {
   final String _address = 'address';
   final String _registerComplite = 'register_complite';
   final String _currentPage = 'current-page';
+  // final String _paymentRegisterSuccess = 'payment_register_success';
 
   Future<void> setCurrentPage(String? page) async {
     await _prefs?.setString(_currentPage, page ?? 'no-define');
   }
 
+  Future<void> saveEmail(String? email) async {
+    await _prefs?.setString(_email, email ?? '');
+  }
+
+  Future<void> savePaymentRegisterSuccess(String? email) async {
+    await _prefs?.setString(_email, email ?? '');
+  }
+
   String? getCurrentPage() {
     return _prefs?.getString(_currentPage);
+  }
+
+  String? getEmail() {
+    return _prefs?.getString(_email);
   }
 
   Future<void> saveCountDown(int countDown) async {

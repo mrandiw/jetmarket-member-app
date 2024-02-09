@@ -12,10 +12,11 @@ class DetailReturnScreen extends GetView<DetailReturnController> {
   const DetailReturnScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
         controller.backToOrder();
+        return true;
       },
       child: Scaffold(
           appBar: appBarDetailKomplain(controller),
