@@ -14,13 +14,13 @@ import 'controllers/payletter_success.controller.dart';
 import 'section/app_bar_section.dart';
 
 class PayletterSuccessScreen extends GetView<PayletterSuccessController> {
-  const PayletterSuccessScreen({Key? key}) : super(key: key);
+  const PayletterSuccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backtoMerchent();
-        return true;
       },
       child: Scaffold(
           appBar: appBarSuccessPayletter,

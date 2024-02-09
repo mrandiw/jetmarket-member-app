@@ -42,9 +42,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
           path: Endpoint.paymentCustomerRegister,
           queryParameters: param.toMap());
       return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(
-          response: response,
-        ),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: PaymentCustomerModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {
@@ -60,7 +58,8 @@ class PaymentRepositoryImpl implements PaymentRepository {
           queryParameters: {'trx_id': id});
 
       return DataState<PaymentCustomerModel>(
-        status: StatusCodeResponse.cek(response: response, queryParams: true),
+        status: StatusCodeResponse.cek(
+            response: response, queryParams: true, showLogs: true),
         result: PaymentCustomerModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {

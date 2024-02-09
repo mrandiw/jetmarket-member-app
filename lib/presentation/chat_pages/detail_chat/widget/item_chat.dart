@@ -15,7 +15,7 @@ import '../../../../utils/style/app_style.dart';
 
 class ItemChat extends StatelessWidget {
   const ItemChat(
-      {Key? key,
+      {super.key,
       required this.data,
       required this.isSender,
       required this.isReplySender,
@@ -24,8 +24,7 @@ class ItemChat extends StatelessWidget {
       this.onHorizontalDragStart,
       this.onLongPress,
       this.onTapCancel,
-      required this.timeWidget})
-      : super(key: key);
+      required this.timeWidget});
 
   final ChatModel data;
   final bool isSender;
@@ -155,7 +154,7 @@ class ItemChat extends StatelessWidget {
                                     controller.scrollToOriginalMessage(
                                       data.pinnedMessage?.text ?? 'No Text',
                                       data.pinnedMessage?.role ?? '',
-                                      isSender,
+                                      data.pinnedMessage?.id ?? 0,
                                     );
                                   },
                                   child: ConstrainedBox(

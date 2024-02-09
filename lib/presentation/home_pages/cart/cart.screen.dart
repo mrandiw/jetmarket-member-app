@@ -15,7 +15,7 @@ import 'section/app_bar_section.dart';
 import 'section/footer_section.dart';
 
 class CartScreen extends GetView<CartController> {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

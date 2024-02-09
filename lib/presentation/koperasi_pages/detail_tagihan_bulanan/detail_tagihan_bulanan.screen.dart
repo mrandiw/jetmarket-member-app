@@ -12,7 +12,7 @@ import 'section/information_section.dart';
 
 class DetailTagihanBulananScreen
     extends GetView<DetailTagihanBulananController> {
-  const DetailTagihanBulananScreen({Key? key}) : super(key: key);
+  const DetailTagihanBulananScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

@@ -7,7 +7,7 @@ import 'section/form_section.dart';
 import 'section/header_section.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

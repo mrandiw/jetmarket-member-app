@@ -9,7 +9,7 @@ import 'section/app_bar_section.dart';
 import 'section/paylater_section.dart';
 
 class PaylaterCustomerScreen extends GetView<PaylaterCustomerController> {
-  const PaylaterCustomerScreen({Key? key}) : super(key: key);
+  const PaylaterCustomerScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

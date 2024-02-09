@@ -16,7 +16,7 @@ import 'section/app_bar_section.dart';
 
 class OrderListTransactionScreen
     extends GetView<OrderListTransactionController> {
-  const OrderListTransactionScreen({Key? key}) : super(key: key);
+  const OrderListTransactionScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

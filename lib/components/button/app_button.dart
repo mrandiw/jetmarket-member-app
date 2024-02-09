@@ -26,13 +26,13 @@ enum AppButtonType {
 
 class AppButton extends StatelessWidget {
   const AppButton._({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.buttonType,
     required this.actionStatus,
     this.text,
     this.icon,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
   final AppButtonType buttonType;

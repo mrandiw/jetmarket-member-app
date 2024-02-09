@@ -9,7 +9,7 @@ import 'section/footer_section.dart';
 import 'section/form_section.dart';
 
 class DetailAddressScreen extends GetView<DetailAddressController> {
-  const DetailAddressScreen({Key? key}) : super(key: key);
+  const DetailAddressScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

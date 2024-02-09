@@ -8,7 +8,7 @@ import 'section/app_bar_section.dart';
 import 'section/form_section.dart';
 
 class ChangePasswordScreen extends GetView<ChangePasswordController> {
-  const ChangePasswordScreen({Key? key}) : super(key: key);
+  const ChangePasswordScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

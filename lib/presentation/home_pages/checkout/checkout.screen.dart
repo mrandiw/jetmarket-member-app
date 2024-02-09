@@ -11,7 +11,7 @@ import 'section/product_section.dart';
 import 'section/voucher_section.dart';
 
 class CheckoutScreen extends GetView<CheckoutController> {
-  const CheckoutScreen({Key? key}) : super(key: key);
+  const CheckoutScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

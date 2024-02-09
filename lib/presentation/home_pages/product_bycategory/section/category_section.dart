@@ -10,7 +10,7 @@ import 'package:jetmarket/utils/style/app_style.dart';
 import '../../../../utils/assets/assets_svg.dart';
 
 class CategorySection extends StatelessWidget {
-  const CategorySection({Key? key}) : super(key: key);
+  const CategorySection({super.key});
 
   @override
   Widget build(BuildContext context) {

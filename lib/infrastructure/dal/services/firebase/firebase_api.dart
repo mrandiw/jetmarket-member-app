@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/services/firebase/firebase_controller.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import '../../../../utils/global/constant.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
@@ -45,7 +46,8 @@ settingShowNotification(RemoteMessage message) async {
     platformDetails,
     payload: message.data.toString(),
   );
-  if (message.data['status'] == 'SUCCEEDED') {
+  if (message.data['pagelink'] == '/main') {
+    AppPreference().cleanCurrentPage();
     Get.offAllNamed(Routes.MAIN_PAGES);
   } else {
     await updateUnreadNotification();
@@ -66,11 +68,14 @@ class FirebaseApi {
 
   handleMessage(RemoteMessage? message) {
     if (message != null) return;
-    log(message?.notification?.title ?? '');
+    log("${message?.notification?.title}");
+    log("${message?.data}");
+    log("${message?.data['pagelink']}");
+    log(message?.notification?.body ?? 'o');
     try {
       if (message?.notification != null) {
-        log("Handle------------");
-        if (message?.data['status'] == 'SUCCEEDED') {
+        if (message?.data['pagelink'] == '/main') {
+          AppPreference().cleanCurrentPage();
           Get.offAllNamed(Routes.MAIN_PAGES);
         }
       }
@@ -84,8 +89,13 @@ class FirebaseApi {
     log("---------OPEN----------");
     final data = message?.data;
     if (data != null) {
+      log(message?.data.toString() ?? '');
+      log(message?.data['pagelink']);
+      log(message?.notification?.body ?? 'o');
       // Validasi tipe data
-      if (data['status'] == 'SUCCEEDED') {
+
+      if (message?.data['pagelink'] == '/main') {
+        AppPreference().cleanCurrentPage();
         Get.offAllNamed(Routes.MAIN_PAGES);
       }
     } else {
@@ -101,7 +111,7 @@ class FirebaseApi {
     }
   }
 
-  static Future<void> showLocalNotification(
+  static Future<void> handleForegroundNotification(
     RemoteMessage message,
   ) async {
     // Konfigurasi notifikasi
@@ -128,6 +138,7 @@ class FirebaseApi {
         try {
           if (details.payload != null) {
             log("Init FCM");
+            log("Payload : ${details.payload}");
           } else {}
         } catch (e) {
           throw Exception(e);
@@ -148,8 +159,8 @@ class FirebaseApi {
 
     //   });
     // } else {
-    //   FirebaseMessaging.onMessage.listen(showLocalNotification);
+    //   FirebaseMessaging.onMessage.listen(handleForegroundNotification);
     // }
-    FirebaseMessaging.onMessage.listen(showLocalNotification);
+    FirebaseMessaging.onMessage.listen(handleForegroundNotification);
   }
 }

@@ -9,13 +9,13 @@ import 'controllers/withdraw_status.controller.dart';
 import 'section/app_bar_section.dart';
 
 class WithdrawStatusScreen extends GetView<WithdrawStatusController> {
-  const WithdrawStatusScreen({Key? key}) : super(key: key);
+  const WithdrawStatusScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.refreshEwalletPage();
-        return true;
       },
       child: Scaffold(
           appBar: appBarWithdraw(controller),

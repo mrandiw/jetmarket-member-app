@@ -7,7 +7,7 @@ import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'controllers/splash_screen.controller.dart';
 
 class SplashScreenScreen extends GetView<SplashScreenController> {
-  const SplashScreenScreen({Key? key}) : super(key: key);
+  const SplashScreenScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

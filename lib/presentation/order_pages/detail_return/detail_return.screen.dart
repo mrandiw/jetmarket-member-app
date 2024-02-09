@@ -9,13 +9,13 @@ import 'section/app_bar_section.dart';
 import 'section/status_section.dart';
 
 class DetailReturnScreen extends GetView<DetailReturnController> {
-  const DetailReturnScreen({Key? key}) : super(key: key);
+  const DetailReturnScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backToOrder();
-        return true;
       },
       child: Scaffold(
           appBar: appBarDetailKomplain(controller),

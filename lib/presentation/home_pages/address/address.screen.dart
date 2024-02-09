@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'controllers/address.controller.dart';
 
 class AddressScreen extends GetView<AddressController> {
-  const AddressScreen({Key? key}) : super(key: key);
+  const AddressScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

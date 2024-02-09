@@ -8,7 +8,7 @@ import 'controllers/location.controller.dart';
 import 'section/footer_section.dart';
 
 class LocationScreen extends GetView<LocationController> {
-  const LocationScreen({Key? key}) : super(key: key);
+  const LocationScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

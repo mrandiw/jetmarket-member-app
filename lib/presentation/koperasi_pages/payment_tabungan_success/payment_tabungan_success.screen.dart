@@ -13,7 +13,7 @@ import 'controllers/payment_tabungan_success.controller.dart';
 
 class PaymentTabunganSuccessScreen
     extends GetView<PaymentTabunganSuccessController> {
-  const PaymentTabunganSuccessScreen({Key? key}) : super(key: key);
+  const PaymentTabunganSuccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

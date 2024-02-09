@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'controllers/detail_checkout.controller.dart';
 
 class DetailCheckoutScreen extends GetView<DetailCheckoutController> {
-  const DetailCheckoutScreen({Key? key}) : super(key: key);
+  const DetailCheckoutScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

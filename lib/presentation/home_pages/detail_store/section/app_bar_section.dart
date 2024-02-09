@@ -18,11 +18,11 @@ class AppBarDetailStore extends StatelessWidget {
   final bool isScroll;
 
   const AppBarDetailStore({
-    Key? key,
+    super.key,
     required this.tabController,
     required this.controller,
     required this.isScroll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

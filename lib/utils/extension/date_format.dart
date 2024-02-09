@@ -11,7 +11,7 @@ extension DateFormatter on String {
 
       return formattedDate;
     } catch (e) {
-      return 'Invalid date format';
+      return this;
     }
   }
 }
@@ -76,34 +76,27 @@ extension DateFormatExtension on String {
   }
 
   String get formatToHourMinute {
-    // DateTime dateTime = DateTime.parse(this);
-    // return '${dateTime.hour}:${dateTime.minute}';
     try {
-      final parsedDate = DateTime.parse(this);
+      final cleanedDate = replaceAll("+0000 +0000", "").trim();
+      final parsedDate = DateTime.parse(cleanedDate);
       final formattedTime =
           "${parsedDate.hour}:${parsedDate.minute.toString().padLeft(2, '0')}";
       return formattedTime;
     } catch (e) {
-      return this; // return original string jika parsing gagal
+      return this;
     }
   }
 
   String get convertToDateFormat {
     try {
-      // Remove trailing "+0000 +0000"
       String cleanedDate = replaceAll("+0000 +0000", "").trim();
-
-      // Parse the cleaned string to a DateTime object
       DateTime dateTime = DateTime.parse(cleanedDate);
-
-      // Format the DateTime object to the desired format
       String formattedDate =
           "${dateTime.day}/${dateTime.month}/${dateTime.year}";
 
       return formattedDate;
     } catch (e) {
-      // Handle the case where the input string is not a valid date
-      return "Invalid Date";
+      return this;
     }
   }
 }
@@ -112,19 +105,17 @@ extension FormatCreatedAtExtension on String {
   String get formatCreatedAt {
     // ignore: unnecessary_null_comparison
     if (this == null) {
-      return ""; // Return an empty string if the string is null
+      return "";
     }
-
-    // Identifikasi nilai "0001-01-01 00:00:00 +0000 +0000" dan ganti dengan nilai yang sesuai
-    if (this == "0001-01-01 00:00:00 +0000 +0000") {
+    String cleanedDate = replaceAll("+0000 +0000", "").trim();
+    if (cleanedDate == "0001-01-01 00:00:00") {
       return "2024-01-27 15:41:27";
     }
 
     try {
-      DateTime createdAt = DateTime.parse(this);
+      DateTime createdAt = DateTime.parse(cleanedDate);
       return DateFormat("yyyy-MM-dd").format(createdAt);
     } catch (e) {
-      // Jika parsing gagal, kembalikan string tanpa perubahan
       return this;
     }
   }

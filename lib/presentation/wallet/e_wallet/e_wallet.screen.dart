@@ -11,7 +11,7 @@ import 'section/header_section.dart';
 import 'section/history_section.dart';
 
 class EWalletScreen extends GetView<EWalletController> {
-  const EWalletScreen({Key? key}) : super(key: key);
+  const EWalletScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

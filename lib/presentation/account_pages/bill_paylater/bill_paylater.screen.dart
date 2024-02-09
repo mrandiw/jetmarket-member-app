@@ -14,7 +14,7 @@ import 'controllers/bill_paylater.controller.dart';
 import 'section/app_bar_section.dart';
 
 class BillPaylaterScreen extends GetView<BillPaylaterController> {
-  const BillPaylaterScreen({Key? key}) : super(key: key);
+  const BillPaylaterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

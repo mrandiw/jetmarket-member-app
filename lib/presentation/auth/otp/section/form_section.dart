@@ -58,6 +58,31 @@ class FormSection extends StatelessWidget {
                     onPressed: controller.enableButton
                         ? () => controller.verifyOtp()
                         : null,
+                  ),
+                  Gap(72.h),
+                  Center(
+                    child: Obx(() => RichText(
+                            text: TextSpan(
+                                text: 'Belum menerima OTP ?\nKirim ulang Dalam ',
+                                style: text14BlackRegular,
+                                children: [
+                              TextSpan(
+                                  text: controller.countdownSendOtp.value,
+                                  style: text14BlackSemiBold)
+                            ]))),
+                  ),
+                  Gap(72.h),
+                  Center(
+                    child: Obx(() => GestureDetector(
+                        onTap: controller.isCountdownSendOtpRun.value
+                            ? null
+                            : () => controller.sendOtp(),
+                        child: Text(
+                          'Kirim Ulang',
+                          style: controller.isCountdownSendOtpRun.value
+                              ? text14HintBold
+                              : text14NormalBold,
+                        ))),
                   )
                 ],
               );

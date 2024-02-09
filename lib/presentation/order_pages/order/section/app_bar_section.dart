@@ -16,11 +16,11 @@ class AppBarDetailOrder extends StatelessWidget {
   final bool isScroll;
 
   const AppBarDetailOrder({
-    Key? key,
+    super.key,
     required this.tabController,
     required this.controller,
     required this.isScroll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class AppBarDetailOrder extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
-            border: Border(bottom: BorderSide(color: kDivider)),
+            border: Border(bottom: BorderSide(color: kDivider, width: 0.3)),
           ),
           child: TabBar(
             isScrollable: true,
@@ -91,6 +91,8 @@ class AppBarDetailOrder extends StatelessWidget {
             labelColor: kSecondaryColor,
             unselectedLabelColor: kSofterGrey,
             indicatorSize: TabBarIndicatorSize.label,
+            padding: EdgeInsets.zero,
+            tabAlignment: TabAlignment.start,
             tabs: controller.statusTabs.map((e) {
               return Tab(
                 text: e['name'],

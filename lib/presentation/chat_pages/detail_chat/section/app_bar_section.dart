@@ -12,7 +12,7 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarDetailChat({Key? key}) : super(key: key);
+  const AppBarDetailChat({super.key});
 
   @override
   Widget build(BuildContext context) {

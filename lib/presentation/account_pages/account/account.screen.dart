@@ -9,7 +9,7 @@ import 'package:jetmarket/utils/style/app_style.dart';
 import 'controllers/account.controller.dart';
 
 class AccountScreen extends GetView<AccountController> {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

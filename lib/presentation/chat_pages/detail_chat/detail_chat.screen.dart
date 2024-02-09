@@ -6,7 +6,7 @@ import 'section/app_bar_section.dart';
 import 'section/chat_section.dart';
 
 class DetailChatScreen extends GetView<DetailChatController> {
-  const DetailChatScreen({Key? key}) : super(key: key);
+  const DetailChatScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

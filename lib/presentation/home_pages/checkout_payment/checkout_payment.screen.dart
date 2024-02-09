@@ -11,7 +11,7 @@ import 'section/button_section.dart';
 import 'section/detail_section.dart';
 
 class CheckoutPaymentScreen extends GetView<CheckoutPaymentController> {
-  const CheckoutPaymentScreen({Key? key}) : super(key: key);
+  const CheckoutPaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,10 +26,10 @@ class CheckoutPaymentScreen extends GetView<CheckoutPaymentController> {
   }
 
   Widget successWidget() {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backtoMerchent();
-        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

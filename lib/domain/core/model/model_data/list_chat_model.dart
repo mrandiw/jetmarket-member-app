@@ -6,6 +6,7 @@ class ListChatModel {
   String? createdAt;
   String? message;
   int? unreadCount;
+  String? updatedAt;
 
   ListChatModel(
       {this.id,
@@ -14,7 +15,8 @@ class ListChatModel {
       this.name,
       this.createdAt,
       this.message,
-      this.unreadCount});
+      this.unreadCount,
+      this.updatedAt});
 
   ListChatModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +26,7 @@ class ListChatModel {
     createdAt = json['created_at'];
     message = json['message'];
     unreadCount = json['unread_count'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class ListChatModel {
     data['created_at'] = createdAt;
     data['message'] = message;
     data['unread_count'] = unreadCount;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

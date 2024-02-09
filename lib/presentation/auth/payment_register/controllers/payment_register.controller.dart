@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,14 +90,16 @@ class PaymentRegisterController extends GetxController {
     String amount = AppPreference().cekReferal() == true ? '10000' : '25000';
     // String phoneNumber = AppPreference().getPhoneNumber() ?? '';
     var param = PaymentParam(
-        id: selectedId.toString(),
+        chType: selectedchType,
+        chCode: selectedchCode,
         amount: amount,
         mobileNumber: isPhoneValidated.value ? numberController.text : null);
     final response = await _paymentRepository.createPaymentCustomer(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      AppPreference().saveTrxId(response.result?.id ?? 0);
+      log("TRXXX : ${response.result?.id}");
+      await AppPreference().setCurrentPage('detail-payment');
       toPaying(response.result, amount);
     } else {
       actionStatus = ActionStatus.failed;
@@ -134,7 +138,7 @@ class PaymentRegisterController extends GetxController {
     }
   }
 
-  void toPaying(PaymentCustomerModel? data, String amount) {
+  void toPaying(PaymentCustomerModel? data, String amount) async {
     var argument = PaymentMethodeArgument(
         id: selectedId,
         status: "register",
@@ -143,6 +147,7 @@ class PaymentRegisterController extends GetxController {
         chCode: selectedchCode,
         name: selectedName,
         data: data);
+    await AppPreference().saveTrxId(data?.id ?? 0);
     Get.toNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
   }
 

@@ -10,7 +10,7 @@ import 'section/app_bar_section.dart';
 import 'section/step_status_section.dart';
 
 class TrackingOrderScreen extends GetView<TrackingOrderController> {
-  const TrackingOrderScreen({Key? key}) : super(key: key);
+  const TrackingOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

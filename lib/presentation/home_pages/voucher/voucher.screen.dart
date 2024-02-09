@@ -9,13 +9,13 @@ import 'section/app_bar_section.dart';
 import 'section/footer_section.dart';
 
 class VoucherScreen extends GetView<VoucherController> {
-  const VoucherScreen({Key? key}) : super(key: key);
+  const VoucherScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.updateSelectedVoucer();
-        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

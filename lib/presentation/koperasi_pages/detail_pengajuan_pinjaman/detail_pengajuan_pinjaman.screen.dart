@@ -12,7 +12,7 @@ import 'section/status_section.dart';
 
 class DetailPengajuanPinjamanScreen
     extends GetView<DetailPengajuanPinjamanController> {
-  const DetailPengajuanPinjamanScreen({Key? key}) : super(key: key);
+  const DetailPengajuanPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

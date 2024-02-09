@@ -8,7 +8,7 @@ import 'section/list_packet.dart';
 
 class ChoiceDeliveryRefundScreen
     extends GetView<ChoiceDeliveryRefundController> {
-  const ChoiceDeliveryRefundScreen({Key? key}) : super(key: key);
+  const ChoiceDeliveryRefundScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

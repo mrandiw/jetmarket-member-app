@@ -73,12 +73,15 @@ class DetailPaymentRegisterController extends GetxController
     if (response.status == StatusResponse.success) {
       paymentCustomer = response.result;
       update();
-      if (response.result?.status == "SUCCEEDED") {
-        await AppPreference().clearOnSuccessPayment();
+      log("${response.result?.status}");
+      if (response.result?.status == "SUCCEEDED" ||
+          response.result?.status == "PAID") {
+        await AppPreference().cleanCurrentPage();
         await Future.delayed(1.seconds, () {
           Get.offAllNamed(Routes.MAIN_PAGES);
         });
-      } else if (response.result?.status == 'REQUIRES_ACTION') {
+      } else if (response.result?.status == 'REQUIRES_ACTION' ||
+          response.result?.status == 'PENDING') {
         if (response.result?.channel?.type == 'EWALLET') {
           methodeType = PaymentMethodeType.wallet;
         } else if (response.result?.channel?.type == 'OTC') {
@@ -96,6 +99,9 @@ class DetailPaymentRegisterController extends GetxController
           screenStatus(ScreenStatus.success);
         });
       } else {
+        log("payment failed");
+        log("${response.result?.status}");
+        await AppPreference().setCurrentPage('payment-methode');
         Get.offAllNamed(Routes.PAYMENT_REGISTER);
       }
     } else {

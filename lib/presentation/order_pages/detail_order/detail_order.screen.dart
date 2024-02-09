@@ -13,7 +13,7 @@ import 'section/payment_methode.dart';
 import 'widget/info_order.dart';
 
 class DetailOrderScreen extends GetView<DetailOrderController> {
-  const DetailOrderScreen({Key? key}) : super(key: key);
+  const DetailOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -28,10 +28,10 @@ class DetailOrderScreen extends GetView<DetailOrderController> {
   }
 
   Widget successWidget(DetailOrderController controller) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backToOrder();
-        return true;
       },
       child: Scaffold(
         appBar: appBarDetailOrder(controller),

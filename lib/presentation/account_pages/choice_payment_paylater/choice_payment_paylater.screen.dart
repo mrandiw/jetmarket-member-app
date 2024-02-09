@@ -13,7 +13,7 @@ import 'section/payment_section.dart';
 
 class ChoicePaymentPaylaterScreen
     extends GetView<ChoicePaymentPaylaterController> {
-  const ChoicePaymentPaylaterScreen({Key? key}) : super(key: key);
+  const ChoicePaymentPaylaterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

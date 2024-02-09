@@ -8,7 +8,7 @@ import 'section/button_section.dart';
 import 'section/form_section.dart';
 
 class AjukanPinjamanScreen extends GetView<AjukanPinjamanController> {
-  const AjukanPinjamanScreen({Key? key}) : super(key: key);
+  const AjukanPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

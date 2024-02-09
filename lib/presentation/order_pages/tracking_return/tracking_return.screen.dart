@@ -10,7 +10,7 @@ import 'section/app_bar_section.dart';
 import 'section/step_status_section.dart';
 
 class TrackingReturnScreen extends GetView<TrackingReturnController> {
-  const TrackingReturnScreen({Key? key}) : super(key: key);
+  const TrackingReturnScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

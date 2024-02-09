@@ -8,10 +8,10 @@ import '../../../../utils/style/app_style.dart';
 
 class TutorialVaSection extends StatelessWidget {
   const TutorialVaSection({
-    Key? key,
+    super.key,
     required this.data,
     required this.index,
-  }) : super(key: key);
+  });
 
   final TutorialPaymentVaModel data;
   final int index;

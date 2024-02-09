@@ -14,7 +14,7 @@ import 'controllers/notification.controller.dart';
 import 'section/app_bar_section.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +29,7 @@ class NotificationScreen extends GetView<NotificationController> {
                   builderDelegate: PagedChildBuilderDelegate<NotificationData>(
                     itemBuilder: (context, item, index) => CardNotification(
                       data: item,
+                      onTap: () => controller.onTapNotification(item),
                     ),
                     newPageProgressIndicatorBuilder: InfinitiPage.progress,
                     firstPageProgressIndicatorBuilder: InfinitiPage.progress,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,7 @@ import 'controllers/order.controller.dart';
 import 'section/list_order_section.dart';
 
 class OrderScreen extends GetView<OrderController> {
-  const OrderScreen({Key? key}) : super(key: key);
+  const OrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

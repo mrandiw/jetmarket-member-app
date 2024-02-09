@@ -11,7 +11,7 @@ import 'section/button_section.dart';
 import 'section/detail_section.dart';
 
 class TabunganPaymentScreen extends GetView<TabunganPaymentController> {
-  const TabunganPaymentScreen({Key? key}) : super(key: key);
+  const TabunganPaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

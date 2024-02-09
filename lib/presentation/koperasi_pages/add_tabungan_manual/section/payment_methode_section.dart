@@ -35,24 +35,19 @@ class PaymentMethodeSection extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Virtual Account', style: text12BlackRegular),
+                    Text('Virtual Account', style: text12BlackSemiBold),
                     Visibility(
                       visible: !controller.isBankTransferExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
+                              controller.savingPaymentMethode!.virtualAccount!
                                           .length >=
                                       3
                                   ? 3
-                                  : controller.savingPaymentMethode!.items!
-                                      .where(
-                                          (e) => e.chType == 'VIRTUAL_ACCOUNT')
-                                      .length, (index) {
+                                  : controller.savingPaymentMethode!
+                                      .virtualAccount!.length, (index) {
                         if (index == 2 &&
-                            controller.savingPaymentMethode!.items!
-                                    .where((e) => e.chType == 'VIRTUAL_ACCOUNT')
+                            controller.savingPaymentMethode!.virtualAccount!
                                     .length >
                                 3) {
                           return Container(
@@ -61,11 +56,10 @@ class PaymentMethodeSection extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: kWhite,
                                 borderRadius: AppStyle.borderRadius8All,
-                                border: AppStyle.borderAll,
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.items!.where((e) => e.chType == 'VIRTUAL_ACCOUNT').length - 2}",
+                              "+${controller.savingPaymentMethode!.virtualAccount!.length - 2}",
                               style: text11HintMedium,
                             )),
                           );
@@ -73,21 +67,20 @@ class PaymentMethodeSection extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.only(right: 4.w),
                           child: Container(
-                              height: 26.h,
-                              width: 44.w,
-                              padding: EdgeInsets.all(4.r),
-                              decoration: BoxDecoration(
-                                  color: kWhite,
-                                  border: AppStyle.borderAll,
-                                  borderRadius: AppStyle.borderRadius8All,
-                                  boxShadow: [AppStyle.boxShadowSmall]),
-                              child: Image.asset(controller.assetImage(
-                                  controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
-                                          .chCode ??
-                                      ''))),
+                            height: 26.h,
+                            width: 44.w,
+                            padding: EdgeInsets.all(4.r),
+                            decoration: BoxDecoration(
+                                color: kWhite,
+                                border: AppStyle.borderAll,
+                                borderRadius: AppStyle.borderRadius8All,
+                                boxShadow: [AppStyle.boxShadowSmall]),
+                            child: Image.asset(controller.assetImage(controller
+                                    .savingPaymentMethode
+                                    ?.virtualAccount?[index]
+                                    .chCode ??
+                                '')),
+                          ),
                         );
                       })),
                     )
@@ -101,35 +94,22 @@ class PaymentMethodeSection extends StatelessWidget {
                       runSpacing: 6.r,
                       spacing: 6.r,
                       children: List.generate(
-                          controller.savingPaymentMethode?.items
-                                  ?.where((e) => e.chType == 'VIRTUAL_ACCOUNT')
-                                  .length ??
+                          controller.savingPaymentMethode?.virtualAccount
+                                  ?.length ??
                               0,
                           (index) => GestureDetector(
                               onTap: () => controller.actionPayment(
-                                  controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
-                                          .id ??
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].id ??
                                       0,
-                                  controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
-                                          .chType ??
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].chType ??
                                       '',
-                                  controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
-                                          .chCode ??
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].chCode ??
                                       '',
-                                  controller.savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
-                                          .name ??
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].name ??
                                       ''),
                               child: Container(
                                 height: 36.h,
@@ -137,14 +117,8 @@ class PaymentMethodeSection extends StatelessWidget {
                                 padding: EdgeInsets.all(8.r),
                                 decoration: BoxDecoration(
                                     color: controller.selectedBankTransfer ==
-                                            controller
-                                                .savingPaymentMethode!.items!
-                                                .where((e) =>
-                                                    e.chType ==
-                                                    'VIRTUAL_ACCOUNT')
-                                                .elementAt(index)
-                                                .id
-                                                .toString()
+                                            controller.savingPaymentMethode
+                                                ?.virtualAccount?[index].chCode
                                         ? kNormalAccentColor2
                                         : kWhite,
                                     border: AppStyle.borderAll,
@@ -152,10 +126,8 @@ class PaymentMethodeSection extends StatelessWidget {
                                     boxShadow: [AppStyle.boxShadowSmall]),
                                 child: Image.asset(
                                   controller.getImage(controller
-                                          .savingPaymentMethode!.items!
-                                          .where((e) =>
-                                              e.chType == 'VIRTUAL_ACCOUNT')
-                                          .elementAt(index)
+                                          .savingPaymentMethode
+                                          ?.virtualAccount?[index]
                                           .chCode ??
                                       ''),
                                   fit: BoxFit.contain,
@@ -188,23 +160,20 @@ class PaymentMethodeSection extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('E-Wallets/QR Payments', style: text12BlackRegular),
+                    Text('E-Wallets/QR Payments', style: text12BlackSemiBold),
                     Visibility(
                       visible: !controller.isEwalletExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.items!
-                                          .where((e) => e.chType == 'EWALLET')
+                              controller.savingPaymentMethode!.ewalletQr!
                                           .length >=
                                       3
                                   ? 2
-                                  : controller.savingPaymentMethode!.items!
-                                      .where((e) => e.chType == 'EWALLET')
-                                      .length, (index) {
+                                  : controller.savingPaymentMethode?.ewalletQr
+                                          ?.length ??
+                                      0, (index) {
                         if (index == 1 &&
-                            controller.savingPaymentMethode!.items!
-                                    .where((e) => e.chType == 'EWALLET')
-                                    .length >
+                            controller.savingPaymentMethode!.ewalletQr!.length >
                                 1) {
                           return Container(
                             height: 26.h,
@@ -216,7 +185,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.items!.where((e) => e.chType == 'EWALLET').length - 2}",
+                              "+${controller.savingPaymentMethode!.ewalletQr!.length - 2}",
                               style: text11HintMedium,
                             )),
                           );
@@ -234,9 +203,8 @@ class PaymentMethodeSection extends StatelessWidget {
                                 borderRadius: AppStyle.borderRadius8All,
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Image.asset(controller.assetImage(controller
-                                    .savingPaymentMethode!.items!
-                                    .where((e) => e.chType == 'EWALLET')
-                                    .elementAt(index)
+                                    .savingPaymentMethode
+                                    ?.ewalletQr?[index]
                                     .chCode ??
                                 '')),
                           ),
@@ -253,39 +221,30 @@ class PaymentMethodeSection extends StatelessWidget {
                       runSpacing: 6.r,
                       spacing: 6.r,
                       children: List.generate(
-                          controller.savingPaymentMethode!.items!
-                              .where((e) => e.chType == 'EWALLET')
-                              .length, (index) {
+                          controller.savingPaymentMethode?.ewalletQr?.length ??
+                              0, (index) {
                         // String assets = index ==
-                        //         controller.savingPaymentMethode!.items!.where((e) => e.chType=='').ewalletQr!
+                        //         controller.savingPaymentMethode!.ewalletQr!
                         //                 .length -
                         //             1
                         //     ? 'qris'
-                        //     : controller.paymentMethodes?.ewalletQr?[index]
-                        //             .chCode ??
+                        //     : controller.savingPaymentMethode
+                        //             ?.ewalletQr?[index].chCode ??
                         //         '';
                         return GestureDetector(
                           onTap: () {
                             controller.actionPayment(
-                                controller.savingPaymentMethode!.items!
-                                        .where((e) => e.chType == 'EWALLET')
-                                        .elementAt(index)
-                                        .id ??
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].id ??
                                     0,
-                                controller.savingPaymentMethode!.items!
-                                        .where((e) => e.chType == 'EWALLET')
-                                        .elementAt(index)
-                                        .chType ??
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].chType ??
                                     '',
-                                controller.savingPaymentMethode!.items!
-                                        .where((e) => e.chType == 'EWALLET')
-                                        .elementAt(index)
-                                        .chCode ??
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].chCode ??
                                     '',
-                                controller.savingPaymentMethode!.items!
-                                        .where((e) => e.chType == 'EWALLET')
-                                        .elementAt(index)
-                                        .name ??
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].name ??
                                     '');
                           },
                           child: Container(
@@ -294,11 +253,11 @@ class PaymentMethodeSection extends StatelessWidget {
                             padding: EdgeInsets.all(8.r),
                             decoration: BoxDecoration(
                                 color: controller.selectedEwallet ==
-                                        controller.savingPaymentMethode!.items!
-                                            .where((e) => e.chType == 'EWALLET')
-                                            .elementAt(index)
-                                            .id
-                                            .toString()
+                                            controller.savingPaymentMethode
+                                                ?.ewalletQr?[index].chCode &&
+                                        controller.selectedChType ==
+                                            controller.savingPaymentMethode
+                                                ?.ewalletQr?[index].chType
                                     ? kNormalAccentColor2
                                     : kWhite,
                                 border: AppStyle.borderAll,
@@ -309,17 +268,12 @@ class PaymentMethodeSection extends StatelessWidget {
                                 image: DecorationImage(
                                     image: AssetImage(index ==
                                             controller.savingPaymentMethode!
-                                                    .items!
-                                                    .where((e) =>
-                                                        e.chType == 'EWALLET')
-                                                    .length -
+                                                    .ewalletQr!.length -
                                                 1
                                         ? 'assets/images/qris.png'
                                         : controller.getImage(controller
-                                                .savingPaymentMethode!.items!
-                                                .where((e) =>
-                                                    e.chType == 'EWALLET')
-                                                .elementAt(index)
+                                                .savingPaymentMethode
+                                                ?.ewalletQr?[index]
                                                 .chCode ??
                                             ''))),
                               ),
@@ -350,36 +304,27 @@ class PaymentMethodeSection extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Retail Outlets', style: text12BlackRegular),
+                    Text('Retail Outlets', style: text12BlackSemiBold),
                     Visibility(
                       visible: !controller.isRetailExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.items!
-                                          .where((e) => e.chType == 'OTC')
-                                          .length >=
-                                      3
+                              controller.savingPaymentMethode!.otc!.length >= 3
                                   ? 3
-                                  : controller.savingPaymentMethode!.items!
-                                      .where((e) => e.chType == 'OTC')
+                                  : controller.savingPaymentMethode!.otc!
                                       .length, (index) {
                         if (index == 2 &&
-                            controller.savingPaymentMethode!.items!
-                                    .where((e) => e.chType == 'OTC')
-                                    .length >
-                                3) {
+                            controller.savingPaymentMethode!.otc!.length > 3) {
                           return Container(
                             height: 26.h,
                             width: 44.w,
-                            padding: AppStyle.paddingSide8,
                             decoration: BoxDecoration(
                                 color: kWhite,
-                                border: AppStyle.borderAll,
                                 borderRadius: AppStyle.borderRadius8All,
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.items!.where((e) => e.chType == 'OTC').length - 1}",
+                              "+${controller.savingPaymentMethode!.otc!.length - 1}",
                               style: text11HintMedium,
                             )),
                           );
@@ -390,17 +335,12 @@ class PaymentMethodeSection extends StatelessWidget {
                           child: Container(
                             height: 26.h,
                             width: 44.w,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
                             decoration: BoxDecoration(
                                 color: kWhite,
-                                border: AppStyle.borderAll,
                                 borderRadius: AppStyle.borderRadius8All,
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Image.asset(controller.assetImage(controller
-                                    .savingPaymentMethode!.items!
-                                    .where((e) => e.chType == 'OTC')
-                                    .elementAt(index)
-                                    .chCode ??
+                                    .savingPaymentMethode?.otc?[index].chCode ??
                                 '')),
                           ),
                         );
@@ -414,32 +354,22 @@ class PaymentMethodeSection extends StatelessWidget {
                 children: [
                   Row(
                       children: List.generate(
-                          controller.savingPaymentMethode!.items!
-                              .where((e) => e.chType == 'OTC')
-                              .length,
+                          controller.savingPaymentMethode?.otc?.length ?? 0,
                           (index) => Padding(
                                 padding: EdgeInsets.only(right: 8.w),
                                 child: GestureDetector(
                                   onTap: () => controller.actionPayment(
-                                      controller.savingPaymentMethode!.items!
-                                              .where((e) => e.chType == 'OTC')
-                                              .elementAt(index)
-                                              .id ??
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].id ??
                                           0,
-                                      controller.savingPaymentMethode!.items!
-                                              .where((e) => e.chType == 'OTC')
-                                              .elementAt(index)
-                                              .chType ??
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].chType ??
                                           '',
-                                      controller.savingPaymentMethode!.items!
-                                              .where((e) => e.chType == 'OTC')
-                                              .elementAt(index)
-                                              .chCode ??
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].chCode ??
                                           '',
-                                      controller.savingPaymentMethode!.items!
-                                              .where((e) => e.chType == 'OTC')
-                                              .elementAt(index)
-                                              .name ??
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].name ??
                                           ''),
                                   child: Container(
                                       height: 36.h,
@@ -448,13 +378,9 @@ class PaymentMethodeSection extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           color: controller.selectedRetail ==
                                                   controller
-                                                      .savingPaymentMethode!
-                                                      .items!
-                                                      .where((e) =>
-                                                          e.chType == 'OTC')
-                                                      .elementAt(index)
-                                                      .id
-                                                      .toString()
+                                                      .savingPaymentMethode
+                                                      ?.otc?[index]
+                                                      .chCode
                                               ? kNormalAccentColor2
                                               : kWhite,
                                           borderRadius:
@@ -462,9 +388,8 @@ class PaymentMethodeSection extends StatelessWidget {
                                           boxShadow: [AppStyle.boxShadowSmall]),
                                       child: Image.asset(
                                         controller.getImage(controller
-                                                .savingPaymentMethode!.items!
-                                                .where((e) => e.chType == 'OTC')
-                                                .elementAt(index)
+                                                .savingPaymentMethode
+                                                ?.otc?[index]
                                                 .chCode ??
                                             ''),
                                         fit: BoxFit.contain,

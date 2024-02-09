@@ -9,7 +9,7 @@ import 'controllers/detail_menabung.controller.dart';
 import 'section/app_bar_section.dart';
 
 class DetailMenabungScreen extends GetView<DetailMenabungController> {
-  const DetailMenabungScreen({Key? key}) : super(key: key);
+  const DetailMenabungScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

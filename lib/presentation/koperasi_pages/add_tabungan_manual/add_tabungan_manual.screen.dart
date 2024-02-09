@@ -12,7 +12,7 @@ import 'section/button_section.dart';
 import 'section/payment_methode_section.dart';
 
 class AddTabunganManualScreen extends GetView<AddTabunganManualController> {
-  const AddTabunganManualScreen({Key? key}) : super(key: key);
+  const AddTabunganManualScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

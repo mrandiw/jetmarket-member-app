@@ -10,7 +10,7 @@ import 'section/header_section.dart';
 import 'section/list_address_section.dart';
 
 class ListAddressScreen extends GetView<ListAddressController> {
-  const ListAddressScreen({Key? key}) : super(key: key);
+  const ListAddressScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

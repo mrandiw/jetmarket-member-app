@@ -78,6 +78,8 @@ class ItemHistory extends StatelessWidget {
         return 'Pending';
       case 'WAITING_APPROVAL':
         return 'Menunggu Konfirmasi';
+      case 'SUCCEEDED':
+        return 'Berhasil';
       default:
         return 'Dibatalkan';
     }

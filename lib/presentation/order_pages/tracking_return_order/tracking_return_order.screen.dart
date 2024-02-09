@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'controllers/tracking_return_order.controller.dart';
 
 class TrackingReturnOrderScreen extends GetView<TrackingReturnOrderController> {
-  const TrackingReturnOrderScreen({Key? key}) : super(key: key);
+  const TrackingReturnOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

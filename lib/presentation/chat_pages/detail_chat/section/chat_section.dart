@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
@@ -85,6 +84,7 @@ class ChatSection extends StatelessWidget {
                 controller: controller,
                 onHorizontalDragStart: (detail) {
                   var pinnedMessage = PinnedMessage(
+                      id: item.id,
                       senderId: item.sender?.id,
                       receiverId: item.receiver?.id,
                       text: item.text,

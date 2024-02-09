@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
@@ -22,24 +23,26 @@ class MainPagesController extends GetxController {
     update();
   }
 
-  // Future<bool> setupInteractedMessage() async {
-  //   RemoteMessage? initialMessage =
-  //       await FirebaseMessaging.instance.getInitialMessage();
-  //   if (initialMessage != null) {
-  //     await updateUnreadNotification();
-  //     _handleMessage(initialMessage);
-  //     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  Future<bool> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      await updateUnreadNotification();
+      _handleMessage(initialMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  // void _handleMessage(RemoteMessage message) async {
-  //   if (message.notification != null) {
-  //     log(message.notification?.body ?? 'o');
-  //   }
-  // }
+  void _handleMessage(RemoteMessage message) async {
+    if (message.notification != null) {
+      log("${message.data}");
+      log("${message.data['pagelink']}");
+      log(message.notification?.body ?? 'o');
+    }
+  }
 
   Future<void> updateUnreadNotification() async {
     final controller =
@@ -151,6 +154,7 @@ class MainPagesController extends GetxController {
   void onInit() {
     setEmploye();
     updateUnreadNotification();
+    setupInteractedMessage();
     super.onInit();
   }
 }

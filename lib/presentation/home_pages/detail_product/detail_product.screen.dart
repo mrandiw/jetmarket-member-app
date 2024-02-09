@@ -16,7 +16,7 @@ import 'section/header_section.dart';
 import 'section/store_section.dart';
 
 class DetailProductScreen extends GetView<DetailProductController> {
-  const DetailProductScreen({Key? key}) : super(key: key);
+  const DetailProductScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

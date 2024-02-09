@@ -9,7 +9,7 @@ import 'section/code_referral_section.dart';
 import 'section/history_section.dart';
 
 class ReferralScreen extends GetView<ReferralController> {
-  const ReferralScreen({Key? key}) : super(key: key);
+  const ReferralScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,23 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/params/notification/notification_param.dart';
 
 import '../../../domain/core/interfaces/notification_repository.dart';
 import '../../../domain/core/model/model_data/notification.dart';
+import '../../../infrastructure/navigation/routes.dart';
+import '../../../utils/network/status_response.dart';
 
 class NotificationController extends GetxController {
   final NotificationRepository _notificationRepository;
-  NotificationController(this._notificationRepository);
+  final ChatRepository _chatRepository;
+  NotificationController(this._notificationRepository, this._chatRepository);
   static const _pageSize = 10;
 
   PagingController<int, NotificationData> pagingController =
       PagingController(firstPageKey: 1);
+
+  int unreadChat = 0;
 
   Future<void> getNotification(int pageKey) async {
     try {
@@ -29,12 +35,44 @@ class NotificationController extends GetxController {
     }
   }
 
+  Future<void> getUnreadChat() async {
+    final response = await _chatRepository.getUnreadChat();
+    if (response.status == StatusResponse.success) {
+      unreadChat = response.result!;
+      update();
+    }
+  }
+
   Future<void> refreshData() async {
     await Future.delayed(2.seconds, () {});
   }
 
+  void onTapNotification(NotificationData data) {
+    switch (data.path) {
+      case 'chat':
+        Get.toNamed(Routes.DETAIL_CHAT);
+      case 'order':
+        Get.toNamed(Routes.DETAIL_ORDER, arguments: [data.pathId, null]);
+      case 'withdraw':
+        Get.toNamed(Routes.CHATS);
+      case 'topup':
+        Get.toNamed(Routes.CHATS);
+      case 'loan-propose':
+        Get.toNamed(Routes.CHATS);
+      case 'loan-bill':
+        Get.toNamed(Routes.CHATS);
+      case 'saving':
+        Get.toNamed(Routes.CHATS);
+      case 'referral':
+        Get.toNamed(Routes.CHATS);
+      default:
+        break;
+    }
+  }
+
   @override
   void onInit() {
+    getUnreadChat();
     pagingController.addPageRequestListener((page) {
       getNotification(page);
     });

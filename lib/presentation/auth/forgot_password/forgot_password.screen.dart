@@ -10,7 +10,7 @@ import 'section/form_section.dart';
 import 'section/header_section.dart';
 
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+  const ForgotPasswordScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

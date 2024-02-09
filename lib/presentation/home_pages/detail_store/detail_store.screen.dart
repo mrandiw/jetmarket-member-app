@@ -11,7 +11,7 @@ import 'controllers/detail_store.controller.dart';
 import 'section/product_section.dart';
 
 class DetailStoreScreen extends GetView<DetailStoreController> {
-  const DetailStoreScreen({Key? key}) : super(key: key);
+  const DetailStoreScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,10 +26,10 @@ class DetailStoreScreen extends GetView<DetailStoreController> {
   }
 
   Widget _succesPage() {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backToDetailProduct();
-        return true;
       },
       child: Scaffold(
         backgroundColor: kWhite,

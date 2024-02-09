@@ -8,8 +8,7 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 class CustomStepperRefund extends StatelessWidget {
   final int currentStep;
 
-  const CustomStepperRefund({Key? key, required this.currentStep})
-      : super(key: key);
+  const CustomStepperRefund({super.key, required this.currentStep});
 
   @override
   Widget build(BuildContext context) {

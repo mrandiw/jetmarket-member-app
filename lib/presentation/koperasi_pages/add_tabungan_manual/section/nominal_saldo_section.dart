@@ -43,10 +43,10 @@ class NominalSaldoSection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(controller.savingPaymentMethode?.saldo?.title ?? '',
+                  Text(controller.savingPaymentMethode?.saldo?[0].name ?? '',
                       style: text12BlackRegular),
                   Text(
-                      'Saldo :${'${controller.savingPaymentMethode?.saldo?.total}'.toIdrFormat}',
+                      'Saldo : ${'${controller.savingPaymentMethode?.saldo?[0].amount}'.toIdrFormat}',
                       style: text12NormalRegular)
                 ],
               ),

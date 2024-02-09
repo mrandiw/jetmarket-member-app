@@ -11,7 +11,7 @@ import 'section/detail_refund_section.dart';
 import 'section/status_section.dart';
 
 class RincianRefundScreen extends GetView<RincianRefundController> {
-  const RincianRefundScreen({Key? key}) : super(key: key);
+  const RincianRefundScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

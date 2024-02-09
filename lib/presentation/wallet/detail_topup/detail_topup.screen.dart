@@ -10,7 +10,7 @@ import 'controllers/detail_topup.controller.dart';
 import 'section/app_bar_section.dart';
 
 class DetailTopupScreen extends GetView<DetailTopupController> {
-  const DetailTopupScreen({Key? key}) : super(key: key);
+  const DetailTopupScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

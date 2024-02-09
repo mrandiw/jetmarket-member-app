@@ -10,7 +10,7 @@ import '../../../components/parent/parent_scaffold.dart';
 import 'controllers/detail_withdraw.controller.dart';
 
 class DetailWithdrawScreen extends GetView<DetailWithdrawController> {
-  const DetailWithdrawScreen({Key? key}) : super(key: key);
+  const DetailWithdrawScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

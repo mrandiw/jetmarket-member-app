@@ -8,7 +8,7 @@ import 'controllers/tagihan_bulanan_pinjaman.controller.dart';
 
 class TagihanBulananPinjamanScreen
     extends GetView<TagihanBulananPinjamanController> {
-  const TagihanBulananPinjamanScreen({Key? key}) : super(key: key);
+  const TagihanBulananPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

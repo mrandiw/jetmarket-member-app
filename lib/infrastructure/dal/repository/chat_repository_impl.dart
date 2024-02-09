@@ -15,6 +15,7 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../domain/core/model/model_data/check_existing_model.dart';
 import '../../../domain/core/model/model_data/create_chat_model.dart';
+import '../../../domain/core/model/params/chat/chat_update_param.dart';
 import '../../../domain/core/model/params/chat/check_existing_param.dart';
 import '../../../domain/core/model/params/chat/create_chat_param.dart';
 import '../../../utils/network/code_response.dart';
@@ -51,7 +52,6 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await RemoteProvider.get(
           path: Endpoint.chat, queryParameters: {'page': page, 'size': size});
       List<dynamic> datas = response.data['data']['items'];
-      print(datas);
       return DataState<List<ListChatModel>>(
           result: datas.map((e) => ListChatModel.fromJson(e)).toList(),
           status: StatusCodeResponse.cek(response: response, showLogs: true));
@@ -208,8 +208,8 @@ class ChatRepositoryImpl implements ChatRepository {
       Map<String, dynamic> data = {};
       await docRef.set(data);
       return DataState(result: true);
-    } on DioException catch (e) {
-      return CustomException<bool>().dio(e);
+    } on FirebaseException catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -275,40 +275,6 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
-  // @override
-  // Stream<List<ChatModel>> streamChatFromStore(String id) {
-  //   try {
-  //     final documentReference = _chatCollection.doc(id);
-
-  //     return documentReference
-  //         .snapshots()
-  //         .asyncMap((DocumentSnapshot snapshot) {
-  //       final data = snapshot.data();
-  //       String? firstKey;
-  //       Map<String, dynamic>? dataMap;
-  //       if (data != null && data is Map) {
-  //         dataMap = Map<String, dynamic>.from(data);
-  //         if (dataMap.isNotEmpty) {
-  //           firstKey = dataMap.keys.first;
-  //         }
-  //       }
-  //       List<Map<String, dynamic>> resultList;
-  //       if (firstKey != null) {
-  //         resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-  //       } else {
-  //         resultList = [];
-  //       }
-  //       final chatList = resultList
-  //           .map((e) => ChatModel.fromJson(e)..fromStore = true)
-  //           .toList();
-
-  //       return chatList;
-  //     });
-  //   } on FirebaseException catch (e) {
-  //     throw Exception(e.message);
-  //   }
-  // }
-
   @override
   Future<DataState<bool>> sendMessage(
       {required String documentTitle,
@@ -352,6 +318,35 @@ class ChatRepositoryImpl implements ChatRepository {
       return DataState(result: true, message: 'Success');
     } on FirebaseException catch (e) {
       return DataState(result: false, message: e.message.toString());
+    }
+  }
+
+  @override
+  Future<DataState<int>> getUnreadChat() async {
+    try {
+      final response = await RemoteProvider.get(path: Endpoint.chatUnreadChat);
+      return DataState<int>(
+        status: StatusCodeResponse.cek(response: response),
+        result: response.data['data']['unread_count'],
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<int>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<bool>> updateChat(ChatUpdateParam param) async {
+    try {
+      final response = await RemoteProvider.post(
+          path: '${Endpoint.chat}/${param.chatId}', data: param.toJson());
+      return DataState<bool>(
+        status: StatusCodeResponse.cek(response: response),
+        result: true,
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<bool>().dio(e);
     }
   }
 }

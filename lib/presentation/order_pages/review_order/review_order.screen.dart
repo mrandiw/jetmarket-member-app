@@ -11,7 +11,7 @@ import 'section/app_bar_section.dart';
 import 'section/button_section.dart';
 
 class ReviewOrderScreen extends GetView<ReviewOrderController> {
-  const ReviewOrderScreen({Key? key}) : super(key: key);
+  const ReviewOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,10 +26,10 @@ class ReviewOrderScreen extends GetView<ReviewOrderController> {
   }
 
   Widget successWidget(ReviewOrderController controller) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
         controller.backToOrder();
-        return true;
       },
       child: Scaffold(
         appBar: appBarDetailOrderReview,

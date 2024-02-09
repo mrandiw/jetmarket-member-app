@@ -7,7 +7,7 @@ import 'controllers/choice_delivery.controller.dart';
 import 'section/list_packet.dart';
 
 class ChoiceDeliveryScreen extends GetView<ChoiceDeliveryController> {
-  const ChoiceDeliveryScreen({Key? key}) : super(key: key);
+  const ChoiceDeliveryScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

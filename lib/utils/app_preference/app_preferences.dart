@@ -26,9 +26,18 @@ class AppPreference {
   final String _countDownPaymentTopupWallet = 'count_down_payment_topup_wallet';
   final String _countDownPaylaterPayment = 'count_down_paylater_payment';
   final String _countDownOrder = 'count_down_order';
-
   final String _trxId = 'trx_id';
   final String _address = 'address';
+  final String _registerComplite = 'register_complite';
+  final String _currentPage = 'current-page';
+
+  Future<void> setCurrentPage(String? page) async {
+    await _prefs?.setString(_currentPage, page ?? 'no-define');
+  }
+
+  String? getCurrentPage() {
+    return _prefs?.getString(_currentPage);
+  }
 
   Future<void> saveCountDown(int countDown) async {
     int startTime = DateTime.now().millisecondsSinceEpoch;
@@ -75,7 +84,7 @@ class AppPreference {
         _countDownPaymentTopupWallet, json.encode(countDownMap));
   }
 
-    Future<void> saveCountDownPaymentPaylater(int countDown, String id) async {
+  Future<void> saveCountDownPaymentPaylater(int countDown, String id) async {
     int startTime = DateTime.now().millisecondsSinceEpoch;
     String? countDownData = _prefs?.getString(_countDownPaylaterPayment);
 
@@ -128,7 +137,7 @@ class AppPreference {
     return null;
   }
 
-    int? getCountDownPaymentPaylater(String id) {
+  int? getCountDownPaymentPaylater(String id) {
     String? countDownData = _prefs?.getString(_countDownPaylaterPayment);
 
     if (countDownData != null) {
@@ -139,6 +148,10 @@ class AppPreference {
     }
 
     return null;
+  }
+
+  Future<void> registerComplite() async {
+    await _prefs?.setBool(_registerComplite, true);
   }
 
   int? getCountDown() {
@@ -206,6 +219,10 @@ class AppPreference {
 
   bool? cekReferal() {
     return _prefs?.getBool(_isReferal);
+  }
+
+  bool? registerCompleted() {
+    return _prefs?.getBool(_registerComplite);
   }
 
   String? getPhoneNumber() {
@@ -281,6 +298,10 @@ class AppPreference {
 
   Future<void> clearAccessToken() async {
     await _prefs?.remove(_authTokenKey);
+  }
+
+  Future<void> cleanCurrentPage() async {
+    await _prefs?.remove(_currentPage);
   }
 
   Future<void> clearOnLogout() async {

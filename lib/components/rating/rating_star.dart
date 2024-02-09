@@ -5,7 +5,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 class RatingStars extends StatelessWidget {
   final double rating;
 
-  const RatingStars({Key? key, required this.rating}) : super(key: key);
+  const RatingStars({super.key, required this.rating});
 
   @override
   Widget build(BuildContext context) {

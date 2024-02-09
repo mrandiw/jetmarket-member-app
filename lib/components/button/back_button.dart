@@ -10,9 +10,9 @@ enum AppBackButtonType { normal, circle }
 
 class AppBackButton extends StatelessWidget {
   const AppBackButton._({
-    Key? key,
+    super.key,
     required this.type,
-  }) : super(key: key);
+  });
 
   factory AppBackButton.normal({
     Key? key,
