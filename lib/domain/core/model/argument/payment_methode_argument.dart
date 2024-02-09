@@ -1,7 +1,6 @@
 import '../model_data/payment_customer_model.dart';
 
 class PaymentMethodeArgument {
-  final int? id;
   final int? trxId;
   final String? status;
   final String? amount;
@@ -12,7 +11,7 @@ class PaymentMethodeArgument {
   final PaymentCustomerModel? data;
 
   PaymentMethodeArgument(
-      {this.id,
+      {
       this.trxId,
       this.status,
       this.amount,

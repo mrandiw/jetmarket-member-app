@@ -30,7 +30,6 @@ class PaymentRegisterController extends GetxController {
   String selectedBankTransfer = "";
   String selectedEwallet = "";
   String selectedRetail = "";
-  int selectedId = 0;
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
@@ -88,7 +87,8 @@ class PaymentRegisterController extends GetxController {
     String amount = AppPreference().cekReferal() == true ? '10000' : '25000';
     // String phoneNumber = AppPreference().getPhoneNumber() ?? '';
     var param = PaymentParam(
-        id: selectedId.toString(),
+        chType: selectedchType,
+        chCode: selectedchCode,
         amount: amount,
         mobileNumber: isPhoneValidated.value ? numberController.text : null);
     final response = await _paymentRepository.createPaymentCustomer(param);
@@ -117,11 +117,10 @@ class PaymentRegisterController extends GetxController {
     return "assets/images/${path.toLowerCase()}.png";
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(String chType, String chCode, String name) {
     selectedBankTransfer = chCode;
     selectedEwallet = chCode;
     selectedRetail = chCode;
-    selectedId = id;
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
@@ -136,7 +135,6 @@ class PaymentRegisterController extends GetxController {
 
   void toPaying(PaymentCustomerModel? data, String amount) {
     var argument = PaymentMethodeArgument(
-        id: selectedId,
         status: "register",
         amount: amount,
         chType: selectedchType,

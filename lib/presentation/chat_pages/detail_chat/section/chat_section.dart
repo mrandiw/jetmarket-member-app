@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
@@ -10,6 +9,7 @@ import 'package:jetmarket/presentation/chat_pages/detail_chat/widget/item_chat.d
 import 'package:jetmarket/presentation/chat_pages/detail_chat/widget/time_widget.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
+
 import '../../../../components/infiniti_page/infiniti_page.dart';
 import '../../../../utils/app_preference/app_preferences.dart';
 

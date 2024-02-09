@@ -1,13 +1,15 @@
 class PaymentParam {
-  final String id;
+  final String chType;
+  final String chCode;
   final String amount;
   final String? mobileNumber;
 
-  PaymentParam({required this.id, required this.amount, this.mobileNumber});
+  PaymentParam({required this.chType, required this.chCode, required this.amount, this.mobileNumber});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> map = {
-      'payment_method_id': id,
+      'ch_type': chType,
+      'ch_code': chCode,
       'amount': amount,
     };
 
