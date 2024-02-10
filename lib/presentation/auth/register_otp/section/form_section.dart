@@ -60,30 +60,35 @@ class FormSection extends StatelessWidget {
                         : null,
                   ),
                   Gap(72.h),
-                  Center(
-                    child: Obx(() => RichText(
-                            text: TextSpan(
-                                text: 'Belum menerima OTP ?\nKirim ulang Dalam ',
-                                style: text14BlackRegular,
-                                children: [
-                              TextSpan(
-                                  text: controller.countdownSendOtp.value,
-                                  style: text14BlackSemiBold)
-                            ]))),
-                  ),
-                  Gap(72.h),
-                  Center(
-                    child: Obx(() => GestureDetector(
-                        onTap: controller.isCountdownSendOtpRun.value
-                            ? null
-                            : () => controller.sendOtp(),
-                        child: Text(
-                          'Kirim Ulang',
-                          style: controller.isCountdownSendOtpRun.value
-                              ? text14HintBold
-                              : text14NormalBold,
-                        ))),
-                  )
+                  Obx(() => Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Visibility(
+                            visible: controller.isCountdownSendOtpRun.value,
+                            child: RichText(
+                                text: TextSpan(
+                                    text:
+                                        'Belum menerima OTP ?\nKirim ulang Dalam ',
+                                    style: text14BlackRegular,
+                                    children: [
+                                  TextSpan(
+                                      text: controller.countdownSendOtp.value,
+                                      style: text14BlackSemiBold)
+                                ])),
+                          ),
+                          Visibility(
+                              visible: !controller.isCountdownSendOtpRun.value,
+                              child: GestureDetector(
+                                  onTap: () => controller.sendOtp(),
+                                  child: Text(
+                                    'Kirim Ulang',
+                                    style:
+                                        controller.isCountdownSendOtpRun.value
+                                            ? text14HintBold
+                                            : text14NormalBold,
+                                  )))
+                        ],
+                      )),
                 ],
               );
             }),
