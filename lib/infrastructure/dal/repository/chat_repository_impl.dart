@@ -69,6 +69,10 @@ class ChatRepositoryImpl implements ChatRepository {
       );
       List<dynamic> datas = response.data['data']['items'];
       log("Total Chat : ${datas.length}");
+      final docSnapshot = await _chatCollection.doc("${param.id}").get();
+      if (docSnapshot.data() == null) {
+        createDocument(param.id);
+      } else {}
       return DataState<List<ChatModel>>(
           result: datas
               .map((e) => ChatModel.fromJson(e)..fromStore = false)
@@ -283,7 +287,8 @@ class ChatRepositoryImpl implements ChatRepository {
       final docSnapshot = await _chatCollection.doc(documentTitle).get();
       final now = DateTime.now();
       final formattedDate = DateFormat('yyyy-MM-dd').format(now);
-      final document = docSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> dataSnapshot = {};
+      dataSnapshot = docSnapshot.data() as Map<String, dynamic>;
       final querySnapshot = await _chatCollection.doc(documentTitle).get();
       final data = querySnapshot.data();
       String? firstKey;
@@ -303,13 +308,12 @@ class ChatRepositoryImpl implements ChatRepository {
       int nextIndex = resultList.length + 1;
       message['id'] = nextIndex;
       final messages = [message];
-      if (document.isEmpty) {
+      if (dataSnapshot.isEmpty) {
         await _chatCollection.doc(documentTitle).set({
           formattedDate: messages,
         });
       } else {
-        Map<String, dynamic> data =
-            json.decode(json.encode(docSnapshot.data()));
+        Map<String, dynamic> data = json.decode(json.encode(dataSnapshot));
         String key = data.keys.first;
         await _chatCollection
             .doc(documentTitle)

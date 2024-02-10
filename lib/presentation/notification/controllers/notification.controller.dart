@@ -4,6 +4,7 @@ import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/params/notification/notification_param.dart';
 
 import '../../../domain/core/interfaces/notification_repository.dart';
+import '../../../domain/core/model/argument/chat_room_argument.dart';
 import '../../../domain/core/model/model_data/notification.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../utils/network/status_response.dart';
@@ -50,7 +51,11 @@ class NotificationController extends GetxController {
   void onTapNotification(NotificationData data) {
     switch (data.path) {
       case 'chat':
-        Get.toNamed(Routes.DETAIL_CHAT, arguments: data.pathId);
+        Get.toNamed(Routes.DETAIL_CHAT,
+            arguments: ChatRoomArgument(
+              chatId: data.pathId,
+              fromRole: 'customer',
+            ));
       case 'order':
         Get.toNamed(Routes.DETAIL_ORDER, arguments: [data.pathId, null]);
       case 'withdraw':

@@ -36,7 +36,6 @@ class DetailChatController extends GetxController {
   var isChatDelet = false.obs;
   var selectedItemDelete = <ChatModel>[].obs;
   int _pageSize = 10;
-  int _currentPage = 0;
   Seller? seller;
   Variants? variants;
   bool isSendProduct = false;
@@ -67,6 +66,9 @@ class DetailChatController extends GetxController {
       if (pageKey > 0) {
         _pageSize = 10;
         response = await getChatFromApi(pageKey);
+        if (isFirst) {
+          serReciveIfNull();
+        }
       } else {
         await for (final data in getChatStream()) {
           response = data.reversed.toList();
@@ -109,6 +111,8 @@ class DetailChatController extends GetxController {
     var userData = AppPreference().getUserData()?.user;
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    var firstReceiver = pagingController
+        .itemList![pagingController.itemList!.length - 1].receiver;
     var product = PinnedProduct(
       image: dataArgument?.variants?.image,
       name: dataArgument?.variants?.name,
@@ -124,10 +128,10 @@ class DetailChatController extends GetxController {
         image: userData?.image,
         role: dataArgument?.fromRole);
     var receiver = Receiver(
-        id: dataArgument?.toId,
-        name: dataArgument?.name,
-        image: dataArgument?.image,
-        role: dataArgument?.toRole);
+        id: dataArgument?.toId ?? firstReceiver?.id,
+        name: dataArgument?.name ?? firstReceiver?.name,
+        image: dataArgument?.image ?? firstReceiver?.image,
+        role: dataArgument?.toRole ?? firstReceiver?.role);
     var dataChat = ChatModel(
         createdAt: formattedDate,
         deletedAt: null,
@@ -310,6 +314,19 @@ class DetailChatController extends GetxController {
     dataArgument = Get.arguments;
   }
 
+  serReciveIfNull() {
+    if (dataArgument?.toId == null) {
+      var firstReceiver = pagingController
+          .itemList![pagingController.itemList!.length - 1].receiver;
+      dataArgument?.toId = firstReceiver?.id;
+      dataArgument?.toRole = firstReceiver?.role;
+      dataArgument?.name = firstReceiver?.name;
+      dataArgument?.image = firstReceiver?.image;
+      update();
+    } else {}
+    isFirst = false;
+  }
+
   void slidePinChat(DragStartDetails detail, int index, bool sender,
       PinnedMessage pinnedChat) {
     indexSlide.value = index;
@@ -460,11 +477,7 @@ class DetailChatController extends GetxController {
     setupInteractedMessage();
     setData();
     pagingController.addPageRequestListener((page) {
-      _currentPage = page;
       getChat(page);
-      if (_currentPage == 1) {
-        isFirst = false;
-      }
     });
     listenToChatStream("${dataArgument?.chatId}");
     scrollController = ScrollController();
