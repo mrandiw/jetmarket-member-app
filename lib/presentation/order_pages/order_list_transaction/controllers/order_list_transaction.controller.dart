@@ -6,6 +6,7 @@ import 'package:jetmarket/utils/network/status_response.dart';
 import '../../../../domain/core/interfaces/order_repository.dart';
 import '../../../../domain/core/model/model_data/product_order_customer.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 class OrderListTransactionController extends GetxController {
   final OrderRepository _orderRepository;
@@ -13,7 +14,7 @@ class OrderListTransactionController extends GetxController {
   List<ProductOrderCustomer> products = [];
 
   Future<void> getListOrder(String id) async {
-    log("Jalan");
+    log(id);
     final response = await _orderRepository.getListOrderCustomer(id);
     if (response.status == StatusResponse.success) {
       products = response.result ?? [];
@@ -25,9 +26,18 @@ class OrderListTransactionController extends GetxController {
     Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null]);
   }
 
+  void bacAction() {
+    if (Get.arguments[1] != null) {
+      Get.offNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      Get.back();
+    }
+  }
+
   @override
   void onInit() {
-    getListOrder(Get.arguments);
+    getListOrder(Get.arguments[0]);
     super.onInit();
   }
 }

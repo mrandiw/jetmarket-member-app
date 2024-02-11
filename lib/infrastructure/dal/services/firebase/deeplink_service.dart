@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:get/get.dart';
 import '../../../../utils/global/constant.dart';
+import '../../../navigation/routes.dart';
 
 class DeeplinkService {
   static Future<String> getInitialLink() async {
@@ -9,12 +11,18 @@ class DeeplinkService {
     FirebaseDynamicLinks.instance.onLink.listen((event) {
       final Uri link = event.link;
       log("Link : $link");
-      log("Params : ${link.queryParameters['referral']}");
-      // if (link.queryParameters['referral'] != null) {
-      //   Get.offAllNamed(Routes.REGISTER,
-      //       arguments: link.queryParameters['referral']);
-      // }
-      argument = link.queryParameters['referral'] ?? '';
+      log("Params : ${link.queryParameters}");
+      if (link.queryParameters.containsKey('referral')) {
+        Get.offAllNamed(Routes.REGISTER,
+            arguments: link.queryParameters['referral']);
+        argument = link.queryParameters['referral'] ?? '';
+      } else {
+        Get.offAllNamed(Routes.DETAIL_PRODUCT, arguments: [
+          int.parse(link.queryParameters['id'] ?? ''),
+          'from-deeplink'
+        ]);
+        argument = link.queryParameters['id'] ?? '';
+      }
     }).onError((error) {});
     return argument ?? '';
   }
@@ -26,7 +34,7 @@ class DeeplinkService {
     if (initialLink != null) {
       final Uri deepLink = initialLink.link;
       log("Link : $deepLink");
-      log("Params : ${deepLink.queryParameters['referral']}");
+      log("Params : ${deepLink.queryParameters}");
       deeplinkArgument = deepLink.queryParameters['referral'] ?? '';
       return deepLink.queryParameters['referral'];
     } else {
@@ -34,15 +42,21 @@ class DeeplinkService {
     }
   }
 
-  static Future<String> createLink({required String code}) async {
+  static Future<String> createLink(
+      {required String code, required DeeplinkType type}) async {
+    String? paramsUrl;
+    if (type == DeeplinkType.register) {
+      paramsUrl = "register?referral=$code";
+    } else {
+      paramsUrl = "product?id=$code";
+    }
     final dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://jetmarketcustomer.page.link",
       androidParameters: const AndroidParameters(
           packageName: "com.jetmarket.customer", minimumVersion: 0),
       iosParameters: const IOSParameters(
           bundleId: "com.jetmarket.customer", minimumVersion: '0'),
-      link: Uri.parse(
-          "https://jetmarketcustomer.page.link/register?referral=$code"),
+      link: Uri.parse("https://jetmarketcustomer.page.link/$paramsUrl"),
     );
 
     final dynamicLink =
@@ -53,3 +67,5 @@ class DeeplinkService {
     return finalUrl;
   }
 }
+
+enum DeeplinkType { register, product }

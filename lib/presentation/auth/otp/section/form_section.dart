@@ -60,34 +60,39 @@ class FormSection extends StatelessWidget {
                         : null,
                   ),
                   Gap(72.h),
-                  Obx(() => Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Visibility(
-                            visible: controller.isCountdownSendOtpRun.value,
-                            child: RichText(
-                                text: TextSpan(
-                                    text:
-                                        'Belum menerima OTP ?\nKirim ulang Dalam ',
-                                    style: text14BlackRegular,
-                                    children: [
-                                  TextSpan(
-                                      text: controller.countdownSendOtp.value,
-                                      style: text14BlackSemiBold)
-                                ])),
-                          ),
-                          Visibility(
-                              visible: !controller.isCountdownSendOtpRun.value,
-                              child: GestureDetector(
-                                  onTap: () => controller.sendOtp(),
-                                  child: Text(
-                                    'Kirim Ulang',
-                                    style:
-                                        controller.isCountdownSendOtpRun.value
-                                            ? text14HintBold
-                                            : text14NormalBold,
-                                  )))
-                        ],
+                  Obx(() => Center(
+                        child: Column(
+                          children: [
+                            Visibility(
+                              visible: controller.isCountdownSendOtpRun.value,
+                              child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                      text:
+                                          'Belum menerima OTP ?\nKirim ulang Dalam ',
+                                      style: text14BlackRegular,
+                                      children: [
+                                        TextSpan(
+                                            text: controller
+                                                .countdownSendOtp.value,
+                                            style: text14BlackSemiBold)
+                                      ])),
+                            ),
+                            Visibility(
+                                visible:
+                                    !controller.isCountdownSendOtpRun.value,
+                                child: GestureDetector(
+                                    onTap: () => controller.sendOtp(),
+                                    child: Text(
+                                      'Kirim Ulang',
+                                      textAlign: TextAlign.center,
+                                      style:
+                                          controller.isCountdownSendOtpRun.value
+                                              ? text14HintBold
+                                              : text14NormalBold,
+                                    )))
+                          ],
+                        ),
                       )),
                 ],
               );

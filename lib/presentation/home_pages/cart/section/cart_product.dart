@@ -180,7 +180,6 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                         Text(
                           "Variasi: ${data?.variantName ?? '-'}",
                           style: text10BlackRegular,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

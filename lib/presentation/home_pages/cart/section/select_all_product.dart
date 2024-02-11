@@ -17,6 +17,9 @@ class SelectAllProduct extends StatelessWidget {
         child: Padding(
       padding: AppStyle.paddingSide16,
       child: GetBuilder<CartController>(builder: (controller) {
+        if (controller.isLoadingFirst) {
+          return const SizedBox.shrink();
+        }
         return Row(
           children: [
             SizedBox(
@@ -25,7 +28,7 @@ class SelectAllProduct extends StatelessWidget {
               child: Transform.scale(
                 scale: 1,
                 child: Checkbox(
-                    value: controller.selectAll,
+                    value: controller.isSelectedAllCart(),
                     activeColor: kPrimaryColor,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     visualDensity: VisualDensity.compact,

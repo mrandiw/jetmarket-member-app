@@ -25,8 +25,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
           path: Endpoint.paymentMethode, queryParameters: {'type': type.label});
       return DataState<PaymentMethodeModel>(
         status: StatusCodeResponse.cek(
-          response: response,
-        ),
+            response: response, showLogs: true, queryParams: true),
         result: PaymentMethodeModel.fromJson(response.data['data']),
       );
     } on DioException catch (e) {

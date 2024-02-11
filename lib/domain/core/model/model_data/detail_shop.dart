@@ -6,6 +6,8 @@ class DetailShop {
   String? address;
   double? lat;
   double? lng;
+  String? openAt;
+  String? closeAt;
 
   DetailShop(
       {this.id,
@@ -36,6 +38,8 @@ class DetailShop {
     } else {
       lng = json['lng'];
     }
+    openAt = json['open_at'];
+    closeAt = json['close_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +51,8 @@ class DetailShop {
     data['address'] = address;
     data['lat'] = lat;
     data['lng'] = lng;
+    data['open_at'] = openAt;
+    data['close_at'] = closeAt;
     return data;
   }
 }

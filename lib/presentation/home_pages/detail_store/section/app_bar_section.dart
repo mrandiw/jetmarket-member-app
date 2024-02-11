@@ -33,7 +33,10 @@ class AppBarDetailStore extends StatelessWidget {
       backgroundColor: kWhite,
       surfaceTintColor: kWhite,
       automaticallyImplyLeading: false,
-      expandedHeight: 246.hr,
+      expandedHeight: controller.detailShop?.openAt != "" &&
+              controller.detailShop?.closeAt != ""
+          ? 286.hr
+          : 246.hr,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [

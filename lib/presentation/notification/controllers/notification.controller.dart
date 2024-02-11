@@ -83,6 +83,7 @@ class NotificationController extends GetxController {
     pagingController.addPageRequestListener((page) {
       getNotification(page);
     });
+
     super.onInit();
   }
 }

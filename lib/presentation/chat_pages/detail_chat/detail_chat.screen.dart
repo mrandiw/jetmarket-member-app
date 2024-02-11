@@ -10,17 +10,18 @@ class DetailChatScreen extends GetView<DetailChatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const AppBarDetailChat(),
-        body: Stack(
-          children: [
-            GetBuilder<DetailChatController>(builder: (controller) {
-              return ChatSection(
-                controller: controller,
-                scrollController: controller.scrollController,
-              );
-            }),
-            MessageSection(controller: controller),
-          ],
-        ));
+      appBar: const AppBarDetailChat(),
+      body: Stack(
+        children: [
+          GetBuilder<DetailChatController>(builder: (controller) {
+            return ChatSection(
+              controller: controller,
+              scrollController: controller.scrollController,
+            );
+          }),
+          MessageSection(controller: controller),
+        ],
+      ),
+    );
   }
 }

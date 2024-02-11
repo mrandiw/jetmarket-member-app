@@ -17,12 +17,16 @@ class DeliveryItem extends StatelessWidget {
       required this.data,
       required this.sellerId,
       required this.isExpandedTile,
-      this.onExpansionChanged});
+      this.onExpansionChanged,
+      required this.indexDelivery,
+      this.excontroller});
 
   final List<DeliveryModel> data;
   final int sellerId;
   final bool isExpandedTile;
   final Function(bool)? onExpansionChanged;
+  final int indexDelivery;
+  final ExpansionTileController? excontroller;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +50,8 @@ class DeliveryItem extends StatelessWidget {
               tilePadding: EdgeInsets.zero,
               initiallyExpanded: isExpandedTile,
               onExpansionChanged: onExpansionChanged,
+              maintainState: isExpandedTile,
+              controller: excontroller,
               children: [
                 Container(
                   width: Get.width.wr,
@@ -76,6 +82,7 @@ class DeliveryItem extends StatelessWidget {
                                               arguments: [
                                                 sellerId,
                                                 packetsJson,
+                                                indexDelivery
                                               ]);
                                         },
                                         contentPadding: AppStyle.paddingSide12,

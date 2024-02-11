@@ -22,7 +22,7 @@ class AppConfig {
     });
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    await DeeplinkService.getLink();
+    await DeeplinkService.getInitialLink();
     await FirebaseApi().initNotification();
     await AppPreference.init();
     await RemoteProvider.init();

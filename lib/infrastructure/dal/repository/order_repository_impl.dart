@@ -31,6 +31,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<OrderCustomerPaymentModel>(
         status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: OrderCustomerPaymentModel.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<OrderCustomerPaymentModel>().dio(e);
@@ -44,10 +45,9 @@ class OrderRepositoryImpl implements OrderRepository {
           await RemoteProvider.get(path: Endpoint.orderWaitingCustomer);
       List<dynamic> datas = response.data['data'];
       return DataState<int>(
-        status: StatusCodeResponse.cek(
-          response: response,
-        ),
+        status: StatusCodeResponse.cek(response: response),
         result: datas.length,
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<int>().dio(e);
@@ -63,6 +63,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<List<WaitingPaymentModel>>(
         status: StatusCodeResponse.cek(response: response),
         result: datas.map((e) => WaitingPaymentModel.fromJson(e)).toList(),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<List<WaitingPaymentModel>>().dio(e);
@@ -78,6 +79,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<OrderCustomerPaymentModel>(
         status: StatusCodeResponse.cek(response: response),
         result: OrderCustomerPaymentModel.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<OrderCustomerPaymentModel>().dio(e);
@@ -92,6 +94,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<DetailOrderCustomer>(
         status: StatusCodeResponse.cek(response: response),
         result: DetailOrderCustomer.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<DetailOrderCustomer>().dio(e);
@@ -109,6 +112,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<List<ProductOrderCustomer>>(
         status: StatusCodeResponse.cek(response: response),
         result: datas.map((e) => ProductOrderCustomer.fromJson(e)).toList(),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<List<ProductOrderCustomer>>().dio(e);
@@ -126,6 +130,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<List<OrderProductModel>>(
         status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<List<OrderProductModel>>().dio(e);
@@ -140,6 +145,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<String>(
         status: StatusCodeResponse.cek(response: response),
         result: response.data['data'],
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<String>().dio(e);
@@ -154,6 +160,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<TrackingRefundModel>(
         status: StatusCodeResponse.cek(response: response),
         result: TrackingRefundModel.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<TrackingRefundModel>().dio(e);
@@ -168,6 +175,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<SubmitRefundModel>(
         status: StatusCodeResponse.cek(response: response),
         result: SubmitRefundModel.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<SubmitRefundModel>().dio(e);
@@ -181,10 +189,9 @@ class OrderRepositoryImpl implements OrderRepository {
           path: '${Endpoint.orderCustomer}/${param.id}/refund',
           data: param.body?.toMap());
       return DataState<DetailRefundModel>(
-        status: StatusCodeResponse.cek(response: response),
-        result: DetailRefundModel.fromJson(response.data['data']),
-        message: response.data['message'],
-      );
+          status: StatusCodeResponse.cek(response: response),
+          result: DetailRefundModel.fromJson(response.data['data']),
+          message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<DetailRefundModel>().dio(e);
     }
@@ -228,6 +235,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<TrackingOrderModel>(
         status: StatusCodeResponse.cek(response: response),
         result: TrackingOrderModel.fromJson(response.data['data']),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<TrackingOrderModel>().dio(e);
@@ -245,6 +253,7 @@ class OrderRepositoryImpl implements OrderRepository {
       return DataState<List<OrderProductModel>>(
         status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<List<OrderProductModel>>().dio(e);

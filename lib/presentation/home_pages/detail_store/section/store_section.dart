@@ -54,8 +54,48 @@ class StoreSection extends StatelessWidget {
                           ),
                         ),
                       )),
-              title: Text(controller.detailShop?.name ?? '',
-                  style: text14BlackMedium),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(controller.detailShop?.name ?? '',
+                      style: text14BlackMedium),
+                  Gap(2.h),
+                  Visibility(
+                    visible: controller.detailShop?.openAt != "" &&
+                        controller.detailShop?.closeAt != "",
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 3.r,
+                          backgroundColor: kSuccessColor,
+                        ),
+                        Gap(8.w),
+                        Text(
+                          'Online',
+                          style: text11SuccessRegular,
+                        )
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.detailShop?.openAt == "" &&
+                        controller.detailShop?.closeAt == "",
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 3.r,
+                          backgroundColor: kSoftGrey,
+                        ),
+                        Gap(8.w),
+                        Text(
+                          'Sedang Tutup',
+                          style: text11HintRegular.copyWith(color: kSoftGrey),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               trailing: SizedBox(
                 width: 90.wr,
                 child: Column(
@@ -101,6 +141,23 @@ class StoreSection extends StatelessWidget {
                 ],
               ),
             ),
+            Visibility(
+                visible: controller.detailShop?.openAt != "" &&
+                    controller.detailShop?.closeAt != "",
+                child: Padding(
+                    padding:
+                        EdgeInsets.only(top: 12.h, left: 12.w, right: 12.w),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(timeLine),
+                        Gap(8.w),
+                        Expanded(
+                          child: Text(
+                              'Jam Operational (${controller.detailShop?.openAt} - ${controller.detailShop?.openAt} WIB)',
+                              style: text11GreyRegular),
+                        ),
+                      ],
+                    ))),
             Gap(16.h),
           ],
         ),

@@ -68,7 +68,7 @@ class HomeScreen extends GetView<HomeController> {
     return WillPopScope(
       onWillPop: () async {
         controller.seeAllPopular();
-        return true;
+        return false;
       },
       child: Scaffold(
           appBar: appBarHome,

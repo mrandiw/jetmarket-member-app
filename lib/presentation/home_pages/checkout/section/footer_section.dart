@@ -27,14 +27,26 @@ class FooterSection extends StatelessWidget {
                   offset: const Offset(0, -6))
             ]),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Total Pembayaran', style: text14HintRegular),
                 Text('${controller.totalPrice.toInt()}'.toIdrFormat,
-                    style: text20BlackSemiBold)
+                    style: text14PrimarySemiBold),
+                Visibility(
+                  visible: controller.discount > 0,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: Text(
+                        '${controller.totalPriceWithoutVoucher.toInt()}'
+                            .toIdrFormat,
+                        style: text10lineThroughRegular),
+                  ),
+                ),
               ],
             )),
             AppButton.primary(

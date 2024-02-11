@@ -30,9 +30,8 @@ class CartScreen extends GetView<CartController> {
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<CartProduct>(
                   itemBuilder: (context, item, index) {
-                    var data = controller.productCart[index];
                     return CardProduct(
-                      data: data,
+                      data: item,
                       index: index,
                     );
                   },

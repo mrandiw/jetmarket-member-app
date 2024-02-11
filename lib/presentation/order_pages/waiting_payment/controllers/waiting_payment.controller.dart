@@ -28,7 +28,7 @@ class WaitingPaymentController extends GetxController {
   }
 
   void toListOrder(String id) {
-    Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: id);
+    Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: [id, null]);
   }
 
   @override

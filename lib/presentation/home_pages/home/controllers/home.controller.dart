@@ -176,6 +176,7 @@ class HomeController extends GetxController {
     searchActived = false;
     update();
     isHomeScreen.value = !isHomeScreen.value;
+
     if (isHomeScreen.value == true) {
       pagingController.refresh();
       pagingPopularController.refresh();
@@ -259,16 +260,16 @@ class HomeController extends GetxController {
   }
 
   void toDetailProduct(int id) {
-    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: id);
+    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [id, null]);
   }
 
   void applyFilterProduct() {
     Get.back();
     if (isHomeScreen.value) {
-      getProduct(1);
+      // getProduct(1);
       pagingController.refresh();
     } else {
-      getProductPopularOnPage(1);
+      // getProductPopularOnPage(1);
       pagingPopularController.refresh();
     }
   }

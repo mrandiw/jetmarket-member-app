@@ -44,8 +44,8 @@ class ReferralController extends GetxController {
   }
 
   void shareReferral() async {
-    final String deeplink =
-        await DeeplinkService.createLink(code: codeRefferal ?? '');
+    final String deeplink = await DeeplinkService.createLink(
+        code: codeRefferal ?? '', type: DeeplinkType.register);
     await Share.share(deeplink, subject: 'Look what I made!');
   }
 

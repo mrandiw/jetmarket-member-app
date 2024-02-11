@@ -192,7 +192,7 @@ class OrderController extends GetxController
         data.status == "CANCELLED_BY_SELLER" ||
         data.status == "CANCELLED_BY_SYSTEM" ||
         data.status == "CANCELLED_BY_CUSTOMER") {
-      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: data.id);
+      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [data.id, null]);
     } else {}
   }
 

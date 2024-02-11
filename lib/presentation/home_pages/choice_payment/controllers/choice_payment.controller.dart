@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/model/model_data/order_customer.dart';
 import '../../../../domain/core/model/model_data/payment_methode_model.dart';
+import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
@@ -98,8 +100,8 @@ class ChoicePaymentController extends GetxController {
           update();
           screenStatus(ScreenStatus.success);
         } else {
-          AppSnackbar.show(message: response.message, type: SnackType.error);
           screenStatus(ScreenStatus.failed);
+          showDialogError(response.message);
         }
       }
     } else {
@@ -193,10 +195,24 @@ class ChoicePaymentController extends GetxController {
       } else {
         actionStatus = ActionStatus.failed;
         update();
+        showDialogError(response.message);
       }
     } else {
       Get.toNamed(Routes.PAYMENT_PAYLETTER, arguments: orderCustomer);
     }
+  }
+
+  void showDialogError(String? message) {
+    AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Error',
+            desc: message,
+            titleTextStyle: text16BlackSemiBold,
+            descTextStyle: text12BlackRegular,
+            btnCancelOnPress: () {})
+        .show();
   }
 
   @override

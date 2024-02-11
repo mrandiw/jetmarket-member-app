@@ -27,25 +27,32 @@ class DetailProductScreen extends GetView<DetailProductController> {
     });
   }
 
-  Scaffold _successPage() {
-    return Scaffold(
-      backgroundColor: kWhite,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const HeaderSection(),
-              const VariantSection(),
-              const ProductDetailSection(),
-              const StoreSection(),
-              Gap(16.h),
-              const ReviewSection(),
-              Gap(36.h),
-            ],
+  Widget _successPage() {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.backAction();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: kWhite,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const HeaderSection(),
+                const VariantSection(),
+                const ProductDetailSection(),
+                const StoreSection(),
+                Gap(16.h),
+                const ReviewSection(),
+                Gap(36.h),
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: FooterSection(controller: controller),
       ),
-      bottomNavigationBar: FooterSection(controller: controller),
     );
   }
 }

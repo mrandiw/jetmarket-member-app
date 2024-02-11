@@ -42,19 +42,17 @@ class NotificationData {
     if (json['pagelink'] != null) {
       List<String> parts = json['pagelink'].split('/');
       parts.removeAt(0);
-      if (parts[0] != 'withdraw' ||
-          parts[0] != 'topup' ||
-          parts[0] != 'transaction') {
-        if (parts[0] != 'loan' && parts[1] != 'bill' ||
-            parts[0] != 'loan' && parts[1] != 'propose') {
-          path = parts[0];
-          pathId = int.parse(parts[1]);
-        } else {
-          path = "${parts[0]}-${parts[1]}";
-          pathId = int.parse(parts[2]);
-        }
-      } else {
+      if (parts[0] == 'withdraw' ||
+          parts[0] == 'topup' ||
+          parts[0] == 'transaction') {
+        path = parts[0];
         refId = parts[1];
+      } else if (parts[0] == 'loan') {
+        path = "${parts[0]}-${parts[1]}";
+        pathId = int.parse(parts[2]);
+      } else {
+        path = parts[0];
+        pathId = int.parse(parts[1]);
       }
     }
   }

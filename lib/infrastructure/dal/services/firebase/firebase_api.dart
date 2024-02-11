@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -24,6 +23,9 @@ Future<void> updateUnreadNotification() async {
 }
 
 void toDirectPagelink(String path, int pathId, String refId) {
+  log("Terklik ke : $path");
+  log("ID ke : $refId");
+
   switch (path) {
     case 'chat':
       Get.toNamed(Routes.DETAIL_CHAT,
@@ -72,12 +74,23 @@ settingShowNotification(RemoteMessage message) async {
     platformDetails,
     payload: message.data.toString(),
   );
-  if (message.data['pagelink'] == '/main') {
+  log("DATA : ${message.data}");
+  log("TITLE :${message.notification?.title}");
+  log("BODY : ${message.notification?.body}");
+  log("PAGELINK :${message.data['pagelink']}");
+  List<String> parts = message.data['pagelink'].split('/');
+  parts.removeAt(0);
+  log("Parts : $parts");
+
+  if (parts[0] == 'main') {
     AppPreference().clearOnSuccessPayment();
     Get.offAllNamed(Routes.MAIN_PAGES);
-  } else if (message.data['pagelink'] == '/payment_method') {
+  } else if (parts[0] == 'payment_method') {
     AppPreference().removetrxId();
     Get.offAllNamed(Routes.PAYMENT_REGISTER);
+  } else if (parts[0] == 'transaction') {
+    Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
+        arguments: [parts[1], 'from-notification']);
   } else {
     await updateUnreadNotification();
   }
@@ -97,66 +110,10 @@ class FirebaseApi {
 
   handleMessage(RemoteMessage? message) {
     if (message != null) return;
-    try {
-      if (message?.notification != null) {
-        if (message?.data['pagelink'] == '/main') {
-          AppPreference().clearOnSuccessPayment();
-          Get.offAllNamed(Routes.MAIN_PAGES);
-        } else if (message?.data['pagelink'] == '/payment_method') {
-          AppPreference().removetrxId();
-          Get.offAllNamed(Routes.PAYMENT_REGISTER);
-        }
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
   }
 
   openMessage(RemoteMessage? message) {
     updateUnreadNotification();
-    log("---------OPEN----------");
-    final data = message?.data;
-    if (data != null) {
-      if (data['pagelink'] == '/main') {
-        AppPreference().clearOnSuccessPayment();
-        Get.offAllNamed(Routes.MAIN_PAGES);
-      } else if (data['pagelink'] == '/payment_method') {
-        AppPreference().removetrxId();
-        Get.offAllNamed(Routes.PAYMENT_REGISTER);
-      } else {
-        if (data['pagelink'] != null) {
-          String path = "";
-          int pathId = 0;
-          String refId = "";
-          List<String> parts = data['pagelink'].split('/');
-          parts.removeAt(0);
-          if (parts[0] != 'withdraw' ||
-              parts[0] != 'topup' ||
-              parts[0] != 'transaction') {
-            if (parts[0] != 'loan' && parts[1] != 'bill' ||
-                parts[0] != 'loan' && parts[1] != 'propose') {
-              path = parts[0];
-              pathId = int.parse(parts[1]);
-            } else {
-              path = "${parts[0]}-${parts[1]}";
-              pathId = int.parse(parts[2]);
-            }
-          } else {
-            refId = parts[1];
-          }
-          toDirectPagelink(path, pathId, refId);
-        }
-      }
-    } else {
-      Get.showSnackbar(GetSnackBar(
-        margin: const EdgeInsets.all(16),
-        borderRadius: 8,
-        backgroundColor: Colors.red,
-        message: "Data tidak valid",
-        duration: 1.seconds,
-        snackPosition: SnackPosition.TOP,
-      ));
-    }
   }
 
   static Future<void> handleForegroundNotification(
@@ -183,8 +140,32 @@ class FirebaseApi {
       onDidReceiveNotificationResponse: (details) {
         try {
           if (details.payload != null) {
-            log("Init FCM");
-            log("Payload : ${details.payload}");
+            String payloadString = details.payload ?? '';
+            log("Payload : $payloadString");
+            payloadString =
+                payloadString.replaceAll('{', '').replaceAll('}', '');
+            List<String> part = payloadString.split(RegExp(r',|:'));
+            List<String> parts = part.last.trim().split('/');
+
+            parts.removeAt(0);
+            if (parts[0] == 'main' || parts[0] == 'payment_method') {
+              if (parts[0] == 'main') {
+                Get.offAllNamed(Routes.MAIN_PAGES);
+              } else if (parts[0] == 'payment_method') {
+                Get.offAllNamed(Routes.PAYMENT_REGISTER);
+              } else if (parts[0] == 'transaction') {
+                Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
+                    arguments: [parts[1], 'from-notification']);
+              }
+            } else if (parts[0] == 'withdraw' ||
+                parts[0] == 'topup' ||
+                parts[0] == 'transaction') {
+              toDirectPagelink(parts[0], 0, parts[1]);
+            } else if (parts[0] == 'loan' && parts[1] == 'bill' ||
+                parts[0] == 'loan' && parts[1] == 'propose') {
+              toDirectPagelink(
+                  "${parts[0]}-${parts[1]}", int.parse(parts[2]), "");
+            }
           } else {}
         } catch (e) {
           throw Exception(e);

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -172,8 +174,27 @@ class CheckoutPaymentController extends GetxController
     controller2.getWaitingOrderLenght();
   }
 
+  Future<bool> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) async {
+    log("Data : ${message.data}");
+    log("Pagelink : ${message.data['pagelink']}");
+    log("Body : ${message.notification?.body}");
+  }
+
   @override
   void onInit() {
+    setupInteractedMessage();
     setArgument();
 
     super.onInit();

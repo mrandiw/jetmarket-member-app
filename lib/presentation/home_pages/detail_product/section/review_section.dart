@@ -46,97 +46,81 @@ class ReviewSection extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: AppStyle.paddingSide16,
-            decoration:
-                BoxDecoration(border: Border(bottom: AppStyle.borderSide)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gap(12.h),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-
-                //     const Spacer(),
-                //     TextButton(
-                //       style:
-                //           TextButton.styleFrom(foregroundColor: kPrimaryColor),
-                //       onPressed: () {},
-                //       child: Row(
-                //         children: [
-                //           Text('Lihat semua', style: text12BlackRegular),
-                //           Gap(6.w),
-                //           SvgPicture.asset(arrowRight)
-                //         ],
-                //       ),
-                //     )
-                //   ],
-                // ),
-                Text('Galeri Pembeli', style: text14BlackRegular),
-                Gap(8.h),
-                SizedBox(
-                  height: 72.h,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) => CachedNetworkImage(
-                            imageUrl:
-                                controller.productReviewCustomer[index].image ??
-                                    '',
-                            imageBuilder: (context, imageProvider) =>
-                                GestureDetector(
-                              onTap: () =>
-                                  controller.previewImage(imageProvider),
-                              child: Container(
+          Visibility(
+            visible: controller.productReviewCustomer.isNotEmpty,
+            child: Container(
+              padding: AppStyle.paddingSide16,
+              decoration:
+                  BoxDecoration(border: Border(bottom: AppStyle.borderSide)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(12.h),
+                  Text('Galeri Pembeli', style: text14BlackRegular),
+                  Gap(8.h),
+                  SizedBox(
+                    height: 72.h,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) => CachedNetworkImage(
+                              imageUrl: controller
+                                      .productReviewCustomer[index].image ??
+                                  '',
+                              imageBuilder: (context, imageProvider) =>
+                                  GestureDetector(
+                                onTap: () =>
+                                    controller.previewImage(imageProvider),
+                                child: Container(
+                                  height: 70.h,
+                                  width: 75.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: AppStyle.borderRadius8All,
+                                    color: kSofterGrey,
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, url) => SizedBox(
+                                height: 70.h,
+                                width: 75.w,
+                                child: const Center(
+                                  child: CupertinoActivityIndicator(
+                                      color: kSoftBlack),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
                                 height: 70.h,
                                 width: 75.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: AppStyle.borderRadius8All,
-                                  color: kSofterGrey,
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                                    borderRadius: AppStyle.borderRadius8All),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: AppStyle.borderRadius8All,
+                                    color: kSofterGrey,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.error,
+                                      color: kPrimaryColor,
+                                      size: 20.r,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            placeholder: (context, url) => SizedBox(
-                              height: 70.h,
-                              width: 75.w,
-                              child: const Center(
-                                child: CupertinoActivityIndicator(
-                                    color: kSoftBlack),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              height: 70.h,
-                              width: 75.w,
-                              decoration: BoxDecoration(
-                                  borderRadius: AppStyle.borderRadius8All),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: AppStyle.borderRadius8All,
-                                  color: kSofterGrey,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.error,
-                                    color: kPrimaryColor,
-                                    size: 20.r,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      separatorBuilder: (_, i) => Gap(8.w),
-                      itemCount: controller.productReviewCustomer.length >= 4
-                          ? 4
-                          : controller.productReviewCustomer.length),
-                ),
-                Gap(16.h),
-              ],
+                        separatorBuilder: (_, i) => Gap(8.w),
+                        itemCount: controller.productReviewCustomer.length >= 4
+                            ? 4
+                            : controller.productReviewCustomer.length),
+                  ),
+                  Gap(16.h),
+                ],
+              ),
             ),
           ),
           Gap(16.h),

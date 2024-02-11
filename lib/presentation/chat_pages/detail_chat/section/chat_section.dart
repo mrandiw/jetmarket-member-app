@@ -14,14 +14,10 @@ import '../../../../utils/app_preference/app_preferences.dart';
 
 class ChatSection extends StatelessWidget {
   const ChatSection(
-      {super.key,
-      required this.controller,
-      this.scrollController,
-      this.reverse = false});
+      {super.key, required this.controller, this.scrollController});
 
   final DetailChatController controller;
   final ScrollController? scrollController;
-  final bool reverse;
 
   @override
   Widget build(BuildContext context) {

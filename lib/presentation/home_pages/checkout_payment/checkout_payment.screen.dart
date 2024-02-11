@@ -34,7 +34,7 @@ class CheckoutPaymentScreen extends GetView<CheckoutPaymentController> {
       },
       child: Scaffold(
         backgroundColor: kWhite,
-        appBar: appBarPaymentOrder,
+        appBar: appBarPaymentOrder(controller),
         body: const SafeArea(
           child: DetailSection(),
         ),

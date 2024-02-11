@@ -20,23 +20,29 @@ class CheckoutController extends GetxController {
   List<d.SelectDelivery> selectedDelivery = [];
   List<bool> isExpandedTile = [];
   List<List<TextEditingController>> notesController = [];
+  List<ExpansionTileController> excontroller = [];
   List<List<bool>> isWriteNote = [];
   AddressModel? address;
   double totalPrice = 0.0;
+  double totalPriceWithoutVoucher = 0.0;
   double discount = 0.0;
   int? voucherId;
 
   void updateTotalPrice() {
     totalPrice = 0.0;
+    totalPriceWithoutVoucher = 0.0;
     for (c.CartProduct item in productCart) {
       for (c.Products product in item.products ?? []) {
         totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
+        totalPriceWithoutVoucher += (product.promo ?? 0) * (product.qty ?? 0);
       }
     }
     for (d.SelectDelivery item in selectedDelivery) {
       totalPrice += item.packets?.rate ?? 0;
+      totalPriceWithoutVoucher += item.packets?.rate ?? 0;
     }
     totalPrice = totalPrice - (totalPrice * discount);
+    totalPriceWithoutVoucher = totalPriceWithoutVoucher;
     update();
   }
 
@@ -113,7 +119,9 @@ class CheckoutController extends GetxController {
       address = data;
       update();
       var body = setBodyForDelivery(data);
-      isExpandedTile = List.generate(productCart.length, (index) => false);
+      isExpandedTile = List.generate(productCart.length, (index) => true);
+      excontroller = List.generate(
+          productCart.length, (index) => ExpansionTileController());
       getDelivery(body);
     }
   }
@@ -151,9 +159,10 @@ class CheckoutController extends GetxController {
     }
   }
 
-  void updateDeliverySelected({int? sellerId, d.SelectDelivery? delivery}) {
-    isExpandedTile.clear();
-    isExpandedTile = List.generate(productCart.length, (index) => false);
+  void updateDeliverySelected(
+      {int? sellerId, d.SelectDelivery? delivery, required int index}) {
+    controlExpand(index);
+    update();
     bool isSellerIdExist = false;
     for (int i = 0; i < selectedDelivery.length; i++) {
       if (selectedDelivery[i].sellerId == sellerId) {
@@ -167,6 +176,16 @@ class CheckoutController extends GetxController {
     }
     update();
     updateTotalPrice();
+  }
+
+  void controlExpand(int index) {
+    if (excontroller[index].isExpanded) {
+      excontroller[index].collapse();
+      update();
+    } else {
+      excontroller[index].expand();
+      update();
+    }
   }
 
   void onExpandTile(int index) {

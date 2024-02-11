@@ -21,9 +21,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<NotificationData>>(
           result: datas.map((e) => NotificationData.fromJson(e)).toList(),
-          status: StatusCodeResponse.cek(
-            response: response,
-          ));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<List<NotificationData>>().dio(e);
     }

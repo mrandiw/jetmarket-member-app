@@ -10,12 +10,15 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/action_status.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/detail_product.dart';
 import '../../../../domain/core/model/model_data/product_review_customer.dart';
 import '../../../../domain/core/model/params/chat/check_existing_param.dart';
+import '../../../../infrastructure/dal/services/firebase/deeplink_service.dart';
 import '../../../../utils/network/screen_status.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 class DetailProductController extends GetxController {
   final ProductRepository _productRepository;
@@ -155,9 +158,24 @@ class DetailProductController extends GetxController {
         arguments: [data, detailProduct?.seller, selectedVariant]);
   }
 
+  void shareProduct() async {
+    final String deeplink = await DeeplinkService.createLink(
+        code: '${detailProduct?.id}', type: DeeplinkType.product);
+    await Share.share(deeplink, subject: 'Look what I made!');
+  }
+
+  void backAction() {
+    if (Get.arguments[1] != null) {
+      Get.offNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      Get.back();
+    }
+  }
+
   @override
   void onInit() {
-    getData(Get.arguments);
+    getData(Get.arguments[0]);
 
     super.onInit();
   }

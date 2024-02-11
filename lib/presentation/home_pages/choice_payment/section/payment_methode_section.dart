@@ -424,99 +424,105 @@ class PaymentMethodeSection extends StatelessWidget {
               // Payletter
 
               Gap(12.h),
-              Container(
-                width: Get.width,
-                decoration: BoxDecoration(
-                    color: kWhite,
-                    borderRadius: AppStyle.borderRadius8All,
-                    border: AppStyle.borderAll),
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Colors.transparent,
-                  ),
-                  child: ExpansionTile(
-                    childrenPadding: AppStyle.paddingSide8,
-                    onExpansionChanged: (bool expanded) =>
-                        controller.onChangeExpandPayletter(expanded),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Payletter', style: text12BlackSemiBold),
-                        Visibility(
-                          visible: !controller.isPayletterExpanded,
-                          child: Container(
-                            height: 26.h,
-                            width: 44.w,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                                color: kWhite,
-                                border: AppStyle.borderAll,
-                                borderRadius: AppStyle.borderRadius8All,
-                                boxShadow: [AppStyle.boxShadowSmall]),
-                            child: SvgPicture.asset(paymentClock),
-                          ),
-                        )
-                      ],
+              Visibility(
+                visible: controller.paymentMethodes?.paylater != null,
+                child: Container(
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: AppStyle.borderRadius8All,
+                      border: AppStyle.borderAll),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent,
                     ),
-                    iconColor: kBlack,
-                    collapsedShape: RoundedRectangleBorder(
-                        borderRadius: AppStyle.borderRadius8All),
-                    children: [
-                      Wrap(
-                          spacing: 8.r,
-                          runSpacing: 8.r,
-                          children: List.generate(
-                              controller.paymentMethodes?.paylater?.length ?? 0,
-                              (index) => GestureDetector(
-                                    onTap: () => controller.actionPayment(
-                                        controller.paymentMethodes
-                                                ?.paylater?[index].id ??
-                                            0,
-                                        controller.paymentMethodes
-                                                ?.paylater?[index].chType ??
-                                            '',
-                                        controller.paymentMethodes
-                                                ?.paylater?[index].chCode ??
-                                            '',
-                                        controller.paymentMethodes
-                                                ?.paylater?[index].name ??
-                                            ''),
-                                    child: Container(
-                                        width: Get.width * 0.25,
-                                        height: 52.h,
-                                        padding: EdgeInsets.all(8.r),
-                                        decoration: BoxDecoration(
-                                            color:
-                                                controller.selectedPayletter ==
+                    child: ExpansionTile(
+                      childrenPadding: AppStyle.paddingSide8,
+                      onExpansionChanged: (bool expanded) =>
+                          controller.onChangeExpandPayletter(expanded),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Payletter', style: text12BlackSemiBold),
+                          Visibility(
+                            visible: !controller.isPayletterExpanded,
+                            child: Container(
+                              height: 26.h,
+                              width: 44.w,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 4.w, vertical: 4.h),
+                              decoration: BoxDecoration(
+                                  color: kWhite,
+                                  border: AppStyle.borderAll,
+                                  borderRadius: AppStyle.borderRadius8All,
+                                  boxShadow: [AppStyle.boxShadowSmall]),
+                              child: SvgPicture.asset(paymentClock),
+                            ),
+                          )
+                        ],
+                      ),
+                      iconColor: kBlack,
+                      collapsedShape: RoundedRectangleBorder(
+                          borderRadius: AppStyle.borderRadius8All),
+                      children: [
+                        Wrap(
+                            spacing: 8.r,
+                            runSpacing: 8.r,
+                            children: List.generate(
+                                controller.paymentMethodes?.paylater?.length ??
+                                    0,
+                                (index) => GestureDetector(
+                                      onTap: () => controller.actionPayment(
+                                          controller.paymentMethodes
+                                                  ?.paylater?[index].id ??
+                                              0,
+                                          controller.paymentMethodes
+                                                  ?.paylater?[index].chType ??
+                                              '',
+                                          controller.paymentMethodes
+                                                  ?.paylater?[index].chCode ??
+                                              '',
+                                          controller.paymentMethodes
+                                                  ?.paylater?[index].name ??
+                                              ''),
+                                      child: Container(
+                                          width: Get.width * 0.25,
+                                          height: 52.h,
+                                          padding: EdgeInsets.all(8.r),
+                                          decoration: BoxDecoration(
+                                              color: controller
+                                                          .selectedPayletter ==
+                                                      controller.paymentMethodes
+                                                          ?.paylater?[index].id
+                                                          .toString()
+                                                  ? kNormalAccentColor2
+                                                  : kWhite,
+                                              borderRadius:
+                                                  AppStyle.borderRadius8All,
+                                              boxShadow: [
+                                                AppStyle.boxShadowSmall
+                                              ]),
+                                          child: Center(
+                                            child: Text(
+                                                controller
+                                                        .paymentMethodes
+                                                        ?.paylater?[index]
+                                                        .name ??
+                                                    '',
+                                                style: controller
+                                                            .selectedPayletter ==
                                                         controller
                                                             .paymentMethodes
                                                             ?.paylater?[index]
                                                             .id
                                                             .toString()
-                                                    ? kNormalAccentColor2
-                                                    : kWhite,
-                                            borderRadius:
-                                                AppStyle.borderRadius8All,
-                                            boxShadow: [
-                                              AppStyle.boxShadowSmall
-                                            ]),
-                                        child: Center(
-                                          child: Text(
-                                              controller.paymentMethodes
-                                                      ?.paylater?[index].name ??
-                                                  '',
-                                              style: controller
-                                                          .selectedPayletter ==
-                                                      controller.paymentMethodes
-                                                          ?.paylater?[index].id
-                                                          .toString()
-                                                  ? text10PrimaryRegular
-                                                  : text10HintRegular),
-                                        )),
-                                  ))),
-                      Gap(16.h)
-                    ],
+                                                    ? text10PrimaryRegular
+                                                    : text10HintRegular),
+                                          )),
+                                    ))),
+                        Gap(16.h)
+                      ],
+                    ),
                   ),
                 ),
               ),

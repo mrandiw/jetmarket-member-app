@@ -32,8 +32,9 @@ class ReviewRepositoryImpl implements ReviewRepository {
           path: "${Endpoint.orderCustomer}/${param?.id}/review",
           data: param?.toMap()['body']);
       return DataState<String>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: response.data['data'],
+        message: response.data['message'],
       );
     } on DioException catch (e) {
       return CustomException<String>().dio(e);
