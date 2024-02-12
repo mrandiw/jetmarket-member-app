@@ -97,9 +97,11 @@ class EWalletController extends GetxController {
     if (refCode == 'WID' && status == 'WAITING_APPROVAL') {
       Get.toNamed(Routes.WITHDRAW_STATUS, arguments: refId);
     } else if (refCode == 'WID') {
-      Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: refId);
+      Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [refId, null]);
+    } else if (refCode == 'ORD') {
+      Get.toNamed(Routes.DETAIL_ORDER, arguments: [0, null, null, refId]);
     } else {
-      Get.toNamed(Routes.DETAIL_TOPUP, arguments: refId);
+      Get.toNamed(Routes.DETAIL_TOPUP, arguments: [refId, null]);
     }
   }
 

@@ -23,7 +23,7 @@ class OrderListTransactionController extends GetxController {
   }
 
   void toDetailOrder(int id) {
-    Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null]);
+    Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null, null, null]);
   }
 
   void bacAction() {

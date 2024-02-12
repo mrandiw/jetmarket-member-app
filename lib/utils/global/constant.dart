@@ -1,3 +1,4 @@
 late String fcmToken;
 
-String? deeplinkArgument;
+dynamic deeplinkArgument;
+dynamic notificationArgument;

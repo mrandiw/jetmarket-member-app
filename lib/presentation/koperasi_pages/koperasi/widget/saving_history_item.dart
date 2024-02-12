@@ -19,7 +19,8 @@ class SavingHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.DETAIL_MENABUNG, arguments: data.id),
+      onTap: () =>
+          Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data.id, null]),
       child: Container(
           padding: AppStyle.paddingAll12,
           decoration: BoxDecoration(

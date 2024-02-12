@@ -22,9 +22,8 @@ Future<void> updateUnreadNotification() async {
   await controller.getUnreadNotification();
 }
 
-void toDirectPagelink(String path, int pathId, String refId) {
-  log("Terklik ke : $path");
-  log("ID ke : $refId");
+void toDirectPagelink(String path, int pathId, String? refId) {
+  notificationArgument = {'path': path, 'pathId': pathId, 'refId': refId};
 
   switch (path) {
     case 'chat':
@@ -34,21 +33,21 @@ void toDirectPagelink(String path, int pathId, String refId) {
             fromRole: 'customer',
           ));
     case 'order':
-      Get.toNamed(Routes.DETAIL_ORDER, arguments: [pathId, null]);
+      Get.toNamed(Routes.DETAIL_ORDER, arguments: [pathId, null, null, refId]);
     case 'withdraw':
-      Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: refId);
+      Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [refId, null]);
     case 'topup':
-      Get.toNamed(Routes.DETAIL_TOPUP, arguments: refId);
+      Get.toNamed(Routes.DETAIL_TOPUP, arguments: [refId, null]);
     case 'loan-propose':
-      Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: pathId);
+      Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: [pathId, null]);
     case 'loan-bill':
-      Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN, arguments: pathId);
+      Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN, arguments: [pathId, null]);
     case 'saving':
-      Get.toNamed(Routes.DETAIL_MENABUNG, arguments: pathId);
+      Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [pathId, null]);
     case 'referral':
       Get.toNamed(Routes.REFERRAL);
     case 'transaction':
-      Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: refId);
+      Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: [refId, null]);
     default:
       break;
   }
@@ -67,7 +66,7 @@ settingShowNotification(RemoteMessage message) async {
   var platformDetails = NotificationDetails(android: androidDetails);
 
   // Tampilkan notifikasi
-  await FirebaseApi._local.show(
+  await FirebaseService._local.show(
     -2,
     message.notification?.title?.capitalizeFirst,
     message.notification?.body?.capitalizeFirst,
@@ -81,6 +80,7 @@ settingShowNotification(RemoteMessage message) async {
   List<String> parts = message.data['pagelink'].split('/');
   parts.removeAt(0);
   log("Parts : $parts");
+  notificationArgument = {'path': parts[0], 'pathId': 0, 'refId': parts[1]};
 
   if (parts[0] == 'main') {
     AppPreference().clearOnSuccessPayment();
@@ -96,14 +96,14 @@ settingShowNotification(RemoteMessage message) async {
   }
 }
 
-class FirebaseApi {
+class FirebaseService {
   static final FirebaseMessaging _firebaseMessaging =
       FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin _local =
       FlutterLocalNotificationsPlugin();
   static FirebaseMessaging get firebaseMessaging =>
-      FirebaseApi._firebaseMessaging;
-  static FlutterLocalNotificationsPlugin get local => FirebaseApi._local;
+      FirebaseService._firebaseMessaging;
+  static FlutterLocalNotificationsPlugin get local => FirebaseService._local;
 
   final box = GetStorage();
   bool appForeground = true;
@@ -120,6 +120,64 @@ class FirebaseApi {
     RemoteMessage message,
   ) async {
     settingShowNotification(message);
+  }
+
+  static Future<void> getInitialMessage() async {
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      List<String> parts = message.data['pagelink'].split('/');
+      parts.removeAt(0);
+
+      if (parts[0] == 'main' || parts[0] == 'payment_method') {
+        if (parts[0] == 'main') {
+          notificationArgument = {'path': parts[0], 'lifecycle': 'terminate'};
+        } else if (parts[0] == 'payment_method') {
+          notificationArgument = {'path': parts[0], 'lifecycle': 'terminate'};
+        }
+      } else if (parts[0] == 'withdraw' ||
+          parts[0] == 'topup' ||
+          parts[0] == 'transaction') {
+        notificationArgument = {
+          'path': parts[0],
+          'pathId': 0,
+          'refId': parts[1],
+          'lifecycle': 'terminate'
+        };
+      } else if (parts[0] == 'loan' && parts[1] == 'bill' ||
+          parts[0] == 'loan' && parts[1] == 'propose') {
+        notificationArgument = {
+          'path': "${parts[0]}-${parts[1]}",
+          'pathId': int.parse(parts[2]),
+          'refId': "",
+          'lifecycle': 'terminate'
+        };
+      } else if (parts[0] == 'order') {
+        String value = parts[1];
+        if (value.startsWith('ORD#')) {
+          notificationArgument = {
+            'path': parts[0],
+            'pathId': 0,
+            'refId': value,
+            'lifecycle': 'terminate'
+          };
+        } else {
+          notificationArgument = {
+            'path': parts[0],
+            'pathId': int.parse(value),
+            'refId': null,
+            'lifecycle': 'terminate'
+          };
+        }
+      } else if (parts[0] == 'chat') {
+        notificationArgument = {
+          'path': parts[0],
+          'pathId': int.parse(parts[1]),
+          'refId': null,
+          'lifecycle': 'terminate'
+        };
+      }
+    }
   }
 
   Future<void> initNotification() async {
@@ -150,12 +208,11 @@ class FirebaseApi {
             parts.removeAt(0);
             if (parts[0] == 'main' || parts[0] == 'payment_method') {
               if (parts[0] == 'main') {
+                notificationArgument = {'path': parts[0]};
                 Get.offAllNamed(Routes.MAIN_PAGES);
               } else if (parts[0] == 'payment_method') {
+                notificationArgument = {'path': parts[0]};
                 Get.offAllNamed(Routes.PAYMENT_REGISTER);
-              } else if (parts[0] == 'transaction') {
-                Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
-                    arguments: [parts[1], 'from-notification']);
               }
             } else if (parts[0] == 'withdraw' ||
                 parts[0] == 'topup' ||
@@ -165,6 +222,16 @@ class FirebaseApi {
                 parts[0] == 'loan' && parts[1] == 'propose') {
               toDirectPagelink(
                   "${parts[0]}-${parts[1]}", int.parse(parts[2]), "");
+            } else if (parts[0] == 'order') {
+              String value = parts[1];
+
+              if (value.startsWith('ORD#')) {
+                toDirectPagelink(parts[0], 0, value);
+              } else {
+                toDirectPagelink(parts[0], int.parse(value), null);
+              }
+            } else if (parts[0] == 'chat') {
+              toDirectPagelink(parts[0], int.parse(parts[1]), null);
             }
           } else {}
         } catch (e) {

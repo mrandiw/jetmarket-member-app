@@ -23,6 +23,7 @@ export 'package:jetmarket/presentation/auth/success_verify_otp/success_verify_ot
 export 'package:jetmarket/presentation/chat_pages/chats/chats.screen.dart';
 export 'package:jetmarket/presentation/chat_pages/check_existing_chat/check_existing_chat.screen.dart';
 export 'package:jetmarket/presentation/chat_pages/detail_chat/detail_chat.screen.dart';
+export 'package:jetmarket/presentation/check_external_link/check_external_link.screen.dart';
 export 'package:jetmarket/presentation/home_pages/add_address/add_address.screen.dart';
 export 'package:jetmarket/presentation/home_pages/address/address.screen.dart';
 export 'package:jetmarket/presentation/home_pages/all_category/all_category.screen.dart';

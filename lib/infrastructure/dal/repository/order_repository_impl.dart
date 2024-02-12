@@ -87,10 +87,17 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<DataState<DetailOrderCustomer>> getDetailOrder(int id) async {
+  Future<DataState<DetailOrderCustomer>> getDetailOrder(
+      int id, String? refId) async {
+    String modifiedId = "";
+    if (refId != null) {
+      modifiedId = refId.replaceAll('#', '%23');
+    } else {}
     try {
-      final response =
-          await RemoteProvider.get(path: '${Endpoint.orderCustomer}/$id');
+      final response = await RemoteProvider.get(
+          path: refId == null
+              ? '${Endpoint.orderCustomer}/$id'
+              : '${Endpoint.orderCustomer}/detail/$modifiedId');
       return DataState<DetailOrderCustomer>(
         status: StatusCodeResponse.cek(response: response),
         result: DetailOrderCustomer.fromJson(response.data['data']),
@@ -128,7 +135,8 @@ class OrderRepositoryImpl implements OrderRepository {
       List<dynamic> datas = response.data['data']['items'];
       log(datas.length.toString());
       return DataState<List<OrderProductModel>>(
-        status: StatusCodeResponse.cek(response: response, queryParams: true),
+        status: StatusCodeResponse.cek(
+            response: response, queryParams: true, showLogs: true),
         result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
         message: response.data['message'],
       );

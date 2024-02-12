@@ -20,6 +20,14 @@ class DetailTopupScreen extends GetView<DetailTopupController> {
         status: controller.screenStatus.value));
   }
 
-  Scaffold successWidget() =>
-      Scaffold(appBar: appBarDetailTopup, body: const DetailTopup());
+  Widget successWidget() =>
+      // ignore: deprecated_member_use
+      WillPopScope(
+          onWillPop: () async {
+            controller.actionBack();
+            return true;
+          },
+          child: Scaffold(
+              appBar: appBarDetailTopup(controller),
+              body: const DetailTopup()));
 }

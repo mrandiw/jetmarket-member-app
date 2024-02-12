@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
 
 import '../../../../domain/core/interfaces/ewallet_repository.dart';
 import '../../../../domain/core/model/model_data/detail_topup_model.dart';
@@ -21,13 +23,23 @@ class DetailTopupController extends GetxController {
 
   Future<void> getDetailWIthdraw() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _ewalletRepository.getDetailTopup(id: Get.arguments);
+    final response =
+        await _ewalletRepository.getDetailTopup(id: Get.arguments[0]);
     if (response.status == StatusResponse.success) {
       detailTopupModel = response.result;
       update();
       screenStatus(ScreenStatus.success);
     } else {
       screenStatus(ScreenStatus.failed);
+    }
+  }
+
+  void actionBack() {
+    if (Get.arguments[1] != null) {
+      Get.offAllNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      Get.back();
     }
   }
 

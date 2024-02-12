@@ -26,15 +26,22 @@ class DetailTagihanBulananScreen
     });
   }
 
-  Scaffold successWidget() {
-    return Scaffold(
-        appBar: appBarDetailTagihanBulanan,
-        body: ListView(
-          padding: AppStyle.paddingAll16,
-          children: [
-            StatusTagihanBulanan(controller: controller),
-            InformationSection(controller: controller)
-          ],
-        ));
+  Widget successWidget() {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.actionBack();
+        return true;
+      },
+      child: Scaffold(
+          appBar: appBarDetailTagihanBulanan(controller),
+          body: ListView(
+            padding: AppStyle.paddingAll16,
+            children: [
+              StatusTagihanBulanan(controller: controller),
+              InformationSection(controller: controller)
+            ],
+          )),
+    );
   }
 }

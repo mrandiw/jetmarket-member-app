@@ -57,21 +57,25 @@ class NotificationController extends GetxController {
               fromRole: 'customer',
             ));
       case 'order':
-        Get.toNamed(Routes.DETAIL_ORDER, arguments: [data.pathId, null]);
+        Get.toNamed(Routes.DETAIL_ORDER,
+            arguments: [data.pathId, null, null, data.refId]);
       case 'withdraw':
-        Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: data.refId);
+        Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [data.refId, null]);
       case 'topup':
-        Get.toNamed(Routes.DETAIL_TOPUP, arguments: data.refId);
+        Get.toNamed(Routes.DETAIL_TOPUP, arguments: [data.refId, null]);
       case 'loan-propose':
-        Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: data.pathId);
+        Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN,
+            arguments: [data.pathId, null]);
       case 'loan-bill':
-        Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN, arguments: data.pathId);
+        Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
+            arguments: [data.pathId, null]);
       case 'saving':
-        Get.toNamed(Routes.DETAIL_MENABUNG, arguments: data.pathId);
+        Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data.pathId, null]);
       case 'referral':
         Get.toNamed(Routes.REFERRAL);
       case 'transaction':
-        Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: data.refId);
+        Get.toNamed(Routes.ORDER_LIST_TRANSACTION,
+            arguments: [data.refId, null]);
       default:
         break;
     }

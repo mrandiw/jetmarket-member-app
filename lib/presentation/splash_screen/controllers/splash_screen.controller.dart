@@ -13,7 +13,8 @@ class SplashScreenController extends GetxController {
 
   Future<void> start() async {
     await Future.delayed(3.seconds, () async {
-      await checkingAuth();
+      // await checkingAuth();
+      Get.offAllNamed(Routes.CHECK_EXTERNAL_LINK);
     });
   }
 

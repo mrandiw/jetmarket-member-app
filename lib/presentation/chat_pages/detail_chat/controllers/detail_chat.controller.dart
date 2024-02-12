@@ -18,9 +18,11 @@ import 'package:jetmarket/domain/core/model/params/chat/chat_update_param.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import '../../../../domain/core/interfaces/file_repository.dart';
 import '../../../../domain/core/model/argument/chat_room_argument.dart';
+import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/status_response.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 class DetailChatController extends GetxController {
   final FileRepository _fileRepository;
@@ -470,6 +472,15 @@ class DetailChatController extends GetxController {
     log("Data : ${message.data}");
     log("Pagelink : ${message.data['pagelink']}");
     log("Body : ${message.notification?.body}");
+  }
+
+  void backAction() {
+    if (dataArgument?.lifecycle != null) {
+      Get.offNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      Get.back();
+    }
   }
 
   @override

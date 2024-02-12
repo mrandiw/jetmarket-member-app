@@ -21,8 +21,8 @@ class LoanItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: data.id),
+      onTap: () => Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN,
+          arguments: [data.id, null]),
       child: Container(
           padding: AppStyle.paddingAll12,
           decoration: BoxDecoration(

@@ -17,6 +17,7 @@ import '../../../../domain/core/model/model_data/detail_product.dart';
 import '../../../../domain/core/model/model_data/product_review_customer.dart';
 import '../../../../domain/core/model/params/chat/check_existing_param.dart';
 import '../../../../infrastructure/dal/services/firebase/deeplink_service.dart';
+import '../../../../utils/global/constant.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../main_pages/controllers/main_pages.controller.dart';
 
@@ -176,6 +177,7 @@ class DetailProductController extends GetxController {
   @override
   void onInit() {
     getData(Get.arguments[0]);
+    deeplinkArgument = null;
 
     super.onInit();
   }

@@ -20,6 +20,14 @@ class DetailWithdrawScreen extends GetView<DetailWithdrawController> {
         status: controller.screenStatus.value));
   }
 
-  Scaffold successWidget() =>
-      Scaffold(appBar: appBarDetailWithdraw, body: const DetailWd());
+  Widget successWidget() =>
+      // ignore: deprecated_member_use
+      WillPopScope(
+          onWillPop: () async {
+            controller.actionBack();
+            return true;
+          },
+          child: Scaffold(
+              appBar: appBarDetailWithdraw(controller),
+              body: const DetailWd()));
 }

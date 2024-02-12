@@ -202,6 +202,7 @@ class RegisterController extends GetxController {
         TextPosition(offset: phoneController.text.length));
     if (Get.arguments != null) {
       referralController = TextEditingController(text: '${Get.arguments}');
+      deeplinkArgument = null;
     }
     // focusNodeReferral.addListener(() {
     //   if (!focusNodeReferral.hasFocus) {

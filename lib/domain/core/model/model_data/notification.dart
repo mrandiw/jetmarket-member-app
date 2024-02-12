@@ -50,6 +50,15 @@ class NotificationData {
       } else if (parts[0] == 'loan') {
         path = "${parts[0]}-${parts[1]}";
         pathId = int.parse(parts[2]);
+      } else if (parts[0] == 'order') {
+        String value = parts[1];
+        if (value.startsWith('ORD#')) {
+          path = parts[0];
+          refId = parts[1];
+        } else {
+          path = parts[0];
+          pathId = int.parse(parts[1]);
+        }
       } else {
         path = parts[0];
         pathId = int.parse(parts[1]);

@@ -18,7 +18,7 @@ abstract class OrderRepository {
   Future<DataState<int>> getWaitingOrderLenght();
   Future<DataState<List<WaitingPaymentModel>>> getListWaitingPayment();
   Future<DataState<OrderCustomerPaymentModel>> getPaymentTutorial(int id);
-  Future<DataState<DetailOrderCustomer>> getDetailOrder(int id);
+  Future<DataState<DetailOrderCustomer>> getDetailOrder(int id, String? refId);
   Future<DataState<List<ProductOrderCustomer>>> getListOrderCustomer(
       String refId);
   Future<DataState<List<OrderProductModel>>> getListOrderProduct(

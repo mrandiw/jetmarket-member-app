@@ -22,7 +22,7 @@ class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => controller.backAction(),
             icon: SvgPicture.asset(arrowForward),
           ),
           title: Row(

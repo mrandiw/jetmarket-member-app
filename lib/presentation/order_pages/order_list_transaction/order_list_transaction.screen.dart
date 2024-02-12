@@ -26,7 +26,7 @@ class OrderListTransactionScreen
         return true;
       },
       child: Scaffold(
-          appBar: appBarDetailOrder,
+          appBar: appBarDetailOrder(controller),
           body:
               GetBuilder<OrderListTransactionController>(builder: (controller) {
             return ListView.separated(

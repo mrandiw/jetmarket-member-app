@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: avoid_print
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
@@ -10,13 +10,21 @@ class DeeplinkService {
     String? argument;
     FirebaseDynamicLinks.instance.onLink.listen((event) {
       final Uri link = event.link;
-      log("Link : $link");
-      log("Params : ${link.queryParameters}");
+      print("Link : $link");
+      print("Params : ${link.queryParameters}");
       if (link.queryParameters.containsKey('referral')) {
+        deeplinkArgument = {
+          'route': 'register',
+          'referral': link.queryParameters['referral']
+        };
         Get.offAllNamed(Routes.REGISTER,
             arguments: link.queryParameters['referral']);
         argument = link.queryParameters['referral'] ?? '';
       } else {
+        deeplinkArgument = {
+          'route': 'product',
+          'id': int.parse(link.queryParameters['id'] ?? '')
+        };
         Get.offAllNamed(Routes.DETAIL_PRODUCT, arguments: [
           int.parse(link.queryParameters['id'] ?? ''),
           'from-deeplink'
@@ -27,18 +35,32 @@ class DeeplinkService {
     return argument ?? '';
   }
 
-  static Future<String?> getLink() async {
+  static Future<void> getLink() async {
     final PendingDynamicLinkData? initialLink =
         await FirebaseDynamicLinks.instance.getInitialLink();
 
     if (initialLink != null) {
       final Uri deepLink = initialLink.link;
-      log("Link : $deepLink");
-      log("Params : ${deepLink.queryParameters}");
+      print("Link init : $deepLink");
+      print("Params init: ${deepLink.queryParameters}");
       deeplinkArgument = deepLink.queryParameters['referral'] ?? '';
-      return deepLink.queryParameters['referral'];
-    } else {
-      return null;
+      if (deepLink.queryParameters.containsKey('referral')) {
+        // Get.offAllNamed(Routes.REGISTER,
+        //     arguments: deepLink.queryParameters['referral']);
+        deeplinkArgument = {
+          'route': 'register',
+          'referral': deepLink.queryParameters['referral']
+        };
+      } else {
+        // Get.offAllNamed(Routes.DETAIL_PRODUCT, arguments: [
+        //   int.parse(deepLink.queryParameters['id'] ?? ''),
+        //   'from-deeplink'
+        // ]);
+        deeplinkArgument = {
+          'route': 'product',
+          'id': int.parse(deepLink.queryParameters['id'] ?? '')
+        };
+      }
     }
   }
 

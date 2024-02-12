@@ -29,7 +29,8 @@ class OrderCard extends StatelessWidget {
 
   Widget finishedCard() {
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.DETAIL_ORDER, arguments: [data.id, null]),
+      onTap: () => Get.toNamed(Routes.DETAIL_ORDER,
+          arguments: [data.id, null, null, null]),
       child: Card(
         elevation: 0,
         margin: EdgeInsets.zero,

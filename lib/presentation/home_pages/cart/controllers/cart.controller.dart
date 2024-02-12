@@ -328,7 +328,30 @@ class CartController extends GetxController {
   }
 
   void buyProduct() {
-    Get.toNamed(Routes.CHECKOUT, arguments: selectProductCart);
+    List<CartProduct> combinedProducts = [];
+    Map<int, List<CartProduct>> groupedBySeller = {};
+    for (var product in selectProductCart) {
+      int sellerId = product.seller?.id ?? 0;
+      if (!groupedBySeller.containsKey(sellerId)) {
+        groupedBySeller[sellerId] = [];
+      }
+      groupedBySeller[sellerId]!.add(product);
+    }
+
+    for (var sellerProducts in groupedBySeller.values) {
+      List<Products> combinedProductsList = [];
+      for (var product in sellerProducts) {
+        combinedProductsList.addAll(product.products ?? []);
+      }
+      CartProduct combinedProduct = CartProduct(
+        seller: sellerProducts[0].seller,
+        products: combinedProductsList,
+      );
+      combinedProducts.add(combinedProduct);
+    }
+    Get.toNamed(Routes.CHECKOUT, arguments: combinedProducts);
+    // String jsonCartProduct = jsonEncode(combinedProducts);
+    // log(jsonCartProduct);
   }
 
   bool isLoadingFirst = false;

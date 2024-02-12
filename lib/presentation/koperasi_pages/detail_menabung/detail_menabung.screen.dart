@@ -23,7 +23,15 @@ class DetailMenabungScreen extends GetView<DetailMenabungController> {
     });
   }
 
-  Scaffold successWidget(DetailMenabungController controller) {
-    return Scaffold(appBar: appBarDetailSaving, body: const DetailSaving());
+  Widget successWidget(DetailMenabungController controller) {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+        onWillPop: () async {
+          controller.actionBack();
+          return true;
+        },
+        child: Scaffold(
+            appBar: appBarDetailSaving(controller),
+            body: const DetailSaving()));
   }
 }

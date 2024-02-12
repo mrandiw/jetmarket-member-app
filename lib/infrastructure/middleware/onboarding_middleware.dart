@@ -6,7 +6,7 @@ import '../navigation/routes.dart';
 
 class OnboardingMiddleware extends GetMiddleware {
   @override
-  int? get priority => 3;
+  int? get priority => 4;
 
   @override
   RouteSettings? redirect(String? route) {
