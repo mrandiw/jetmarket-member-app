@@ -63,7 +63,7 @@ android:host="https://jetmarketcustomer.page.link" />
             android:name="flutterEmbedding"
             android:value="2" />
             <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyDVNR1Y_1582CzJIUQRv1-9HVox0Ej1mus"/>
+               android:value="AIzaSyDatKKhEFJK08IFTs5FH3YWBbihhloWbdY"/>
                <meta-data
              android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
