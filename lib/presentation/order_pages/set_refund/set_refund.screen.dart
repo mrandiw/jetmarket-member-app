@@ -13,7 +13,7 @@ import 'section/delivery_section.dart';
 import 'section/product_section.dart';
 
 class SetRefundScreen extends GetView<SetRefundController> {
-  const SetRefundScreen({Key? key}) : super(key: key);
+  const SetRefundScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

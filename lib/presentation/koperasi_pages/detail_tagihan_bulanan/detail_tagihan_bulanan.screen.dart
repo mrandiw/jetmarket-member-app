@@ -12,7 +12,7 @@ import 'section/information_section.dart';
 
 class DetailTagihanBulananScreen
     extends GetView<DetailTagihanBulananController> {
-  const DetailTagihanBulananScreen({Key? key}) : super(key: key);
+  const DetailTagihanBulananScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,15 +26,22 @@ class DetailTagihanBulananScreen
     });
   }
 
-  Scaffold successWidget() {
-    return Scaffold(
-        appBar: appBarDetailTagihanBulanan,
-        body: ListView(
-          padding: AppStyle.paddingAll16,
-          children: [
-            StatusTagihanBulanan(controller: controller),
-            InformationSection(controller: controller)
-          ],
-        ));
+  Widget successWidget() {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.actionBack();
+        return true;
+      },
+      child: Scaffold(
+          appBar: appBarDetailTagihanBulanan(controller),
+          body: ListView(
+            padding: AppStyle.paddingAll16,
+            children: [
+              StatusTagihanBulanan(controller: controller),
+              InformationSection(controller: controller)
+            ],
+          )),
+    );
   }
 }

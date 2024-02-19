@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/params/auth/forgot_verify_otp_param.dart';
@@ -18,6 +20,8 @@ class OtpController extends GetxController {
   var actionStatus = ActionStatus.initalize;
 
   String email = "";
+  var countdownSendOtp = ''.obs;
+  var isCountdownSendOtpRun = false.obs;
 
   Future<void> verifyOtp() async {
     List<String> otpNumber = [];
@@ -49,6 +53,39 @@ class OtpController extends GetxController {
       if (index > 0) {
         focusNodes[index - 1].requestFocus();
       }
+    }
+  }
+
+  void startCountdown() {
+    int secondsRemaining = 120;
+    // ignore: unused_local_variable
+    late Timer timer;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (secondsRemaining > 0) {
+        isCountdownSendOtpRun(true);
+        int minutes = secondsRemaining ~/ 60;
+        int remainingSeconds = secondsRemaining % 60;
+        String minutesString = (minutes < 10) ? '0$minutes' : '$minutes';
+        String secondsString = (remainingSeconds < 10)
+            ? '0$remainingSeconds'
+            : '$remainingSeconds';
+        countdownSendOtp.value = '$minutesString:$secondsString';
+        secondsRemaining--;
+      } else {
+        countdownSendOtp.value = '00:00';
+        isCountdownSendOtpRun(false);
+        timer.cancel();
+      }
+    });
+  }
+
+  Future<void> sendOtp() async {
+    final response = await _authRepository.sendOtp(Get.arguments);
+    if (response.status == StatusResponse.success) {
+      startCountdown();
+    } else {
+      AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
     }
   }
 

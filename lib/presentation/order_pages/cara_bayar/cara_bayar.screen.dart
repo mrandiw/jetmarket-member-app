@@ -9,7 +9,7 @@ import 'controllers/cara_bayar.controller.dart';
 import 'section/detail_section.dart';
 
 class CaraBayarScreen extends GetView<CaraBayarController> {
-  const CaraBayarScreen({Key? key}) : super(key: key);
+  const CaraBayarScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

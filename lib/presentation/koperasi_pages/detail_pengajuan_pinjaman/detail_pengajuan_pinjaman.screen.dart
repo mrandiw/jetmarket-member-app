@@ -12,7 +12,7 @@ import 'section/status_section.dart';
 
 class DetailPengajuanPinjamanScreen
     extends GetView<DetailPengajuanPinjamanController> {
-  const DetailPengajuanPinjamanScreen({Key? key}) : super(key: key);
+  const DetailPengajuanPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,15 +26,22 @@ class DetailPengajuanPinjamanScreen
     });
   }
 
-  Scaffold successWidget() {
-    return Scaffold(
-        appBar: appBarDetailPengajuanPinjaman,
-        body: ListView(
-          padding: AppStyle.paddingAll16,
-          children: [
-            StatusPengajuanPinjaman(controller: controller),
-            InformationSection(controller: controller)
-          ],
-        ));
+  Widget successWidget() {
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.actionBack();
+        return true;
+      },
+      child: Scaffold(
+          appBar: appBarDetailPengajuanPinjaman(controller),
+          body: ListView(
+            padding: AppStyle.paddingAll16,
+            children: [
+              StatusPengajuanPinjaman(controller: controller),
+              InformationSection(controller: controller)
+            ],
+          )),
+    );
   }
 }

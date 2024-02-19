@@ -18,11 +18,11 @@ class AppBarDetailStore extends StatelessWidget {
   final bool isScroll;
 
   const AppBarDetailStore({
-    Key? key,
+    super.key,
     required this.tabController,
     required this.controller,
     required this.isScroll,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,10 @@ class AppBarDetailStore extends StatelessWidget {
       backgroundColor: kWhite,
       surfaceTintColor: kWhite,
       automaticallyImplyLeading: false,
-      expandedHeight: 246.hr,
+      expandedHeight: controller.detailShop?.openAt != "" &&
+              controller.detailShop?.closeAt != ""
+          ? 286.hr
+          : 246.hr,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [

@@ -11,7 +11,7 @@ import 'section/app_bar_section.dart';
 import 'section/button_section.dart';
 
 class ReviewOrderScreen extends GetView<ReviewOrderController> {
-  const ReviewOrderScreen({Key? key}) : super(key: key);
+  const ReviewOrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,6 +26,7 @@ class ReviewOrderScreen extends GetView<ReviewOrderController> {
   }
 
   Widget successWidget(ReviewOrderController controller) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.backToOrder();

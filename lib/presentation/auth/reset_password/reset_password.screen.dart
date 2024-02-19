@@ -10,7 +10,7 @@ import 'section/form_section.dart';
 import 'section/header_section.dart';
 
 class ResetPasswordScreen extends GetView<ResetPasswordController> {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+  const ResetPasswordScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

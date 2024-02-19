@@ -13,7 +13,7 @@ import 'section/footer_section.dart';
 import 'section/product_section.dart';
 
 class KomplainScreen extends GetView<KomplainController> {
-  const KomplainScreen({Key? key}) : super(key: key);
+  const KomplainScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

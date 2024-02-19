@@ -14,7 +14,7 @@ import 'controllers/payment_success_retail.controller.dart';
 
 class PaymentSuccessRetailScreen
     extends GetView<PaymentSuccessRetailController> {
-  const PaymentSuccessRetailScreen({Key? key}) : super(key: key);
+  const PaymentSuccessRetailScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

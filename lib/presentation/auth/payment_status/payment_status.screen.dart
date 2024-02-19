@@ -8,7 +8,7 @@ import 'package:jetmarket/presentation/auth/payment_status/section/success_secti
 import 'controllers/payment_status.controller.dart';
 
 class PaymentStatusScreen extends GetView<PaymentStatusController> {
-  const PaymentStatusScreen({Key? key}) : super(key: key);
+  const PaymentStatusScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

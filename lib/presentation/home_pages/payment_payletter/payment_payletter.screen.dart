@@ -12,7 +12,7 @@ import 'controllers/payment_payletter.controller.dart';
 import 'section/button_section.dart';
 
 class PaymentPayletterScreen extends GetView<PaymentPayletterController> {
-  const PaymentPayletterScreen({Key? key}) : super(key: key);
+  const PaymentPayletterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

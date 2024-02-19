@@ -69,12 +69,16 @@ class ProductSection extends StatelessWidget {
                               child: Column(
                                 children: [
                                   DeliveryItem(
-                                      data: controller.listDelivery,
-                                      sellerId: data.seller?.id ?? 0,
-                                      isExpandedTile:
-                                          controller.isExpandedTile[index],
-                                      onExpansionChanged: (value) =>
-                                          controller.onExpandTile(index)),
+                                    data: controller.listDelivery,
+                                    sellerId: data.seller?.id ?? 0,
+                                    isExpandedTile:
+                                        controller.isExpandedTile[index],
+                                    onExpansionChanged: (value) =>
+                                        controller.onExpandTile(index),
+                                    indexDelivery: index,
+                                    excontroller:
+                                        controller.excontroller[index],
+                                  ),
                                   if (indexDelivery != -1 &&
                                       indexDelivery <
                                           controller.selectedDelivery.length)
@@ -100,7 +104,7 @@ class ProductSection extends StatelessWidget {
 
   Padding _selectedDelivery(CheckoutController controller, int indexDelivery) {
     return Padding(
-      padding: AppStyle.paddingBottom16,
+      padding: AppStyle.paddingVert12,
       child: Card(
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(

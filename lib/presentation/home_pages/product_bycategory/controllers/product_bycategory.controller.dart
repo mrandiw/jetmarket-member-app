@@ -106,7 +106,7 @@ class ProductBycategoryController extends GetxController {
   }
 
   void toDetailProduct(int id) {
-    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: id);
+    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [id, null]);
   }
 
   void selectCategory(CategoryProduct? value) {

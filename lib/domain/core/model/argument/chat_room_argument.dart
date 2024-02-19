@@ -11,6 +11,7 @@ class ChatRoomArgument {
   String? createdAt;
   int? unreadCount;
   Variants? variants;
+  String? lifecycle;
 
   ChatRoomArgument(
       {this.chatId,
@@ -22,5 +23,6 @@ class ChatRoomArgument {
       this.name,
       this.createdAt,
       this.unreadCount,
-      this.variants});
+      this.variants,
+      this.lifecycle});
 }

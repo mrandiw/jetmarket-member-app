@@ -15,14 +15,10 @@ import '../../../../utils/app_preference/app_preferences.dart';
 
 class ChatSection extends StatelessWidget {
   const ChatSection(
-      {super.key,
-      required this.controller,
-      this.scrollController,
-      this.reverse = false});
+      {super.key, required this.controller, this.scrollController});
 
   final DetailChatController controller;
   final ScrollController? scrollController;
-  final bool reverse;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +81,7 @@ class ChatSection extends StatelessWidget {
                 controller: controller,
                 onHorizontalDragStart: (detail) {
                   var pinnedMessage = PinnedMessage(
+                      id: item.id,
                       senderId: item.sender?.id,
                       receiverId: item.receiver?.id,
                       text: item.text,

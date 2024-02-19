@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 
@@ -28,8 +27,8 @@ class WaitingPaymentController extends GetxController {
     Get.toNamed(Routes.CARA_BAYAR, arguments: id);
   }
 
-  void toListOrder(int id) {
-    Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: id);
+  void toListOrder(String id) {
+    Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: [id, null]);
   }
 
   @override

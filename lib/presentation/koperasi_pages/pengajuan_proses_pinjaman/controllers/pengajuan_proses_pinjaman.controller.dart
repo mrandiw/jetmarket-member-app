@@ -21,7 +21,7 @@ class PengajuanProsesPinjamanController extends GetxController {
     final response = await _loanRepository.loanCancel(Get.arguments);
     if (response.status == StatusResponse.success) {
       Get.offNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN,
-          arguments: response.result?.id);
+          arguments: [response.result?.id, null]);
     }
   }
 }

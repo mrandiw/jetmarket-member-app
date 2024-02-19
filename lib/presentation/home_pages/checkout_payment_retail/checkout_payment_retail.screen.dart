@@ -9,7 +9,7 @@ import 'widget/methode_sreen_state.dart';
 
 class CheckoutPaymentRetailScreen
     extends GetView<CheckoutPaymentRetailController> {
-  const CheckoutPaymentRetailScreen({Key? key}) : super(key: key);
+  const CheckoutPaymentRetailScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

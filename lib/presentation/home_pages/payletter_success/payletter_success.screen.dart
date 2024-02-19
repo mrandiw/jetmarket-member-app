@@ -14,9 +14,10 @@ import 'controllers/payletter_success.controller.dart';
 import 'section/app_bar_section.dart';
 
 class PayletterSuccessScreen extends GetView<PayletterSuccessController> {
-  const PayletterSuccessScreen({Key? key}) : super(key: key);
+  const PayletterSuccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.backtoMerchent();

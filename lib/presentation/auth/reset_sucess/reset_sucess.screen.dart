@@ -14,7 +14,7 @@ import '../../../../utils/assets/assets_svg.dart';
 import 'controllers/reset_sucess.controller.dart';
 
 class ResetSucessScreen extends GetView<ResetSucessController> {
-  const ResetSucessScreen({Key? key}) : super(key: key);
+  const ResetSucessScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

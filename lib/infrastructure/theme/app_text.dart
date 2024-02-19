@@ -53,6 +53,11 @@ TextStyle get text14HintRegular => GoogleFonts.poppins(
       fontWeight: FontWeight.w400,
       color: const Color(0xff808080),
     );
+TextStyle get text14HintBold => GoogleFonts.poppins(
+      fontSize: 13.wr,
+      fontWeight: FontWeight.w700,
+      color: const Color(0xff808080),
+    );
 TextStyle get text12HintRegular => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w400,
@@ -252,6 +257,11 @@ TextStyle get text14NormalAccentRegular => GoogleFonts.poppins(
       fontSize: 13.wr,
       fontWeight: FontWeight.w400,
       color: kNormalAccentColor,
+    );
+TextStyle get text14NormalBold => GoogleFonts.poppins(
+      fontSize: 13.wr,
+      fontWeight: FontWeight.w700,
+      color: kNormalColor,
     );
 TextStyle get text14SuccessSemiBold => GoogleFonts.poppins(
       fontSize: 13.wr,

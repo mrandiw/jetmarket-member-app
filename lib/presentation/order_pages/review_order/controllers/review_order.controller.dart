@@ -136,7 +136,7 @@ class ReviewOrderController extends GetxController {
       if (Get.arguments[1] != null) {
         if (Get.arguments[1] == 'review') {
           Get.offNamed(Routes.DETAIL_ORDER,
-              arguments: [Get.arguments[0], "review"]);
+              arguments: [Get.arguments[0], "review", null, null]);
         } else if (Get.arguments[1] == 'review-detail' ||
             Get.arguments[1] == 'receive-review') {
           Get.back();

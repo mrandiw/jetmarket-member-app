@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/params/auth/register_virify_otp_param.dart';
@@ -17,7 +19,9 @@ class RegisterOtpController extends GetxController {
   var enableButton = false;
   var actionStatus = ActionStatus.initalize;
 
-  String phoneNumber = "";
+  String emailUser = "";
+  var countdownSendOtp = ''.obs;
+  var isCountdownSendOtpRun = false.obs;
 
   Future<void> verifyOtp() async {
     List<String> otpNumber = [];
@@ -26,19 +30,17 @@ class RegisterOtpController extends GetxController {
     }
     actionStatus = ActionStatus.loading;
     update();
-    var param =
-        RegisterVerifyOtpParam(email: phoneNumber, otp: otpNumber.join());
+    var param = RegisterVerifyOtpParam(email: emailUser, otp: otpNumber.join());
     final response = await _authRepository.verifyRegisterOtp(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
-      AppPreference().verifySuccess();
       update();
       Get.offAllNamed(Routes.SUCCESS_VERIFY_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();
       if (response.message == 'Kode OTP telah Kadaluarsa!') {
-        _authRepository.sendRegisterOtp(phoneNumber);
+        _authRepository.sendRegisterOtp(emailUser);
         if (response.status == StatusResponse.success) {
           for (var item in otpControllers) {
             item.clear();
@@ -67,20 +69,50 @@ class RegisterOtpController extends GetxController {
     }
   }
 
+  void startCountdown() {
+    int secondsRemaining = 120;
+    // ignore: unused_local_variable
+    late Timer timer;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (secondsRemaining > 0) {
+        isCountdownSendOtpRun(true);
+        int minutes = secondsRemaining ~/ 60;
+        int remainingSeconds = secondsRemaining % 60;
+        String minutesString = (minutes < 10) ? '0$minutes' : '$minutes';
+        String secondsString = (remainingSeconds < 10)
+            ? '0$remainingSeconds'
+            : '$remainingSeconds';
+        countdownSendOtp.value = '$minutesString:$secondsString';
+        secondsRemaining--;
+      } else {
+        countdownSendOtp.value = '00:00';
+        isCountdownSendOtpRun(false);
+        timer.cancel();
+      }
+    });
+  }
+
+  Future<void> sendOtp() async {
+    final response = await _authRepository.sendOtp(Get.arguments);
+    if (response.status == StatusResponse.success) {
+      startCountdown();
+    } else {
+      AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null) {
-      phoneNumber = Get.arguments;
-    } else {
-      phoneNumber = AppPreference().getUserData()?.user?.email ?? '';
-    }
+    emailUser = AppPreference().getUserData()?.user?.email ?? '';
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();
       controller.addListener(_checkIfAllFieldsFilled);
       return controller;
     });
     _checkIfAllFieldsFilled();
+    startCountdown();
   }
 
   void _checkIfAllFieldsFilled() {

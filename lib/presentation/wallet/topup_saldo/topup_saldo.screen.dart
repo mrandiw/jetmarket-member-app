@@ -8,7 +8,7 @@ import 'section/button_section.dart';
 import 'section/payment_methode.dart';
 
 class TopupSaldoScreen extends GetView<TopupSaldoController> {
-  const TopupSaldoScreen({Key? key}) : super(key: key);
+  const TopupSaldoScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

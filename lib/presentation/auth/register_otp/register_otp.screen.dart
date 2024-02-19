@@ -10,7 +10,7 @@ import 'section/form_section.dart';
 import 'section/header_section.dart';
 
 class RegisterOtpScreen extends GetView<RegisterOtpController> {
-  const RegisterOtpScreen({Key? key}) : super(key: key);
+  const RegisterOtpScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

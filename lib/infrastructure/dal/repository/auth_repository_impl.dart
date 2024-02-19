@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:jetmarket/domain/core/model/model_data/checking_auth.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
 import '../../../../domain/core/model/model_data/user_model.dart';
 import '../../../../domain/core/model/params/auth/forgot_param.dart';
@@ -230,6 +231,20 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     } on DioException catch (e) {
       return CustomException<UserProfile>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<CheckingAuth>> checkingAuth({required int id}) async {
+    try {
+      final response =
+          await RemoteProvider.get(path: '${Endpoint.profile}/$id');
+      return DataState<CheckingAuth>(
+          status: StatusCodeResponse.cek(response: response),
+          result: CheckingAuth.fromJson(response.data['data']),
+          message: response.data['message']);
+    } on DioException catch (e) {
+      return CustomException<CheckingAuth>().dio(e);
     }
   }
 }

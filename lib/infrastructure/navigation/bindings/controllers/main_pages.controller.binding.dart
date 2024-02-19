@@ -14,9 +14,7 @@ import '../../../dal/repository/product_repository_impl.dart';
 class MainPagesControllerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MainPagesController>(
-      () => MainPagesController(),
-    );
+    Get.put(MainPagesController());
     Get.lazyPut<HomeController>(
       () => HomeController(ProductRepositoryImpl()),
     );

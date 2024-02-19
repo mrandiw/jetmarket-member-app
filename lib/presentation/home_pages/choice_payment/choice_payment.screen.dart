@@ -11,7 +11,7 @@ import 'controllers/choice_payment.controller.dart';
 import 'section/button_section.dart';
 
 class ChoicePaymentScreen extends GetView<ChoicePaymentController> {
-  const ChoicePaymentScreen({Key? key}) : super(key: key);
+  const ChoicePaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

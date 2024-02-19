@@ -7,7 +7,7 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import '../infrastructure/dal/daos/provider/remote/remote_provider.dart';
 // import '../infrastructure/dal/services/firebase/firebase_api.dart';
 import '../infrastructure/dal/services/firebase/deeplink_service.dart';
-import '../infrastructure/dal/services/firebase/firebase_api.dart';
+import '../infrastructure/dal/services/firebase/firebase_service.dart';
 import '../infrastructure/dal/services/firebase/firebase_options.dart';
 import '../utils/path/environment.dart';
 
@@ -23,7 +23,9 @@ class AppConfig {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     await DeeplinkService.getLink();
-    await FirebaseApi().initNotification();
+    await DeeplinkService.getInitialLink();
+    await FirebaseService.getInitialMessage();
+    await FirebaseService().initNotification();
     await AppPreference.init();
     await RemoteProvider.init();
   }

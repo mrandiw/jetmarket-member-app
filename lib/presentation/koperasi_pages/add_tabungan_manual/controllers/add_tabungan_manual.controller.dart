@@ -2,14 +2,16 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/domain/core/model/model_data/saving_payment_methode_model.dart';
+import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/domain/core/model/params/saving/saving_direct_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/extension/remove_comma.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../domain/core/interfaces/saving_repository.dart';
+import '../../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -18,7 +20,8 @@ import '../widget/ovo_form.dart';
 
 class AddTabunganManualController extends GetxController {
   final SavingRepository _savingRepository;
-  AddTabunganManualController(this._savingRepository);
+  final PaymentRepository _paymentRepository;
+  AddTabunganManualController(this._savingRepository, this._paymentRepository);
 
   TextEditingController nominalController = TextEditingController();
   TextEditingController numberController = TextEditingController();
@@ -26,7 +29,7 @@ class AddTabunganManualController extends GetxController {
   var screenStatus = (ScreenStatus.initalize).obs;
   var actionButton = ActionStatus.initalize;
 
-  SavingPaymentMethodeModel? savingPaymentMethode;
+  PaymentMethodeModel? savingPaymentMethode;
 
   final String countryCode = '+62';
   final String idrPrefix = 'Rp. ';
@@ -41,15 +44,17 @@ class AddTabunganManualController extends GetxController {
   String selectedRetail = "";
   String? selectedChType;
   String? selectedChCode;
+  String selectedName = "";
   int? selectedIdMethode;
 
   var isPhoneValidated = false.obs;
 
   Future<void> getSavingPaymentMethode() async {
     screenStatus.value = ScreenStatus.loading;
-    final repository = await _savingRepository.getSavingPaymentMethode();
-    if (repository.status == StatusResponse.success) {
-      savingPaymentMethode = repository.result;
+    final response = await _paymentRepository.getPaymentMethode(
+        type: PaymentMethodeType.saving);
+    if (response.status == StatusResponse.success) {
+      savingPaymentMethode = response.result;
       screenStatus.value = ScreenStatus.success;
       update();
     } else {
@@ -147,8 +152,8 @@ class AddTabunganManualController extends GetxController {
   }
 
   void selectSaldoPayment() {
-    selectedChCode = savingPaymentMethode?.saldo?.chCode;
-    selectedChType = savingPaymentMethode?.saldo?.chType;
+    selectedChCode = savingPaymentMethode?.saldo?[0].chCode;
+    selectedChType = savingPaymentMethode?.saldo?[0].chType;
     update();
   }
 

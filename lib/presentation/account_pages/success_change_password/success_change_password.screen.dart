@@ -15,7 +15,7 @@ import 'section/app_bar_section.dart';
 
 class SuccessChangePasswordScreen
     extends GetView<SuccessChangePasswordController> {
-  const SuccessChangePasswordScreen({Key? key}) : super(key: key);
+  const SuccessChangePasswordScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

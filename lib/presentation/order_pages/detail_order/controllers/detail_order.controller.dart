@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
+import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
 
 import '../../../../domain/core/model/model_data/detail_order_customer.dart';
 import '../../../../infrastructure/navigation/routes.dart';
@@ -26,7 +27,8 @@ class DetailOrderController extends GetxController {
 
   Future<void> getDetailOrder() async {
     screenStatus(ScreenStatus.loading);
-    final response = await _orderRepository.getDetailOrder(Get.arguments[0]);
+    final response = await _orderRepository.getDetailOrder(
+        Get.arguments[0], Get.arguments[3]);
     if (response.status == StatusResponse.success) {
       detailOrderCustomer = response.result;
       statusOrder = detailOrderCustomer?.status ?? '';
@@ -130,15 +132,20 @@ class DetailOrderController extends GetxController {
   void backToOrder() {
     // Get.back();
 
-    if (argumentBack != null) {
-      if (argumentBack == 'review') {
-        Get.back();
-        refreshOrder();
-      } else if (argumentBack == '') {
+    if (Get.arguments[2] != null) {
+      Get.offAllNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      if (argumentBack != null) {
+        if (argumentBack == 'review') {
+          Get.back();
+          refreshOrder();
+        } else if (argumentBack == '') {
+          Get.back();
+        }
+      } else {
         Get.back();
       }
-    } else {
-      Get.back();
     }
   }
 

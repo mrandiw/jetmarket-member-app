@@ -10,7 +10,7 @@ import 'package:jetmarket/utils/style/app_style.dart';
 import '../../../../utils/assets/assets_svg.dart';
 
 class CategorySection extends StatelessWidget {
-  const CategorySection({Key? key}) : super(key: key);
+  const CategorySection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,9 @@ class CategorySection extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  height: 36,
+                  height: 36.h,
+                  width:
+                      widthDropdown(controller.selectedCategoryProduct!.name!),
                   padding: EdgeInsets.symmetric(
                     vertical: 8.h,
                     horizontal: 12.w,
@@ -42,6 +44,7 @@ class CategorySection extends StatelessWidget {
                     style: text11PrimaryRegular,
                     value: controller.selectedCategoryProduct,
                     underline: const SizedBox.shrink(),
+                    isExpanded: true,
                     icon: SvgPicture.asset(arrowDown),
                     onChanged: (newValue) {
                       controller.selectCategory(newValue);
@@ -55,12 +58,29 @@ class CategorySection extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                const Spacer()
               ],
             ),
           );
         },
       ),
     );
+  }
+
+  double widthDropdown(String name) {
+    int lenght = name.length;
+    switch (lenght) {
+      case 5:
+        return lenght * 16;
+      case 7:
+        return lenght * 14;
+      case 11:
+        return lenght * 10.2;
+      case 14:
+        return lenght * 10;
+      case 17:
+        return lenght * 8.2;
+      default:
+        return 120;
+    }
   }
 }

@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import 'package:jetmarket/infrastructure/middleware/uni_link_middleware.dart';
-
+import 'package:jetmarket/infrastructure/middleware/deeplink_middleware.dart';
 import '../../presentation/screens.dart';
-import '../middleware/auth_middleware.dart';
+import '../middleware/notification_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
@@ -93,8 +92,7 @@ class Nav {
     GetPage(
         name: Routes.MAIN_PAGES,
         page: () => const MainPagesScreen(),
-        binding: MainPagesControllerBinding(),
-        middlewares: [UniLinkMiddleware(), AuthMiddleware()]),
+        binding: MainPagesControllerBinding()),
     GetPage(
       name: Routes.DETAIL_PAYMENT_REGISTER,
       page: () => const DetailPaymentRegisterScreen(),
@@ -470,5 +468,10 @@ class Nav {
       page: () => const DetailPaymentPaylaterScreen(),
       binding: DetailPaymentPaylaterControllerBinding(),
     ),
+    GetPage(
+        name: Routes.CHECK_EXTERNAL_LINK,
+        page: () => const CheckExternalLinkScreen(),
+        binding: CheckExternalLinkControllerBinding(),
+        middlewares: [DeeplinkMiddleware(), NotificationMiddleware()]),
   ];
 }

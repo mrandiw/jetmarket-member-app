@@ -13,7 +13,7 @@ import 'controllers/payment_tabungan_success.controller.dart';
 
 class PaymentTabunganSuccessScreen
     extends GetView<PaymentTabunganSuccessController> {
-  const PaymentTabunganSuccessScreen({Key? key}) : super(key: key);
+  const PaymentTabunganSuccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class PaymentTabunganSuccessScreen
           AppButton.primary(
             text: 'Lihat Rincian',
             onPressed: () => Get.offNamed(Routes.DETAIL_MENABUNG,
-                arguments: controller.savingDirect?.id),
+                arguments: [controller.savingDirect?.id, null]),
           ),
           Gap(12.hr),
           AppButton.secondaryGrey(

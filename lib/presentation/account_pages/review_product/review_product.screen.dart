@@ -9,7 +9,7 @@ import 'section/app_bar_section.dart';
 import 'section/list_order_section.dart';
 
 class ReviewProductScreen extends GetView<ReviewProductController> {
-  const ReviewProductScreen({Key? key}) : super(key: key);
+  const ReviewProductScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,7 +6,7 @@ import 'controllers/detail_payment_customer.controller.dart';
 
 class DetailPaymentCustomerScreen
     extends GetView<DetailPaymentCustomerController> {
-  const DetailPaymentCustomerScreen({Key? key}) : super(key: key);
+  const DetailPaymentCustomerScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

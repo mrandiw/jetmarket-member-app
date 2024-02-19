@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +97,7 @@ class PaymentRegisterController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      AppPreference().saveTrxId(response.result?.id ?? 0);
+      log("TRXXX : ${response.result?.id}");
       toPaying(response.result, amount);
     } else {
       actionStatus = ActionStatus.failed;
@@ -133,7 +135,7 @@ class PaymentRegisterController extends GetxController {
     }
   }
 
-  void toPaying(PaymentCustomerModel? data, String amount) {
+  void toPaying(PaymentCustomerModel? data, String amount) async {
     var argument = PaymentMethodeArgument(
         status: "register",
         amount: amount,
@@ -141,6 +143,7 @@ class PaymentRegisterController extends GetxController {
         chCode: selectedchCode,
         name: selectedName,
         data: data);
+    await AppPreference().saveTrxId(data?.id ?? 0);
     Get.toNamed(Routes.DETAIL_PAYMENT_REGISTER, arguments: argument);
   }
 

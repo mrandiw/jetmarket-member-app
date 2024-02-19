@@ -1,6 +1,7 @@
 import 'package:jetmarket/domain/core/model/params/auth/register_param.dart';
 
 import '../../../utils/network/data_state.dart';
+import '../model/model_data/checking_auth.dart';
 import '../model/model_data/user_model.dart';
 import '../model/model_data/user_profile.dart';
 import '../model/params/auth/forgot_param.dart';
@@ -27,4 +28,5 @@ abstract class AuthRepository {
       {required String name, required String image});
   Future<DataState<UserProfile>> editUserProfile(
       {required int id, required ProfileBody body});
+  Future<DataState<CheckingAuth>> checkingAuth({required int id});
 }

@@ -57,8 +57,8 @@ class ProductRepositoryImpl implements ProductRepository {
       List<dynamic> datas = response.data['data']['items'];
       return DataState<List<Product>>(
           result: datas.map((e) => Product.fromJson(e)).toList(),
-          status:
-              StatusCodeResponse.cek(response: response, queryParams: true));
+          status: StatusCodeResponse.cek(
+              response: response, queryParams: true, showLogs: true));
     } on DioException catch (e) {
       return CustomException<List<Product>>().dio(e);
     }

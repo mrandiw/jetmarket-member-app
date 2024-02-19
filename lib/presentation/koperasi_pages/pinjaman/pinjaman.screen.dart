@@ -7,7 +7,7 @@ import 'controllers/pinjaman.controller.dart';
 import 'section/app_bar_section.dart';
 
 class PinjamanScreen extends GetView<PinjamanController> {
-  const PinjamanScreen({Key? key}) : super(key: key);
+  const PinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

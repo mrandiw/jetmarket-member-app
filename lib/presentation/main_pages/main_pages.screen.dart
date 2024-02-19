@@ -8,7 +8,7 @@ import 'package:jetmarket/presentation/main_pages/controllers/item_bar_model.dar
 import 'controllers/main_pages.controller.dart';
 
 class MainPagesScreen extends GetView<MainPagesController> {
-  const MainPagesScreen({Key? key}) : super(key: key);
+  const MainPagesScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainPagesController>(builder: (controller) {

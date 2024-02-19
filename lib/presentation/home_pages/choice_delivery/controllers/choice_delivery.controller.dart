@@ -27,7 +27,9 @@ class ChoiceDeliveryController extends GetxController {
     var selectedDelivery =
         SelectDelivery(sellerId: sellerId, packets: packets[selectedPacket]);
     controller.updateDeliverySelected(
-        sellerId: sellerId, delivery: selectedDelivery);
+        sellerId: sellerId,
+        delivery: selectedDelivery,
+        index: Get.arguments[2]);
   }
 
   @override

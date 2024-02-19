@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'controllers/history_tabungan.controller.dart';
 
 class HistoryTabunganScreen extends GetView<HistoryTabunganController> {
-  const HistoryTabunganScreen({Key? key}) : super(key: key);
+  const HistoryTabunganScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

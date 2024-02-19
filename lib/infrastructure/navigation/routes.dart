@@ -38,6 +38,7 @@ class Routes {
   static const DETAIL_MENABUNG = '/detail-menabung';
   static const DETAIL_ORDER = '/detail-order';
   static const DETAIL_PAYMENT_CUSTOMER = '/detail-payment-customer';
+  static const DETAIL_PAYMENT_PAYLATER = '/detail-payment-paylater';
   static const DETAIL_PAYMENT_REGISTER = '/detail-payment-register';
   static const DETAIL_PENGAJUAN_PINJAMAN = '/detail-pengajuan-pinjaman';
   static const DETAIL_PRODUCT = '/detail-product';
@@ -99,5 +100,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const DETAIL_PAYMENT_PAYLATER = '/detail-payment-paylater';
+  static const CHECK_EXTERNAL_LINK = '/check-external-link';
 }

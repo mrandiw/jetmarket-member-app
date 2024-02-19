@@ -13,7 +13,7 @@ import 'section/info_order_section.dart';
 import 'section/payment_methode.dart';
 
 class DetailBillPaylaterScreen extends GetView<DetailBillPaylaterController> {
-  const DetailBillPaylaterScreen({Key? key}) : super(key: key);
+  const DetailBillPaylaterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {

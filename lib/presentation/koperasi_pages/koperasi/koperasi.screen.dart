@@ -11,7 +11,7 @@ import 'section/header_section.dart';
 import 'section/history_section.dart';
 
 class KoperasiScreen extends GetView<KoperasiController> {
-  const KoperasiScreen({Key? key}) : super(key: key);
+  const KoperasiScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

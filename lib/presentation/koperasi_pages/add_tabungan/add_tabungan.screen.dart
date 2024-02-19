@@ -8,7 +8,7 @@ import 'section/button_section.dart';
 import 'section/form_section.dart';
 
 class AddTabunganScreen extends GetView<AddTabunganController> {
-  const AddTabunganScreen({Key? key}) : super(key: key);
+  const AddTabunganScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

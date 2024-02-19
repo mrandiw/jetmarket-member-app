@@ -12,7 +12,7 @@ import 'section/category_section.dart';
 import 'section/product_section.dart';
 
 class ProductBycategoryScreen extends GetView<ProductBycategoryController> {
-  const ProductBycategoryScreen({Key? key}) : super(key: key);
+  const ProductBycategoryScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

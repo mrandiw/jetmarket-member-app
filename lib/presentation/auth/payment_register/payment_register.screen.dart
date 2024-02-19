@@ -14,7 +14,7 @@ import 'section/payment_section.dart';
 import 'section/header_section.dart';
 
 class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
-  const PaymentRegisterScreen({Key? key}) : super(key: key);
+  const PaymentRegisterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

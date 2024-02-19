@@ -7,7 +7,7 @@ import 'package:jetmarket/presentation/order_pages/waiting_payment/section/order
 import 'controllers/waiting_payment.controller.dart';
 
 class WaitingPaymentScreen extends GetView<WaitingPaymentController> {
-  const WaitingPaymentScreen({Key? key}) : super(key: key);
+  const WaitingPaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: appBarWaitingPayment, body: const OrderList());

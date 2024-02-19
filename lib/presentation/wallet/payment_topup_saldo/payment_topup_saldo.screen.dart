@@ -12,7 +12,7 @@ import 'section/button_section.dart';
 import 'section/detail_section.dart';
 
 class PaymentTopupSaldoScreen extends GetView<PaymentTopupSaldoController> {
-  const PaymentTopupSaldoScreen({Key? key}) : super(key: key);
+  const PaymentTopupSaldoScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(
@@ -23,6 +23,7 @@ class PaymentTopupSaldoScreen extends GetView<PaymentTopupSaldoController> {
   }
 
   Widget successWidget() {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.refreshEwalletPage();

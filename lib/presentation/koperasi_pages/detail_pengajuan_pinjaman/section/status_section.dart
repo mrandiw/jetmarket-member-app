@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -31,17 +32,23 @@ class StatusPengajuanPinjaman extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SvgPicture.asset(iconStatus(controller.detailLoan?.status ?? '')),
+          SvgPicture.asset(
+            iconStatus(controller.detailLoan?.status ?? ''),
+            height: 26.r,
+            width: 26.r,
+          ),
           Gap(8.wr),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(controller.detailLoan?.note?.title ?? '',
-                  style: text12BlackMedium),
-              Gap(4.hr),
-              Text(controller.detailLoan?.note?.description ?? '',
-                  style: text12BlackRegular),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(controller.detailLoan?.note?.title ?? '',
+                    style: text12BlackMedium),
+                Gap(4.hr),
+                Text(controller.detailLoan?.note?.description ?? '',
+                    style: text12BlackRegular),
+              ],
+            ),
           )
         ],
       ),
@@ -52,10 +59,10 @@ class StatusPengajuanPinjaman extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return kWarning2Color;
-      case 'SUCCEEDED':
-        return kSuccessColor2;
-      default:
+      case 'CANCELLED':
         return kBorder;
+      default:
+        return kSuccessColor2;
     }
   }
 
@@ -63,10 +70,10 @@ class StatusPengajuanPinjaman extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return kWarningColor;
-      case 'SUCCEEDED':
-        return kSuccessColor;
-      default:
+      case 'CANCELLED':
         return kGrey;
+      default:
+        return kSuccessColor;
     }
   }
 
@@ -74,10 +81,10 @@ class StatusPengajuanPinjaman extends StatelessWidget {
     switch (status) {
       case 'PENDING':
         return historyCircle;
-      case 'SUCCEEDED':
-        return done;
-      default:
+      case 'CANCELLED':
         return canceled;
+      default:
+        return done;
     }
   }
 }

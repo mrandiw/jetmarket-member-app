@@ -27,28 +27,33 @@ class InfoOrderWaiting extends StatelessWidget {
                 children: [
                   Text('Info Pesanan', style: text14BlackMedium),
                   Gap(6.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(controller.detailOrderCustomer?.trxRef ?? '',
-                          style: text12HintMedium),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              copy,
-                              colorFilter: const ColorFilter.mode(
-                                  kNormalColor, BlendMode.srcIn),
+                  Visibility(
+                    visible: controller.detailOrderCustomer?.trxRef != null,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 6.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(controller.detailOrderCustomer?.trxRef ?? '',
+                              style: text12HintMedium),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  copy,
+                                  colorFilter: const ColorFilter.mode(
+                                      kNormalColor, BlendMode.srcIn),
+                                ),
+                                Gap(6.w),
+                                Text('Salin', style: text12NormalRegular)
+                              ],
                             ),
-                            Gap(6.w),
-                            Text('Salin', style: text12NormalRegular)
-                          ],
-                        ),
-                      )
-                    ],
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  Gap(6.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

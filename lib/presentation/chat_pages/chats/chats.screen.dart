@@ -13,7 +13,7 @@ import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/chats.controller.dart';
 
 class ChatsScreen extends GetView<ChatsController> {
-  const ChatsScreen({Key? key}) : super(key: key);
+  const ChatsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

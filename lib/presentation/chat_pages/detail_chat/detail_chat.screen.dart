@@ -6,40 +6,29 @@ import 'section/app_bar_section.dart';
 import 'section/chat_section.dart';
 
 class DetailChatScreen extends GetView<DetailChatController> {
-  const DetailChatScreen({Key? key}) : super(key: key);
+  const DetailChatScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.backAction();
+        return true;
+      },
+      child: Scaffold(
         appBar: const AppBarDetailChat(),
         body: Stack(
           children: [
-            // CustomScrollView(
-            //   controller: controller.scrollController,
-            //   slivers: [ChatSection(controller: controller)],
-            // ),
             GetBuilder<DetailChatController>(builder: (controller) {
               return ChatSection(
                 controller: controller,
                 scrollController: controller.scrollController,
-                reverse: controller.isReverse,
               );
             }),
-
-            // Obx(() {
-            //   if (controller.isCurrnetPositionOnTop.value) {
-            //     return ChatSection(
-            //       controller: controller,
-            //       scrollController: controller.scrollController,
-            //     );
-            //   } else {
-            //     return ChatFromStore(
-            //       controller: controller,
-            //       scrollController: controller.scrollController,
-            //     );
-            //   }
-            // }),
             MessageSection(controller: controller),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

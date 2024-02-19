@@ -12,7 +12,7 @@ import 'controllers/pengajuan_proses_pinjaman.controller.dart';
 
 class PengajuanProsesPinjamanScreen
     extends GetView<PengajuanProsesPinjamanController> {
-  const PengajuanProsesPinjamanScreen({Key? key}) : super(key: key);
+  const PengajuanProsesPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

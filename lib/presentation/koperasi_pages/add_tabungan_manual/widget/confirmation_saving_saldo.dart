@@ -50,7 +50,7 @@ class AppDialogConfirmationSaving {
                   ),
                   Gap(4.h),
                   Text(
-                    controller.savingPaymentMethode?.saldo?.title ?? '',
+                    controller.savingPaymentMethode?.saldo?[0].name ?? '',
                     style: text12BlackRegular,
                   ),
                   Gap(16.h),

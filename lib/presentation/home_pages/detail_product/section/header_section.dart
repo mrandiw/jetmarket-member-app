@@ -77,15 +77,26 @@ class HeaderSection extends StatelessWidget {
             Positioned(
                 top: 16.h,
                 right: 16.w,
-                left: 16.w,
+                left: 0,
                 child: Row(
                   children: [
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: SvgPicture.asset(
-                        arrowForward,
-                        colorFilter:
-                            const ColorFilter.mode(kBlack, BlendMode.srcIn),
+                      child: Container(
+                        color: Colors.transparent,
+                        height: 34.hr,
+                        width: 74.hr,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: SvgPicture.asset(
+                              arrowForward,
+                              colorFilter: const ColorFilter.mode(
+                                  kBlack, BlendMode.srcIn),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     const Spacer(),
@@ -108,7 +119,7 @@ class HeaderSection extends StatelessWidget {
                     ),
                     Gap(12.w),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => controller.shareProduct(),
                       child: Container(
                         height: 34.r,
                         width: 34.r,

@@ -126,7 +126,7 @@ class WithdrawController extends GetxController {
     if (response.status == StatusResponse.success) {
       Get.back();
       log(response.result ?? '');
-      Get.offNamed(Routes.WITHDRAW_STATUS, arguments: response.result);
+      Get.toNamed(Routes.WITHDRAW_STATUS, arguments: response.result);
       actionStatus = ActionStatus.success;
       update();
     } else {

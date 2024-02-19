@@ -9,9 +9,10 @@ import 'section/app_bar_section.dart';
 import 'section/footer_section.dart';
 
 class VoucherScreen extends GetView<VoucherController> {
-  const VoucherScreen({Key? key}) : super(key: key);
+  const VoucherScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.updateSelectedVoucer();

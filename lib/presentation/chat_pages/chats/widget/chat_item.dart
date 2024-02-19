@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/list_chat_model.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
+import 'package:jetmarket/utils/extension/time_ago.dart';
 import '../../../../domain/core/model/argument/chat_room_argument.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
@@ -25,7 +26,7 @@ class ChatItem extends StatelessWidget {
           chatId: data.id,
           toId: data.id,
           fromRole: 'customer',
-          toRole: 'seller',
+          toRole: '',
           image: data.image,
           name: data.name,
           createdAt: data.createdAt,
@@ -67,7 +68,7 @@ class ChatItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('Baru saja', style: text12HintRegular),
+            Text(data.updatedAt?.timeAgo() ?? '', style: text12HintRegular),
             Gap(8.hr),
             Visibility(
               visible: data.unreadCount! > 0,

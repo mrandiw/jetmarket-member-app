@@ -173,7 +173,7 @@ class DetailStoreController extends GetxController
   void backToDetailProduct() {
     if (Get.arguments['product_id'] != null) {
       Get.offAndToNamed(Routes.DETAIL_PRODUCT,
-          arguments: Get.arguments['product_id']);
+          arguments: [Get.arguments['product_id'], null]);
     } else {
       Get.back();
     }

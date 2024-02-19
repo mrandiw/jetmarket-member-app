@@ -9,12 +9,13 @@ import 'section/button_section.dart';
 import 'section/form_section.dart';
 
 class EditAccountScreen extends GetView<EditAccountController> {
-  const EditAccountScreen({Key? key}) : super(key: key);
+  const EditAccountScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
-        await controller.updateUser();
+        controller.updateUser();
         return true;
       },
       child: Scaffold(

@@ -25,7 +25,7 @@ class OrderList extends StatelessWidget {
               padding: AppStyle.paddingBottom8,
               child: GestureDetector(
                 onTap: () => controller
-                    .toListOrder(controller.waitingPayment[index].id ?? 0),
+                    .toListOrder(controller.waitingPayment[index].refId ?? ''),
                 child: Card(
                   elevation: 0,
                   margin: EdgeInsets.zero,

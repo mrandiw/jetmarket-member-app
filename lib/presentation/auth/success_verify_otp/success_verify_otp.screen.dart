@@ -9,10 +9,11 @@ import 'package:jetmarket/utils/assets/assets_images.dart';
 import '../../../../components/button/app_button.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/style/app_style.dart';
+import '../../../utils/app_preference/app_preferences.dart';
 import 'controllers/success_verify_otp.controller.dart';
 
 class SuccessVerifyOtpScreen extends GetView<SuccessVerifyOtpController> {
-  const SuccessVerifyOtpScreen({Key? key}) : super(key: key);
+  const SuccessVerifyOtpScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,10 @@ class SuccessVerifyOtpScreen extends GetView<SuccessVerifyOtpController> {
             width: Get.width * 0.6,
             child: AppButton.primary(
                 text: 'Lanjutkan',
-                onPressed: () => Get.toNamed(Routes.PAYMENT_REGISTER)),
+                onPressed: () async {
+                  await AppPreference().setCurrentPage('payment-methode');
+                  Get.toNamed(Routes.PAYMENT_REGISTER);
+                }),
           )
         ],
       ),

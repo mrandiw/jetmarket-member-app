@@ -7,7 +7,7 @@ import 'section/app_bar_section.dart';
 import 'section/choice_option.dart';
 
 class TabunganScreen extends GetView<TabunganController> {
-  const TabunganScreen({Key? key}) : super(key: key);
+  const TabunganScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return successWidget(controller);

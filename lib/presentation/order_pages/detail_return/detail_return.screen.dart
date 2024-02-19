@@ -9,9 +9,10 @@ import 'section/app_bar_section.dart';
 import 'section/status_section.dart';
 
 class DetailReturnScreen extends GetView<DetailReturnController> {
-  const DetailReturnScreen({Key? key}) : super(key: key);
+  const DetailReturnScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.backToOrder();

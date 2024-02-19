@@ -10,7 +10,7 @@ import '../../../components/parent/parent_scaffold.dart';
 import 'controllers/detail_withdraw.controller.dart';
 
 class DetailWithdrawScreen extends GetView<DetailWithdrawController> {
-  const DetailWithdrawScreen({Key? key}) : super(key: key);
+  const DetailWithdrawScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(
@@ -20,6 +20,14 @@ class DetailWithdrawScreen extends GetView<DetailWithdrawController> {
         status: controller.screenStatus.value));
   }
 
-  Scaffold successWidget() =>
-      Scaffold(appBar: appBarDetailWithdraw, body: const DetailWd());
+  Widget successWidget() =>
+      // ignore: deprecated_member_use
+      WillPopScope(
+          onWillPop: () async {
+            controller.actionBack();
+            return true;
+          },
+          child: Scaffold(
+              appBar: appBarDetailWithdraw(controller),
+              body: const DetailWd()));
 }

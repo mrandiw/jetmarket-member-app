@@ -10,7 +10,7 @@ import 'controllers/all_category.controller.dart';
 import 'section/app_bar_section.dart';
 
 class AllCategoryScreen extends GetView<AllCategoryController> {
-  const AllCategoryScreen({Key? key}) : super(key: key);
+  const AllCategoryScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(

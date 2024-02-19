@@ -10,7 +10,7 @@ import 'section/header_section.dart';
 import 'section/list_address_section.dart';
 
 class EditAddressScreen extends GetView<EditAddressController> {
-  const EditAddressScreen({Key? key}) : super(key: key);
+  const EditAddressScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

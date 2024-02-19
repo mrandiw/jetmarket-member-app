@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_is_empty
-
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,12 +14,15 @@ import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/chat_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_product.dart';
 import 'package:jetmarket/domain/core/model/params/chat/chat_param.dart';
+import 'package:jetmarket/domain/core/model/params/chat/chat_update_param.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import '../../../../domain/core/interfaces/file_repository.dart';
 import '../../../../domain/core/model/argument/chat_room_argument.dart';
+import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/status_response.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 class DetailChatController extends GetxController {
   final FileRepository _fileRepository;
@@ -36,7 +38,6 @@ class DetailChatController extends GetxController {
   var isChatDelet = false.obs;
   var selectedItemDelete = <ChatModel>[].obs;
   int _pageSize = 10;
-  int _currentPage = 0;
   Seller? seller;
   Variants? variants;
   bool isSendProduct = false;
@@ -53,27 +54,24 @@ class DetailChatController extends GetxController {
   bool isFirst = true;
   bool isReverse = false;
   bool isNewChat = false;
+  int lenghtDataStore = 0;
 
-  final StreamController<List<ChatModel>> _streamController =
-      StreamController<List<ChatModel>>();
-
-  Stream<List<ChatModel>> get chatListStream => _streamController.stream;
+  StreamSubscription<List<ChatModel>>? chatStreamSubscription;
 
   PagingController<int, ChatModel> pagingController =
       PagingController(firstPageKey: 0);
 
   Future<void> getChat(int pageKey) async {
-    log("Page : $pageKey");
     try {
       List<ChatModel>? response;
 
       if (pageKey > 0) {
         _pageSize = 10;
-        log("Get dari API");
         response = await getChatFromApi(pageKey);
+        if (isFirst) {
+          serReciveIfNull();
+        }
       } else {
-        log("Get dari Store");
-
         await for (final data in getChatStream()) {
           response = data.reversed.toList();
         }
@@ -115,6 +113,8 @@ class DetailChatController extends GetxController {
     var userData = AppPreference().getUserData()?.user;
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    var firstReceiver = pagingController
+        .itemList![pagingController.itemList!.length - 1].receiver;
     var product = PinnedProduct(
       image: dataArgument?.variants?.image,
       name: dataArgument?.variants?.name,
@@ -130,10 +130,10 @@ class DetailChatController extends GetxController {
         image: userData?.image,
         role: dataArgument?.fromRole);
     var receiver = Receiver(
-        id: dataArgument?.toId,
-        name: dataArgument?.name,
-        image: dataArgument?.image,
-        role: dataArgument?.toRole);
+        id: dataArgument?.toId ?? firstReceiver?.id,
+        name: dataArgument?.name ?? firstReceiver?.name,
+        image: dataArgument?.image ?? firstReceiver?.image,
+        role: dataArgument?.toRole ?? firstReceiver?.role);
     var dataChat = ChatModel(
         createdAt: formattedDate,
         deletedAt: null,
@@ -146,26 +146,30 @@ class DetailChatController extends GetxController {
         pinnedMessage: message,
         pinnedOrder: order);
 // send message
+
+    isNewChat = true;
     final response = await _chatRepository.sendMessage(
         documentTitle: "${dataArgument?.chatId}", message: dataChat.toMap());
     if (response.result == true) {
-      // pagingController.itemList?.clear();
-      // await getChat(0);
+      var param = ChatUpdateParam(
+          chatId: dataArgument?.chatId,
+          senderName: sender.name,
+          message: dataChat.text);
       isCurrnetPositionOnTop(false);
       messageController.clear();
       imageUrl = null;
       variants = null;
       pinnedMessage = null;
       maxLines = 1;
-      isNewChat = true;
       update();
-
-      // add scroll to top
-      scrollController.animateTo(
-        0,
-        duration: 300.milliseconds,
-        curve: Curves.easeInOut,
-      );
+      final updateChat = await _chatRepository.updateChat(param);
+      if (updateChat.result == true) {
+        scrollController.animateTo(
+          0,
+          duration: 300.milliseconds,
+          curve: Curves.easeInOut,
+        );
+      }
     } else {
       AppSnackbar.show(
           message: response.message, type: SnackType.error, onTop: true);
@@ -268,11 +272,13 @@ class DetailChatController extends GetxController {
     update();
   }
 
+  List<String> itemFromStore = [];
+  List<int> itemDelete = [];
+
   Future<void> deletedChat() async {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    List<String> itemFromStore = [];
-    List<int> itemDelete = [];
+
     for (var item in selectedItemDelete) {
       if (item.fromStore == true) {
         itemFromStore.add(item.createdAt ?? '');
@@ -288,9 +294,8 @@ class DetailChatController extends GetxController {
           time: formattedDate);
       if (response.result == true) {
         selectedItemDelete.value = [];
+        itemFromStore.clear();
         update();
-        // pagingController.itemList?.clear();
-        // getChat(0);
       }
     }
     if (itemDelete.isNotEmpty) {
@@ -300,11 +305,9 @@ class DetailChatController extends GetxController {
           itemId: itemDelete,
           time: formattedDate);
       if (response.result == true) {
-        // selectedCancelChatDelet();
         selectedItemDelete.value = [];
+        updateDeleted();
         update();
-        // pagingController.itemList?.clear();
-        // getChat(0);
       }
     }
   }
@@ -313,31 +316,40 @@ class DetailChatController extends GetxController {
     dataArgument = Get.arguments;
   }
 
+  serReciveIfNull() {
+    if (dataArgument?.toId == null) {
+      var firstReceiver = pagingController
+          .itemList![pagingController.itemList!.length - 1].receiver;
+      dataArgument?.toId = firstReceiver?.id;
+      dataArgument?.toRole = firstReceiver?.role;
+      dataArgument?.name = firstReceiver?.name;
+      dataArgument?.image = firstReceiver?.image;
+      update();
+    } else {}
+    isFirst = false;
+  }
+
   void slidePinChat(DragStartDetails detail, int index, bool sender,
       PinnedMessage pinnedChat) {
     indexSlide.value = index;
     positionSlideChat.value = (detail.globalPosition.dx / 7);
     HapticFeedback.mediumImpact();
-    log("Sender : $sender");
-    log("Position Slide Chat : ${positionSlideChat.value}");
     Future.delayed(200.milliseconds, () {
       selectMessage(pinnedChat);
       positionSlideChat.value = 0.0;
     });
   }
 
-  void scrollToOriginalMessage(
-      String originalText, String role, bool isSender) {
-    int originalIndex = pagingController.itemList!.indexWhere(
-      (message) =>
-          message.text != null &&
-          message.text == originalText &&
-          message.sender?.role == role,
-    );
+  void scrollToOriginalMessage(String originalText, String role, int id) {
+    int originalIndex = pagingController.itemList!.indexWhere((message) =>
+        message.text != null &&
+        message.text == originalText &&
+        message.sender?.role == role &&
+        message.id == id);
     if (originalIndex != -1) {
       double totalHeight = 0;
       for (int i = 0; i < originalIndex; i++) {
-        double itemHeight = 100;
+        double itemHeight = 110;
         totalHeight += itemHeight;
       }
       double offset =
@@ -345,93 +357,148 @@ class DetailChatController extends GetxController {
       indexScroll(originalIndex);
       isScroolReply(true);
 
-      scrollController.animateTo(
+      scrollController
+          .animateTo(
         offset,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );
-      Future.delayed(800.milliseconds, () {
-        isScroolReply(false);
-        indexScroll(-1);
+      )
+          .whenComplete(() {
+        Future.delayed(300.milliseconds, () {
+          isScroolReply(false);
+          indexScroll(-1);
+        });
       });
     }
   }
 
   DateTime returnDateAndTimeFormat(String time) {
-    var dt = DateTime.parse(time);
-    return DateTime(dt.year, dt.month, dt.day);
+    try {
+      var dt = DateTime.parse(time);
+      return DateTime(dt.year, dt.month, dt.day);
+    } catch (e) {
+      return DateTime.now();
+    }
   }
 
   String groupMessageDateAndTime(String time) {
-    DateTime createdAt = DateTime.parse(time);
+    try {
+      DateTime createdAt = DateTime.parse(time);
 
-    final todayDate = DateTime.now();
+      final todayDate = DateTime.now();
 
-    final today = DateTime(todayDate.year, todayDate.month, todayDate.day);
-    final yesterday =
-        DateTime(todayDate.year, todayDate.month, todayDate.day - 1);
-    String difference = '';
-    final aDate = DateTime(createdAt.year, createdAt.month, createdAt.day);
+      final today = DateTime(todayDate.year, todayDate.month, todayDate.day);
+      final yesterday =
+          DateTime(todayDate.year, todayDate.month, todayDate.day - 1);
+      String difference = '';
+      final aDate = DateTime(createdAt.year, createdAt.month, createdAt.day);
 
-    if (aDate == today) {
-      difference = "Today";
-    } else if (aDate == yesterday) {
-      difference = "Yesterday";
-    } else {
-      difference = DateFormat.yMMMd().format(createdAt).toString();
+      if (aDate == today) {
+        difference = "Today";
+      } else if (aDate == yesterday) {
+        difference = "Yesterday";
+      } else {
+        difference = DateFormat.yMMMd().format(createdAt).toString();
+      }
+
+      return difference;
+    } catch (e) {
+      return time;
     }
-
-    return difference;
   }
 
   void listenToChatStream(String id) {
-    _chatRepository.listenStore(id).listen((List<ChatModel> chatList) {
-      log("Listen Stream");
-      log("Panjang Paging : ${pagingController.itemList!.length}");
-      log("Panjang Chat List : ${chatList.length}");
-      ChatModel latestChat = chatList[chatList.length - 1];
-      bool wasNewChat = isNewChat;
-      if (pagingController.itemList != null && isNewChat == true) {
-        pagingController.itemList?.insert(0, latestChat);
-        isNewChat = false;
-        _pageSize = chatList.length;
-        update();
-        log("Eks 1");
-      } else if (!wasNewChat && isNewChat == false) {
-        pagingController.itemList
-            ?.replaceRange(0, chatList.length, chatList.reversed.toList());
-        update();
-        log("Eks 2");
+    int beforeLengthStore = 0;
+    chatStreamSubscription = _chatRepository
+        .listenStore(id)
+        .listen((List<ChatModel> chatList) async {
+      int newLengthStore = chatList.length;
+      lenghtDataStore = chatList.length;
+      isNewChat = newLengthStore > beforeLengthStore;
+      beforeLengthStore = newLengthStore;
+      if (chatList.isNotEmpty) {
+        ChatModel latestChat = chatList[chatList.length - 1];
+        if (isNewChat) {
+          isNewChat = false;
+          pagingController.itemList?.insert(0, latestChat);
+          _pageSize = chatList.length;
+          update();
+        } else if (!isNewChat) {
+          pagingController.itemList
+              ?.replaceRange(0, chatList.length, chatList.reversed.toList());
+
+          update();
+        }
+      } else {
+        _pageSize = 10;
+        final response = await getChatFromApi(1);
+        pagingController.appendPage(response, 2);
       }
+      return;
     });
+  }
+
+  void updateDeleted() async {
+    for (int i = 0; i < itemDelete.length; i++) {
+      var deleteId = itemDelete[i];
+      for (int index = lenghtDataStore;
+          index < pagingController.itemList!.length;
+          index++) {
+        if (pagingController.itemList![index].id == deleteId) {
+          final now = DateTime.now();
+          final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+          pagingController.itemList![index].deletedAt = formattedDate;
+          break;
+        }
+      }
+    }
+    itemDelete.clear();
+    update();
+  }
+
+  Future<bool> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) async {
+    log("Data : ${message.data}");
+    log("Pagelink : ${message.data['pagelink']}");
+    log("Body : ${message.notification?.body}");
+  }
+
+  void backAction() {
+    if (dataArgument?.lifecycle != null) {
+      Get.offNamed(Routes.MAIN_PAGES);
+      Get.put(MainPagesController());
+    } else {
+      Get.back();
+    }
   }
 
   @override
   void onInit() {
+    setupInteractedMessage();
     setData();
     pagingController.addPageRequestListener((page) {
-      _currentPage = page;
       getChat(page);
-      if (_currentPage == 1) {
-        isFirst = false;
-      }
     });
     listenToChatStream("${dataArgument?.chatId}");
     scrollController = ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels == 0) {
-          log('Mencapai batas bawah');
-        } else {
-          log('Mencapai batas atas');
-          log("Tinggi : ${scrollController.position.pixels}");
-          if (scrollController.position.pixels >= 15 && isFirst == true) {
-            pagingController.itemList?.clear();
-            getChat(1);
-          }
-        }
-      }
-    });
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
+    chatStreamSubscription?.cancel();
   }
 }

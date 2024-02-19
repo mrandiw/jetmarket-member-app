@@ -165,7 +165,7 @@ class OrderController extends GetxController
   }
 
   void toDetailOrder(int id) {
-    Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null]);
+    Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null, null, null]);
   }
 
   void actionOrder(OrderProductModel data) {
@@ -192,7 +192,7 @@ class OrderController extends GetxController
         data.status == "CANCELLED_BY_SELLER" ||
         data.status == "CANCELLED_BY_SYSTEM" ||
         data.status == "CANCELLED_BY_CUSTOMER") {
-      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: data.id);
+      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [data.id, null]);
     } else {}
   }
 

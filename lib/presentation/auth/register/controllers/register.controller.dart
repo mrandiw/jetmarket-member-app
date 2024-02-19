@@ -76,12 +76,12 @@ class RegisterController extends GetxController {
 
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
-      AppPreference().registerSuccess();
+
       update();
       if (isKodeReveralValidated.value) {
         AppPreference().referalSuccess();
       } else {}
-      Get.toNamed(Routes.REGISTER_OTP, arguments: emailController.text);
+      Get.toNamed(Routes.REGISTER_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();
@@ -202,6 +202,7 @@ class RegisterController extends GetxController {
         TextPosition(offset: phoneController.text.length));
     if (Get.arguments != null) {
       referralController = TextEditingController(text: '${Get.arguments}');
+      deeplinkArgument = null;
     }
     // focusNodeReferral.addListener(() {
     //   if (!focusNodeReferral.hasFocus) {

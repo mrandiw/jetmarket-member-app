@@ -12,7 +12,7 @@ import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarDetailChat({Key? key}) : super(key: key);
+  const AppBarDetailChat({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AppBarDetailChat extends StatelessWidget implements PreferredSizeWidget {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => controller.backAction(),
             icon: SvgPicture.asset(arrowForward),
           ),
           title: Row(

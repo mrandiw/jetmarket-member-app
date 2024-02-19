@@ -5,7 +5,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 class SelectedRating extends StatefulWidget {
   final Function(int)? onChanged;
 
-  const SelectedRating({Key? key, this.onChanged}) : super(key: key);
+  const SelectedRating({super.key, this.onChanged});
 
   @override
   // ignore: library_private_types_in_public_api

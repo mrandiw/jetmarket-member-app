@@ -10,7 +10,7 @@ import 'controllers/detail_topup.controller.dart';
 import 'section/app_bar_section.dart';
 
 class DetailTopupScreen extends GetView<DetailTopupController> {
-  const DetailTopupScreen({Key? key}) : super(key: key);
+  const DetailTopupScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(
@@ -20,6 +20,14 @@ class DetailTopupScreen extends GetView<DetailTopupController> {
         status: controller.screenStatus.value));
   }
 
-  Scaffold successWidget() =>
-      Scaffold(appBar: appBarDetailTopup, body: const DetailTopup());
+  Widget successWidget() =>
+      // ignore: deprecated_member_use
+      WillPopScope(
+          onWillPop: () async {
+            controller.actionBack();
+            return true;
+          },
+          child: Scaffold(
+              appBar: appBarDetailTopup(controller),
+              body: const DetailTopup()));
 }

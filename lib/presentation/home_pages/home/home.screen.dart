@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +16,7 @@ import 'section/product_section.dart';
 import 'section/search_section.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -28,6 +27,7 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _homePageSection() {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -64,6 +64,7 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _popularPage() {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.seeAllPopular();

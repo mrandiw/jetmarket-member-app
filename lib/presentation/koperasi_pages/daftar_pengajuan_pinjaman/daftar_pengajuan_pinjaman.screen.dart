@@ -9,7 +9,7 @@ import 'section/list_pengajuan.dart';
 
 class DaftarPengajuanPinjamanScreen
     extends GetView<DaftarPengajuanPinjamanController> {
-  const DaftarPengajuanPinjamanScreen({Key? key}) : super(key: key);
+  const DaftarPengajuanPinjamanScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

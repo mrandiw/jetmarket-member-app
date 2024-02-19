@@ -13,7 +13,7 @@ import 'section/detail_section.dart';
 
 class DetailPaymentPaylaterScreen
     extends GetView<DetailPaymentPaylaterController> {
-  const DetailPaymentPaylaterScreen({Key? key}) : super(key: key);
+  const DetailPaymentPaylaterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() => ParentScaffold(
@@ -24,6 +24,7 @@ class DetailPaymentPaylaterScreen
   }
 
   Widget successWidget() {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         controller.refreshEwalletPage();

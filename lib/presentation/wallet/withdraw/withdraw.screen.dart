@@ -7,7 +7,7 @@ import 'controllers/withdraw.controller.dart';
 import 'section/form_section.dart';
 
 class WithdrawScreen extends GetView<WithdrawController> {
-  const WithdrawScreen({Key? key}) : super(key: key);
+  const WithdrawScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
