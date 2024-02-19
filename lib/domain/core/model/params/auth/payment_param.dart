@@ -3,7 +3,6 @@ class PaymentParam {
   final String chCode;
   final String amount;
   final String? mobileNumber;
-
   PaymentParam(
       {required this.chType,
       required this.chCode,

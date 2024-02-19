@@ -32,7 +32,6 @@ class PaymentRegisterController extends GetxController {
   String selectedBankTransfer = "";
   String selectedEwallet = "";
   String selectedRetail = "";
-  int selectedId = 0;
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
@@ -120,11 +119,10 @@ class PaymentRegisterController extends GetxController {
     return "assets/images/${path.toLowerCase()}.png";
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(String chType, String chCode, String name) {
     selectedBankTransfer = chCode;
     selectedEwallet = chCode;
     selectedRetail = chCode;
-    selectedId = id;
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
@@ -139,7 +137,6 @@ class PaymentRegisterController extends GetxController {
 
   void toPaying(PaymentCustomerModel? data, String amount) async {
     var argument = PaymentMethodeArgument(
-        id: selectedId,
         status: "register",
         amount: amount,
         chType: selectedchType,

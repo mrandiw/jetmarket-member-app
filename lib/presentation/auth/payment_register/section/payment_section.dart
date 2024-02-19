@@ -114,9 +114,6 @@ class PaymentSection extends StatelessWidget {
                                       0,
                                   (index) => GestureDetector(
                                       onTap: () => controller.actionPayment(
-                                          controller.paymentMethodes
-                                                  ?.virtualAccount?[index].id ??
-                                              0,
                                           controller
                                                   .paymentMethodes
                                                   ?.virtualAccount?[index]
@@ -264,9 +261,6 @@ class PaymentSection extends StatelessWidget {
                                   onTap: () {
                                     controller.actionPayment(
                                         controller.paymentMethodes
-                                                ?.ewalletQr?[index].id ??
-                                            0,
-                                        controller.paymentMethodes
                                                 ?.ewalletQr?[index].chType ??
                                             '',
                                         controller.paymentMethodes
@@ -395,9 +389,6 @@ class PaymentSection extends StatelessWidget {
                                         padding: EdgeInsets.only(right: 8.w),
                                         child: GestureDetector(
                                           onTap: () => controller.actionPayment(
-                                              controller.paymentMethodes
-                                                      ?.otc?[index].id ??
-                                                  0,
                                               controller.paymentMethodes
                                                       ?.otc?[index].chType ??
                                                   '',
