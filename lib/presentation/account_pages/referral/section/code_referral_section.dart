@@ -49,7 +49,8 @@ class CodeReferralSection extends StatelessWidget {
                             child: AppButton.secondaryIcon(
                               icon: copy,
                               text: 'Salin',
-                              onPressed: () => controller.copyVa('value'),
+                              onPressed: () => controller
+                                  .copyVa(controller.codeRefferal ?? ''),
                             ),
                           ),
                           Gap(8.w),

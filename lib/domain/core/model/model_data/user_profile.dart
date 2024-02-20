@@ -6,6 +6,7 @@ class UserProfile {
   String? image;
   String? name;
   String? phone;
+  String? referral;
 
   UserProfile(
       {this.birthDate,
@@ -14,7 +15,8 @@ class UserProfile {
       this.id,
       this.image,
       this.name,
-      this.phone});
+      this.phone,
+      this.referral});
 
   UserProfile.fromJson(Map<String, dynamic> json) {
     birthDate = json['birth_date'];
@@ -24,6 +26,7 @@ class UserProfile {
     image = json['image'];
     name = json['name'];
     phone = json['phone'];
+    referral = json['referral'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class UserProfile {
     data['image'] = image;
     data['name'] = name;
     data['phone'] = phone;
+    data['referral'] = referral;
     return data;
   }
 }

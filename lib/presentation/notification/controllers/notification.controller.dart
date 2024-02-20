@@ -6,6 +6,8 @@ import 'package:jetmarket/domain/core/model/params/notification/notification_par
 import '../../../domain/core/interfaces/notification_repository.dart';
 import '../../../domain/core/model/argument/chat_room_argument.dart';
 import '../../../domain/core/model/model_data/notification.dart';
+import '../../../infrastructure/dal/repository/notification_repository_impl.dart';
+import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../utils/network/status_response.dart';
 
@@ -24,6 +26,9 @@ class NotificationController extends GetxController {
     try {
       var param = NotificationParam(page: pageKey, size: _pageSize);
       final response = await _notificationRepository.getNotification(param);
+      if (pageKey == 1) {
+        await updateUnreadNotification();
+      }
       final isLastPage = response.result!.length < _pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(response.result ?? []);
@@ -81,9 +86,16 @@ class NotificationController extends GetxController {
     }
   }
 
+  Future<void> updateUnreadNotification() async {
+    final controller =
+        Get.put(FirebaseController(NotificationRepositoryImpl()));
+    await controller.getUnreadNotification();
+  }
+
   @override
   void onInit() {
     getUnreadChat();
+
     pagingController.addPageRequestListener((page) {
       getNotification(page);
     });

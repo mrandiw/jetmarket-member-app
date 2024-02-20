@@ -12,15 +12,15 @@ class OnboardingController extends GetxController {
   List onboardingData = [
     {
       'image': onboarding1,
-      'title': 'Berjualan Dengan Mudah',
+      'title': 'Belanja lebih praktis',
       'subtitle':
-          'JetMarket adalah solusi yang tepat untuk Kamu yang ingin berjualan online dengan mudah.'
+          'Dengan jetmarket anda tidak perlu keluar rumah untuk berbelanja.'
     },
     {
       'image': onboarding2,
-      'title': 'Berjualan Dengan Mudah',
+      'title': 'Belanja lebih hemat',
       'subtitle':
-          'JetMarket adalah solusi yang tepat untuk Kamu yang ingin berjualan online dengan mudah.'
+          'Barang yang dijual di aplikasi jetmarket cenderung lebih murah'
     }
   ];
 

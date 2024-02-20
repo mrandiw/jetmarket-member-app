@@ -80,7 +80,9 @@ settingShowNotification(RemoteMessage message) async {
   List<String> parts = message.data['pagelink'].split('/');
   parts.removeAt(0);
   log("Parts : $parts");
-  notificationArgument = {'path': parts[0], 'pathId': 0, 'refId': parts[1]};
+  if (parts.length >= 2) {
+    notificationArgument = {'path': parts[0], 'pathId': 0, 'refId': parts[1]};
+  } else {}
 
   if (parts[0] == 'main') {
     AppPreference().clearOnSuccessPayment();

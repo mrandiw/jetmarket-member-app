@@ -48,7 +48,7 @@ class ProductPopularSection extends StatelessWidget {
                 ),
                 Gap(16.h),
                 SizedBox(
-                  height: 200.h,
+                  height: 220.h,
                   width: Get.width,
                   child: ListView.separated(
                       scrollDirection: Axis.horizontal,

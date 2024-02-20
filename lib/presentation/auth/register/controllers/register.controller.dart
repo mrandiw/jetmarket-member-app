@@ -81,7 +81,7 @@ class RegisterController extends GetxController {
       if (isKodeReveralValidated.value) {
         AppPreference().referalSuccess();
       } else {}
-      Get.toNamed(Routes.REGISTER_OTP);
+      Get.offAllNamed(Routes.REGISTER_OTP);
     } else {
       actionStatus = ActionStatus.failed;
       update();

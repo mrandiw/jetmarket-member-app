@@ -47,7 +47,9 @@ class FormSection extends StatelessWidget {
               actionStatus: controller.actionStatus,
               text: 'Simpan',
               onPressed: controller.isKonfirmasiPasswordValidated.value &&
-                      controller.isPasswordValidated.value
+                      controller.isPasswordValidated.value &&
+                      controller.valuePassword ==
+                          controller.valuekonfirmasiPassword
                   ? () => controller.resetPassword()
                   : null,
             );
