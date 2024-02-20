@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/core/model/model_data/address_model.dart';
 import '../../domain/core/model/model_data/user_model.dart';
+import '../../domain/core/model/model_data/user_profile.dart';
 
 class AppPreference {
   static SharedPreferences? _prefs;
@@ -14,6 +15,7 @@ class AppPreference {
 
   final String _authTokenKey = 'auth_token';
   final String _userDataKey = 'user_data';
+  final String _userProfile = 'user_profile';
   final String _onboarding = 'intro';
   final String _isRegistered = 'registered';
   final String _isVerified = 'is_verified';
@@ -196,12 +198,31 @@ class AppPreference {
     }
   }
 
+  Future<void> saveUserProfile(
+      {int? status, Map<String, dynamic>? data}) async {
+    if (status == 200 && data != null) {
+      String userDataJson = json.encode(data);
+      await _prefs?.setString(_userProfile, userDataJson);
+    }
+  }
+
   UserModel? getUserData() {
     String? userDataJson = _prefs?.getString(_userDataKey);
 
     if (userDataJson != null) {
       Map<String, dynamic> userDataMap = json.decode(userDataJson);
       return UserModel.fromJson(userDataMap);
+    } else {
+      return null;
+    }
+  }
+
+  UserProfile? getUserProfile() {
+    String? userDataJson = _prefs?.getString(_userProfile);
+
+    if (userDataJson != null) {
+      Map<String, dynamic> userDataMap = json.decode(userDataJson);
+      return UserProfile.fromJson(userDataMap);
     } else {
       return null;
     }
@@ -220,6 +241,22 @@ class AppPreference {
       });
       String updatedUserDataJson = json.encode(existingUserDataMap);
       _prefs?.setString(_userDataKey, updatedUserDataJson);
+    }
+  }
+
+  void updateUserProfile(UserProfile newUserData) {
+    String? existingUserDataJson = _prefs?.getString(_userProfile);
+
+    if (existingUserDataJson != null) {
+      Map<String, dynamic> existingUserDataMap =
+          json.decode(existingUserDataJson);
+      existingUserDataMap.forEach((key, value) {
+        if (newUserData.toJson().containsKey(key)) {
+          existingUserDataMap[key] = newUserData.toJson()[key];
+        }
+      });
+      String updatedUserDataJson = json.encode(existingUserDataMap);
+      _prefs?.setString(_userProfile, updatedUserDataJson);
     }
   }
 

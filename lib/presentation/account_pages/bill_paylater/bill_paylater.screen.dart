@@ -44,7 +44,7 @@ class BillPaylaterScreen extends GetView<BillPaylaterController> {
                     newPageProgressIndicatorBuilder: InfinitiPage.progress,
                     firstPageProgressIndicatorBuilder: InfinitiPage.progress,
                     noItemsFoundIndicatorBuilder: (_) =>
-                        InfinitiPage.empty(_, 'Order'),
+                        InfinitiPage.empty(_, 'Tagihan'),
                     firstPageErrorIndicatorBuilder: InfinitiPage.error,
                   ),
                   separatorBuilder: (_, i) => Gap(12.h))),

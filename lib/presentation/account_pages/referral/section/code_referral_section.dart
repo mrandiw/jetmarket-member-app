@@ -67,7 +67,6 @@ class CodeReferralSection extends StatelessWidget {
                   )),
               Gap(16.h),
               Text('Riwayat', style: text14BlackSemiBold),
-              Gap(16.h),
             ],
           )),
     );

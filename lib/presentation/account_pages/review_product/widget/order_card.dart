@@ -152,6 +152,11 @@ class OrderCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              data.name ?? '',
+              style: text12BlackSemiBold,
+            ),
+            Gap(12.h),
             CachedNetworkImage(
               imageUrl: Uri.tryParse(data.image ?? '')?.isAbsolute == true
                   ? data.image ?? ''

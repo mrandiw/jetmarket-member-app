@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../domain/core/model/model_data/refferal_model.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -28,13 +29,13 @@ class ItemHistory extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: AppStyle.borderRadius8All,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
           title: Text(
-            'Selamat! Kamu mendapatkan Rp10.000',
+            data.downlineName ?? '',
             style: text12BlackMedium,
           ),
           subtitle: Text(
-            'Kar***n telah bergabung menggunakan kode refferalmu.',
+            "${data.amount}".toIdrFormat,
             style: text12HintRegular,
           )),
     );

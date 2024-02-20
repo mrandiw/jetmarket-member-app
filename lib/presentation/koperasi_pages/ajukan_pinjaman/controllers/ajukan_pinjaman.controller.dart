@@ -1,12 +1,16 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/domain/core/interfaces/file_repository.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_propose_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/koperasi_pages/ajukan_pinjaman/widget/item_tenor.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/remove_comma.dart';
 
 import '../../../../domain/core/interfaces/loan_repository.dart';
@@ -34,6 +38,7 @@ class AjukanPinjamanController extends GetxController {
   bool isNoRek = false;
   bool isNameRek = false;
   bool isNominalPinjaman = false;
+  int nominal = 0;
 
   String? selectedRekening;
   String? imageUrl;
@@ -45,6 +50,8 @@ class AjukanPinjamanController extends GetxController {
     "Mandiri",
     "CIMB",
   ];
+  List<int> tenor = [1, 3, 6, 12];
+  int selectedTenor = 1;
   String? imagesUser;
   File? userFile;
   Future getImageMenu() async {
@@ -125,7 +132,7 @@ class AjukanPinjamanController extends GetxController {
   }
 
   void listenKtpForm(String value) {
-    if (value.isNotEmpty) {
+    if (value.length >= 16) {
       isKtp = true;
       update();
     } else {
@@ -156,9 +163,12 @@ class AjukanPinjamanController extends GetxController {
 
   void listenNominalRekForm(String value) {
     if (value.isNotEmpty) {
+      nominal = int.parse(value.removeComma);
+      log("Nominal : $nominal");
       isNominalPinjaman = true;
       update();
     } else {
+      nominal = 0;
       isNominalPinjaman = false;
       update();
     }
@@ -168,15 +178,15 @@ class AjukanPinjamanController extends GetxController {
     actionStatus = ActionStatus.loading;
     update();
     var param = LoanProposeParam(
-      name: nameController.text,
-      address: addressController.text,
-      ktpNumber: ktpController.text,
-      ktpImage: imageUrl,
-      bank: selectedRekening,
-      rekening: noRekController.text,
-      nameHolder: nameRekController.text,
-      amount: int.parse(nominalRekController.text.removeComma),
-    );
+        name: nameController.text,
+        address: addressController.text,
+        ktpNumber: ktpController.text,
+        ktpImage: imageUrl,
+        bank: selectedRekening,
+        rekening: noRekController.text,
+        nameHolder: nameRekController.text,
+        amount: int.parse(nominalRekController.text.removeComma),
+        tenor: selectedTenor);
     final response = await _loanRepository.loanPropose(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
@@ -187,5 +197,19 @@ class AjukanPinjamanController extends GetxController {
       actionStatus = ActionStatus.failed;
       update();
     }
+  }
+
+  void selectTenor(int value) {
+    selectedTenor = value;
+    update();
+    Get.back();
+  }
+
+  String get getTenor {
+    return "$selectedTenor Bulan (${(nominal / selectedTenor).toStringAsFixed(0).toIdrFormat} / Bulan)";
+  }
+
+  void openSelectedTenor() {
+    CustomBottomSheet.show(child: const ItemTenor());
   }
 }

@@ -7,6 +7,7 @@ class LoanProposeParam {
   String? rekening;
   String? nameHolder;
   int? amount;
+  int? tenor;
 
   LoanProposeParam(
       {this.name,
@@ -16,7 +17,8 @@ class LoanProposeParam {
       this.bank,
       this.rekening,
       this.nameHolder,
-      this.amount});
+      this.amount,
+      this.tenor});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -28,6 +30,7 @@ class LoanProposeParam {
     data['rekening'] = rekening;
     data['name_holder'] = nameHolder;
     data['amount'] = amount;
+    data['tenor'] = tenor;
     data.removeWhere((key, value) =>
         value == null || value == '' || value == 0.0 || value == 0);
     return data;

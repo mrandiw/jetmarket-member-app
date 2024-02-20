@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
 
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../domain/core/model/argument/payment_methode_argument.dart';
 import '../../../utils/app_preference/app_preferences.dart';
+import '../../../utils/global/constant.dart';
 import '../../../utils/network/status_response.dart';
 
 class SplashScreenController extends GetxController {
@@ -23,7 +26,7 @@ class SplashScreenController extends GetxController {
     int? userId = AppPreference().getUserData()?.user?.id;
     int? trxid = AppPreference().getTrxId();
     if (isTokenReady) {
-      final response = await _authRepository.checkingAuth(id: userId ?? 0);
+      final response = await _authRepository.getUserProfile(userId ?? 0);
       if (response.status == StatusResponse.success) {
         if (trxid == null) {
           if (response.result?.activatedAt != null &&

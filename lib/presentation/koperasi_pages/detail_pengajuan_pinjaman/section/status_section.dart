@@ -61,6 +61,8 @@ class StatusPengajuanPinjaman extends StatelessWidget {
         return kWarning2Color;
       case 'CANCELLED':
         return kBorder;
+      case 'REJECTED':
+        return kSecondaryColor2;
       default:
         return kSuccessColor2;
     }
@@ -72,6 +74,8 @@ class StatusPengajuanPinjaman extends StatelessWidget {
         return kWarningColor;
       case 'CANCELLED':
         return kGrey;
+      case 'REJECTED':
+        return kSecondaryColor;
       default:
         return kSuccessColor;
     }
@@ -83,6 +87,8 @@ class StatusPengajuanPinjaman extends StatelessWidget {
         return historyCircle;
       case 'CANCELLED':
         return canceled;
+      case 'REJECTED':
+        return close;
       default:
         return done;
     }

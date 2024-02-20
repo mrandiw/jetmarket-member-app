@@ -274,7 +274,7 @@ class EditAccountController extends GetxController {
 
   Future<void> updateUser() async {
     final controller = Get.find<AccountController>();
-    controller.setDataUser();
+    controller.setDataUser(true);
   }
 
   @override

@@ -5,6 +5,8 @@ import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
 import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
 
 import '../../../../domain/core/model/model_data/detail_order_customer.dart';
+import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
+import '../../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
@@ -133,6 +135,7 @@ class DetailOrderController extends GetxController {
     // Get.back();
 
     if (Get.arguments[2] != null) {
+      updateUnreadNotification();
       Get.offAllNamed(Routes.MAIN_PAGES);
       Get.put(MainPagesController());
     } else {
@@ -147,6 +150,12 @@ class DetailOrderController extends GetxController {
         Get.back();
       }
     }
+  }
+
+  Future<void> updateUnreadNotification() async {
+    final controller =
+        Get.put(FirebaseController(NotificationRepositoryImpl()));
+    await controller.getUnreadNotification();
   }
 
   void toTracking(int id, String status) {

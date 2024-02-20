@@ -4,8 +4,11 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/dal/repository/ewallet_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
+import 'package:jetmarket/presentation/koperasi_pages/koperasi/controllers/koperasi.controller.dart';
 import 'package:jetmarket/presentation/screens.dart';
+import 'package:jetmarket/presentation/wallet/e_wallet/controllers/e_wallet.controller.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
@@ -15,7 +18,7 @@ import 'item_bar_model.dart';
 class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
-  bool isEmployee = true;
+  bool isEmployee = false;
   void changeTabIndex(int index) {
     selectedIndex = index;
     update();
@@ -46,6 +49,25 @@ class MainPagesController extends GetxController {
     final controller =
         Get.put(FirebaseController(NotificationRepositoryImpl()));
     await controller.getUnreadNotification();
+  }
+
+  List<Widget> get listPageIsEmploye {
+    return [
+      const HomeScreen(),
+      const OrderScreen(),
+      const KoperasiScreen(),
+      const EWalletScreen(),
+      const AccountScreen(),
+    ];
+  }
+
+  List<Widget> get listPageNotIsEmploye {
+    return [
+      const HomeScreen(),
+      const OrderScreen(),
+      const EWalletScreen(),
+      const AccountScreen(),
+    ];
   }
 
   List<Widget> get listPages {
@@ -121,16 +143,13 @@ class MainPagesController extends GetxController {
       ];
     }
   }
-  // @override
-  // void onReady() {
-  //   // setupInteractedMessage();
-  //   super.onInit();
-  // }
 
   setEmploye() {
-    isEmployee = AppPreference().getUserData()?.user?.isEmployee ?? false;
+    isEmployee = AppPreference().getUserProfile()?.isEmployee ?? false;
     update();
   }
+
+  rebuildController() {}
 
   @override
   void onInit() {

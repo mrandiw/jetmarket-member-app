@@ -14,34 +14,37 @@ class OrderScreen extends GetView<OrderController> {
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (_, inBoxScrolled) {
-              return [
-                AppBarDetailOrder(
-                  tabController: controller.tabController,
-                  controller: controller,
-                  isScroll: inBoxScrolled,
-                ),
-              ];
-            },
-            body: TabBarView(
-                controller: controller.tabController,
-                children: List.generate(
-                    controller.statusTabs.length,
-                    (index) => Obx(() {
-                          if (!controller.loadingOnChangeTab.value) {
-                            return ListOrderSection(
-                                controller: controller, indexTab: index);
-                          } else {
-                            return SizedBox(
-                              height: Get.height * 0.4,
-                              child: const Center(
-                                  child: CupertinoActivityIndicator(
-                                color: kSoftGrey,
-                              )),
-                            );
-                          }
-                        })))),
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (_, inBoxScrolled) {
+            return [
+              AppBarDetailOrder(
+                tabController: controller.tabController,
+                controller: controller,
+                isScroll: inBoxScrolled,
+              ),
+            ];
+          },
+          body: TabBarView(
+            controller: controller.tabController,
+            children: List.generate(
+              controller.statusTabs.length,
+              (index) => Obx(() {
+                if (!controller.loadingOnChangeTab.value) {
+                  return ListOrderSection(
+                      controller: controller, indexTab: index);
+                } else {
+                  return SizedBox(
+                    height: Get.height * 0.4,
+                    child: const Center(
+                        child: CupertinoActivityIndicator(
+                      color: kSoftGrey,
+                    )),
+                  );
+                }
+              }),
+            ),
+          ),
+        ),
       ),
     );
   }

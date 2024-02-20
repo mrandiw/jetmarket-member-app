@@ -104,8 +104,8 @@ class LoanRepositoryImpl implements LoanRepository {
   @override
   Future<DataState<DetailLoanBillModel>> getDetailLoanBill(int id) async {
     try {
-      final response = await RemoteProvider.get(
-          path: "${Endpoint.loanBill}/$id", queryParameters: {'id': id});
+      final response =
+          await RemoteProvider.get(path: "${Endpoint.loanBill}/$id");
       return DataState<DetailLoanBillModel>(
           result: DetailLoanBillModel.fromJson(response.data['data']),
           status: StatusCodeResponse.cek(response: response));

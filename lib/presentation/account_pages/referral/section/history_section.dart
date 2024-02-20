@@ -17,7 +17,7 @@ class HistorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: AppStyle.paddingAll16,
+      padding: AppStyle.paddingAll16.copyWith(top: 0, bottom: 26.h),
       sliver: PagedSliverList.separated(
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<RefferalModel>(
@@ -30,7 +30,7 @@ class HistorySection extends StatelessWidget {
                 InfinitiPage.empty(_, 'Riwayat'),
             firstPageErrorIndicatorBuilder: InfinitiPage.error,
           ),
-          separatorBuilder: (_, i) => Gap(12.h)),
+          separatorBuilder: (_, i) => Gap(6.h)),
     );
   }
 }

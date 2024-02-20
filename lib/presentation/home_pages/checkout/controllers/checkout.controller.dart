@@ -27,6 +27,7 @@ class CheckoutController extends GetxController {
   double totalPriceWithoutVoucher = 0.0;
   double discount = 0.0;
   int? voucherId;
+  bool isLoadingDelivery = false;
 
   void updateTotalPrice() {
     totalPrice = 0.0;
@@ -150,9 +151,12 @@ class CheckoutController extends GetxController {
   }
 
   Future<void> getDelivery(ItemProductForDelivery body) async {
+    isLoadingDelivery = true;
+    update();
     final response = await _deliveryRepository.getDelivery(body);
     if (response.status == StatusResponse.success) {
       listDelivery = response.result ?? [];
+      isLoadingDelivery = false;
       update();
     } else {
       AppSnackbar.show(message: response.message, type: SnackType.error);

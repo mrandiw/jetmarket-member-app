@@ -41,7 +41,6 @@ AppBar get appBarHome {
         child: GetBuilder<FirebaseController>(
             init: FirebaseController(NotificationRepositoryImpl()),
             builder: (controller) {
-              print("Badge Terupdate : ${controller.unreadCount}");
               return Badge.count(
                 count: controller.unreadCount,
                 backgroundColor: kPrimaryColor,

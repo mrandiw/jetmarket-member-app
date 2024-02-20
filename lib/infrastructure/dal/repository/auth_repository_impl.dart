@@ -178,6 +178,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response =
           await RemoteProvider.get(path: '${Endpoint.profile}/$id');
+      await AppPreference().saveUserProfile(
+        status: response.statusCode,
+        data: response.data['data'],
+      );
 
       return DataState<UserProfile>(
         status: StatusCodeResponse.cek(response: response),
@@ -239,6 +243,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response =
           await RemoteProvider.get(path: '${Endpoint.profile}/$id');
+
       return DataState<CheckingAuth>(
           status: StatusCodeResponse.cek(response: response),
           result: CheckingAuth.fromJson(response.data['data']),
