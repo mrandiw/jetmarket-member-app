@@ -21,7 +21,8 @@ AppBar get appBarHome {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Hi ${controller.userData?.name}!', style: text14BlackRegular),
+          Text('Hi ${controller.userData?.name ?? '....'}!',
+              style: text14BlackRegular),
           Text('Ayo checkout keranjangmu!', style: text14BlackMedium)
         ],
       );

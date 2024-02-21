@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_text.dart';
@@ -20,25 +21,28 @@ class VoucherSection extends StatelessWidget {
         onTap: () {
           Get.toNamed(Routes.VOUCHER);
         },
-        child: Card(
-          elevation: 0,
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-              borderRadius: AppStyle.borderRadius8All,
-              side: AppStyle.borderSide),
-          child: Padding(
-            padding: AppStyle.paddingAll16,
-            child: Row(
-              children: [
-                SvgPicture.asset(voucher),
-                Gap(8.w),
-                Text('Voucher', style: text12BlackRegular),
-                const Spacer(),
-                SvgPicture.asset(arrowRight)
-              ],
+        child: GetBuilder<CheckoutController>(builder: (controller) {
+          return Card(
+            elevation: 0,
+            margin: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+                borderRadius: AppStyle.borderRadius8All,
+                side: AppStyle.borderSide),
+            child: Padding(
+              padding: AppStyle.paddingAll16,
+              child: Row(
+                children: [
+                  SvgPicture.asset(voucher),
+                  Gap(8.w),
+                  Text(controller.selectedVouchername ?? 'Voucher',
+                      style: text12BlackRegular),
+                  const Spacer(),
+                  SvgPicture.asset(arrowRight)
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

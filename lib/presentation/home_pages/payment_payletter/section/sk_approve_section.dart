@@ -31,31 +31,8 @@ class SkApproveSection extends StatelessWidget {
               children: [
                 Text('Syarat & Ketentuan Paylater', style: text12BlackSemiBold),
                 Gap(8.h),
-                HtmlWidget(
-                  '''
-    ${controller.paymentPayletter?.terms ?? '--'}
-      ''',
-                  customStylesBuilder: (element) {
-                    if (element.classes.contains('foo')) {
-                      return {'color': 'red'};
-                    }
-
-                    return null;
-                  },
-                  customWidgetBuilder: (element) {
-                    if (element.attributes['foo'] == 'bar') {
-                      // return FooBarWidget();
-                    }
-
-                    return null;
-                  },
-                  onErrorBuilder: (context, element, error) =>
-                      Text('$element error: $error'),
-                  onLoadingBuilder: (context, element, loadingProgress) =>
-                      const CircularProgressIndicator(),
-                  renderMode: RenderMode.column,
-                  textStyle: text12BlackRegular,
-                ),
+                Text('"Hanya karyawan yang dapat mengajukan paylater"',
+                    style: text12BlackRegular)
               ],
             ),
           ),

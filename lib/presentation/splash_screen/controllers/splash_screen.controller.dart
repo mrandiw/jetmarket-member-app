@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
 
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../domain/core/model/argument/payment_methode_argument.dart';
 import '../../../utils/app_preference/app_preferences.dart';
-import '../../../utils/global/constant.dart';
 import '../../../utils/network/status_response.dart';
 
 class SplashScreenController extends GetxController {

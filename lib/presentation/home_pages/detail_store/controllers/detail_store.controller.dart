@@ -36,6 +36,7 @@ class DetailStoreController extends GetxController
   String? selectedSortProduct;
   CategoryProduct? selectedCategoryProduct;
   String? selectedStars;
+  bool isFiltered = false;
 
   List<String> sortProduct = [
     'Terbaru',
@@ -180,6 +181,8 @@ class DetailStoreController extends GetxController
   }
 
   void applyFilterProduct() {
+    isFiltered = true;
+    update();
     Get.back();
     getProduct(1, Get.arguments['seller_id']);
     pagingController.refresh();

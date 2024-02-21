@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/main_pages/controllers/item_bar_model.dart';
-import '../screens.dart';
 import 'controllers/main_pages.controller.dart';
 
 class MainPagesScreen extends GetView<MainPagesController> {

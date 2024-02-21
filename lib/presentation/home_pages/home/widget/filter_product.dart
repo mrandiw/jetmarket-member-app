@@ -17,11 +17,7 @@ class FilterProduct extends StatelessWidget {
         title: 'Filters',
         textButton: 'Tampilkan Pesanan',
         gapBottom: 76,
-        onPressed: controller.selectedCategoryProduct != null ||
-                controller.selectedStars != null ||
-                controller.selectedSortProduct != null
-            ? () => controller.applyFilterProduct()
-            : null,
+        onPressed: () => controller.applyFilterProduct(),
         child: _content(controller),
       );
     });

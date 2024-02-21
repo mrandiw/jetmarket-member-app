@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../../domain/core/model/model_data/address_model.dart';
 import '../../../../domain/core/model/model_data/cart_product.dart' as c;
 import '../../../../domain/core/model/model_data/delivery_model.dart';
 import '../../../../domain/core/model/model_data/select_delivery.dart' as d;
 import '../../../../domain/core/model/params/address/item_product_for_delivery.dart';
+import '../../../../domain/core/model/params/cart/update_note_param.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/network/status_response.dart';
 
 class CheckoutController extends GetxController {
   final DeliveryRepository _deliveryRepository;
-  CheckoutController(this._deliveryRepository);
+  final CartRepository _cartRepository;
+  CheckoutController(this._deliveryRepository, this._cartRepository);
   List<dynamic> deliverys = [];
   List<c.CartProduct> productCart = [];
   List<DeliveryModel> listDelivery = [];
@@ -26,7 +29,9 @@ class CheckoutController extends GetxController {
   double totalPrice = 0.0;
   double totalPriceWithoutVoucher = 0.0;
   double discount = 0.0;
+  double discountPrice = 0.0;
   int? voucherId;
+  String? selectedVouchername;
   bool isLoadingDelivery = false;
 
   void updateTotalPrice() {
@@ -42,7 +47,7 @@ class CheckoutController extends GetxController {
       totalPrice += item.packets?.rate ?? 0;
       totalPriceWithoutVoucher += item.packets?.rate ?? 0;
     }
-    totalPrice = totalPrice - (totalPrice * discount);
+    totalPrice = totalPrice - (totalPrice * discount) - discountPrice;
     totalPriceWithoutVoucher = totalPriceWithoutVoucher;
     update();
   }
@@ -115,9 +120,12 @@ class CheckoutController extends GetxController {
 
   setAddress() {
     AddressModel? data = AppPreference().getAddress();
+    listDelivery.clear();
     selectedDelivery.clear();
     if (data != null) {
       address = data;
+      isExpandedTile.clear();
+      excontroller.clear();
       update();
       var body = setBodyForDelivery(data);
       isExpandedTile = List.generate(productCart.length, (index) => true);
@@ -221,16 +229,37 @@ class CheckoutController extends GetxController {
 
   Future<bool> updateNote(int id, String note) async {
     try {
-      for (var item in productCart) {
-        var matchingProduct = item.products!.firstWhere((e) => e.cartId == id);
-        matchingProduct.note = note;
-        update();
-        return true;
+      bool edited = await updateNoteData(id, note);
+      if (edited) {
+        for (var item in productCart) {
+          var matchingProduct =
+              item.products!.firstWhere((e) => e.cartId == id);
+          matchingProduct.note = note;
+          update();
+          return true;
+        }
+        return false;
+      } else {
+        return false;
       }
-      return false;
     } catch (e) {
       return false;
     }
+  }
+
+  Future<bool> updateNoteData(int id, String note) async {
+    var param = UpdateNoteParam(id: id, note: note);
+    final response = await _cartRepository.updateNote(param);
+    if (response.status == StatusResponse.success) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void selectVoucher(String value) {
+    selectedVouchername = value;
+    update();
   }
 
   @override

@@ -1,14 +1,9 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/user_model.dart';
-import 'package:jetmarket/infrastructure/dal/repository/auth_repository_impl.dart';
-import 'package:jetmarket/infrastructure/dal/repository/ewallet_repository_impl.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
-import 'package:jetmarket/presentation/wallet/e_wallet/controllers/e_wallet.controller.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

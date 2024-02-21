@@ -21,6 +21,7 @@ class BannerSection extends StatelessWidget {
           child: CarouselSlider(
             items: controller.banners.map((data) {
               return GestureDetector(
+                onTap: () => controller.onTapBanner(data.link ?? ''),
                 child: CachedNetworkImage(
                   imageUrl: Uri.tryParse(data.image ?? '')?.isAbsolute == true
                       ? data.image ?? ''
