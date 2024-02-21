@@ -30,6 +30,7 @@ class OrderController extends GetxController
   var waitingOrderCustomerLenght = 0.obs;
   String? searchOrder;
   bool searchActived = false;
+  bool isFiltered = false;
 
   dynamic selectedSortOrder;
   dynamic selectedStatusOrder;

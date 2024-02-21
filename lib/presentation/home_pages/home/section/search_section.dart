@@ -9,7 +9,6 @@ import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/form/app_form_icon.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
-import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/assets/assets_svg.dart';
 
 class SearchSection extends StatelessWidget {

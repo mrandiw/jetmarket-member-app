@@ -53,34 +53,35 @@ class NotificationController extends GetxController {
     await Future.delayed(2.seconds, () {});
   }
 
-  void onTapNotification(NotificationData data) {
-    switch (data.path) {
+  void onTapNotification(NotificationData notification) {
+    var data = dataPagelink(notification.pagelink);
+    switch (data?.path) {
       case 'chat':
         Get.toNamed(Routes.DETAIL_CHAT,
             arguments: ChatRoomArgument(
-              chatId: data.pathId,
+              chatId: data?.pathId,
               fromRole: 'customer',
             ));
       case 'order':
         Get.toNamed(Routes.DETAIL_ORDER,
-            arguments: [data.pathId, null, null, data.refId]);
+            arguments: [data?.pathId, null, null, data?.refId]);
       case 'withdraw':
-        Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [data.refId, null]);
+        Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [data?.refId, null]);
       case 'topup':
-        Get.toNamed(Routes.DETAIL_TOPUP, arguments: [data.refId, null]);
+        Get.toNamed(Routes.DETAIL_TOPUP, arguments: [data?.refId, null]);
       case 'loan-propose':
         Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN,
-            arguments: [data.pathId, null]);
+            arguments: [data?.pathId, null]);
       case 'loan-bill':
         Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
-            arguments: [data.pathId, null]);
+            arguments: [data?.pathId, null]);
       case 'saving':
-        Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data.pathId, null]);
+        Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data?.pathId, null]);
       case 'referral':
         Get.toNamed(Routes.REFERRAL);
       case 'transaction':
         Get.toNamed(Routes.ORDER_LIST_TRANSACTION,
-            arguments: [data.refId, null]);
+            arguments: [data?.refId, null]);
       default:
         break;
     }
@@ -92,11 +93,37 @@ class NotificationController extends GetxController {
     await controller.getUnreadNotification();
   }
 
+  NotificationData? dataPagelink(String? pagelink) {
+    if (pagelink != null) {
+      List<String> parts = pagelink.split('/');
+      parts.removeAt(0);
+      if (parts[0] == 'withdraw' ||
+          parts[0] == 'topup' ||
+          parts[0] == 'transaction') {
+        return NotificationData(path: parts[0], refId: parts[1]);
+      } else if (parts[0] == 'loan') {
+        return NotificationData(
+            path: "${parts[0]}-${parts[1]}", pathId: int.parse(parts[2]));
+      } else if (parts[0] == 'order') {
+        String value = parts[1];
+        if (value.startsWith('ORD#')) {
+          return NotificationData(path: parts[0], refId: parts[1]);
+        } else {
+          return NotificationData(path: parts[0], pathId: int.parse(parts[1]));
+        }
+      } else {
+        return NotificationData(path: parts[0], pathId: int.parse(parts[1]));
+      }
+    } else {
+      return null;
+    }
+  }
+
   @override
   void onInit() {
     getUnreadChat();
-
     pagingController.addPageRequestListener((page) {
+      print("terpanggil");
       getNotification(page);
     });
 

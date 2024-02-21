@@ -91,8 +91,6 @@ class VoucherController extends GetxController {
     controller.voucherId = selectedVoucherClaim?.id;
     controller.updateTotalPrice();
     controller.selectVoucher(selectedVoucherClaim?.name ?? '');
-
-    print(selectedVoucherClaim?.toJson());
   }
 
   @override
