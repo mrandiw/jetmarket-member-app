@@ -123,7 +123,6 @@ class NotificationController extends GetxController {
   void onInit() {
     getUnreadChat();
     pagingController.addPageRequestListener((page) {
-      print("terpanggil");
       getNotification(page);
     });
 

@@ -337,18 +337,22 @@ class CartController extends GetxController {
       }
       groupedBySeller[sellerId]!.add(product);
     }
-
     for (var sellerProducts in groupedBySeller.values) {
       List<Products> combinedProductsList = [];
       for (var product in sellerProducts) {
-        combinedProductsList.addAll(product.products ?? []);
+        if (product.products != null && product.products!.isNotEmpty) {
+          combinedProductsList.addAll(product.products!);
+        }
       }
-      CartProduct combinedProduct = CartProduct(
-        seller: sellerProducts[0].seller,
-        products: combinedProductsList,
-      );
-      combinedProducts.add(combinedProduct);
+      if (combinedProductsList.isNotEmpty) {
+        CartProduct combinedProduct = CartProduct(
+          seller: sellerProducts[0].seller,
+          products: combinedProductsList,
+        );
+        combinedProducts.add(combinedProduct);
+      }
     }
+
     Get.toNamed(Routes.CHECKOUT, arguments: combinedProducts);
     // String jsonCartProduct = jsonEncode(combinedProducts);
     // log(jsonCartProduct);
