@@ -24,7 +24,6 @@ Future<void> updateUnreadNotification() async {
 
 void toDirectPagelink(String path, int pathId, String? refId) {
   notificationArgument = {'path': path, 'pathId': pathId, 'refId': refId};
-
   switch (path) {
     case 'chat':
       Get.toNamed(Routes.DETAIL_CHAT,
@@ -48,6 +47,18 @@ void toDirectPagelink(String path, int pathId, String? refId) {
       Get.toNamed(Routes.REFERRAL);
     case 'transaction':
       Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: [refId, null]);
+    default:
+      break;
+  }
+}
+
+void toDirectPagelinkPayment(String path, int pathId, String? refId) {
+  notificationArgument = {'path': path, 'pathId': pathId, 'refId': refId};
+  switch (path) {
+    case 'topup':
+      Get.offNamed(Routes.DETAIL_TOPUP, arguments: [refId, null]);
+    case 'saving':
+      Get.offNamed(Routes.DETAIL_MENABUNG, arguments: [pathId, null]);
     default:
       break;
   }
@@ -80,19 +91,32 @@ settingShowNotification(RemoteMessage message) async {
   List<String> parts = message.data['pagelink'].split('/');
   parts.removeAt(0);
   log("Parts : $parts");
-  notificationArgument = {'path': parts[0], 'pathId': 0, 'refId': parts[1]};
+  if (parts.length >= 2) {
+    notificationArgument = {'path': parts[0], 'pathId': 0, 'refId': parts[1]};
+  } else {}
 
-  if (parts[0] == 'main') {
-    AppPreference().clearOnSuccessPayment();
-    Get.offAllNamed(Routes.MAIN_PAGES);
-  } else if (parts[0] == 'payment_method') {
-    AppPreference().removetrxId();
-    Get.offAllNamed(Routes.PAYMENT_REGISTER);
-  } else if (parts[0] == 'transaction') {
-    Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
-        arguments: [parts[1], 'from-notification']);
+  if (isPayment) {
+    String value = parts[1];
+    if (value.startsWith('TOP#')) {
+      toDirectPagelinkPayment(parts[0], 0, value);
+    } else {
+      toDirectPagelinkPayment(parts[0], int.parse(value), null);
+    }
+
+    isPayment = false;
   } else {
-    await updateUnreadNotification();
+    if (parts[0] == 'main') {
+      AppPreference().clearOnSuccessPayment();
+      Get.offAllNamed(Routes.MAIN_PAGES);
+    } else if (parts[0] == 'payment_method') {
+      AppPreference().removetrxId();
+      Get.offAllNamed(Routes.PAYMENT_REGISTER);
+    } else if (parts[0] == 'transaction') {
+      Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
+          arguments: [parts[1], 'from-notification']);
+    } else {
+      await updateUnreadNotification();
+    }
   }
 }
 

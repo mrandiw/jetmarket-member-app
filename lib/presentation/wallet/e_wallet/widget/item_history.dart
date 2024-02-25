@@ -65,7 +65,7 @@ class ItemHistory extends StatelessWidget {
           Text(code == 'TOP' ? '+' : '-',
               style: code == 'TOP' ? text10SuccessMedium : text10ErrorMedium),
           Gap(4.w),
-          Text('$amount'.toIdrFormat,
+          Text('${amount.abs()}'.toIdrFormat,
               style: code == 'TOP' ? text10SuccessMedium : text10ErrorMedium)
         ],
       ),

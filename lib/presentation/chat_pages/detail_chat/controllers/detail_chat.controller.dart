@@ -426,7 +426,6 @@ class DetailChatController extends GetxController {
         } else if (!isNewChat) {
           pagingController.itemList
               ?.replaceRange(0, chatList.length, chatList.reversed.toList());
-
           update();
         }
       } else {

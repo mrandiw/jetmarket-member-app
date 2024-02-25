@@ -44,6 +44,14 @@ class VariantSection extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: AppStyle.borderRadius8All,
                               color: kSofterGrey,
+                              border: Border.all(
+                                  color:
+                                      (controller.selectedVariant?.id ?? 0) ==
+                                              (controller.detailProduct
+                                                      ?.variants?[index].id ??
+                                                  0)
+                                          ? kSecondaryColor
+                                          : Colors.transparent),
                               image: DecorationImage(
                                 image: imageProvider,
                                 fit: BoxFit.cover,

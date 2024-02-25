@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/components/form/app_form_icon.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
@@ -37,19 +38,38 @@ class ProductSection extends StatelessWidget {
             ),
             Gap(10.wr),
             GestureDetector(
-              onTap: () => controller.openFilter(),
-              child: Container(
-                height: 42.r,
-                width: 42.r,
-                decoration: BoxDecoration(
-                    color: kWhite,
-                    borderRadius: AppStyle.borderRadius8All,
-                    border: AppStyle.borderAll),
-                child: Center(
-                  child: SvgPicture.asset(miFilter),
-                ),
-              ),
-            )
+                onTap: () => controller.openFilter(),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      height: 42.r,
+                      width: 42.r,
+                      decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: AppStyle.borderRadius8All,
+                          border: AppStyle.borderAll),
+                      child: Center(
+                        child: SvgPicture.asset(miFilter),
+                      ),
+                    ),
+                    GetBuilder<DetailStoreController>(builder: (controller) {
+                      return Visibility(
+                        visible: (controller.selectedCategoryProduct != null ||
+                                controller.selectedSortProduct != null ||
+                                controller.selectedStars != null) &&
+                            controller.isFiltered,
+                        child: Positioned(
+                            top: -2,
+                            right: -2,
+                            child: CircleAvatar(
+                              backgroundColor: kSecondaryColor,
+                              radius: 5.r,
+                            )),
+                      );
+                    }),
+                  ],
+                ))
           ],
         ),
       )),

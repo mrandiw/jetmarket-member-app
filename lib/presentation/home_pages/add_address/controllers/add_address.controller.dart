@@ -21,7 +21,6 @@ class AddAddressController extends GetxController {
   void searchLocation(String query) async {
     resultLocation = ResultLocation.loading;
     update();
-    print(apiKey);
     _debouncer.run(() async {
       var param = LocationParam(input: query, key: apiKey);
       final response = await _addressRepository.getSearchLocation(param);

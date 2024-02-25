@@ -33,19 +33,39 @@ class HeaderSection extends StatelessWidget {
                 ),
                 Gap(12.w),
                 GestureDetector(
-                  onTap: () => controller.openFilter(),
-                  child: Container(
-                    height: 42.r,
-                    width: 42.r,
-                    decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: AppStyle.borderRadius8All,
-                        border: AppStyle.borderAll),
-                    child: Center(
-                      child: SvgPicture.asset(miFilter),
-                    ),
-                  ),
-                )
+                    onTap: () => controller.openFilter(),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          height: 42.r,
+                          width: 42.r,
+                          decoration: BoxDecoration(
+                              color: kWhite,
+                              borderRadius: AppStyle.borderRadius8All,
+                              border: AppStyle.borderAll),
+                          child: Center(
+                            child: SvgPicture.asset(miFilter),
+                          ),
+                        ),
+                        GetBuilder<OrderController>(builder: (controller) {
+                          return Visibility(
+                            visible:
+                                (controller.selectedFilterSortOrder != null ||
+                                        controller.selectedFilterStatusOrder !=
+                                            null) &&
+                                    controller.isFiltered,
+                            child: Positioned(
+                                top: -2,
+                                right: -2,
+                                child: CircleAvatar(
+                                  backgroundColor: kSecondaryColor,
+                                  radius: 5.r,
+                                )),
+                          );
+                        }),
+                      ],
+                    ))
               ],
             ),
             Gap(12.h),

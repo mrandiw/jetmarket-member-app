@@ -15,7 +15,9 @@ class MainPagesScreen extends GetView<MainPagesController> {
       return Scaffold(
         body: IndexedStack(
           index: controller.selectedIndex,
-          children: controller.listPages,
+          children: controller.isEmployee
+              ? controller.listPageIsEmploye
+              : controller.listPageNotIsEmploye,
         ),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: controller.selectedIndex,

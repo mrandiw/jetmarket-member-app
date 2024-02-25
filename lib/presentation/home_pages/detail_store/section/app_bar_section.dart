@@ -35,8 +35,8 @@ class AppBarDetailStore extends StatelessWidget {
       automaticallyImplyLeading: false,
       expandedHeight: controller.detailShop?.openAt != "" &&
               controller.detailShop?.closeAt != ""
-          ? 286.hr
-          : 246.hr,
+          ? 306.hr
+          : 266.hr,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           children: [

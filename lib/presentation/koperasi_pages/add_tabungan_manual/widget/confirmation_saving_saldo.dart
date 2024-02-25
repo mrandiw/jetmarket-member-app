@@ -67,9 +67,7 @@ class AppDialogConfirmationSaving {
                           child: AppButton.primary(
                               text: "Konfirmasi",
                               onPressed: () {
-                                Get.back();
-                                controller.selectSaldoPayment();
-                                controller.savingDirect();
+                                controller.confirmationSavingSaldo();
                               })),
                     ],
                   )

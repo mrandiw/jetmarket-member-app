@@ -8,6 +8,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../domain/core/model/model_data/banner.dart';
@@ -40,6 +41,7 @@ class HomeController extends GetxController {
   String? selectedSortProduct;
   CategoryProduct? selectedCategoryProduct;
   String? selectedStars;
+  bool isFiltered = false;
 
   List<String> sortProduct = [
     'Terbaru',
@@ -264,6 +266,8 @@ class HomeController extends GetxController {
   }
 
   void applyFilterProduct() {
+    isFiltered = true;
+    update();
     Get.back();
     if (isHomeScreen.value) {
       // getProduct(1);
@@ -290,6 +294,10 @@ class HomeController extends GetxController {
   void onLoading() async {
     await Future.delayed(1.seconds);
     if (isClosed) refreshController.loadComplete();
+  }
+
+  void onTapBanner(String url) async {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
   @override

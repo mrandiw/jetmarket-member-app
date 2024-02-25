@@ -23,7 +23,7 @@ class SplashScreenController extends GetxController {
     int? userId = AppPreference().getUserData()?.user?.id;
     int? trxid = AppPreference().getTrxId();
     if (isTokenReady) {
-      final response = await _authRepository.checkingAuth(id: userId ?? 0);
+      final response = await _authRepository.getUserProfile(userId ?? 0);
       if (response.status == StatusResponse.success) {
         if (trxid == null) {
           if (response.result?.activatedAt != null &&

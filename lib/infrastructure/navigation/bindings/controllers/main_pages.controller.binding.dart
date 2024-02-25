@@ -15,14 +15,12 @@ class MainPagesControllerBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(MainPagesController());
+    Get.put(AccountController(AuthRepositoryImpl()));
     Get.lazyPut<HomeController>(
       () => HomeController(ProductRepositoryImpl()),
     );
     Get.lazyPut<OrderController>(
       () => OrderController(OrderRepositoryImpl()),
-    );
-    Get.lazyPut<AccountController>(
-      () => AccountController(AuthRepositoryImpl()),
     );
     Get.lazyPut<KoperasiController>(
       () => KoperasiController(SavingRepositoryImpl()),

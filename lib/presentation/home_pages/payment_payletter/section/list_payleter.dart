@@ -47,20 +47,6 @@ class ListPayletterSection extends StatelessWidget {
                                         Text(
                                             "${controller.paymentPayletter?.installments?[index].name}",
                                             style: text12BlackRegular),
-                                        Visibility(
-                                          visible: controller
-                                                  .paymentPayletter
-                                                  ?.installments?[index]
-                                                  .chCode ==
-                                              '1x',
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 8.h),
-                                            child: Text(
-                                              'Rp.0 Tersisa',
-                                              style: text12HintRegular,
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                     const Spacer(),

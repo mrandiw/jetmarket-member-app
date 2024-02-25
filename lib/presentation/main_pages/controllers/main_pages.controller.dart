@@ -15,7 +15,7 @@ import 'item_bar_model.dart';
 class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
-  bool isEmployee = true;
+  bool isEmployee = false;
   void changeTabIndex(int index) {
     selectedIndex = index;
     update();
@@ -46,6 +46,25 @@ class MainPagesController extends GetxController {
     final controller =
         Get.put(FirebaseController(NotificationRepositoryImpl()));
     await controller.getUnreadNotification();
+  }
+
+  List<Widget> get listPageIsEmploye {
+    return [
+      const HomeScreen(),
+      const OrderScreen(),
+      const KoperasiScreen(),
+      const EWalletScreen(),
+      const AccountScreen(),
+    ];
+  }
+
+  List<Widget> get listPageNotIsEmploye {
+    return [
+      const HomeScreen(),
+      const OrderScreen(),
+      const EWalletScreen(),
+      const AccountScreen(),
+    ];
   }
 
   List<Widget> get listPages {
@@ -121,16 +140,13 @@ class MainPagesController extends GetxController {
       ];
     }
   }
-  // @override
-  // void onReady() {
-  //   // setupInteractedMessage();
-  //   super.onInit();
-  // }
 
   setEmploye() {
-    isEmployee = AppPreference().getUserData()?.user?.isEmployee ?? false;
+    isEmployee = AppPreference().getUserProfile()?.isEmployee ?? false;
     update();
   }
+
+  rebuildController() {}
 
   @override
   void onInit() {

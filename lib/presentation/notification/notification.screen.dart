@@ -17,28 +17,36 @@ class NotificationScreen extends GetView<NotificationController> {
   const NotificationScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhite,
-      body: CustomScrollView(
-        slivers: [
-          const AppBarNotification(),
-          SliverPadding(
-              padding: AppStyle.paddingAll16,
-              sliver: PagedSliverList.separated(
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<NotificationData>(
-                    itemBuilder: (context, item, index) => CardNotification(
-                      data: item,
-                      onTap: () => controller.onTapNotification(item),
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async {
+        controller.updateUnreadNotification();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: kWhite,
+        body: CustomScrollView(
+          slivers: [
+            const AppBarNotification(),
+            SliverPadding(
+                padding: AppStyle.paddingAll16,
+                sliver: PagedSliverList.separated(
+                    pagingController: controller.pagingController,
+                    builderDelegate:
+                        PagedChildBuilderDelegate<NotificationData>(
+                      itemBuilder: (context, item, index) => CardNotification(
+                        data: item,
+                        onTap: () => controller.onTapNotification(item),
+                      ),
+                      newPageProgressIndicatorBuilder: InfinitiPage.progress,
+                      firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+                      noItemsFoundIndicatorBuilder: (_) =>
+                          InfinitiPage.empty(_, 'Notifikasi'),
+                      firstPageErrorIndicatorBuilder: InfinitiPage.error,
                     ),
-                    newPageProgressIndicatorBuilder: InfinitiPage.progress,
-                    firstPageProgressIndicatorBuilder: InfinitiPage.progress,
-                    noItemsFoundIndicatorBuilder: (_) =>
-                        InfinitiPage.empty(_, 'Notifikasi'),
-                    firstPageErrorIndicatorBuilder: InfinitiPage.error,
-                  ),
-                  separatorBuilder: (_, i) => Gap(12.h))),
-        ],
+                    separatorBuilder: (_, i) => Gap(12.h))),
+          ],
+        ),
       ),
     );
   }

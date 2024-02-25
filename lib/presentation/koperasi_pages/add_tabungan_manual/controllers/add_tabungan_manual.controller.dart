@@ -12,6 +12,7 @@ import '../../../../domain/core/interfaces/saving_repository.dart';
 import '../../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/extension/payment_methode_type.dart';
+import '../../../../utils/global/constant.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -168,6 +169,7 @@ class AddTabunganManualController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionButton = ActionStatus.success;
       update();
+      isPayment = true;
       if (selectedChCode == 'SALDO') {
         Get.offNamed(Routes.PAYMENT_TABUNGAN_SUCCESS,
             arguments: response.result);
@@ -177,17 +179,32 @@ class AddTabunganManualController extends GetxController {
     } else {
       actionButton = ActionStatus.failed;
       update();
-      AwesomeDialog(
-              context: Get.context!,
-              dialogType: DialogType.error,
-              animType: AnimType.rightSlide,
-              title: 'Error',
-              desc: response.message,
-              titleTextStyle: text16BlackSemiBold,
-              descTextStyle: text12BlackRegular,
-              btnCancelOnPress: () {})
-          .show();
+      errorDialogMessage(response.message ?? '');
     }
+  }
+
+  void confirmationSavingSaldo() {
+    Get.back();
+    if (int.parse(nominalController.text.removeComma) <=
+        (savingPaymentMethode?.saldo?[0].amount ?? 0)) {
+      selectSaldoPayment();
+      savingDirect();
+    } else {
+      errorDialogMessage('Saldo tidak cukup');
+    }
+  }
+
+  void errorDialogMessage(String message) {
+    AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Error',
+            desc: message,
+            titleTextStyle: text16BlackSemiBold,
+            descTextStyle: text12BlackRegular,
+            btnCancelOnPress: () {})
+        .show();
   }
 
   @override

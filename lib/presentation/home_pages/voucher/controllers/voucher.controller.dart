@@ -17,6 +17,7 @@ class VoucherController extends GetxController {
   List<dynamic> vouchers = [];
 
   int selectedVoucher = 99;
+  Vouchers? selectedVoucherClaim;
 
   String? voucherMessage;
 
@@ -46,11 +47,13 @@ class VoucherController extends GetxController {
         code: searchVoucherController.text);
     if (response.status == StatusResponse.success) {
       voucherMessage = response.message ?? '';
-      update();
+      selectedVoucher = 99;
+      selectedVoucherClaim = null;
+      selectedVoucherClaim = response.result;
       actionClaimStatus = ActionStatus.success;
       update();
     } else {
-      voucherMessage = 'Kode tidak ditemukan';
+      voucherMessage = response.message ?? 'Kode tidak ditemukan';
       actionClaimStatus = ActionStatus.failed;
       update();
     }
@@ -59,22 +62,35 @@ class VoucherController extends GetxController {
   void selectVoucher(int value) {
     if (selectedVoucher != value) {
       selectedVoucher = value;
+      selectedVoucherClaim = pagingController.itemList?[value];
       update();
     } else {
       selectedVoucher = 99;
+      selectedVoucherClaim = null;
       update();
     }
   }
 
   void updateSelectedVoucer() {
     Get.back();
-    double discount =
-        (pagingController.itemList?[selectedVoucher].discount ?? '')
-            .parsePercentageToDouble;
     final controller = Get.find<CheckoutController>();
-    controller.voucherId = pagingController.itemList?[selectedVoucher].id;
-    controller.discount = discount;
+    if (selectedVoucherClaim?.discount?.startsWith('Rp') ?? false) {
+      // Potongan Langsung
+      String nominal =
+          selectedVoucherClaim?.discount?.replaceAll('Rp', '') ?? '';
+      double discountPrice = double.parse(nominal);
+      controller.discount = 0.0;
+      controller.discountPrice = discountPrice;
+    } else {
+      // Potongan Cashback
+      double discount =
+          (selectedVoucherClaim?.discount ?? '').parsePercentageToDouble;
+      controller.discountPrice = 0.0;
+      controller.discount = discount;
+    }
+    controller.voucherId = selectedVoucherClaim?.id;
     controller.updateTotalPrice();
+    controller.selectVoucher(selectedVoucherClaim?.name ?? '');
   }
 
   @override

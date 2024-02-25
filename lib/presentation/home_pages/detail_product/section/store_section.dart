@@ -52,8 +52,12 @@ class StoreSection extends StatelessWidget {
                     )),
             title: Text(controller.detailProduct?.seller?.name ?? '',
                 style: text14BlackMedium),
-            subtitle: Text(controller.detailProduct?.seller?.city ?? '',
-                style: text12HintRegular),
+            subtitle: Text(
+              controller.detailProduct?.seller?.city ?? '',
+              style: text12HintRegular,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: SizedBox(
                 width: 124.wr,
                 child: AppButton.primary(

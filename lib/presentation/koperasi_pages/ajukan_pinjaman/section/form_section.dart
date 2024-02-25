@@ -97,6 +97,23 @@ class FormSection extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: AppStyle.borderRadius8All,
                             color: kBorder),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_box_rounded,
+                              color: kSecondaryColor,
+                              size: 26.r,
+                            ),
+                            Gap(2.h),
+                            Text(
+                              'Tambah',
+                              style: text8GreyRegular.copyWith(
+                                  fontSize: 8.6,
+                                  color: const Color(0xff808080)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
               Gap(8.hr),
@@ -152,6 +169,34 @@ class FormSection extends StatelessWidget {
                   controller: controller.nominalRekController,
                   inputFormatters: [NominalFormatter()],
                   onChanged: controller.listenNominalRekForm),
+              Gap(12.hr),
+              Text('Tenor', style: text12BlackRegular),
+              Gap(8.hr),
+              GestureDetector(
+                onTap: controller.nominal > 0
+                    ? () => controller.openSelectedTenor()
+                    : null,
+                child: Container(
+                  height: 44.r,
+                  width: Get.width.wr,
+                  padding: AppStyle.paddingAll12,
+                  decoration: BoxDecoration(
+                      borderRadius: AppStyle.borderRadius8All,
+                      border: Border.all(color: kBorder),
+                      color: controller.nominal > 0 ? kWhite : kSofterGrey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        controller.getTenor,
+                        style: text12BlackRegular,
+                      ),
+                      const Icon(Icons.keyboard_arrow_down_rounded,
+                          color: kBlack)
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

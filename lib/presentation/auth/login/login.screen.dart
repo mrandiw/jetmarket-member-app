@@ -14,7 +14,8 @@ class LoginScreen extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhite,
-      body: SizedBox(
+      body: Container(
+        color: kWhite,
         height: Get.height.hr,
         width: Get.width.wr,
         child: const Stack(

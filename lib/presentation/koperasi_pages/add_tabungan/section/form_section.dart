@@ -50,14 +50,14 @@ class FormSection extends StatelessWidget {
                 ),
               ),
             ),
-            Visibility(
-                visible: controller.selectedDateOnlyPicker != "",
-                child: Padding(
-                  padding: EdgeInsets.only(top: 4.hr),
-                  child: Text(
-                      '*Tagihan akan otomatis dipotong setiap tanggal ${controller.selectedDateOnlyPicker}',
-                      style: text12HintRegular),
-                )),
+            // Visibility(
+            //     visible: controller.selectedDateOnlyPicker != "",
+            //     child: Padding(
+            //       padding: EdgeInsets.only(top: 4.hr),
+            //       child: Text(
+            //           '*Tagihan akan otomatis dipotong setiap tanggal ${controller.selectedDateOnlyPicker}',
+            //           style: text12HintRegular),
+            //     )),
             Gap(16.hr),
             Text('Nominal', style: text12BlackRegular),
             Gap(8.hr),

@@ -17,10 +17,7 @@ class FilterOrder extends StatelessWidget {
         title: 'Filters',
         textButton: 'Tampilkan Pesanan',
         gapBottom: 76,
-        onPressed: controller.selectedFilterSortOrder != null ||
-                controller.selectedFilterStatusOrder != null
-            ? () => controller.applyFilterOrder()
-            : null,
+        onPressed: () => controller.applyFilterOrder(),
         child: _content(controller),
       );
     });

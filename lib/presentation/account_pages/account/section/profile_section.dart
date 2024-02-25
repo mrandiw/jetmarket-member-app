@@ -21,6 +21,8 @@ class ProfileSection extends StatelessWidget {
     return GetBuilder<AccountController>(builder: (controller) {
       return ListTile(
         contentPadding: AppStyle.paddingAll16,
+        onTap: () =>
+            Get.toNamed(Routes.EDIT_ACCOUNT, arguments: controller.userData),
         leading: CachedNetworkImage(
             imageUrl: controller.userData?.image ?? '',
             imageBuilder: (context, imageProvider) => CircleAvatar(
@@ -49,15 +51,11 @@ class ProfileSection extends StatelessWidget {
         title: Text(controller.userData?.name ?? '-', style: text12BlackMedium),
         subtitle:
             Text(controller.userData?.email ?? '-', style: text12HintRegular),
-        trailing: GestureDetector(
-          onTap: () =>
-              Get.toNamed(Routes.EDIT_ACCOUNT, arguments: controller.userData),
-          child: SvgPicture.asset(
-            editLine,
-            colorFilter: const ColorFilter.mode(kBlack, BlendMode.srcIn),
-            height: 14.r,
-            width: 14.r,
-          ),
+        trailing: SvgPicture.asset(
+          editLine,
+          colorFilter: const ColorFilter.mode(kBlack, BlendMode.srcIn),
+          height: 14.r,
+          width: 14.r,
         ),
       );
     });

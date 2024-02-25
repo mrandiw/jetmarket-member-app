@@ -63,13 +63,18 @@ class PaylaterSection extends StatelessWidget {
                   const Spacer(),
                   AppButton.primarySmall(
                     text: 'Bayar',
-                    onPressed: () => controller.toChoicePayment(),
+                    onPressed: controller.detailPaylater?.bill?.amount != null
+                        ? () => controller.toChoicePayment()
+                        : null,
                   )
                 ],
               ),
-              Text(
-                  'Batas pembayaran ${"${controller.detailPaylater?.bill?.dueAt}".convertToDateFormat}',
-                  style: text10ErrorMedium)
+              Visibility(
+                visible: controller.detailPaylater?.bill?.dueAt != null,
+                child: Text(
+                    'Batas pembayaran ${"${controller.detailPaylater?.bill?.dueAt}".convertToDateFormat}',
+                    style: text10ErrorMedium),
+              )
             ]),
           ),
           Gap(20.h),

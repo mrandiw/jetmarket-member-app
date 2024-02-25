@@ -12,6 +12,7 @@ import '../../../../domain/core/model/params/wallet/wallet_topup_body.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/extension/payment_methode_type.dart';
+import '../../../../utils/global/constant.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -95,6 +96,7 @@ class ChoicePaymentTopupController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
+      isPayment = true;
       Get.offNamed(Routes.PAYMENT_TOPUP_SALDO, arguments: response.result);
     } else {
       actionStatus = ActionStatus.failed;

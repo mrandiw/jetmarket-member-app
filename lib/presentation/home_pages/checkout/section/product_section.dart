@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -62,6 +63,19 @@ class ProductSection extends StatelessWidget {
                             controller: controller.notesController[index]
                                 [indexProduct],
                           ),
+                          if (indexProduct == data.products!.length - 1 &&
+                              controller.listDelivery.isEmpty)
+                            Visibility(
+                              visible: controller.isLoadingDelivery,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12.h),
+                                child: Center(
+                                  child: CupertinoActivityIndicator(
+                                    radius: 12.r,
+                                  ),
+                                ),
+                              ),
+                            ),
                           if (indexProduct == data.products!.length - 1 &&
                               controller.listDelivery.isNotEmpty)
                             Padding(
