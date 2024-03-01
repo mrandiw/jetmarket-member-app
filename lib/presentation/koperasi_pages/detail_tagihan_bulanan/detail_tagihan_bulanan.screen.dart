@@ -8,6 +8,7 @@ import '../../../components/parent/parent_scaffold.dart';
 import '../../../utils/style/app_style.dart';
 import 'controllers/detail_tagihan_bulanan.controller.dart';
 import 'section/app_bar_section.dart';
+import 'section/button_section.dart';
 import 'section/information_section.dart';
 
 class DetailTagihanBulananScreen
@@ -34,14 +35,18 @@ class DetailTagihanBulananScreen
         return true;
       },
       child: Scaffold(
-          appBar: appBarDetailTagihanBulanan(controller),
-          body: ListView(
-            padding: AppStyle.paddingAll16,
-            children: [
-              StatusTagihanBulanan(controller: controller),
-              InformationSection(controller: controller)
-            ],
-          )),
+        appBar: appBarDetailTagihanBulanan(controller),
+        body: ListView(
+          padding: AppStyle.paddingAll16,
+          children: [
+            StatusTagihanBulanan(controller: controller),
+            InformationSection(controller: controller)
+          ],
+        ),
+        bottomNavigationBar: ButtonSection(
+          controller: controller,
+        ),
+      ),
     );
   }
 }

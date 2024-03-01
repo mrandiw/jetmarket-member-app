@@ -18,7 +18,7 @@ class AppSnackbar {
           : type == SnackType.dark
               ? kBlack
               : kErrorColor,
-      message: message,
+      message: message == null || message == "" ? "Error not define" : message,
       duration: 2.seconds,
       icon: type == SnackType.dark
           ? const SizedBox.shrink()

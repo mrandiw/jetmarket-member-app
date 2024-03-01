@@ -1,17 +1,19 @@
 class BillPaylaterBody {
-  int? billId;
+  String? refId;
   int? amount;
-  int? paymentMethodId;
+  String? chType;
+  String? chCode;
   String? mobileNumber;
 
   BillPaylaterBody(
-      {this.billId, this.amount, this.paymentMethodId, this.mobileNumber});
+      {this.refId, this.amount, this.chType, this.chCode, this.mobileNumber});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['bill_id'] = billId;
+    data['ref_id'] = refId;
     data['amount'] = amount;
-    data['payment_method_id'] = paymentMethodId;
+    data['ch_type'] = chType;
+    data['ch_code'] = chCode;
     data['mobile_number'] = mobileNumber;
     data.removeWhere((key, value) =>
         value == null ||

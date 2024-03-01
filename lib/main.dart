@@ -16,10 +16,7 @@ Future<void> main() async {
 
   var initialRoute = await Routes.initialRoute;
 
-  runApp(
-      // DevicePreview(
-      //     enabled: !kReleaseMode, builder: (context) => Main(initialRoute)),
-      Main(initialRoute));
+  runApp(Main(initialRoute));
 }
 
 class Main extends StatelessWidget {
@@ -40,9 +37,6 @@ class Main extends StatelessWidget {
               initialRoute: initialRoute,
               debugShowCheckedModeBanner: false,
               useInheritedMediaQuery: true,
-
-              // locale: DevicePreview.locale(context),
-              // builder: DevicePreview.appBuilder,
               theme: ThemeData(
                   useMaterial3: true,
                   bottomSheetTheme: const BottomSheetThemeData(

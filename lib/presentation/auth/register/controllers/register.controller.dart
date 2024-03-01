@@ -23,6 +23,8 @@ class RegisterController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController referralController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   final FocusNode focusNodeReferral = FocusNode();
 
   var actionStatus = ActionStatus.initalize;
@@ -34,6 +36,7 @@ class RegisterController extends GetxController {
   var isPasswordValidated = false.obs;
   var isKodeReveralValidated = false.obs;
   var isKodeReveralError = false.obs;
+  bool isNameError = false;
 
   final String countryCode = '+62';
   var referralMessage = ''.obs;
@@ -91,10 +94,36 @@ class RegisterController extends GetxController {
 
   listenNameForm(String value) {
     if (value.isNotEmpty) {
-      isNameValidated(true);
+      final RegExp nameExp = RegExp(r'^[a-zA-Z ]{2,20}$');
+
+      if (value.length > 20) {
+        isNameError = true;
+        update();
+      } else if (!nameExp.hasMatch(value)) {
+        isNameError = true;
+        update();
+      } else {
+        isNameError = false;
+        update();
+        isNameValidated(true);
+      }
     } else {
       isNameValidated(false);
     }
+  }
+
+  String? validatorName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your name';
+    }
+
+    final RegExp nameExp = RegExp(r'^[a-zA-Z]{2,10}( [a-zA-Z]{2,10})+$');
+
+    if (!nameExp.hasMatch(value)) {
+      return 'Please enter a valid name';
+    }
+
+    return null;
   }
 
   listenPhoneForm(String value) {

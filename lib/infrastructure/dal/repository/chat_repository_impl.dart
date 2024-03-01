@@ -67,6 +67,7 @@ class ChatRepositoryImpl implements ChatRepository {
         path: '${Endpoint.chat}/${param.id}',
         queryParameters: param.toMap(),
       );
+      log("Chat Id : ${param.id}");
       List<dynamic> datas = response.data['data']['items'];
       log("Total Chat : ${datas.length}");
       final docSnapshot = await _chatCollection.doc("${param.id}").get();
@@ -126,7 +127,8 @@ class ChatRepositoryImpl implements ChatRepository {
           await RemoteProvider.post(path: Endpoint.chat, data: param.toMap());
       return DataState<CreateChatModel>(
           result: CreateChatModel.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response, showLogs: true));
+          status: StatusCodeResponse.cek(
+              response: response, queryParams: true, showLogs: true));
     } on DioException catch (e) {
       return CustomException<CreateChatModel>().dio(e);
     }

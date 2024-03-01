@@ -74,11 +74,13 @@ class NotificationController extends GetxController {
             arguments: [data?.pathId, null]);
       case 'loan-bill':
         Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
-            arguments: [data?.pathId, null]);
+            arguments: [data?.pathId, null, null, null]);
       case 'saving':
         Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data?.pathId, null]);
       case 'referral':
         Get.toNamed(Routes.REFERRAL);
+      case 'paylater':
+        Get.toNamed(Routes.PAYLATER_CUSTOMER);
       case 'transaction':
         Get.toNamed(Routes.ORDER_LIST_TRANSACTION,
             arguments: [data?.refId, null]);

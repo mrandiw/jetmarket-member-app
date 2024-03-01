@@ -254,14 +254,16 @@ class DetailChatController extends GetxController {
   }
 
   void selectedChatDelet(ChatModel item) {
-    isChatDelet.value = true;
-    if (selectedItemDelete.contains(item)) {
-      selectedItemDelete.remove(item);
-    } else {
-      selectedItemDelete.add(item);
+    if (item.sender?.role == 'customer') {
+      isChatDelet.value = true;
+      if (selectedItemDelete.contains(item)) {
+        selectedItemDelete.remove(item);
+      } else {
+        selectedItemDelete.add(item);
+      }
+      update();
+      HapticFeedback.mediumImpact();
     }
-    update();
-    HapticFeedback.mediumImpact();
   }
 
   void selectedCancelChatDelet(ChatModel item) {

@@ -74,9 +74,9 @@ class DetailWd extends StatelessWidget {
 
   StatusWdType type(String status) {
     switch (status) {
-      case 'WAITING_PAYMENT':
+      case 'WAITING_PAYMENT' || 'WAITING_APPROVAL' || 'PENDING':
         return StatusWdType.waiting;
-      case 'CANCELLED':
+      case 'CANCELLED' || 'FAILED' || 'REJECTED':
         return StatusWdType.failed;
       default:
         return StatusWdType.success;

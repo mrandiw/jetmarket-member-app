@@ -1,5 +1,6 @@
 class OrderProductModel {
   int? id;
+  String? orderRefId;
   String? image;
   String? name;
   int? price;
@@ -11,6 +12,7 @@ class OrderProductModel {
 
   OrderProductModel(
       {this.id,
+      this.orderRefId,
       this.image,
       this.name,
       this.price,
@@ -22,6 +24,7 @@ class OrderProductModel {
 
   OrderProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    orderRefId = json['order_ref_id'];
     image = json['image'];
     name = json['name'];
     price = json['price'];
@@ -35,6 +38,7 @@ class OrderProductModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['order_ref_id'] = orderRefId;
     data['image'] = image;
     data['name'] = name;
     data['price'] = price;

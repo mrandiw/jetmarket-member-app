@@ -24,7 +24,8 @@ class CategorySection extends StatelessWidget {
                 Container(
                   height: 36.h,
                   width:
-                      widthDropdown(controller.selectedCategoryProduct!.name!),
+                      widthDropdown(controller.selectedCategoryProduct!.name!) +
+                          36.w,
                   padding: EdgeInsets.symmetric(
                     vertical: 8.h,
                     horizontal: 12.w,
@@ -67,20 +68,13 @@ class CategorySection extends StatelessWidget {
   }
 
   double widthDropdown(String name) {
-    int lenght = name.length;
-    switch (lenght) {
-      case 5:
-        return lenght * 16;
-      case 7:
-        return lenght * 14;
-      case 11:
-        return lenght * 10.2;
-      case 14:
-        return lenght * 10;
-      case 17:
-        return lenght * 8.2;
-      default:
-        return 120;
-    }
+    TextPainter textPainter = TextPainter(
+      text: TextSpan(
+          text: name, style: text11PrimaryRegular), // Huruf yang digunakan
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    double widthPerLetter = textPainter.width;
+    return widthPerLetter * 1.2;
   }
 }

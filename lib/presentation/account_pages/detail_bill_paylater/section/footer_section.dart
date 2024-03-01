@@ -16,22 +16,25 @@ class FooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DetailBillPaylaterController>(builder: (controller) {
-      return Container(
-          height: 72.h,
-          padding: AppStyle.paddingAll16,
-          width: Get.width,
-          decoration: BoxDecoration(
-              borderRadius: AppStyle.borderRadius20Top,
-              color: kWhite,
-              boxShadow: [
-                BoxShadow(
-                    color: const Color(0xffE3BEBD).withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, -6))
-              ]),
-          child: AppButton.primary(
-              text: 'Bayar Tagihan ${'${Get.arguments[2]}'.toIdrFormat}',
-              onPressed: () => controller.toChoicePayment()));
+      return Visibility(
+        visible: Get.arguments[2] != null,
+        child: Container(
+            height: 72.h,
+            padding: AppStyle.paddingAll16,
+            width: Get.width,
+            decoration: BoxDecoration(
+                borderRadius: AppStyle.borderRadius20Top,
+                color: kWhite,
+                boxShadow: [
+                  BoxShadow(
+                      color: const Color(0xffE3BEBD).withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, -6))
+                ]),
+            child: AppButton.primary(
+                text: 'Bayar Tagihan ${'${Get.arguments[2]}'.toIdrFormat}',
+                onPressed: () => controller.toChoicePayment())),
+      );
     });
   }
 }

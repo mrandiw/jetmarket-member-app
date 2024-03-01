@@ -105,7 +105,7 @@ class RegisterOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    emailUser = AppPreference().getUserData()?.user?.email ?? '';
+    emailUser = AppPreference().getEmail() ?? '';
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();
       controller.addListener(_checkIfAllFieldsFilled);

@@ -25,10 +25,12 @@ class Routes {
   static const CHECKOUT_PAYMENT = '/checkout-payment';
   static const CHECKOUT_PAYMENT_RETAIL = '/checkout-payment-retail';
   static const CHECK_EXISTING_CHAT = '/check-existing-chat';
+  static const CHECK_EXTERNAL_LINK = '/check-external-link';
   static const CHOICE_DELIVERY = '/choice-delivery';
   static const CHOICE_DELIVERY_REFUND = '/choice-delivery-refund';
   static const CHOICE_PAYMENT = '/choice-payment';
   static const CHOICE_PAYMENT_PAYLATER = '/choice-payment-paylater';
+  static const CHOICE_PAYMENT_TAGIHAN = '/choice-payment-tagihan';
   static const CHOICE_PAYMENT_TOPUP = '/choice-payment-topup';
   static const DAFTAR_PENGAJUAN_PINJAMAN = '/daftar-pengajuan-pinjaman';
   static const DETAIL_ADDRESS = '/detail-address';
@@ -92,6 +94,7 @@ class Routes {
   static const TABUNGAN = '/tabungan';
   static const TABUNGAN_PAYMENT = '/tabungan-payment';
   static const TAGIHAN_BULANAN_PINJAMAN = '/tagihan-bulanan-pinjaman';
+  static const TAGIHAN_PAYMENT_TAGIHAN = '/tagihan-payment-tagihan';
   static const TOPUP_SALDO = '/topup-saldo';
   static const TRACKING_ORDER = '/tracking-order';
   static const TRACKING_RETURN = '/tracking-return';
@@ -100,5 +103,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const CHECK_EXTERNAL_LINK = '/check-external-link';
+  static const TAGIHAN_PAYMENT_BILL = '/tagihan-payment-bill';
 }

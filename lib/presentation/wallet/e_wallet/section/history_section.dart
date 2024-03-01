@@ -24,7 +24,9 @@ class HistorySection extends StatelessWidget {
               itemBuilder: (context, item, index) => ItemHistory(
                 data: item,
                 onTap: () => controller.navigationTo(
-                    refId: item.refId ?? '', status: item.status ?? ''),
+                    id: item.id ?? 0,
+                    refId: item.refId ?? '',
+                    status: item.status ?? ''),
               ),
               newPageProgressIndicatorBuilder: InfinitiPage.progress,
               firstPageProgressIndicatorBuilder: InfinitiPage.progress,

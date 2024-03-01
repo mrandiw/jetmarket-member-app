@@ -56,17 +56,17 @@ class LoanItem extends StatelessWidget {
                     data.note?.description ?? '',
                     style: text11GreyRegular,
                   ),
-                  Visibility(
-                    visible: data.status == 'REJECT',
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 6.h),
-                      child: GestureDetector(
-                          onTap: () =>
-                              Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN),
-                          child: Text('Lihat Detail',
-                              style: text11PrimaryRegular)),
-                    ),
-                  )
+                  // Visibility(
+                  //   visible: data.status == 'REJECTED',
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(top: 6.h),
+                  //     child: GestureDetector(
+                  //         onTap: () =>
+                  //             Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN),
+                  //         child: Text('Lihat Detail',
+                  //             style: text11PrimaryRegular)),
+                  //   ),
+                  // )
                 ],
               ))
             ],
@@ -79,7 +79,8 @@ class LoanItem extends StatelessWidget {
       case 'PENDING':
         return historyCircle;
       case 'CANCELLED':
-        return canceled;
+      case 'REJECTED':
+        return close;
       default:
         return done;
     }

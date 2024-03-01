@@ -30,25 +30,28 @@ class NominalSaldoSection extends StatelessWidget {
           Gap(20.hr),
           Text('Pilih Metode Pembayaran', style: text12BlackRegular),
           Gap(12.hr),
-          GestureDetector(
-            onTap: () => controller.confirmationDialogSavingSaldo(),
-            child: Container(
-              height: 60.hr,
-              width: Get.width.wr,
-              padding: AppStyle.paddingAll12,
-              decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: AppStyle.borderRadius8All,
-                  border: AppStyle.borderAll),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(controller.savingPaymentMethode?.saldo?[0].name ?? '',
-                      style: text12BlackRegular),
-                  Text(
-                      'Saldo : ${'${controller.savingPaymentMethode?.saldo?[0].amount}'.toIdrFormat}',
-                      style: text12NormalRegular)
-                ],
+          Visibility(
+            visible: controller.savingPaymentMethode?.saldo != null,
+            child: GestureDetector(
+              onTap: () => controller.confirmationDialogSavingSaldo(),
+              child: Container(
+                height: 60.hr,
+                width: Get.width.wr,
+                padding: AppStyle.paddingAll12,
+                decoration: BoxDecoration(
+                    color: kWhite,
+                    borderRadius: AppStyle.borderRadius8All,
+                    border: AppStyle.borderAll),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(controller.savingPaymentMethode?.saldo?[0].name ?? '',
+                        style: text12BlackRegular),
+                    Text(
+                        'Saldo : ${'${controller.savingPaymentMethode?.saldo?[0].amount}'.toIdrFormat}',
+                        style: text12NormalRegular)
+                  ],
+                ),
               ),
             ),
           ),

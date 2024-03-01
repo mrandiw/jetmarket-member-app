@@ -1,16 +1,22 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/interfaces/loan_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/saving_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/saving_history_model.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../domain/core/model/model_data/loan_bill_check.dart';
+import '../../../../infrastructure/navigation/routes.dart';
+
 class KoperasiController extends GetxController {
   final SavingRepository _savingRepository;
-  KoperasiController(this._savingRepository);
+  final LoanRepository _loanRepository;
+  KoperasiController(this._savingRepository, this._loanRepository);
 
   static const _pageSize = 10;
   int? savingTotal;
+  LoanBillCheckModel? loanBillCheck;
   var isShowEwallet = false.obs;
 
   PagingController<int, SavingHistoryModel> pagingController =
@@ -42,6 +48,14 @@ class KoperasiController extends GetxController {
     }
   }
 
+  Future<void> getLoanBillCheck() async {
+    final repository = await _loanRepository.getLoanBillCheck();
+    if (repository.status == StatusResponse.success) {
+      loanBillCheck = repository.result;
+      update();
+    }
+  }
+
   Future<void> refreshData() async {
     await Future.delayed(2.seconds, () {});
   }
@@ -54,6 +68,7 @@ class KoperasiController extends GetxController {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
       // getSavingHistory(1);
+      getLoanBillCheck();
       getSavingTotal();
       pagingController.refresh();
     });
@@ -65,9 +80,15 @@ class KoperasiController extends GetxController {
     if (isClosed) refreshController.loadComplete();
   }
 
+  void choicePayment() {
+    Get.toNamed(Routes.CHOICE_PAYMENT_TAGIHAN,
+        arguments: [loanBillCheck?.refId, loanBillCheck?.amount]);
+  }
+
   @override
   void onInit() {
     getSavingTotal();
+    getLoanBillCheck();
     pagingController.addPageRequestListener((page) {
       getSavingHistory(page);
     });

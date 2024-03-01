@@ -50,34 +50,34 @@ class StatusTagihanBulanan extends StatelessWidget {
 
   Color backgroundColor(String status) {
     switch (status) {
-      case 'PENDING':
+      case 'PENDING' || 'WAITING_PAYMENT' || 'WAITING_APPROVAL' || 'NEXT_MONTH':
         return kWarning2Color;
-      case 'SUCCEEDED':
-        return kSuccessColor2;
+      case 'CANCELLED' || 'FAILED' || 'REJECTED':
+        return kErrorColor2;
       default:
-        return kBorder;
+        return kSuccessColor2;
     }
   }
 
   Color borderColor(String status) {
     switch (status) {
-      case 'PENDING':
+      case 'PENDING' || 'WAITING_PAYMENT' || 'WAITING_APPROVAL' || 'NEXT_MONTH':
         return kWarningColor;
-      case 'SUCCEEDED':
-        return kSuccessColor;
+      case 'CANCELLED' || 'FAILED' || 'REJECTED':
+        return kErrorColor;
       default:
-        return kGrey;
+        return kSuccessColor;
     }
   }
 
   String iconStatus(String status) {
     switch (status) {
-      case 'PENDING':
+      case 'PENDING' || 'WAITING_PAYMENT' || 'WAITING_APPROVAL' || 'NEXT_MONTH':
         return historyCircle;
-      case 'SUCCEEDED':
-        return done;
+      case 'CANCELLED' || 'FAILED' || 'REJECTED':
+        return close;
       default:
-        return canceled;
+        return done;
     }
   }
 }

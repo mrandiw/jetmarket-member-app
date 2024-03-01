@@ -27,7 +27,7 @@ class DetailPaymentPaylaterScreen
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
-        controller.refreshEwalletPage();
+        controller.backAction();
         return true;
       },
       child: Scaffold(

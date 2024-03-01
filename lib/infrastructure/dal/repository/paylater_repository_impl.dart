@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/paylater_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/bill_paylater_model.dart';
@@ -52,6 +54,7 @@ class PaylaterRepositoryImpl implements PayLaterRepository {
     try {
       final response = await RemoteProvider.get(
           path: '${Endpoint.orderCustomer}/detail/$modifiedId');
+
       return DataState<DetailBillPaylater>(
         status: StatusCodeResponse.cek(response: response),
         result: DetailBillPaylater.fromJson(response.data['data']),
@@ -65,6 +68,7 @@ class PaylaterRepositoryImpl implements PayLaterRepository {
   Future<DataState<DetailPaymentPaylater>> paylaterPay(
       BillPaylaterBody body) async {
     try {
+      log(body.toMap().toString());
       final response = await RemoteProvider.post(
           path: Endpoint.paylaterPay, data: body.toMap());
       return DataState<DetailPaymentPaylater>(

@@ -162,7 +162,7 @@ class DetailStoreController extends GetxController
   }
 
   void toDetailProduct(int id) {
-    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: id);
+    Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [id, null]);
   }
 
   void onTapLocationStore() async {
@@ -181,11 +181,11 @@ class DetailStoreController extends GetxController
   }
 
   void applyFilterProduct() {
+    pagingController.itemList?.clear();
     isFiltered = true;
     update();
     Get.back();
     getProduct(1, Get.arguments['seller_id']);
-    pagingController.refresh();
   }
 
   toProductByCategory(int sellerId, CategoryProduct category) {

@@ -16,12 +16,16 @@ class DetailTagihanBulananController extends GetxController {
   DetailLoanBillModel? detailLoan;
 
   var screenStatus = ScreenStatus.initalize.obs;
+  int? amount;
 
   Future<void> getDetailLoan() async {
     screenStatus(ScreenStatus.loading);
     final response = await _loanRepository.getDetailLoanBill(Get.arguments[0]);
     if (response.status == StatusResponse.success) {
       detailLoan = response.result;
+      if (Get.arguments[2] != null) {
+        amount = Get.arguments[2];
+      }
       update();
       screenStatus(ScreenStatus.success);
     } else {
@@ -43,6 +47,11 @@ class DetailTagihanBulananController extends GetxController {
     final controller =
         Get.put(FirebaseController(NotificationRepositoryImpl()));
     await controller.getUnreadNotification();
+  }
+
+  void toPaymentBill() {
+    Get.toNamed(Routes.CHOICE_PAYMENT_TAGIHAN,
+        arguments: [Get.arguments[3], Get.arguments[2]]);
   }
 
   @override

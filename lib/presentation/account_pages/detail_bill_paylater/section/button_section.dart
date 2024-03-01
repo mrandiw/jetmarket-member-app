@@ -13,19 +13,23 @@ class ButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 76.h,
-      width: Get.width,
-      padding: AppStyle.paddingAll16,
-      decoration: BoxDecoration(color: kWhite, boxShadow: [
-        BoxShadow(
-            color: const Color(0xffE3BEBD).withOpacity(0.08),
-            offset: const Offset(0, -6),
-            blurRadius: 10)
-      ]),
-      child: AppButton.primary(
-        text: 'Kembali',
-        onPressed: () => controller.toChoicePayment(),
+    print("Amount : ${controller.totalPrice}");
+    return Visibility(
+      visible: controller.totalPrice != 0,
+      child: Container(
+        height: 76.h,
+        width: Get.width,
+        padding: AppStyle.paddingAll16,
+        decoration: BoxDecoration(color: kWhite, boxShadow: [
+          BoxShadow(
+              color: const Color(0xffE3BEBD).withOpacity(0.08),
+              offset: const Offset(0, -6),
+              blurRadius: 10)
+        ]),
+        child: AppButton.primary(
+          text: 'Kembali',
+          onPressed: () => controller.toChoicePayment(),
+        ),
       ),
     );
   }

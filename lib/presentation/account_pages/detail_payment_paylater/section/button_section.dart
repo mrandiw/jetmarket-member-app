@@ -26,7 +26,7 @@ class ButtonSection extends StatelessWidget {
       child: AppButton.primary(
         text: 'Back to Merchant',
         onPressed: () {
-          controller.refreshEwalletPage();
+          controller.backAction();
         },
       ),
     );

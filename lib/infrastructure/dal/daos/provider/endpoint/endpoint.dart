@@ -78,6 +78,7 @@ class Endpoint {
   static String loanEntry = 'loan/entry';
   static String loanPropose = 'loan/propose';
   static String loanBill = 'loan/bill';
+  static String loanPay = 'loan/pay';
 
   // Chat
   static String chat = 'chat';

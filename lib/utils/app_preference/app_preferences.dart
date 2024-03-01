@@ -29,6 +29,7 @@ class AppPreference {
   final String _countDownPaymentTopupWallet = 'count_down_payment_topup_wallet';
   final String _countDownPaylaterPayment = 'count_down_paylater_payment';
   final String _countDownOrder = 'count_down_order';
+  final String _countDownPaymentBill = 'count_down_payment_bill';
   final String _trxId = 'trx_id';
   final String _address = 'address';
   final String _registerComplite = 'register_complite';
@@ -114,6 +115,19 @@ class AppPreference {
         _countDownPaylaterPayment, json.encode(countDownMap));
   }
 
+  Future<void> saveCountDownPaymentBill(int countDown, String id) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+    String? countDownData = _prefs?.getString(_countDownPaymentBill);
+
+    Map<String, dynamic> countDownMap = {};
+
+    if (countDownData != null) {
+      countDownMap = json.decode(countDownData);
+    }
+    countDownMap[id] = startTime;
+    await _prefs?.setString(_countDownPaymentBill, json.encode(countDownMap));
+  }
+
   int? getCountDownOrder(int id) {
     String? countDownData = _prefs?.getString(_countDownOrder);
 
@@ -166,6 +180,19 @@ class AppPreference {
     return null;
   }
 
+  int? getCountDownPaymentBill(String id) {
+    String? countDownData = _prefs?.getString(_countDownPaymentBill);
+
+    if (countDownData != null) {
+      Map<String, dynamic> countDownMap = json.decode(countDownData);
+      if (countDownMap.containsKey(id)) {
+        return countDownMap[id.toString()];
+      }
+    }
+
+    return null;
+  }
+
   Future<void> registerComplite() async {
     await _prefs?.setBool(_registerComplite, true);
   }
@@ -195,6 +222,7 @@ class AppPreference {
       if (data['trx_id'] != null) {
         saveTrxId(data['trx_id']);
       }
+      saveEmail(data['user']['email']);
     }
   }
 

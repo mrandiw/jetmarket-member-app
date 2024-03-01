@@ -1,45 +1,27 @@
 class LoanBillModel {
+  int? amount;
+  String? dueAt;
   int? id;
+  String? refId;
   String? status;
-  Note? note;
-  String? createdAt;
 
-  LoanBillModel({this.id, this.status, this.note, this.createdAt});
+  LoanBillModel({this.amount, this.dueAt, this.id, this.refId, this.status});
 
   LoanBillModel.fromJson(Map<String, dynamic> json) {
+    amount = json['amount'];
+    dueAt = json['due_at'];
     id = json['id'];
+    refId = json['ref_id'];
     status = json['status'];
-    note = json['note'] != null ? Note.fromJson(json['note']) : null;
-    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['amount'] = amount;
+    data['due_at'] = dueAt;
     data['id'] = id;
+    data['ref_id'] = refId;
     data['status'] = status;
-    if (note != null) {
-      data['note'] = note!.toJson();
-    }
-    data['created_at'] = createdAt;
-    return data;
-  }
-}
-
-class Note {
-  String? title;
-  String? description;
-
-  Note({this.title, this.description});
-
-  Note.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    description = json['description'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['title'] = title;
-    data['description'] = description;
     return data;
   }
 }

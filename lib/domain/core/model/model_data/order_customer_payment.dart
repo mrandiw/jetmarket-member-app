@@ -1,6 +1,8 @@
 class OrderCustomerPaymentModel {
   int? id;
   int? orderId;
+  String? orderRefId;
+  String? refId;
   String? referenceId;
   String? name;
   int? amount;
@@ -15,6 +17,8 @@ class OrderCustomerPaymentModel {
   OrderCustomerPaymentModel(
       {this.id,
       this.orderId,
+      this.orderRefId,
+      this.refId,
       this.referenceId,
       this.name,
       this.amount,
@@ -29,6 +33,8 @@ class OrderCustomerPaymentModel {
   OrderCustomerPaymentModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
+    orderRefId = json['order_ref_id'];
+    refId = json['ref_id'];
     referenceId = json['reference_id'];
     name = json['name'];
     amount = json['amount'];
@@ -49,6 +55,8 @@ class OrderCustomerPaymentModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['order_id'] = orderId;
+    data['order_ref_id'] = orderRefId;
+    data['ref_id'] = refId;
     data['reference_id'] = referenceId;
     data['name'] = name;
     data['amount'] = amount;

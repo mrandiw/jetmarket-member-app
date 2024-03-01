@@ -19,8 +19,12 @@ class ResetPasswordController extends GetxController {
 
   var isPasswordValidated = false.obs;
   var isKonfirmasiPasswordValidated = false.obs;
+  String valuePassword = '';
+  String valuekonfirmasiPassword = '';
 
   listenKonfirmasiPasswordForm(String value) {
+    valuekonfirmasiPassword = value;
+    update();
     if (value.length >= 8) {
       isKonfirmasiPasswordValidated(true);
     } else {
@@ -29,6 +33,8 @@ class ResetPasswordController extends GetxController {
   }
 
   listenPasswordForm(String value) {
+    valuePassword = value;
+    update();
     if (value.length >= 8) {
       isPasswordValidated(true);
     } else {

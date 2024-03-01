@@ -34,7 +34,10 @@ class VoucherSection extends StatelessWidget {
                 children: [
                   SvgPicture.asset(voucher),
                   Gap(8.w),
-                  Text(controller.selectedVouchername ?? 'Voucher',
+                  Text(
+                      controller.selectedVouchername == null
+                          ? 'Voucher'
+                          : "Voucher ${controller.selectedVouchername} Terpakai",
                       style: text12BlackRegular),
                   const Spacer(),
                   SvgPicture.asset(arrowRight)

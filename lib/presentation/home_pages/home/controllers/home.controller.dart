@@ -287,6 +287,7 @@ class HomeController extends GetxController {
       } else {
         pagingPopularController.refresh();
       }
+      getCategoryProduct();
     });
     refreshController.refreshCompleted();
   }
