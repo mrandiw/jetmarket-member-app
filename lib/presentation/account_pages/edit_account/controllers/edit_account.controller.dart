@@ -105,8 +105,7 @@ class EditAccountController extends GetxController {
 
   listenNameForm(String value) {
     if (value.isNotEmpty) {
-      final RegExp nameExp =
-          RegExp(r'^[a-zA-Z ]{2,20}$'); // Maksimal 20 karakter
+      final RegExp nameExp = RegExp(r'^[a-zA-Z]{2,10}( [a-zA-Z]{2,10})+$');
 
       if (value.length > 20) {
         isNameError = true;

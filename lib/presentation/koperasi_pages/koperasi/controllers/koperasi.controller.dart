@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/interfaces/loan_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/saving_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/saving_history_model.dart';
+import 'package:jetmarket/presentation/account_pages/account/controllers/account.controller.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -68,6 +69,7 @@ class KoperasiController extends GetxController {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
       // getSavingHistory(1);
+      refreshProfile();
       getLoanBillCheck();
       getSavingTotal();
       pagingController.refresh();
@@ -83,6 +85,10 @@ class KoperasiController extends GetxController {
   void choicePayment() {
     Get.toNamed(Routes.CHOICE_PAYMENT_TAGIHAN,
         arguments: [loanBillCheck?.refId, loanBillCheck?.amount]);
+  }
+
+  void refreshProfile() {
+    Get.find<AccountController>().onRefresh();
   }
 
   @override

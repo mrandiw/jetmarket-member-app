@@ -10,12 +10,13 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
 import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../utils/assets/assets_svg.dart';
+import '../../../utils/global/constant.dart';
 import 'item_bar_model.dart';
 
 class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
-  bool isEmployee = false;
+  bool isEmployees = false;
   void changeTabIndex(int index) {
     selectedIndex = index;
     update();
@@ -68,7 +69,7 @@ class MainPagesController extends GetxController {
   }
 
   List<Widget> get listPages {
-    if (isEmployee) {
+    if (isEmployees) {
       return [
         const HomeScreen(),
         const OrderScreen(),
@@ -87,7 +88,7 @@ class MainPagesController extends GetxController {
   }
 
   List<ItemBarModel> get listItemBar {
-    if (isEmployee) {
+    if (isEmployees) {
       return [
         ItemBarModel(
           label: "Home",
@@ -142,7 +143,7 @@ class MainPagesController extends GetxController {
   }
 
   setEmploye() {
-    isEmployee = AppPreference().getUserProfile()?.isEmployee ?? false;
+    isEmployees = isEmployee;
     update();
   }
 

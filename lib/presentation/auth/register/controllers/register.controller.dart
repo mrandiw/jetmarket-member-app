@@ -79,6 +79,7 @@ class RegisterController extends GetxController {
 
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
+      isEmployee = response.result?.user?.isEmployee ?? false;
 
       update();
       if (isKodeReveralValidated.value) {
@@ -94,7 +95,7 @@ class RegisterController extends GetxController {
 
   listenNameForm(String value) {
     if (value.isNotEmpty) {
-      final RegExp nameExp = RegExp(r'^[a-zA-Z ]{2,20}$');
+      final RegExp nameExp = RegExp(r'^[a-zA-Z]{2,10}( [a-zA-Z]{2,10})+$');
 
       if (value.length > 20) {
         isNameError = true;

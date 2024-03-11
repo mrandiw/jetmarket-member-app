@@ -79,22 +79,7 @@ class CardNotification extends StatelessWidget {
                     placeholder: (context, url) =>
                         const Center(child: CupertinoActivityIndicator()),
                     errorWidget: (context, url, error) {
-                      return Container(
-                        height: 50.r,
-                        width: 50.r,
-                        padding: EdgeInsets.all(5.w),
-                        decoration: BoxDecoration(
-                          color: kSofterGrey,
-                          borderRadius: AppStyle.borderRadius8All,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.error,
-                            color: kPrimaryColor,
-                            size: 18.r,
-                          ),
-                        ),
-                      );
+                      return const SizedBox.shrink();
                     },
                   ),
                 ),

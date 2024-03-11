@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +59,7 @@ class DetailProductController extends GetxController {
         detail: responses[0].result as DetailProduct,
         review: responses[1].result as List<ProductReviewCustomer>,
       );
-      selectedVariant = detailProduct?.variants?.first;
+      selectedVariant = getAvailableVariant(detailProduct?.variants);
       screenStatus(ScreenStatus.success);
     } else if (responses
         .any((response) => response.status == StatusResponse.timeout)) {
@@ -65,6 +67,20 @@ class DetailProductController extends GetxController {
     } else {
       screenStatus(ScreenStatus.failed);
     }
+  }
+
+  Variants? getAvailableVariant(List<Variants>? variants) {
+    if (variants == null || variants.isEmpty) {
+      return null;
+    }
+
+    for (int i = 0; i < variants.length; i++) {
+      if ((variants[i].stock ?? 0) > 0) {
+        return variants[i];
+      }
+    }
+
+    return null;
   }
 
   Future<void> addToCart() async {
