@@ -16,6 +16,7 @@ import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
+import '../widget/confirmation_saving_saldo.dart';
 import '../widget/ovo_form.dart';
 
 class ChoicePaymentPaylaterController extends GetxController {
@@ -84,19 +85,54 @@ class ChoicePaymentPaylaterController extends GetxController {
     }
   }
 
+  void confirmationDialogSavingSaldo() {
+    AppDialogConfirmationSaving.show(controller: this);
+  }
+
+  void selectSaldoPayment() {
+    selectedchCode = paymentMethodes?.saldo?[0].chCode ?? '';
+    selectedchType = paymentMethodes?.saldo?[0].chType ?? '';
+    update();
+  }
+
+  void confirmationSavingSaldo() {
+    Get.back();
+    if (Get.arguments[1] <= (paymentMethodes?.saldo?[0].amount ?? 0)) {
+      selectSaldoPayment();
+      paylaterPay();
+    } else {
+      errorDialogMessage('Saldo tidak cukup');
+    }
+  }
+
+  void errorDialogMessage(String message) {
+    AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Error',
+            desc: message,
+            titleTextStyle: text16BlackSemiBold,
+            descTextStyle: text12BlackRegular,
+            btnCancelOnPress: () {})
+        .show();
+  }
+
   Future<void> paylaterPay() async {
     actionStatus = ActionStatus.loading;
     update();
     var body = BillPaylaterBody(
-        billId: Get.arguments[0],
+        refId: Get.arguments[0],
         amount: Get.arguments[1],
-        paymentMethodId: selectedId,
+        chCode: selectedchCode,
+        chType: selectedchType,
         mobileNumber: numberController.text);
     final response = await _payLaterRepository.paylaterPay(body);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      Get.offNamed(Routes.DETAIL_PAYMENT_PAYLATER, arguments: response.result);
+      Get.offAllNamed(Routes.DETAIL_PAYMENT_PAYLATER,
+          arguments: response.result);
     } else {
       actionStatus = ActionStatus.failed;
       update();

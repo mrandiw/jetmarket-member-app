@@ -10,8 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../domain/core/interfaces/payment_repository.dart';
 import '../../../../domain/core/model/model_data/detail_payment_paylater.dart';
 import '../../../../domain/core/model/model_data/tutorial_payment_va_model.dart';
+import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/app_preference/app_preferences.dart';
 import '../../../../utils/network/screen_status.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 enum PaymentMethodeType { va, retail, qris, wallet }
 
@@ -147,6 +149,7 @@ class DetailPaymentPaylaterController extends GetxController
   }
 
   void onTapQrCode(String url) async {
+    print(url);
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
@@ -166,6 +169,11 @@ class DetailPaymentPaylaterController extends GetxController
     if (message.notification != null) {
       log(message.notification?.body ?? 'o');
     }
+  }
+
+  void backAction() {
+    Get.offNamed(Routes.MAIN_PAGES);
+    Get.put(MainPagesController());
   }
 
   @override

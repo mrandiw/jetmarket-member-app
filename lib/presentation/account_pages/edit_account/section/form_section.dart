@@ -83,6 +83,8 @@ class FormSection extends StatelessWidget {
             label: 'Nama Lengkap',
             hintText: 'Isi nama lengkap disini',
             onChanged: (value) => controller.listenNameForm(value),
+            isError: controller.isNameError,
+            errorMessage: 'Masukkan nama yang valid',
           ),
           Gap(12.h),
           Text('Jenis Kelamin', style: text12BlackRegular),

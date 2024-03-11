@@ -41,6 +41,7 @@ class EditAccountController extends GetxController {
   var isPhoneValidated = false.obs;
   var isEmailValidated = false.obs;
   var isPasswordValidated = false.obs;
+  bool isNameError = false;
   var selectedDatePicker = "";
   var datePicker = <DateTime?>[];
 
@@ -104,7 +105,20 @@ class EditAccountController extends GetxController {
 
   listenNameForm(String value) {
     if (value.isNotEmpty) {
-      isNameValidated(true);
+      final RegExp nameExp =
+          RegExp(r'^[a-zA-Z ]{2,20}$'); // Maksimal 20 karakter
+
+      if (value.length > 20) {
+        isNameError = true;
+        update();
+      } else if (!nameExp.hasMatch(value)) {
+        isNameError = true;
+        update();
+      } else {
+        isNameError = false;
+        update();
+        isNameValidated(true);
+      }
     } else {
       isNameValidated(false);
     }

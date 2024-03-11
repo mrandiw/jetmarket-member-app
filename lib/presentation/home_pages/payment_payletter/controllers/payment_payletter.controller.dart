@@ -45,12 +45,13 @@ class PaymentPayletterController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      Get.toNamed(Routes.PAYLETTER_SUCCESS,
-          arguments: response.result?.orderId);
+      Get.toNamed(Routes.PAYLETTER_SUCCESS, arguments: response.result?.refId);
+      log(response.result?.orderId.toString() ?? '');
     } else {
       actionStatus = ActionStatus.failed;
       update();
     }
+    log(orderCustomer!.toJson().toString());
   }
 
   Future<void> getPayleter(int amount, String? chCode, String chType) async {

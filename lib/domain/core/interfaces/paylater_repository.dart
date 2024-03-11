@@ -10,6 +10,7 @@ abstract class PayLaterRepository {
   Future<DataState<DetailPaylaterModel>> getDetailPaylater();
   Future<DataState<List<BillPaylaterModel>>> getBillPaylater(
       {required int page, required int size});
-  Future<DataState<DetailBillPaylater>> getDetailBillPaylater(String refId);
+  Future<DataState<DetailBillPaylater>> getDetailBillPaylater(
+      String orderRefId);
   Future<DataState<DetailPaymentPaylater>> paylaterPay(BillPaylaterBody body);
 }

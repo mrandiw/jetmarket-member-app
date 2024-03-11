@@ -69,40 +69,43 @@ class HeaderSection extends StatelessWidget {
               ],
             ),
             Gap(12.h),
-            GestureDetector(
-              onTap: () => controller.toWaitingPayment(),
-              child: Container(
-                padding: AppStyle.paddingAll12,
-                decoration: BoxDecoration(
-                    color: kWhite,
-                    borderRadius: AppStyle.borderRadius8All,
-                    border: AppStyle.borderAll),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(paymentClock),
-                    Gap(8.w),
-                    Text('Menunggu Pembayaran', style: text12BlackRegular),
-                    const Spacer(),
-                    Obx(() {
-                      return Visibility(
-                        visible:
-                            controller.waitingOrderCustomerLenght.value > 0,
-                        child: CircleAvatar(
-                          radius: 8.r,
-                          backgroundColor: kPrimaryColor,
-                          child: Text(
-                              '${controller.waitingOrderCustomerLenght.value}',
-                              style: text8WhiteRegular),
-                        ),
-                      );
-                    }),
-                    Gap(8.w),
-                    SvgPicture.asset(
-                      arrowRight,
-                      height: 14.r,
-                      width: 14.r,
-                    )
-                  ],
+            Visibility(
+              visible: controller.waitingOrderCustomerLenght.value > 0,
+              child: GestureDetector(
+                onTap: () => controller.toWaitingPayment(),
+                child: Container(
+                  padding: AppStyle.paddingAll12,
+                  decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: AppStyle.borderRadius8All,
+                      border: AppStyle.borderAll),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(paymentClock),
+                      Gap(8.w),
+                      Text('Menunggu Pembayaran', style: text12BlackRegular),
+                      const Spacer(),
+                      Obx(() {
+                        return Visibility(
+                          visible:
+                              controller.waitingOrderCustomerLenght.value > 0,
+                          child: CircleAvatar(
+                            radius: 8.r,
+                            backgroundColor: kPrimaryColor,
+                            child: Text(
+                                '${controller.waitingOrderCustomerLenght.value}',
+                                style: text8WhiteRegular),
+                          ),
+                        );
+                      }),
+                      Gap(8.w),
+                      SvgPicture.asset(
+                        arrowRight,
+                        height: 14.r,
+                        width: 14.r,
+                      )
+                    ],
+                  ),
                 ),
               ),
             )

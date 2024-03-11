@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,10 +25,20 @@ class PaylaterCustomerScreen extends GetView<PaylaterCustomerController> {
     });
   }
 
-  Scaffold successWidget() {
-    return Scaffold(
-      appBar: appBarPaylaterCustomer,
-      body: const PaylaterSection(),
+  Widget successWidget() {
+    return WillPopScope(
+      onWillPop: () async {
+        if (Get.arguments != null) {
+          controller.backAction();
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        appBar: appBarPaylaterCustomer,
+        body: const PaylaterSection(),
+      ),
     );
   }
 }

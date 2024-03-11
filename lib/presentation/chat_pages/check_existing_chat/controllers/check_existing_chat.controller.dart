@@ -49,7 +49,7 @@ class CheckExistingChatController extends GetxController {
         toId: checkExisting?.toId,
         fromRole: checkExisting?.fromRole,
         toRole: checkExisting?.toRole,
-        productId: 1,
+        productId: variants?.id,
         orderId: 0);
     final response = await _chatRepository.createChat(param);
     if (response.status == StatusResponse.success) {

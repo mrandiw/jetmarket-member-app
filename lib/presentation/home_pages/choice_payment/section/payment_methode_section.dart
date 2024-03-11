@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/home_pages/choice_payment/controllers/choice_payment.controller.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
@@ -24,6 +26,34 @@ class PaymentMethodeSection extends StatelessWidget {
             children: [
               Text('Pilih Metode Pembayaran', style: text14BlackSemiBold),
               Gap(16.h),
+              Visibility(
+                visible: controller.paymentMethodes?.saldo != null,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: GestureDetector(
+                    onTap: () => controller.confirmationDialogSavingSaldo(),
+                    child: Container(
+                      height: 60.hr,
+                      width: Get.width.wr,
+                      padding: AppStyle.paddingAll12,
+                      decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: AppStyle.borderRadius8All,
+                          border: AppStyle.borderAll),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(controller.paymentMethodes?.saldo?[0].name ?? '',
+                              style: text12BlackRegular),
+                          Text(
+                              'Saldo : ${'${controller.paymentMethodes?.saldo?[0].amount}'.toIdrFormat}',
+                              style: text12NormalRegular)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               // Payment Method Bank
               Container(
                 width: Get.width,

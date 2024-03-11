@@ -155,6 +155,9 @@ class DetailProductController extends GetxController {
         toId: detailProduct?.seller?.id ?? 0,
         fromRole: 'customer',
         toRole: 'seller');
+    // log(data.toMap().toString());
+    // log(detailProduct?.seller?.toJson().toString() ?? '');
+    // log("Product : ${selectedVariant?.id ?? 0}");
     Get.toNamed(Routes.CHECK_EXISTING_CHAT,
         arguments: [data, detailProduct?.seller, selectedVariant]);
   }

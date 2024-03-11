@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/presentation/koperasi_pages/tagihan_bulanan_pinjaman/controllers/tagihan_bulanan_pinjaman.controller.dart';
+import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../components/infiniti_page/infiniti_page.dart';
@@ -21,9 +22,20 @@ class ListTagihanBulanan extends StatelessWidget {
         sliver: PagedSliverList.separated(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<LoanBillModel>(
-              itemBuilder: (context, item, index) => LoanItem(
-                data: item,
-              ),
+              itemBuilder: (context, item, index) {
+                final currentData =
+                    controller.pagingController.itemList?[index];
+                final previousData = index > 0
+                    ? controller.pagingController.itemList![index - 1]
+                    : null;
+                final showYearLabel = previousData == null ||
+                    currentData?.dueAt?.getYear != previousData.dueAt?.getYear;
+
+                return ItemBill(
+                  data: item,
+                  showYear: showYearLabel,
+                );
+              },
               newPageProgressIndicatorBuilder: InfinitiPage.progress,
               firstPageProgressIndicatorBuilder: InfinitiPage.progress,
               noItemsFoundIndicatorBuilder: (_) =>

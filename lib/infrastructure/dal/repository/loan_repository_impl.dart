@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/loan_repository.dart';
+import 'package:jetmarket/domain/core/model/model_data/loan_bill_check.dart';
 import 'package:jetmarket/domain/core/model/model_data/loan_entry_cancel_model.dart';
+import 'package:jetmarket/domain/core/model/model_data/loan_pay_bill_model.dart';
 import 'package:jetmarket/domain/core/model/model_data/loan_propose_model.dart';
+import 'package:jetmarket/domain/core/model/params/loan/loan_bill.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_entry_param.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_propose_list_param.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_propose_param.dart';
@@ -111,6 +114,32 @@ class LoanRepositoryImpl implements LoanRepository {
           status: StatusCodeResponse.cek(response: response));
     } on DioException catch (e) {
       return CustomException<DetailLoanBillModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<LoanBillCheckModel>> getLoanBillCheck() async {
+    try {
+      final response =
+          await RemoteProvider.get(path: "${Endpoint.loanBill}/check");
+      return DataState<LoanBillCheckModel>(
+          result: LoanBillCheckModel.fromJson(response.data['data'] ?? {}),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<LoanBillCheckModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<LoanPayBillModel>> loanBill(LoanBillParam param) async {
+    try {
+      final response = await RemoteProvider.post(
+          path: Endpoint.loanPay, data: param.toMap());
+      return DataState<LoanPayBillModel>(
+          result: LoanPayBillModel.fromJson(response.data['data'] ?? {}),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<LoanPayBillModel>().dio(e);
     }
   }
 }

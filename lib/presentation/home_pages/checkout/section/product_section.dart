@@ -30,8 +30,12 @@ class ProductSection extends StatelessWidget {
               children: [
                 Padding(
                   padding: AppStyle.paddingBottom8,
-                  child:
-                      Text(data.seller?.name ?? '', style: text12BlackRegular),
+                  child: Text(
+                    data.seller?.name ?? '',
+                    style: text12BlackRegular,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Divider(
                   color: kBorder,

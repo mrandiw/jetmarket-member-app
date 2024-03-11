@@ -5,7 +5,10 @@ import 'package:jetmarket/domain/core/model/params/loan/loan_propose_param.dart'
 
 import '../../../utils/network/data_state.dart';
 import '../model/model_data/detail_loan_bill_model.dart';
+import '../model/model_data/loan_bill_check.dart';
+import '../model/model_data/loan_pay_bill_model.dart';
 import '../model/model_data/loan_propose_model.dart';
+import '../model/params/loan/loan_bill.dart';
 import '../model/params/loan/loan_propose_list_param.dart';
 
 abstract class LoanRepository {
@@ -18,4 +21,6 @@ abstract class LoanRepository {
   Future<DataState<List<LoanBillModel>>> getLoanBill(
       {required int page, required int size});
   Future<DataState<DetailLoanBillModel>> getDetailLoanBill(int id);
+  Future<DataState<LoanBillCheckModel>> getLoanBillCheck();
+  Future<DataState<LoanPayBillModel>> loanBill(LoanBillParam param);
 }

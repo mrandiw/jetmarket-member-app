@@ -7,6 +7,7 @@ import 'package:jetmarket/utils/network/screen_status.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/status_response.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
 
 class PaylaterCustomerController extends GetxController {
   final PayLaterRepository _payLaterRepository;
@@ -43,6 +44,11 @@ class PaylaterCustomerController extends GetxController {
   toChoicePayment() {
     Get.toNamed(Routes.CHOICE_PAYMENT_PAYLATER,
         arguments: [detailPaylater?.bill?.id, detailPaylater?.bill?.amount]);
+  }
+
+  void backAction() {
+    Get.offNamed(Routes.MAIN_PAGES);
+    Get.put(MainPagesController());
   }
 
   @override

@@ -64,6 +64,7 @@ class EWalletController extends GetxController {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
       pagingController.refresh();
+      getBalance();
     });
     refreshController.refreshCompleted();
   }
@@ -92,7 +93,8 @@ class EWalletController extends GetxController {
     nominalController.clear();
   }
 
-  void navigationTo({required String refId, required String status}) {
+  void navigationTo(
+      {required int id, required String refId, required String status}) {
     String refCode = refId.getSubstringBeforeHash;
     if (refCode == 'WID' && status == 'WAITING_APPROVAL') {
       Get.toNamed(Routes.WITHDRAW_STATUS, arguments: refId);
@@ -100,6 +102,15 @@ class EWalletController extends GetxController {
       Get.toNamed(Routes.DETAIL_WITHDRAW, arguments: [refId, null]);
     } else if (refCode == 'ORD') {
       Get.toNamed(Routes.DETAIL_ORDER, arguments: [0, null, null, refId]);
+    } else if (refCode == 'BIL') {
+      Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
+          arguments: [refId, null, null, null]);
+    } else if (refCode == 'REF') {
+      Get.toNamed(Routes.REFERRAL);
+    } else if (refCode == 'LON') {
+      Get.toNamed(Routes.DETAIL_PENGAJUAN_PINJAMAN, arguments: [id, null]);
+    } else if (refCode == 'SAV') {
+      Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [id, null]);
     } else {
       Get.toNamed(Routes.DETAIL_TOPUP, arguments: [refId, null]);
     }

@@ -49,6 +49,7 @@ export 'package:jetmarket/presentation/home_pages/voucher/voucher.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/add_tabungan/add_tabungan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/add_tabungan_manual/add_tabungan_manual.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/ajukan_pinjaman/ajukan_pinjaman.screen.dart';
+export 'package:jetmarket/presentation/koperasi_pages/choice_payment_tagihan/choice_payment_tagihan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/daftar_pengajuan_pinjaman/daftar_pengajuan_pinjaman.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/detail_menabung/detail_menabung.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/detail_pengajuan_pinjaman/detail_pengajuan_pinjaman.screen.dart';
@@ -61,6 +62,7 @@ export 'package:jetmarket/presentation/koperasi_pages/pinjaman/pinjaman.screen.d
 export 'package:jetmarket/presentation/koperasi_pages/tabungan/tabungan.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/tabungan_payment/tabungan_payment.screen.dart';
 export 'package:jetmarket/presentation/koperasi_pages/tagihan_bulanan_pinjaman/tagihan_bulanan_pinjaman.screen.dart';
+export 'package:jetmarket/presentation/koperasi_pages/tagihan_payment_bill/tagihan_payment_bill.screen.dart';
 export 'package:jetmarket/presentation/main_pages/main_pages.screen.dart';
 export 'package:jetmarket/presentation/notification/notification.screen.dart';
 export 'package:jetmarket/presentation/onboarding/onboarding.screen.dart';

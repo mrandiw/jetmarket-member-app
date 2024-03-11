@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -18,7 +20,7 @@ class ItemHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String code = data.refId?.getSubstringBeforeHash ?? '';
-
+    log(data.id.toString());
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -32,8 +34,7 @@ class ItemHistory extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(code == 'TOP' ? 'Top Up' : 'Withdraw',
-                    style: text12BlackMedium),
+                Text(convertType(code), style: text12BlackMedium),
                 const Spacer(),
                 amountBadge(code, data.amount ?? 0)
               ],
@@ -72,25 +73,48 @@ class ItemHistory extends StatelessWidget {
     );
   }
 
+  String convertType(String status) {
+    switch (status) {
+      case 'TOP':
+        return 'Top Up';
+      case 'WID':
+        return 'Withdraw';
+      case 'REF':
+        return 'Referral';
+      default:
+        return '-';
+    }
+  }
+
   String convertStatus(String status) {
     switch (status) {
       case 'WAITING_PAYMENT':
-        return 'Pending';
+        return 'Menunggu Pembayaran';
       case 'WAITING_APPROVAL':
         return 'Menunggu Konfirmasi';
       case 'SUCCEEDED':
         return 'Berhasil';
-      default:
+      case 'PENDING':
+        return 'Sedang Diproses';
+      case 'CANCELLED':
         return 'Dibatalkan';
+      case 'REJECTED':
+        return 'Ditolak';
+      case '':
+        return '-';
+      default:
+        return 'Gagal';
     }
   }
 
   TextStyle convertColorText(String status) {
     switch (status) {
-      case 'WAITING_PAYMENT' || 'WAITING_APPROVAL':
+      case 'WAITING_PAYMENT' || 'WAITING_APPROVAL' || 'PENDING':
         return text10WarningMedium;
-      case 'CANCELLED':
+      case 'CANCELLED' || 'FAILED' || 'REJECTED':
         return text10ErrorMedium;
+      case '':
+        return text10HintRegular;
       default:
         return text10SuccessMedium;
     }

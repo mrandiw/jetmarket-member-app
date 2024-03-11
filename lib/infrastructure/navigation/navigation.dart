@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+
 import 'package:jetmarket/infrastructure/middleware/deeplink_middleware.dart';
+
 import '../../presentation/screens.dart';
 import '../middleware/notification_middleware.dart';
 import '../middleware/onboarding_middleware.dart';
@@ -473,5 +475,15 @@ class Nav {
         page: () => const CheckExternalLinkScreen(),
         binding: CheckExternalLinkControllerBinding(),
         middlewares: [DeeplinkMiddleware(), NotificationMiddleware()]),
+    GetPage(
+      name: Routes.CHOICE_PAYMENT_TAGIHAN,
+      page: () => const ChoicePaymentTagihanScreen(),
+      binding: ChoicePaymentTagihanControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TAGIHAN_PAYMENT_BILL,
+      page: () => const TagihanPaymentBillScreen(),
+      binding: TagihanPaymentBillControllerBinding(),
+    ),
   ];
 }

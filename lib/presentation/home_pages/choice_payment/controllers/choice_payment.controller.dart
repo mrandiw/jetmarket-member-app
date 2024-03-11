@@ -15,6 +15,7 @@ import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
+import '../widget/confirmation_saving_saldo.dart';
 import '../widget/ovo_form.dart';
 
 class ChoicePaymentController extends GetxController {
@@ -112,6 +113,40 @@ class ChoicePaymentController extends GetxController {
 
   String assetImage(String path) {
     return "assets/images/${path.toLowerCase()}.png";
+  }
+
+  void confirmationDialogSavingSaldo() {
+    AppDialogConfirmationSaving.show(controller: this);
+  }
+
+  void selectSaldoPayment() {
+    selectedchCode = paymentMethodes?.saldo?[0].chCode ?? '';
+    selectedchType = paymentMethodes?.saldo?[0].chType ?? '';
+    update();
+  }
+
+  void confirmationSavingSaldo() {
+    Get.back();
+    if ((orderCustomer?.totalAmount ?? 0) <=
+        (paymentMethodes?.saldo?[0].amount ?? 0)) {
+      selectSaldoPayment();
+      payOrder();
+    } else {
+      errorDialogMessage('Saldo tidak cukup');
+    }
+  }
+
+  void errorDialogMessage(String message) {
+    AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Error',
+            desc: message,
+            titleTextStyle: text16BlackSemiBold,
+            descTextStyle: text12BlackRegular,
+            btnCancelOnPress: () {})
+        .show();
   }
 
   void actionPayment(int id, String chType, String chCode, String name) {

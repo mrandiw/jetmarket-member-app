@@ -12,8 +12,11 @@ import 'package:jetmarket/presentation/koperasi_pages/koperasi/controllers/koper
 import 'package:jetmarket/presentation/koperasi_pages/koperasi/widget/menu_icon.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
+
+import '../../../../components/button/app_button.dart';
 
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key, required this.controller});
@@ -104,7 +107,42 @@ class HeaderSection extends StatelessWidget {
                 )),
               ]),
               Gap(16.hr),
-              Text('All History', style: text14BlackMedium),
+              Container(
+                padding: AppStyle.paddingAll12,
+                decoration: BoxDecoration(
+                  color: kWhite,
+                  borderRadius: AppStyle.borderRadius8All,
+                  boxShadow: [AppStyle.boxShadow],
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Jumlah yang perlu dibayar bulan ini',
+                          style: text10HintRegular),
+                      Row(
+                        children: [
+                          Text(
+                              '${controller.loanBillCheck?.amount}'.toIdrFormat,
+                              style: text14BlackSemiBold),
+                          const Spacer(),
+                          AppButton.primarySmall(
+                            text: 'Bayar',
+                            onPressed: controller.loanBillCheck?.amount != null
+                                ? () => controller.choicePayment()
+                                : null,
+                          )
+                        ],
+                      ),
+                      Visibility(
+                        visible: controller.loanBillCheck?.dueAt != null,
+                        child: Text(
+                            'Batas pembayaran ${"${controller.loanBillCheck?.dueAt}".convertToDateFormat}',
+                            style: text10ErrorMedium),
+                      )
+                    ]),
+              ),
+              Gap(16.hr),
+              Text('Riwayat Tabungan', style: text14BlackMedium),
               Gap(12.hr),
             ],
           )),

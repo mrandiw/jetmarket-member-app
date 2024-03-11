@@ -41,10 +41,25 @@ class ItemBill extends StatelessWidget {
       Gap(12.h),
       GestureDetector(
         onTap: () {
-          if (data.status == 'WAITING_PAYMENT') {
+          print(data.status);
+          if (data.status == 'WAITING_PAYMENT' ||
+              data.status == 'NEXT_MONTH' ||
+              data.status == 'OVER_DUE') {
             Get.toNamed(Routes.DETAIL_BILL_PAYLATER,
-                arguments: [data.refId, data.id, data.amount]);
+                arguments: [data.orderRefId, data.refId, data.amount]);
+          } else if (data.status == 'PAID') {
+            Get.toNamed(Routes.DETAIL_BILL_PAYLATER,
+                arguments: [data.orderRefId, data.refId, null]);
           }
+          //  if (data.status == 'NEXT_MONTH' ||
+          //     data.status == 'OVER_DUE' ||
+          //     data.status == 'WAITING_PAYMENT') {
+          //   Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
+          //       arguments: [data.id, null, data.amount, data.refId]);
+          // } else if (data.status == 'PAID') {
+          //   Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
+          //       arguments: [data.id, null, null, data.refId]);
+          // }
         },
         child: Container(
           padding: AppStyle.paddingAll12,

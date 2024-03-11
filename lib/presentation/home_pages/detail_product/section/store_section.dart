@@ -51,6 +51,8 @@ class StoreSection extends StatelessWidget {
                       ),
                     )),
             title: Text(controller.detailProduct?.seller?.name ?? '',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: text14BlackMedium),
             subtitle: Text(
               controller.detailProduct?.seller?.city ?? '',

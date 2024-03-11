@@ -1,4 +1,8 @@
+// ignore_for_file: unnecessary_nullable_for_final_variable_declarations, avoid_print
+
+import 'dart:convert';
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -47,6 +51,8 @@ void toDirectPagelink(String path, int pathId, String? refId) {
       Get.toNamed(Routes.REFERRAL);
     case 'transaction':
       Get.toNamed(Routes.ORDER_LIST_TRANSACTION, arguments: [refId, null]);
+    case 'paylater':
+      Get.toNamed(Routes.PAYLATER_CUSTOMER);
     default:
       break;
   }
@@ -59,13 +65,56 @@ void toDirectPagelinkPayment(String path, int pathId, String? refId) {
       Get.offNamed(Routes.DETAIL_TOPUP, arguments: [refId, null]);
     case 'saving':
       Get.offNamed(Routes.DETAIL_MENABUNG, arguments: [pathId, null]);
+    case 'paylater':
+      Get.offNamed(Routes.PAYLATER_CUSTOMER);
     default:
       break;
   }
 }
 
+Future<String?> _base64encodeImage(String? url) async {
+  try {
+    if (url == null || url.isEmpty) {
+      print("Error fetching image: URL is null or empty");
+      return null;
+    }
+
+    final response = await Dio().get(
+      url,
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    if (response.statusCode == 200 && response.data != null) {
+      final String base64Data = base64Encode(response.data!);
+      return base64Data;
+    } else {
+      print("Error fetching image: Invalid URL or empty response");
+      return null;
+    }
+  } catch (e) {
+    print("Error fetching image: $e");
+    return null;
+  }
+}
+
 settingShowNotification(RemoteMessage message) async {
-  var androidDetails = const AndroidNotificationDetails(
+  String? showImage;
+  if (message.data['image'] != null && message.data['image'] != '') {
+    showImage = await _base64encodeImage(message.data['image']);
+  }
+
+  BigPictureStyleInformation? bigPictureStyleInformation;
+  if (showImage != null) {
+    bigPictureStyleInformation = BigPictureStyleInformation(
+      ByteArrayAndroidBitmap.fromBase64String(showImage),
+      contentTitle: message.notification?.title,
+      htmlFormatContent: true,
+      summaryText: message.notification?.body,
+      htmlFormatSummaryText: true,
+    );
+  }
+
+  var androidDetails = AndroidNotificationDetails(
     'high_importance_channel',
     'high_importance_channel_name',
     priority: Priority.high,
@@ -73,6 +122,7 @@ settingShowNotification(RemoteMessage message) async {
     playSound: true,
     enableVibration: true,
     enableLights: true,
+    styleInformation: bigPictureStyleInformation,
   );
   var platformDetails = NotificationDetails(android: androidDetails);
 
@@ -111,9 +161,14 @@ settingShowNotification(RemoteMessage message) async {
     } else if (parts[0] == 'payment_method') {
       AppPreference().removetrxId();
       Get.offAllNamed(Routes.PAYMENT_REGISTER);
+    } else if (parts[0] == 'loan' && parts[1] == 'bill') {
+      Get.toNamed(Routes.DETAIL_TAGIHAN_BULANAN,
+          arguments: [int.parse(parts[2]), 'from-notificatiion', null, null]);
     } else if (parts[0] == 'transaction') {
       Get.offNamed(Routes.ORDER_LIST_TRANSACTION,
           arguments: [parts[1], 'from-notification']);
+    } else if (parts[0] == 'paylater') {
+      Get.offNamed(Routes.PAYLATER_CUSTOMER, arguments: 'from-notification');
     } else {
       await updateUnreadNotification();
     }

@@ -81,7 +81,7 @@ class OtpController extends GetxController {
   }
 
   Future<void> sendOtp() async {
-    final response = await _authRepository.sendOtp(Get.arguments);
+    final response = await _authRepository.sendOtp(email);
     if (response.status == StatusResponse.success) {
       startCountdown();
     } else {
@@ -91,7 +91,7 @@ class OtpController extends GetxController {
 
   @override
   void onInit() {
-    email = Get.arguments;
+    email = AppPreference().getEmail() ?? '';
     super.onInit();
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();

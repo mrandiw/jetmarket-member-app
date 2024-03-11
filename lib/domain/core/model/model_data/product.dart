@@ -25,11 +25,7 @@ class Product {
     price = json['price'];
     promo = json['promo'];
     sold = json['sold'];
-    if (json['rating'] == 0) {
-      rating = 0.0;
-    } else {
-      rating = json['rating'];
-    }
+    rating = double.parse('${json['rating']}');
     description = json['description'];
   }
 

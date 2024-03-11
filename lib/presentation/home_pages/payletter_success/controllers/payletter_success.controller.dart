@@ -17,7 +17,7 @@ class PayletterSuccessController extends GetxController {
   void toDetail() {
     Get.offNamedUntil(Routes.DETAIL_ORDER,
         (routes) => routes.settings.name == Routes.MAIN_PAGES,
-        arguments: [Get.arguments, null, null, null]);
+        arguments: [0, null, null, Get.arguments]);
     final controller = Get.put(MainPagesController());
     final controller2 = Get.put(OrderController(OrderRepositoryImpl()));
     controller.changeTabIndex(1);
