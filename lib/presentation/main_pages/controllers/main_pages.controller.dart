@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
 import 'package:jetmarket/presentation/screens.dart';
-import 'package:jetmarket/utils/app_preference/app_preferences.dart';
-
 import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../utils/assets/assets_svg.dart';
 import '../../../utils/global/constant.dart';

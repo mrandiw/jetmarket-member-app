@@ -41,7 +41,6 @@ class ItemBill extends StatelessWidget {
       Gap(12.h),
       GestureDetector(
         onTap: () {
-          print(data.status);
           if (data.status == 'WAITING_PAYMENT' ||
               data.status == 'NEXT_MONTH' ||
               data.status == 'OVER_DUE') {

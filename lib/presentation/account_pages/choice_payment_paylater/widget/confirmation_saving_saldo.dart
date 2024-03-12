@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/presentation/home_pages/choice_payment/controllers/choice_payment.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../components/button/app_button.dart';

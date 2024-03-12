@@ -128,7 +128,7 @@ class VariantSection extends StatelessWidget {
                   itemCount: controller.detailProduct?.variants?.length ?? 0),
             ),
             Gap(12.h),
-            Text('Stok ${controller.selectedVariant?.stock}',
+            Text('Stok ${controller.selectedVariant?.stock ?? 0}',
                 style: text12HintRegular)
           ],
         ),

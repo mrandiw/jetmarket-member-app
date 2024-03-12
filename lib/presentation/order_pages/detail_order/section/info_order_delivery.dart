@@ -57,16 +57,16 @@ class InfoOrderDelivery extends StatelessWidget {
                           style: text12BlackMedium),
                     ],
                   ),
-                  Gap(6.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Waktu Pembayaran', style: text12BlackRegular),
-                      Text(
-                          '${controller.detailOrderCustomer?.paymentMethod?.createdAt?.split('.').first.formatDate}',
-                          style: text12BlackMedium),
-                    ],
-                  ),
+                  // Gap(6.h),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text('Waktu Pembayaran', style: text12BlackRegular),
+                  //     Text(
+                  //         '${controller.detailOrderCustomer?.paymentMethod?.createdAt?.split('.').first.formatDate}',
+                  //         style: text12BlackMedium),
+                  //   ],
+                  // ),
                   Gap(6.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

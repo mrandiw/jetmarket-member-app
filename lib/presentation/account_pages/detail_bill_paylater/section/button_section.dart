@@ -13,7 +13,6 @@ class ButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Amount : ${controller.totalPrice}");
     return Visibility(
       visible: controller.totalPrice != 0,
       child: Container(
