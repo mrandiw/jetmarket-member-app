@@ -149,7 +149,6 @@ class DetailPaymentPaylaterController extends GetxController
   }
 
   void onTapQrCode(String url) async {
-    print(url);
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
