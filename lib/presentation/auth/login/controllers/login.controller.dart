@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/utils/global/constant.dart';
@@ -34,6 +36,7 @@ class LoginController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
+      isEmployee = response.result?.user?.isEmployee ?? false;
       if (response.result?.user?.isVerified == false) {
         Get.offAllNamed(Routes.REGISTER_OTP);
       } else if (response.result?.user?.activatedAt == '0001-01-01T00:00:00Z' &&

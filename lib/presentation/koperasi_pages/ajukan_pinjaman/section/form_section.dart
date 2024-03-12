@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,9 @@ class FormSection extends StatelessWidget {
                   hintText: 'Isi nomor ktp disini...',
                   type: AppFormType.withLabel,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(16),
+                  ],
                   onChanged: controller.listenKtpForm),
               Gap(8.hr),
               Text('Selfie', style: text12BlackRegular),

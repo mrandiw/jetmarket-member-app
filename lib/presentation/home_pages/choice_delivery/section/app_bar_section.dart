@@ -16,6 +16,6 @@ AppBar appBarChoiceDelivery(ChoiceDeliveryController controller) {
         icon: SvgPicture.asset(arrowForward),
       ),
       title: Text(
-          'Pilih Pengirima ${controller.packets.first.name?.toUpperCase()}',
+          'Pilih Pengiriman ${controller.packets.first.name?.toUpperCase()}',
           style: text16BlackSemiBold));
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/model/model_data/checking_auth.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
@@ -10,6 +12,7 @@ import '../../../../domain/core/model/params/auth/register_virify_otp_param.dart
 import '../../../domain/core/model/model_data/user_profile.dart';
 import '../../../domain/core/model/params/auth/profile_body.dart';
 import '../../../utils/app_preference/app_preferences.dart';
+import '../../../utils/global/constant.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
 import '../../../utils/network/data_state.dart';
@@ -243,7 +246,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response =
           await RemoteProvider.get(path: '${Endpoint.profile}/$id');
-
+      log("CHECKING : ${response.data['data']}");
+      isEmployee = response.data['data']['is_employee'] ?? false;
       return DataState<CheckingAuth>(
           status: StatusCodeResponse.cek(response: response),
           result: CheckingAuth.fromJson(response.data['data']),

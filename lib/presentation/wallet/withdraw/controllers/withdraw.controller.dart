@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/remove_comma.dart';
 
 import '../../../../domain/core/interfaces/ewallet_repository.dart';
+import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/status_response.dart';
 
@@ -114,25 +116,42 @@ class WithdrawController extends GetxController {
 
   Future<void> sendWithdraw() async {
     Get.back();
-    actionStatus = ActionStatus.loading;
-    update();
-    var body = SendWithdrawBody(
-        nameHolder: nameHolderController.text,
-        bank: selectedRekening,
-        chCode: selectedRekening,
-        rekening: rekeningNumberController.text,
-        amount: int.parse(nominalController.text.removeComma));
-    final response = await _ewalletRepository.sendWidthdraw(body);
-    if (response.status == StatusResponse.success) {
-      Get.back();
-      log(response.result ?? '');
-      Get.toNamed(Routes.WITHDRAW_STATUS, arguments: response.result);
-      actionStatus = ActionStatus.success;
-      update();
+    if (int.parse(nominalController.text.removeComma) > Get.arguments[0]) {
+      showDialogError('Saldo anda tidak cukup');
     } else {
-      actionStatus = ActionStatus.failed;
+      actionStatus = ActionStatus.loading;
       update();
+      var body = SendWithdrawBody(
+          nameHolder: nameHolderController.text,
+          bank: selectedRekening,
+          chCode: selectedRekening,
+          rekening: rekeningNumberController.text,
+          amount: int.parse(nominalController.text.removeComma));
+      final response = await _ewalletRepository.sendWidthdraw(body);
+      if (response.status == StatusResponse.success) {
+        Get.back();
+        log(response.result ?? '');
+        Get.toNamed(Routes.WITHDRAW_STATUS, arguments: response.result);
+        actionStatus = ActionStatus.success;
+        update();
+      } else {
+        actionStatus = ActionStatus.failed;
+        update();
+      }
     }
+  }
+
+  showDialogError(String message) {
+    AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Error',
+            desc: message,
+            titleTextStyle: text16BlackSemiBold,
+            descTextStyle: text12BlackRegular,
+            btnCancelOnPress: () {})
+        .show();
   }
 
   @override

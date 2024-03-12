@@ -23,6 +23,7 @@ class HeaderSection extends StatelessWidget {
       child: Padding(
           padding: AppStyle.paddingAll16,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: AppStyle.paddingAll12,
@@ -81,8 +82,14 @@ class HeaderSection extends StatelessWidget {
                     child: MenuIcon(
                         title: 'Withdraw',
                         icon: Icons.arrow_downward,
-                        onTap: () => Get.toNamed(Routes.WITHDRAW))),
+                        onTap: () => Get.toNamed(Routes.WITHDRAW,
+                            arguments: [controller.balance.value]))),
               ]),
+              Gap(16.hr),
+              Text(
+                'History',
+                style: text14BlackMedium,
+              )
             ],
           )),
     );

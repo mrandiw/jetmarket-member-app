@@ -36,27 +36,60 @@ class VariantSection extends StatelessWidget {
                                 '',
                         imageBuilder: (context, imageProvider) =>
                             GestureDetector(
-                          onTap: () => controller.selectVariant(
-                              controller.detailProduct?.variants?[index]),
-                          child: Container(
-                            height: 80.r,
-                            width: 80.r,
-                            decoration: BoxDecoration(
-                              borderRadius: AppStyle.borderRadius8All,
-                              color: kSofterGrey,
-                              border: Border.all(
-                                  color:
-                                      (controller.selectedVariant?.id ?? 0) ==
-                                              (controller.detailProduct
-                                                      ?.variants?[index].id ??
-                                                  0)
-                                          ? kSecondaryColor
-                                          : Colors.transparent),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                          onTap: (controller.detailProduct?.variants?[index]
+                                          .stock ??
+                                      0) >=
+                                  1
+                              ? () => controller.selectVariant(
+                                  controller.detailProduct?.variants?[index])
+                              : null,
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 80.r,
+                                width: 80.r,
+                                decoration: BoxDecoration(
+                                  borderRadius: AppStyle.borderRadius8All,
+                                  color: kSofterGrey,
+                                  border: Border.all(
+                                    color:
+                                        (controller.selectedVariant?.id ?? 0) ==
+                                                (controller.detailProduct
+                                                        ?.variants?[index].id ??
+                                                    0)
+                                            ? kSecondaryColor
+                                            : Colors.transparent,
+                                  ),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Visibility(
+                                visible: (controller.detailProduct
+                                            ?.variants?[index].stock ??
+                                        0) <
+                                    1,
+                                child: Container(
+                                  height: 80.r,
+                                  width: 80.r,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x00000000)
+                                        .withOpacity(0.5),
+                                    borderRadius: AppStyle.borderRadius8All,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Stock Kosong',
+                                      style: text12WhiteMedium.copyWith(
+                                          height: 1.6),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         placeholder: (context, url) => SizedBox(
@@ -94,6 +127,9 @@ class VariantSection extends StatelessWidget {
                   separatorBuilder: (_, i) => Gap(8.w),
                   itemCount: controller.detailProduct?.variants?.length ?? 0),
             ),
+            Gap(12.h),
+            Text('Stok ${controller.selectedVariant?.stock}',
+                style: text12HintRegular)
           ],
         ),
       );

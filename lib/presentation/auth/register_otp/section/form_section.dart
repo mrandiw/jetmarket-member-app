@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,9 @@ class FormSection extends StatelessWidget {
                                     controller:
                                         controller.otpControllers[index],
                                     keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(1),
+                                    ],
                                     onChanged: (value) =>
                                         controller.listenForm(index, value),
                                     textAlign: TextAlign.center,

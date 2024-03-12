@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
@@ -25,6 +27,7 @@ class AccountController extends GetxController {
     final response = await _authRepository.getUserProfile(id);
     if (response.status == StatusResponse.success) {
       userData = response.result;
+      log("USERNYA : ${userData?.toJson().toString()}");
       update();
       updateEmploye(isRefresh);
     }
@@ -33,7 +36,7 @@ class AccountController extends GetxController {
   void updateEmploye(bool isRefresh) {
     final mainController = Get.put(MainPagesController());
     if (isRefresh) {
-      if (userData?.isEmployee != mainController.isEmployee) {
+      if (userData?.isEmployee != mainController.isEmployees) {
         AppPreference().clearOnLogout();
         Future.delayed(1.seconds, () {
           Get.offAllNamed(Routes.LOGIN);

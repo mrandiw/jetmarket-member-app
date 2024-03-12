@@ -30,7 +30,7 @@ class InfoOrderDelivery extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${controller.detailOrderCustomer?.trxRef}',
+                      Text(controller.detailOrderCustomer?.trxRef ?? '',
                           style: text12BlackRegular),
                       // GestureDetector(
                       //   child:
