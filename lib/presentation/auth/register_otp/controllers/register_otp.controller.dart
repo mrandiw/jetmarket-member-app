@@ -94,9 +94,9 @@ class RegisterOtpController extends GetxController {
   }
 
   Future<void> sendOtp() async {
+    startCountdown();
     final response = await _authRepository.sendOtp(emailUser);
     if (response.status == StatusResponse.success) {
-      startCountdown();
     } else {
       AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
     }

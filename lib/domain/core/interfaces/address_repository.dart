@@ -12,4 +12,6 @@ abstract class AddressRepository {
   Future<DataState<String>> addAddress(AddressBody body);
   Future<DataState<String>> editAddress(AddressBody body);
   Future<DataState<List<AddressModel>>> getAddressMain(AddressParam param);
+  Future<DataState<AddressModel>> getAddressHashMain();
+  Future<DataState<bool>> deleteAddress(int id);
 }

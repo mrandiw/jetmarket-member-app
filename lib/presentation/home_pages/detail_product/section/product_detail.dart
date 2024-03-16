@@ -20,7 +20,10 @@ class ProductDetailSection extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(controller.detailProduct?.name ?? '',
+              Text(
+                  controller.selectedVariant?.name ??
+                      controller.detailProduct?.variants?[0].name ??
+                      '',
                   style: text16BlackSemiBold),
               Gap(8.h),
               Row(

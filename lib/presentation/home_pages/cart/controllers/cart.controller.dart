@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/cart_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/cart_product.dart';
+import 'package:jetmarket/domain/core/model/model_data/reorder_id.dart';
 import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart';
 import 'package:jetmarket/domain/core/model/params/cart/update_qty_param.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
@@ -17,11 +21,28 @@ class CartController extends GetxController {
   late PagingController<int, CartProduct> pagingController;
   List<CartProduct> productCart = [];
   List<CartProduct> selectProductCart = [];
+  List<ReOrderId> cartIdReorders = [];
 
   List<List<TextEditingController>> notesController = [];
   List<List<bool>> isWriteNote = [];
   bool selectAll = false;
   int totalPrice = 0;
+
+  Future<void> setDefaultSelected() async {
+    if (cartIdReorders.isNotEmpty) {
+      for (ReOrderId item in cartIdReorders) {
+        CartProduct? data = pagingController.itemList?.firstWhereOrNull((e) =>
+            e.products != null &&
+            e.products!.any((element) => element.cartId == item.cartId));
+
+        if (data != null) {
+          selectProduct(true, data, item.cartId ?? 0);
+        }
+
+        log("ID CART : ${item.cartId}");
+      }
+    } else {}
+  }
 
   Future<void> getProduct(int pageKey) async {
     final customer = AppPreference().getUserData();
@@ -56,6 +77,9 @@ class CartController extends GetxController {
         setTextEditingController(
             pagingController.itemList?.length ?? 0, productLenght);
       }
+      if (isLoadingFirst) {
+        await checkReOrder();
+      } else {}
       isLoadingFirst = false;
       update();
     } catch (error) {
@@ -135,6 +159,7 @@ class CartController extends GetxController {
   }
 
   void selectProduct(bool value, CartProduct data, int cartId) {
+    log("ID : $cartId");
     bool alreadySelected = selectProductCart
         .any((e) => e.products!.any((p) => p.cartId == cartId));
 
@@ -260,18 +285,22 @@ class CartController extends GetxController {
     }
   }
 
-  void incrementProduct(int id, int qty) async {
-    bool isUpdateQty = await updateQty(id, qty + 1);
-    if (isUpdateQty) {
-      for (CartProduct item in productCart) {
-        var product = item.products
-            ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
-        if (product != null) {
-          product.qty = qty + 1;
+  void incrementProduct(int id, int qty, int stock) async {
+    if (qty == stock) {
+      warningOverStock();
+    } else {
+      bool isUpdateQty = await updateQty(id, qty + 1);
+      if (isUpdateQty) {
+        for (CartProduct item in productCart) {
+          var product = item.products
+              ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
+          if (product != null) {
+            product.qty = qty + 1;
+          }
         }
+        update();
+        updateTotalPrice();
       }
-      update();
-      updateTotalPrice();
     }
   }
 
@@ -300,6 +329,10 @@ class CartController extends GetxController {
       updateTotalPrice();
       update();
     }
+  }
+
+  void warningOverStock() {
+    AppSnackbar.show(message: 'Stok tidak mencukupi', type: SnackType.error);
   }
 
   updateTotalPrice() {
@@ -360,10 +393,18 @@ class CartController extends GetxController {
 
   bool isLoadingFirst = false;
 
+  Future<void> checkReOrder() async {
+    if (Get.arguments != null) {
+      cartIdReorders = Get.arguments;
+      setDefaultSelected();
+    } else {}
+  }
+
   @override
   void onInit() {
     pagingController = PagingController(firstPageKey: 1);
     isLoadingFirst = true;
+
     pagingController.addPageRequestListener((page) {
       getProduct(page);
     });

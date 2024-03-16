@@ -69,6 +69,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/product
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/referral.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/register.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/register_otp.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/reorder.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/reset_password.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/reset_sucess.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/review_order.controller.binding.dart';

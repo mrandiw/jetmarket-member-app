@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,8 @@ import '../../../../utils/extension/payment_methode_type.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
+import '../../../main_pages/controllers/main_pages.controller.dart';
+import '../../../order_pages/order/controllers/order.controller.dart';
 import '../widget/confirmation_saving_saldo.dart';
 import '../widget/ovo_form.dart';
 
@@ -44,6 +48,7 @@ class ChoicePaymentController extends GetxController {
   bool isRetailExpanded = false;
   bool isPayletterExpanded = false;
   var isPhoneValidated = false.obs;
+  var isPaymentSaldoSuccessed = false.obs;
 
   List<dynamic> listChoicePayletter = [
     {
@@ -102,7 +107,7 @@ class ChoicePaymentController extends GetxController {
           screenStatus(ScreenStatus.success);
         } else {
           screenStatus(ScreenStatus.failed);
-          showDialogError(response.message);
+          showDialog(response.message, true);
         }
       }
     } else {
@@ -119,34 +124,14 @@ class ChoicePaymentController extends GetxController {
     AppDialogConfirmationSaving.show(controller: this);
   }
 
-  void selectSaldoPayment() {
-    selectedchCode = paymentMethodes?.saldo?[0].chCode ?? '';
-    selectedchType = paymentMethodes?.saldo?[0].chType ?? '';
-    update();
-  }
-
   void confirmationSavingSaldo() {
     Get.back();
     if ((orderCustomer?.totalAmount ?? 0) <=
         (paymentMethodes?.saldo?[0].amount ?? 0)) {
-      selectSaldoPayment();
       payOrder();
     } else {
-      errorDialogMessage('Saldo tidak cukup');
+      showDialog('Saldo tidak cukup', true);
     }
-  }
-
-  void errorDialogMessage(String message) {
-    AwesomeDialog(
-            context: Get.context!,
-            dialogType: DialogType.error,
-            animType: AnimType.rightSlide,
-            title: 'Error',
-            desc: message,
-            titleTextStyle: text16BlackSemiBold,
-            descTextStyle: text12BlackRegular,
-            btnCancelOnPress: () {})
-        .show();
   }
 
   void actionPayment(int id, String chType, String chCode, String name) {
@@ -158,13 +143,15 @@ class ChoicePaymentController extends GetxController {
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
-    setDataArgument(id);
+    setDataArgument();
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
           child: OvoForm(
         controller: this,
       ));
+    } else if (chType == "SALDO" && chCode == "SALDO") {
+      confirmationDialogSavingSaldo();
     }
   }
 
@@ -205,7 +192,7 @@ class ChoicePaymentController extends GetxController {
     return img;
   }
 
-  setDataArgument(int? paymentId) {
+  setDataArgument() {
     List<dynamic> items = Get.arguments[4]['items'];
     orderCustomer = OrderCustomerModel(
         addressId: Get.arguments[0],
@@ -218,41 +205,66 @@ class ChoicePaymentController extends GetxController {
   }
 
   Future<void> payOrder() async {
-    if (selectedchType != 'PAYLATER') {
+    if (selectedchType == 'PAYLATER') {
+      Get.toNamed(Routes.PAYMENT_PAYLETTER, arguments: orderCustomer);
+    } else {
       actionStatus = ActionStatus.loading;
       update();
+      log(orderCustomer?.toJson().toString() ?? '');
       final response =
           await _orderRepository.orderCustomerPayment(orderCustomer);
       if (response.status == StatusResponse.success) {
         actionStatus = ActionStatus.success;
         update();
-        Get.offAllNamed(Routes.CHECKOUT_PAYMENT, arguments: response.result);
+        if (selectedchType == 'SALDO') {
+          isPaymentSaldoSuccessed(true);
+          showDialog(response.message, false);
+          log(response.result?.toJson().toString() ?? '');
+        } else {
+          Get.offAllNamed(Routes.CHECKOUT_PAYMENT, arguments: response.result);
+        }
       } else {
         actionStatus = ActionStatus.failed;
         update();
-        showDialogError(response.message);
+        showDialog(response.message, true);
       }
-    } else {
-      Get.toNamed(Routes.PAYMENT_PAYLETTER, arguments: orderCustomer);
     }
   }
 
-  void showDialogError(String? message) {
+  void showDialog(String? message, bool? isError) {
     AwesomeDialog(
             context: Get.context!,
-            dialogType: DialogType.error,
+            dialogType: isError == true ? DialogType.error : DialogType.success,
             animType: AnimType.rightSlide,
-            title: 'Error',
+            title: isError == true ? 'Error' : 'Success',
             desc: message,
             titleTextStyle: text16BlackSemiBold,
             descTextStyle: text12BlackRegular,
-            btnCancelOnPress: () {})
-        .show();
+            btnOkOnPress: isError == false ? () {} : null,
+            btnOkText: isError == false ? 'Lihat Pesanan' : null,
+            btnCancelOnPress: isError == true ? () {} : null)
+        .show()
+        .whenComplete(() async {
+      if (isError == false) {
+        await Future.delayed(300.milliseconds, () {
+          backtoMerchent();
+        });
+      }
+    });
+  }
+
+  void backtoMerchent() {
+    Get.back();
+    Get.back();
+    Get.back();
+    Get.find<MainPagesController>().changeTabIndex(1);
+    Get.find<OrderController>().getWaitingOrderLenght();
+    Get.find<OrderController>().pagingController.refresh();
   }
 
   @override
   void onInit() {
-    setDataArgument(null);
+    setDataArgument();
     numberController.text = countryCode;
     numberController.selection = TextSelection.fromPosition(
         TextPosition(offset: numberController.text.length));

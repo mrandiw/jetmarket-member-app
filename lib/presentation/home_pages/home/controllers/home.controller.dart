@@ -74,6 +74,12 @@ class HomeController extends GetxController {
   }
 
   setCategory({required List<CategoryProduct> data}) {
+    CategoryProduct staticData = CategoryProduct(
+        id: 0,
+        name: 'Semua',
+        image:
+            'https://eysmacxacppmsstfepcr.supabase.co/storage/v1/object/public/static/kategori_semua.png');
+    data.insert(0, staticData);
     categoryProduct.assignAll(data);
     update();
   }

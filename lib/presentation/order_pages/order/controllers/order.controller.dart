@@ -27,10 +27,11 @@ class OrderController extends GetxController
 
   TextEditingController searchController = TextEditingController();
   var currentIndexTab = 0;
-  var waitingOrderCustomerLenght = 0.obs;
+  int waitingOrderCustomerLenght = 0;
   String? searchOrder;
   bool searchActived = false;
   bool isFiltered = false;
+  bool isFirstFilter = true;
 
   dynamic selectedSortOrder;
   dynamic selectedStatusOrder;
@@ -74,7 +75,8 @@ class OrderController extends GetxController
   Future<void> getWaitingOrderLenght() async {
     final response = await _orderRepository.getWaitingOrderLenght();
     if (response.status == StatusResponse.success) {
-      waitingOrderCustomerLenght.value = response.result ?? 0;
+      waitingOrderCustomerLenght = response.result ?? 0;
+      update();
     }
   }
 
@@ -128,16 +130,15 @@ class OrderController extends GetxController
   }
 
   void selectStatusOrder(bool select, dynamic value, int index) {
-    if (value == selectedStatusOrder) {
+    if (value == selectedStatusOrder && isFirstFilter == false) {
       selectedStatusOrder = null;
       selectedFilterStatusOrder = null;
       currentIndexTab = 0;
-      update();
     } else {
       selectedStatusOrder = value;
       selectedFilterStatusOrder = statusTabs[index];
       currentIndexTab = index;
-      update();
+      isFirstFilter = false;
     }
     update();
   }
@@ -145,11 +146,12 @@ class OrderController extends GetxController
   void applyFilterOrder() {
     Get.back();
     tabController.animateTo(currentIndexTab);
+
     pagingController.refresh();
   }
 
   void toWaitingPayment() {
-    if (waitingOrderCustomerLenght.value > 0) {
+    if (waitingOrderCustomerLenght > 0) {
       Get.toNamed(Routes.WAITING_PAYMENT);
     }
   }
@@ -162,6 +164,7 @@ class OrderController extends GetxController
     // currentIndexTab = 0;
     // tabController.animateTo(0);
     pagingController.refresh();
+    getWaitingOrderLenght();
     // update();
   }
 
@@ -170,16 +173,6 @@ class OrderController extends GetxController
   }
 
   void actionOrder(OrderProductModel data) {
-    // data.status == 'REFUNDED'
-    //                       ? 'Rincian Pengembalian'
-    //                       : data.status == 'WAITING_REFUND_DELIVERY' ||
-    //                               data.status == 'REQUEST_REFUND_CUSTOMER'
-    //                           ? 'Atur Pengembalian'
-    //                           : data.status == 'REFUND_ON_DELIVERY'
-    //                               ? 'Lihat Pengembalian'
-    //                               : data.status == 'FINISHED'
-    //                                   ? 'Review'
-    // : 'Beli Lagi',
     if (data.status == 'FINISHED') {
       Get.toNamed(Routes.REVIEW_ORDER, arguments: [data.id, 'review']);
     } else if (data.status == "REFUNDED" ||
@@ -193,7 +186,7 @@ class OrderController extends GetxController
         data.status == "CANCELLED_BY_SELLER" ||
         data.status == "CANCELLED_BY_SYSTEM" ||
         data.status == "CANCELLED_BY_CUSTOMER") {
-      Get.toNamed(Routes.DETAIL_PRODUCT, arguments: [data.id, null]);
+      Get.toNamed(Routes.REORDER, arguments: [data.id]);
     } else {}
   }
 

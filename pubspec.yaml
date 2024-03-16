@@ -52,6 +52,14 @@ dependencies:
   firebase_dynamic_links: ^5.4.13
   firebase_analytics: ^10.8.5
   dropdown_button2: ^2.3.9
+  flutter_native_splash: ^2.3.10
+
+
+flutter_native_splash:
+  background_image: assets/images/splash.png
+  android: true
+  ios: true
+
 
 dev_dependencies:
   flutter_lints: ^3.0.1
@@ -65,3 +73,4 @@ flutter:
     - assets/env/
     - assets/json/
   uses-material-design: true
+

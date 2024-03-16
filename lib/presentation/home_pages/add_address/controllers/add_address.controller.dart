@@ -43,4 +43,13 @@ class AddAddressController extends GetxController {
       "with-latlong": true
     });
   }
+
+  void backToCheckout() {
+    if (Get.arguments != true) {
+      Get.back();
+    } else {
+      Get.back();
+      Get.back();
+    }
+  }
 }

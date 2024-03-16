@@ -147,4 +147,29 @@ class AddressRepositoryImpl implements AddressRepository {
       return CustomException<String>().dio(e);
     }
   }
+
+  @override
+  Future<DataState<AddressModel>> getAddressHashMain() async {
+    try {
+      final response = await RemoteProvider.get(path: Endpoint.addressHashMain);
+      return DataState<AddressModel>(
+          result: AddressModel.fromJson(response.data['data']),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<AddressModel>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<bool>> deleteAddress(int id) async {
+    try {
+      final response =
+          await RemoteProvider.delete(path: '${Endpoint.address}/$id');
+      return DataState<bool>(
+          result: response.statusCode == 200,
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<bool>().dio(e);
+    }
+  }
 }

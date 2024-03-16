@@ -135,11 +135,48 @@ TextStyle get text12NormalRegular => GoogleFonts.poppins(
       fontWeight: FontWeight.w400,
       color: kNormalColor,
     );
+TextStyle get text12NormalMedium => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w500,
+      color: kNormalColor,
+    );
+
+TextStyle get text12NormalSemiBold => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w600,
+      color: kNormalColor,
+    );
+
+TextStyle get text12NormalAccentMedium => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w500,
+      color: kNormalAccentColor,
+    );
+
+TextStyle get text12NormalAccentSemiBold => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w600,
+      color: kNormalAccentColor,
+    );
+
 TextStyle get text12SucessRegular => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w400,
       color: kSuccessColor,
     );
+
+TextStyle get text12SucessMedium => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w500,
+      color: kSuccessColor,
+    );
+
+TextStyle get text12SucessSemiBold => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w600,
+      color: kSuccessColor,
+    );
+
 TextStyle get text12PrimaryRegular => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w400,
@@ -153,6 +190,11 @@ TextStyle get text12PrimaryMedium => GoogleFonts.poppins(
 TextStyle get text12WarningMedium => GoogleFonts.poppins(
       fontSize: 11.wr,
       fontWeight: FontWeight.w500,
+      color: kWarningColor,
+    );
+TextStyle get text12WarningSemiBold => GoogleFonts.poppins(
+      fontSize: 11.wr,
+      fontWeight: FontWeight.w600,
       color: kWarningColor,
     );
 TextStyle get text14WhiteSemiBold => GoogleFonts.poppins(

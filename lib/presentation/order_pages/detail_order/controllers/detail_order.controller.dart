@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
@@ -8,6 +11,8 @@ import '../../../../domain/core/model/model_data/detail_order_customer.dart';
 import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
 import '../../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../../infrastructure/navigation/routes.dart';
+import '../../../../infrastructure/theme/app_colors.dart';
+import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -175,6 +180,22 @@ class DetailOrderController extends GetxController {
     if (Get.arguments[1] != null) {
       argumentBack = Get.arguments[1];
     }
+  }
+
+  void copyAddress(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    HapticFeedback.vibrate();
+    Get.showSnackbar(GetSnackBar(
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+      backgroundColor: kBlack,
+      duration: 2.seconds,
+      borderRadius: 8.r,
+      messageText: Text(
+        'Alamat berhasil disalin',
+        style: text12WhiteRegular,
+        textAlign: TextAlign.center,
+      ),
+    ));
   }
 
   @override

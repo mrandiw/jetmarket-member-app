@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:intl/intl.dart';
 
 extension DateFormatter on String {
@@ -19,8 +21,8 @@ extension DateFormatter on String {
 extension DateFormatExtension on String {
   String get convertToCustomFormat {
     try {
-      DateFormat inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-      DateTime dateTime = inputFormat.parse(this);
+      DateFormat inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+      DateTime dateTime = inputFormat.parse(this).toLocal();
 
       String day = getDayName(dateTime.weekday);
       String formattedDate =
@@ -28,51 +30,49 @@ extension DateFormatExtension on String {
       String formattedTime =
           '${_formatTwoDigits(dateTime.hour)}:${_formatTwoDigits(dateTime.minute)}';
       String timeZone = getTimeZone(dateTime);
-      String timeZoneConvert = timeZone == "+07:00"
+      log(timeZone);
+      String timeZoneConvert = timeZone == "7:0"
           ? "WIB"
-          : timeZone == "+08:00"
+          : timeZone == "8:0"
               ? "WITA"
               : "WIT";
 
       return '$day, $formattedDate $formattedTime $timeZoneConvert';
     } catch (e) {
-      return 'Format tanggal tidak valid';
+      return 'Invalid date format';
     }
   }
 
   String getDayName(int day) {
     switch (day) {
-      case 1:
+      case DateTime.monday:
         return 'Senin';
-      case 2:
+      case DateTime.tuesday:
         return 'Selasa';
-      case 3:
+      case DateTime.wednesday:
         return 'Rabu';
-      case 4:
+      case DateTime.thursday:
         return 'Kamis';
-      case 5:
+      case DateTime.friday:
         return 'Jumat';
-      case 6:
+      case DateTime.saturday:
         return 'Sabtu';
-      case 7:
+      case DateTime.sunday:
         return 'Minggu';
       default:
         return '';
     }
   }
 
-  String getTimeZone(DateTime dateTime) {
-    String timeZoneOffset = dateTime.timeZoneOffset.toString();
-    String hours = _formatTwoDigits(dateTime.timeZoneOffset.inHours.abs());
-    String minutes =
-        _formatTwoDigits(dateTime.timeZoneOffset.inMinutes.abs() % 60);
-    String sign = timeZoneOffset.startsWith('-') ? '-' : '+';
-
-    return '$sign$hours:$minutes';
+  String _formatTwoDigits(int number) {
+    return number.toString().padLeft(2, '0');
   }
 
-  String _formatTwoDigits(int num) {
-    return num < 10 ? '0$num' : '$num';
+  String getTimeZone(DateTime dateTime) {
+    String offset = dateTime.timeZoneOffset.toString();
+    String hours = offset.substring(0, 3);
+    String timeZone = hours;
+    return timeZone;
   }
 
   String get formatToHourMinute {
@@ -165,5 +165,51 @@ extension YearValue on String {
   int get getYear {
     final dateParts = split('-');
     return int.parse(dateParts[0]);
+  }
+}
+
+extension StringDateTimeConversion on String {
+  String get toDateDay {
+    DateTime dateTime = DateTime.parse(this).toLocal();
+    String formattedDate =
+        '${dateTime.day} ${_monthName(dateTime.month)} ${dateTime.year}, ${_formatTime(dateTime)}';
+    return formattedDate;
+  }
+
+  String _monthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Jan';
+      case 2:
+        return 'Feb';
+      case 3:
+        return 'Mar';
+      case 4:
+        return 'Apr';
+      case 5:
+        return 'May';
+      case 6:
+        return 'Jun';
+      case 7:
+        return 'Jul';
+      case 8:
+        return 'Aug';
+      case 9:
+        return 'Sep';
+      case 10:
+        return 'Oct';
+      case 11:
+        return 'Nov';
+      case 12:
+        return 'Dec';
+      default:
+        return '';
+    }
+  }
+
+  String _formatTime(DateTime dateTime) {
+    String formattedTime =
+        '${dateTime.hour}.${dateTime.minute.toString().padLeft(2, '0')}';
+    return formattedTime;
   }
 }

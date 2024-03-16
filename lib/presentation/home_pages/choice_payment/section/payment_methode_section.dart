@@ -31,7 +31,11 @@ class PaymentMethodeSection extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 12.h),
                   child: GestureDetector(
-                    onTap: () => controller.confirmationDialogSavingSaldo(),
+                    onTap: () => controller.actionPayment(
+                        0,
+                        controller.paymentMethodes?.saldo?[0].chType ?? '',
+                        controller.paymentMethodes?.saldo?[0].chCode ?? '',
+                        controller.paymentMethodes?.saldo?[0].name ?? ''),
                     child: Container(
                       height: 60.hr,
                       width: Get.width.wr,
@@ -43,10 +47,10 @@ class PaymentMethodeSection extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(controller.paymentMethodes?.saldo?[0].name ?? '',
-                              style: text12BlackRegular),
+                          Text('Saldo', style: text12BlackRegular),
                           Text(
-                              'Saldo : ${'${controller.paymentMethodes?.saldo?[0].amount}'.toIdrFormat}',
+                              '${controller.paymentMethodes?.saldo?[0].amount}'
+                                  .toIdrFormat,
                               style: text12NormalRegular)
                         ],
                       ),

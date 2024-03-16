@@ -43,31 +43,31 @@ class StepStatusSection extends StatelessWidget {
                           ],
                         ),
                         Gap(12.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                                controller.trackingOrder
-                                        ?.deliveryEntries?[index].title ??
-                                    'Menunggu persetujuan penjual',
-                                style: index == 0
-                                    ? text16PrimarySemiBold
-                                    : text16HintSemiBold),
-                            Gap(4.h),
-                            Text(
-                                controller.trackingOrder
-                                        ?.deliveryEntries?[index].createdAt ??
-                                    '2024-01-07T00:00:00Z'
-                                        .convertToCustomFormat,
-                                style: text12HintRegular),
-                            Gap(4.h),
-                            Text(
-                                controller.trackingOrder
-                                        ?.deliveryEntries?[index].content ??
-                                    'Penjual harus merespon sebelum 30 Nov 2023',
-                                style: text12HintRegular)
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                  controller.trackingOrder
+                                          ?.deliveryEntries?[index].title ??
+                                      ' ',
+                                  style: index == 0
+                                      ? text16PrimarySemiBold
+                                      : text16HintSemiBold),
+                              Gap(4.h),
+                              Text(
+                                  "${controller.trackingOrder?.deliveryEntries?[index].createdAt}"
+                                      .convertToCustomFormat,
+                                  style: text12HintRegular),
+                              Gap(4.h),
+                              Text(
+                                  controller.trackingOrder
+                                          ?.deliveryEntries?[index].content ??
+                                      '',
+                                  style: text12HintRegular)
+                            ],
+                          ),
                         )
                       ],
                     )),

@@ -2,7 +2,7 @@
 
 class Routes {
   static Future<String> get initialRoute async {
-    return Routes.SPLASH_SCREEN;
+    return Routes.CHECK_EXTERNAL_LINK;
   }
 
   static Future<String> get registerRoute async {
@@ -82,6 +82,7 @@ class Routes {
   static const REFERRAL = '/referral';
   static const REGISTER = '/register';
   static const REGISTER_OTP = '/register-otp';
+  static const REORDER = '/reorder';
   static const RESET_PASSWORD = '/reset-password';
   static const RESET_SUCESS = '/reset-sucess';
   static const REVIEW_ORDER = '/review-order';
@@ -94,6 +95,7 @@ class Routes {
   static const TABUNGAN = '/tabungan';
   static const TABUNGAN_PAYMENT = '/tabungan-payment';
   static const TAGIHAN_BULANAN_PINJAMAN = '/tagihan-bulanan-pinjaman';
+  static const TAGIHAN_PAYMENT_BILL = '/tagihan-payment-bill';
   static const TAGIHAN_PAYMENT_TAGIHAN = '/tagihan-payment-tagihan';
   static const TOPUP_SALDO = '/topup-saldo';
   static const TRACKING_ORDER = '/tracking-order';
@@ -103,5 +105,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const TAGIHAN_PAYMENT_BILL = '/tagihan-payment-bill';
+  static const ORDER_SALDO_SUCCESS = '/order-saldo-success';
 }

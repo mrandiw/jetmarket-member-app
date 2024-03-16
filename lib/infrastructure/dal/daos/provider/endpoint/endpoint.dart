@@ -64,6 +64,7 @@ class Endpoint {
 
   // Address
   static String address = 'address/customer';
+  static String addressHashMain = '/address/customer/has_main';
 
   // Saving
   static String saving = 'saving';

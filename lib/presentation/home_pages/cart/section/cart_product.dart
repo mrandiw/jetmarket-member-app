@@ -268,7 +268,7 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                   Gap(12.w),
                   GestureDetector(
                     onTap: () => controller.incrementProduct(
-                        data?.cartId ?? 0, data?.qty ?? 0),
+                        data?.cartId ?? 0, data?.qty ?? 0, data?.stock ?? 0),
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: AppStyle.borderRadius6All,
