@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/utils/global/constant.dart';
+
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
 import '../../../../domain/core/model/argument/payment_methode_argument.dart';
