@@ -114,12 +114,17 @@ class OrderCard extends StatelessWidget {
                 ],
               ),
             ),
-            Center(
-                child: Text(
-              'Lihat ${data.totalProduct} produk lainnya',
-              style: text12HintRegular,
-            )),
-            Gap(12.h),
+            Visibility(
+              visible: (data.totalProduct ?? 0) > 1,
+              child: Padding(
+                padding: AppStyle.paddingBottom12,
+                child: Center(
+                    child: Text(
+                  'Lihat ${data.totalProduct} produk lainnya',
+                  style: text12HintRegular,
+                )),
+              ),
+            ),
             Divider(height: 0, thickness: 1, color: kBorder),
             Visibility(
               visible: status == 'packaging' || status == 'on_delivery',
@@ -179,26 +184,26 @@ class OrderCard extends StatelessWidget {
 
   TextStyle textStatusStyle(String status) {
     if (status == "ON_DELIVERY") {
-      return text12NormalRegular;
+      return text12NormalSemiBold;
     } else if (status == "WAITING_CUSTOMER_CONFIRMATION") {
-      return text12NormalAccentRegular;
+      return text12NormalAccentSemiBold;
     } else if (status == 'FINISHED' || status == "REFUND_ON_DELIVERY") {
-      return text12SucessRegular;
+      return text12SucessSemiBold;
     } else if (status == "PENDING" ||
         status == "WAITING_DELIVERY" ||
         status == "WAITING_PAYMENT" ||
         status == "WAITING_SELLER_CONFIRMATION" ||
         status == "REQUEST_REFUND_CUSTOMER" ||
         status == "WAITING_REFUND_DELIVERY") {
-      return text12WarningMedium;
+      return text12WarningSemiBold;
     } else if (status == "CANCELLED_BY_COURIER" ||
         status == "CANCELLED_BY_SELLER" ||
         status == "CANCELLED_BY_SYSTEM" ||
         status == "CANCELLED_BY_CUSTOMER" ||
         status == "REFUNDED") {
-      return text12PrimaryRegular;
+      return text12PrimarySemiBold;
     } else {
-      return text12HintRegular;
+      return text12HintMedium;
     }
   }
 

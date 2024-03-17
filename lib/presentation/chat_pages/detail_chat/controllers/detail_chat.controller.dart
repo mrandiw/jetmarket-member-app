@@ -111,8 +111,7 @@ class DetailChatController extends GetxController {
 
   Future<void> sendNewMessage() async {
     var userData = AppPreference().getUserData()?.user;
-    final now = DateTime.now();
-    final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    final now = DateTime.now().toUtc();
     var firstReceiver = pagingController
         .itemList![pagingController.itemList!.length - 1].receiver;
     var product = PinnedProduct(
@@ -135,7 +134,7 @@ class DetailChatController extends GetxController {
         image: dataArgument?.image ?? firstReceiver?.image,
         role: dataArgument?.toRole ?? firstReceiver?.role);
     var dataChat = ChatModel(
-        createdAt: formattedDate,
+        createdAt: now.toString(),
         deletedAt: null,
         readAt: null,
         sender: sender,
@@ -278,8 +277,7 @@ class DetailChatController extends GetxController {
   List<int> itemDelete = [];
 
   Future<void> deletedChat() async {
-    final now = DateTime.now();
-    final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    final now = DateTime.now().toUtc();
 
     for (var item in selectedItemDelete) {
       if (item.fromStore == true) {
@@ -293,7 +291,7 @@ class DetailChatController extends GetxController {
       final response = await _chatRepository.deletedChatFromStore(
           id: "${dataArgument?.chatId}",
           itemCreatedAt: itemFromStore,
-          time: formattedDate);
+          time: now.toString());
       if (response.result == true) {
         selectedItemDelete.value = [];
         itemFromStore.clear();
@@ -305,7 +303,7 @@ class DetailChatController extends GetxController {
           id: "${dataArgument?.chatId}",
           fromStore: false,
           itemId: itemDelete,
-          time: formattedDate);
+          time: now.toString());
       if (response.result == true) {
         selectedItemDelete.value = [];
         updateDeleted();
@@ -446,9 +444,8 @@ class DetailChatController extends GetxController {
           index < pagingController.itemList!.length;
           index++) {
         if (pagingController.itemList![index].id == deleteId) {
-          final now = DateTime.now();
-          final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-          pagingController.itemList![index].deletedAt = formattedDate;
+          final now = DateTime.now().toUtc();
+          pagingController.itemList![index].deletedAt = now.toString();
           break;
         }
       }

@@ -10,6 +10,7 @@ import '../../../domain/core/model/model_data/order_customer.dart';
 import '../../../domain/core/model/model_data/order_customer_payment.dart';
 import '../../../domain/core/model/model_data/order_product_model.dart';
 import '../../../domain/core/model/model_data/product_order_customer.dart';
+import '../../../domain/core/model/model_data/reorder_id.dart';
 import '../../../domain/core/model/model_data/submit_refund_model.dart';
 import '../../../domain/core/model/model_data/tracking_order.dart';
 import '../../../domain/core/model/model_data/tracking_refund_model.dart';
@@ -41,10 +42,13 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<DataState<int>> getWaitingOrderLenght() async {
+    log("Get Waiting Payment");
     try {
       final response =
           await RemoteProvider.get(path: Endpoint.orderWaitingCustomer);
       List<dynamic> datas = response.data['data'];
+      log("Get Waiting : ${datas.length}");
+
       return DataState<int>(
         status: StatusCodeResponse.cek(response: response),
         result: datas.length,
@@ -134,7 +138,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response = await RemoteProvider.get(
           path: Endpoint.orderCustomer, queryParameters: param.toMap());
       List<dynamic> datas = response.data['data']['items'];
-      log(datas.length.toString());
+      log(param.toMap().toString());
       return DataState<List<OrderProductModel>>(
         status: StatusCodeResponse.cek(
             response: response, queryParams: true, showLogs: true),
@@ -258,7 +262,6 @@ class OrderRepositoryImpl implements OrderRepository {
       final response = await RemoteProvider.get(
           path: Endpoint.orderCustomerReview, queryParameters: param.toMap());
       List<dynamic> datas = response.data['data']['items'];
-      log(datas.length.toString());
       return DataState<List<OrderProductModel>>(
         status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: datas.map((e) => OrderProductModel.fromJson(e)).toList(),
@@ -266,6 +269,23 @@ class OrderRepositoryImpl implements OrderRepository {
       );
     } on DioException catch (e) {
       return CustomException<List<OrderProductModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<ReOrderId>>> getReorderId(int id) async {
+    try {
+      final response = await RemoteProvider.post(
+        path: "${Endpoint.orderCustomer}/$id/re_order",
+      );
+      List<dynamic> datas = response.data['data'];
+      return DataState<List<ReOrderId>>(
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
+        result: datas.map((e) => ReOrderId.fromJson(e)).toList(),
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<List<ReOrderId>>().dio(e);
     }
   }
 }

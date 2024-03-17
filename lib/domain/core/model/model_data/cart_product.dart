@@ -37,6 +37,7 @@ class Products {
   int? variantId;
   String? variantName;
   int? weight;
+  int? stock;
 
   Products(
       {this.cartId,
@@ -48,7 +49,8 @@ class Products {
       this.thumbnail,
       this.variantId,
       this.variantName,
-      this.weight});
+      this.weight,
+      this.stock});
 
   Products.fromJson(Map<String, dynamic> json) {
     cartId = json['cart_id'];
@@ -61,6 +63,7 @@ class Products {
     variantId = json['variant_id'];
     variantName = json['variant_name'];
     weight = json['weight'];
+    stock = json['stock'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +78,7 @@ class Products {
     data['variant_id'] = variantId;
     data['variant_name'] = variantName;
     data['weight'] = weight;
+    data['stock'] = stock;
     return data;
   }
 }

@@ -44,7 +44,7 @@ class DetailSection extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                                'RerID: #${controller.paymentCustomer?.referenceId ?? '-'}',
+                                'RefID: ${controller.paymentCustomer?.referenceId ?? '-'}',
                                 style: text12BlackRegular),
                             Container(
                               padding: EdgeInsets.symmetric(

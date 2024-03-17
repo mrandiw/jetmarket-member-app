@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,11 +14,17 @@ class AddAddressScreen extends GetView<AddAddressController> {
   const AddAddressScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: kWhite,
-        appBar: appBarAddAddress,
-        body: ListView(
-          children: const [HeaderSection(), ListAddress()],
-        ));
+    return WillPopScope(
+      onWillPop: () async {
+        // controller.backToCheckout();
+        return true;
+      },
+      child: Scaffold(
+          backgroundColor: kWhite,
+          appBar: appBarAddAddress,
+          body: ListView(
+            children: const [HeaderSection(), ListAddress()],
+          )),
+    );
   }
 }

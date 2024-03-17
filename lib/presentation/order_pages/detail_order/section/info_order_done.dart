@@ -40,17 +40,8 @@ class InfoOrderDone extends StatelessWidget {
                     children: [
                       Text('Waktu Pemesanan', style: text12BlackRegular),
                       Text(
-                          '${controller.detailOrderCustomer?.createdAt?.split('.').first.formatDate}',
-                          style: text12BlackMedium),
-                    ],
-                  ),
-                  Gap(6.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Waktu Pembayaran', style: text12BlackRegular),
-                      Text(
-                          '${controller.detailOrderCustomer?.paymentMethod?.createdAt?.split('.').first.formatDate}',
+                          '${controller.detailOrderCustomer?.createdAt}'
+                              .toDateDay,
                           style: text12BlackMedium),
                     ],
                   ),

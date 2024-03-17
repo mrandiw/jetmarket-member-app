@@ -68,7 +68,9 @@ class InfoOrderWaiting extends StatelessWidget {
                     children: [
                       Text('Waktu Pemesanan', style: text12BlackRegular),
                       Text(
-                          '${controller.detailOrderCustomer?.createdAt?.split('.').first.formatDate}',
+                          (controller.detailOrderCustomer?.createdAt ?? '')
+                              .toDateDay
+                              .convertToDateFormat,
                           style: text12BlackMedium),
                     ],
                   ),

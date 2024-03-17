@@ -12,7 +12,8 @@ class CheckExistingChatController extends GetxController {
   CheckExistingChatController(this._chatRepository);
   CheckExisting? checkExisting;
   Seller? seller;
-  Variants? variants;
+  // Variants? variants;
+  int? productId;
   ChatRoomArgument? dataArgument;
 
   Future<void> checkExistingChat() async {
@@ -49,7 +50,7 @@ class CheckExistingChatController extends GetxController {
         toId: checkExisting?.toId,
         fromRole: checkExisting?.fromRole,
         toRole: checkExisting?.toRole,
-        productId: variants?.id,
+        productId: productId,
         orderId: 0);
     final response = await _chatRepository.createChat(param);
     if (response.status == StatusResponse.success) {
@@ -78,7 +79,7 @@ class CheckExistingChatController extends GetxController {
   setData() {
     checkExisting = Get.arguments[0];
     seller = Get.arguments[1];
-    variants = Get.arguments[2];
+    productId = Get.arguments[2];
     checkExistingChat();
   }
 

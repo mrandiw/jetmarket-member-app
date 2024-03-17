@@ -36,13 +36,8 @@ class VariantSection extends StatelessWidget {
                                 '',
                         imageBuilder: (context, imageProvider) =>
                             GestureDetector(
-                          onTap: (controller.detailProduct?.variants?[index]
-                                          .stock ??
-                                      0) >=
-                                  1
-                              ? () => controller.selectVariant(
-                                  controller.detailProduct?.variants?[index])
-                              : null,
+                          onTap: () => controller.selectVariant(
+                              controller.detailProduct?.variants?[index]),
                           child: Stack(
                             children: [
                               Container(
@@ -128,7 +123,8 @@ class VariantSection extends StatelessWidget {
                   itemCount: controller.detailProduct?.variants?.length ?? 0),
             ),
             Gap(12.h),
-            Text('Stok ${controller.selectedVariant?.stock}',
+            Text(
+                'Stok ${(controller.selectedVariant?.stock ?? 0) < 0 ? 0 : controller.selectedVariant?.stock ?? 0}',
                 style: text12HintRegular)
           ],
         ),

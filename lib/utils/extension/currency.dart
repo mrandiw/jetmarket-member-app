@@ -4,6 +4,10 @@ extension CurrencyFormat on String {
   String get toIdrFormat {
     try {
       int amount = int.parse(this);
+      if (amount < 0) {
+        return 'Rp. 0';
+      }
+
       String formatted = 'Rp. ${amount.toStringAsFixed(0).replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (match) => '${match.group(1)}.',

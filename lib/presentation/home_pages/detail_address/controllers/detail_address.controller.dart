@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/address_model.dart';
 import 'package:jetmarket/domain/core/model/params/address/address_body.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 import 'package:jetmarket/presentation/home_pages/edit_address/controllers/edit_address.controller.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -182,6 +184,24 @@ class DetailAddressController extends GetxController {
       selectedLabel = data.label ?? 'Rumah';
       typeAddress = false;
       update();
+    }
+  }
+
+  Future<void> deleteAddress() async {
+    final result = await _addressRepository.deleteAddress(addressId ?? 0);
+    if (result.result == true) {
+      Get.back();
+      int idOnCheckout = Get.find<CheckoutController>().address?.id ?? 0;
+      bool checkId = addressId == idOnCheckout;
+
+      if (checkId) {
+        Get.find<EditAddressController>().pagingController.refresh();
+        Get.find<CheckoutController>().setAddress(null);
+      } else {
+        Get.find<EditAddressController>().pagingController.refresh();
+      }
+    } else {
+      AppSnackbar.show(message: result.message, type: SnackType.error);
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jetmarket/components/loading/load_pages.dart';
 
 import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/checkout.controller.dart';
@@ -14,13 +15,23 @@ class CheckoutScreen extends GetView<CheckoutController> {
   const CheckoutScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhite,
-      appBar: appBarCheckout,
-      body: ListView(
-        children: const [AddressSection(), ProductSection(), VoucherSection()],
-      ),
-      bottomNavigationBar: const FooterSection(),
-    );
+    return Obx(() {
+      if (controller.isLoadingCheck.value) {
+        return const LoadingPages();
+      } else {
+        return Scaffold(
+          backgroundColor: kWhite,
+          appBar: appBarCheckout,
+          body: ListView(
+            children: const [
+              AddressSection(),
+              ProductSection(),
+              VoucherSection()
+            ],
+          ),
+          bottomNavigationBar: const FooterSection(),
+        );
+      }
+    });
   }
 }

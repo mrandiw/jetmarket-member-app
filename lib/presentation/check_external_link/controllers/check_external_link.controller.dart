@@ -1,6 +1,5 @@
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-
 import '../../../domain/core/interfaces/auth_repository.dart';
 import '../../../domain/core/model/argument/payment_methode_argument.dart';
 import '../../../infrastructure/navigation/routes.dart';

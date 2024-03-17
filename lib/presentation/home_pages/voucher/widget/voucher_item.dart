@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/vouchers.dart';
 import 'package:jetmarket/presentation/home_pages/voucher/controllers/voucher.controller.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
-import '../../../../utils/extension/format_price.dart';
 import '../../../../utils/style/app_style.dart';
 
 class VoucherItem extends StatelessWidget {
@@ -30,7 +30,7 @@ class VoucherItem extends StatelessWidget {
           contentPadding: AppStyle.paddingSide12,
           title: Text("${data.name}", style: text12BlackRegular),
           subtitle: Text(
-            'Min. Belanja ${formatPrice(data.min ?? 0)}',
+            'Min. Belanja ${(data.min ?? 0).toString().toIdrFormat}',
             style: text12HintRegular,
           ),
           trailing: SizedBox(

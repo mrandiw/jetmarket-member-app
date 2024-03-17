@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/form/app_form.dart';
 import 'package:jetmarket/presentation/home_pages/detail_address/controllers/detail_address.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../infrastructure/theme/app_colors.dart';
+import '../../../../infrastructure/theme/app_text.dart';
+import '../../../../utils/assets/assets_svg.dart';
 
 class FormSection extends StatelessWidget {
   const FormSection({super.key});
@@ -62,7 +66,32 @@ class FormSection extends StatelessWidget {
                 controller: controller.kodePosController,
                 label: 'Kode Pos',
                 hintText: 'Masukan kode pos disini',
-                keyboardType: TextInputType.number)
+                keyboardType: TextInputType.number),
+            Gap(16.h),
+            Visibility(
+              visible: controller.typeAddress == false,
+              child: GestureDetector(
+                onTap: () => controller.deleteAddress(),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: AppStyle.paddingAll8,
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor2,
+                        borderRadius: AppStyle.borderRadius6All,
+                      ),
+                      child: SvgPicture.asset(
+                        delete,
+                        colorFilter: const ColorFilter.mode(
+                            kPrimaryColor, BlendMode.srcIn),
+                      ),
+                    ),
+                    Gap(8.w),
+                    Text('Hapus alamat', style: text12PrimaryRegular)
+                  ],
+                ),
+              ),
+            )
           ]));
     });
   }

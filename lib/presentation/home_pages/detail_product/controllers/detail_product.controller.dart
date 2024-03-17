@@ -2,6 +2,7 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/model/model_data/cart_product.dart' as c;
 import 'package:jetmarket/domain/core/model/params/cart/cart_body.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
@@ -82,35 +83,39 @@ class DetailProductController extends GetxController {
   }
 
   Future<void> addToCart() async {
-    actionAddToCart(ActionStatus.loading);
-    final customer = AppPreference().getUserData();
-    var body = CartBody(
-      sellerId: detailProduct?.seller?.id ?? 0,
-      customerId: customer?.user?.id ?? 0,
-      productId: detailProduct?.id ?? 0,
-      variantId: selectedVariant?.id ?? 0,
-    );
-    final response = await _cartRepository.addToCart(body);
-    if (response.status == StatusResponse.success) {
-      actionAddToCart(ActionStatus.success);
-      Get.showSnackbar(GetSnackBar(
-        margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
-        backgroundColor: kBlack,
-        duration: 2.seconds,
-        borderRadius: 8.r,
-        messageText: Text('Berhasil ditambahkan ke keranjang',
-            style: text12WhiteRegular),
-      ));
+    if ((selectedVariant?.stock ?? 0) < 1) {
+      AppSnackbar.show(message: 'Stok tidak mencukupi', type: SnackType.error);
     } else {
-      actionAddToCart(ActionStatus.failed);
-      Get.showSnackbar(GetSnackBar(
-        margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
-        backgroundColor: kBlack,
-        duration: 2.seconds,
-        borderRadius: 8.r,
-        messageText:
-            Text('Gagal menambahkan ke keranjang', style: text12WhiteRegular),
-      ));
+      actionAddToCart(ActionStatus.loading);
+      final customer = AppPreference().getUserData();
+      var body = CartBody(
+        sellerId: detailProduct?.seller?.id ?? 0,
+        customerId: customer?.user?.id ?? 0,
+        productId: detailProduct?.id ?? 0,
+        variantId: selectedVariant?.id ?? 0,
+      );
+      final response = await _cartRepository.addToCart(body);
+      if (response.status == StatusResponse.success) {
+        actionAddToCart(ActionStatus.success);
+        Get.showSnackbar(GetSnackBar(
+          margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+          backgroundColor: kBlack,
+          duration: 2.seconds,
+          borderRadius: 8.r,
+          messageText: Text('Berhasil ditambahkan ke keranjang',
+              style: text12WhiteRegular),
+        ));
+      } else {
+        actionAddToCart(ActionStatus.failed);
+        Get.showSnackbar(GetSnackBar(
+          margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+          backgroundColor: kBlack,
+          duration: 2.seconds,
+          borderRadius: 8.r,
+          messageText:
+              Text('Gagal menambahkan ke keranjang', style: text12WhiteRegular),
+        ));
+      }
     }
   }
 
@@ -144,23 +149,27 @@ class DetailProductController extends GetxController {
   }
 
   void buyProduct() {
-    var seller = c.Seller(
-        id: detailProduct?.seller?.id, name: detailProduct?.seller?.name);
-    var data = List.generate(
-        1,
-        (index) => c.CartProduct(
-            seller: seller,
-            products: List.generate(
-                1,
-                (index) => c.Products(
-                      name: detailProduct?.name,
-                      variantId: selectedVariant?.id,
-                      price: selectedVariant?.price,
-                      thumbnail: selectedVariant?.image,
-                      qty: 1,
-                      promo: selectedVariant?.promo,
-                    ))));
-    Get.toNamed(Routes.CHECKOUT, arguments: data);
+    if ((selectedVariant?.stock ?? 0) < 1) {
+      AppSnackbar.show(message: 'Stok tidak mencukupi', type: SnackType.error);
+    } else {
+      var seller = c.Seller(
+          id: detailProduct?.seller?.id, name: detailProduct?.seller?.name);
+      var data = List.generate(
+          1,
+          (index) => c.CartProduct(
+              seller: seller,
+              products: List.generate(
+                  1,
+                  (index) => c.Products(
+                        name: detailProduct?.name,
+                        variantId: selectedVariant?.id,
+                        price: selectedVariant?.price,
+                        thumbnail: selectedVariant?.image,
+                        qty: 1,
+                        promo: selectedVariant?.promo,
+                      ))));
+      Get.toNamed(Routes.CHECKOUT, arguments: data);
+    }
   }
 
   void chatSeller() {
@@ -172,8 +181,10 @@ class DetailProductController extends GetxController {
     // log(data.toMap().toString());
     // log(detailProduct?.seller?.toJson().toString() ?? '');
     // log("Product : ${selectedVariant?.id ?? 0}");
+    // Get.toNamed(Routes.CHECK_EXISTING_CHAT,
+    //     arguments: [data, detailProduct?.seller, selectedVariant]);
     Get.toNamed(Routes.CHECK_EXISTING_CHAT,
-        arguments: [data, detailProduct?.seller, selectedVariant]);
+        arguments: [data, detailProduct?.seller, detailProduct?.id]);
   }
 
   void shareProduct() async {

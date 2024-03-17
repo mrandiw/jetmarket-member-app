@@ -40,7 +40,8 @@ class InfoOrderCancel extends StatelessWidget {
                     children: [
                       Text('Waktu Pemesanan', style: text12BlackRegular),
                       Text(
-                          '${controller.detailOrderCustomer?.createdAt?.split('.').first.formatDate}',
+                          '${controller.detailOrderCustomer?.createdAt}'
+                              .toDateDay,
                           style: text12BlackMedium),
                     ],
                   ),

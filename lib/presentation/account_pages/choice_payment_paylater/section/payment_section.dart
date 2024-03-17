@@ -38,10 +38,10 @@ class PaymentSection extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(controller.paymentMethodes?.saldo?[0].name ?? '',
-                          style: text12BlackRegular),
+                      Text('Saldo', style: text12BlackRegular),
                       Text(
-                          'Saldo : ${'${controller.paymentMethodes?.saldo?[0].amount}'.toIdrFormat}',
+                          '${controller.paymentMethodes?.saldo?[0].amount}'
+                              .toIdrFormat,
                           style: text12NormalRegular)
                     ],
                   ),

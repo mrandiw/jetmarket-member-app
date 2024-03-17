@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../infrastructure/navigation/routes.dart';
@@ -8,6 +9,7 @@ class OnboardingController extends GetxController {
   int currentIndex = 0;
 
   String buttonSkip = "Skip";
+  PageController pageController = PageController();
 
   List onboardingData = [
     {
@@ -23,6 +25,15 @@ class OnboardingController extends GetxController {
           'Barang yang dijual di aplikasi jetmarket cenderung lebih murah'
     }
   ];
+
+  void nextPage() {
+    if (pageController.page == 0) {
+      pageController.animateToPage(1,
+          duration: 300.milliseconds, curve: Curves.easeIn);
+    } else {
+      getStarted();
+    }
+  }
 
   void skipOnboarding() {
     if (currentIndex == 1) {

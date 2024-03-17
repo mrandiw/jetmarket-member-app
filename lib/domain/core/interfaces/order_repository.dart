@@ -5,6 +5,7 @@ import '../model/model_data/order_customer.dart';
 import '../model/model_data/order_customer_payment.dart';
 import '../model/model_data/order_product_model.dart';
 import '../model/model_data/product_order_customer.dart';
+import '../model/model_data/reorder_id.dart';
 import '../model/model_data/submit_refund_model.dart';
 import '../model/model_data/tracking_order.dart';
 import '../model/model_data/tracking_refund_model.dart';
@@ -32,4 +33,5 @@ abstract class OrderRepository {
   Future<DataState<TrackingOrderModel>> trackingOrder(int id);
   Future<DataState<List<OrderProductModel>>> getListOrderReview(
       ListOrderParam param);
+  Future<DataState<List<ReOrderId>>> getReorderId(int id);
 }

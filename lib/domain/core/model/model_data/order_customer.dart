@@ -44,6 +44,16 @@ class OrderCustomerModel {
         value == null || value == '' || value == 0.0 || value == 0);
     return data;
   }
+
+  OrderCustomerModel copyWith({
+    String? chType,
+    String? chCode,
+  }) {
+    return OrderCustomerModel(
+      addressId: addressId,
+      voucherId: voucherId,
+    );
+  }
 }
 
 class Items {

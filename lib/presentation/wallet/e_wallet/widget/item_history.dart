@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -20,7 +18,6 @@ class ItemHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String code = data.refId?.getSubstringBeforeHash ?? '';
-    log(data.id.toString());
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -40,11 +37,11 @@ class ItemHistory extends StatelessWidget {
               ],
             ),
             Gap(4.h),
-            Text(
-              convertStatus(data.status ?? ''),
-              style: convertColorText(data.status ?? ''),
-            ),
-            Gap(4.h),
+            // Text(
+            //   data.createdAt?.convertToCustomFormat ?? '',
+            //   style: text10HintRegular,
+            // ),
+            // Gap(4.h),
             Text(data.description ?? '', style: text10HintRegular),
             Gap(8.h),
             Text(data.createdAt?.convertToDateFormat ?? '',
@@ -56,18 +53,19 @@ class ItemHistory extends StatelessWidget {
   }
 
   Widget amountBadge(String code, int amount) {
+    bool isPlus = code == 'TOP' || code == 'REF';
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 6.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22.r),
-          color: code == 'TOP' ? kSuccessColor2 : kErrorColor2),
+          color: isPlus ? kSuccessColor2 : kErrorColor2),
       child: Row(
         children: [
-          Text(code == 'TOP' ? '+' : '-',
-              style: code == 'TOP' ? text10SuccessMedium : text10ErrorMedium),
+          Text(isPlus ? '+' : '-',
+              style: isPlus ? text10SuccessMedium : text10ErrorMedium),
           Gap(4.w),
           Text('${amount.abs()}'.toIdrFormat,
-              style: code == 'TOP' ? text10SuccessMedium : text10ErrorMedium)
+              style: isPlus ? text10SuccessMedium : text10ErrorMedium)
         ],
       ),
     );
@@ -81,6 +79,14 @@ class ItemHistory extends StatelessWidget {
         return 'Withdraw';
       case 'REF':
         return 'Referral';
+      case 'ORD':
+        return 'Order';
+      case 'BIL':
+        return 'Tagihan';
+      case 'LON':
+        return 'Pinjaman';
+      case 'SAV':
+        return 'Tabungan';
       default:
         return '-';
     }

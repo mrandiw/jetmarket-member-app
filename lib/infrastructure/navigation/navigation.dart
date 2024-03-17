@@ -485,5 +485,10 @@ class Nav {
       page: () => const TagihanPaymentBillScreen(),
       binding: TagihanPaymentBillControllerBinding(),
     ),
+    GetPage(
+      name: Routes.REORDER,
+      page: () => const ReorderScreen(),
+      binding: ReorderControllerBinding(),
+    ),
   ];
 }

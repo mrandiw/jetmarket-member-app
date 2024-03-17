@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 import '../../../components/button/app_button.dart';
@@ -27,8 +28,10 @@ class PaymentTabunganSuccessScreen
           Gap(32.hr),
           Text('Pembayaran Berhasil', style: text20PrimarySemiBold),
           Gap(8.hr),
-          Text('Nominal sebesar Rp100.000 berhasil ditambahkan ke tabunganmu',
-              textAlign: TextAlign.center, style: text14BlackRegular),
+          Text(
+              "Nominal sebesar ${"${controller.total}".toIdrFormat} berhasil ditambahkan ke tabunganmu",
+              textAlign: TextAlign.center,
+              style: text14BlackRegular),
           Gap(32.hr),
           AppButton.primary(
             text: 'Lihat Rincian',

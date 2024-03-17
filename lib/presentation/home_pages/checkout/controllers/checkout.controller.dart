@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
-import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
 import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../../domain/core/model/model_data/address_model.dart';
@@ -16,7 +18,9 @@ import '../../../../utils/network/status_response.dart';
 class CheckoutController extends GetxController {
   final DeliveryRepository _deliveryRepository;
   final CartRepository _cartRepository;
-  CheckoutController(this._deliveryRepository, this._cartRepository);
+  final AddressRepository _addressRepository;
+  CheckoutController(
+      this._deliveryRepository, this._cartRepository, this._addressRepository);
   List<dynamic> deliverys = [];
   List<c.CartProduct> productCart = [];
   List<DeliveryModel> listDelivery = [];
@@ -33,6 +37,22 @@ class CheckoutController extends GetxController {
   int? voucherId;
   String? selectedVouchername;
   bool isLoadingDelivery = false;
+  var isLoadingCheck = false.obs;
+
+  Future<void> checkMainAddress() async {
+    isLoadingCheck(true);
+    final response = await _addressRepository.getAddressHashMain();
+    if (response.result == null) {
+      Get.toNamed(Routes.EDIT_ADDRESS);
+    } else {
+      address = response.result;
+      update();
+      setAddress(address);
+    }
+    await Future.delayed(200.milliseconds, () {
+      isLoadingCheck(false);
+    });
+  }
 
   void updateTotalPrice() {
     totalPrice = 0.0;
@@ -63,6 +83,8 @@ class CheckoutController extends GetxController {
       totalPrice.toInt(),
       dataOrder
     ]);
+
+    log(dataOrder.toString());
   }
 
   Map<String, dynamic> dataOrderProduct() {
@@ -118,8 +140,7 @@ class CheckoutController extends GetxController {
     update();
   }
 
-  setAddress() {
-    AddressModel? data = AppPreference().getAddress();
+  setAddress(AddressModel? data) {
     listDelivery.clear();
     selectedDelivery.clear();
     if (data != null) {
@@ -128,10 +149,14 @@ class CheckoutController extends GetxController {
       excontroller.clear();
       update();
       var body = setBodyForDelivery(data);
+      log(body.toJson().toString());
       isExpandedTile = List.generate(productCart.length, (index) => true);
       excontroller = List.generate(
           productCart.length, (index) => ExpansionTileController());
       getDelivery(body);
+    } else {
+      address = null;
+      update();
     }
   }
 
@@ -264,8 +289,8 @@ class CheckoutController extends GetxController {
 
   @override
   void onInit() {
+    checkMainAddress();
     setProduct();
-    setAddress();
 
     super.onInit();
   }

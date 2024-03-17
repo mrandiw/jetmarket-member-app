@@ -32,7 +32,7 @@ class AppBarDetailOrder extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         automaticallyImplyLeading: false,
         expandedHeight:
-            controller.waitingOrderCustomerLenght.value > 0 ? 230.h : 180.h,
+            controller.waitingOrderCustomerLenght > 0 ? 230.h : 180.h,
         forceElevated: isScroll,
         flexibleSpace: FlexibleSpaceBar(
           background: Column(
