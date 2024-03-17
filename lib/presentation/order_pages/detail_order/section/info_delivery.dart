@@ -47,14 +47,14 @@ class InfoDelivery extends StatelessWidget {
                         Gap(6.w),
                         GestureDetector(
                             onTap: () => controller.copyAddress(
-                                '${controller.detailOrderCustomer?.address?.address} ${controller.detailOrderCustomer?.address?.posCode}'),
+                                '${controller.detailOrderCustomer?.address?.address}'),
                             child: SvgPicture.asset(copy)),
                       ],
                     )),
                 Expanded(
                   flex: 4,
                   child: Text(
-                      '${controller.detailOrderCustomer?.address?.personName} ${controller.detailOrderCustomer?.address?.address} ${controller.detailOrderCustomer?.address?.posCode}',
+                      '${controller.detailOrderCustomer?.address?.personName} ${controller.detailOrderCustomer?.address?.address}',
                       style: text12BlackMedium),
                 ),
               ],
