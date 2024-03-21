@@ -53,8 +53,8 @@ class StepStatusSection extends StatelessWidget {
                                           ?.deliveryEntries?[index].title ??
                                       ' ',
                                   style: index == 0
-                                      ? text16PrimarySemiBold
-                                      : text16HintSemiBold),
+                                      ? text14PrimarySemiBold
+                                      : text14HintSemiBold),
                               Gap(4.h),
                               Text(
                                   "${controller.trackingOrder?.deliveryEntries?[index].createdAt}"

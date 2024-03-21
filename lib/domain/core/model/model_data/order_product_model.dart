@@ -58,7 +58,7 @@ class Review {
   Customer? customer;
   int? id;
   String? image;
-  int? rating;
+  double? rating;
   String? text;
 
   Review(
@@ -75,7 +75,7 @@ class Review {
         json['customer'] != null ? Customer.fromJson(json['customer']) : null;
     id = json['id'];
     image = json['image'];
-    rating = json['rating'];
+    rating = double.parse("${json['rating']}");
     text = json['text'];
   }
 

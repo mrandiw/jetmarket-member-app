@@ -18,6 +18,9 @@ class ProductDetailSection extends StatelessWidget {
     return Padding(
         padding: AppStyle.paddingAll16,
         child: GetBuilder<DetailProductController>(builder: (controller) {
+          String promo =
+              '${controller.selectedVariant != null ? controller.selectedVariant?.promo == 0 || controller.selectedVariant?.promo == null ? controller.selectedVariant?.price : controller.selectedVariant?.promo : controller.detailProduct?.variants?[0].promo}'
+                  .toIdrFormat;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -29,13 +32,15 @@ class ProductDetailSection extends StatelessWidget {
               Gap(8.h),
               Row(
                 children: [
-                  Text('${controller.selectedVariant?.promo}'.toIdrFormat,
-                      style: text16BlackSemiBold),
+                  Text(promo, style: text16BlackSemiBold),
                   Gap(12.w),
                   Visibility(
-                      visible: controller.detailProduct?.promo != 0,
+                      visible: controller.selectedVariant != null
+                          ? controller.selectedVariant?.promo != 0
+                          : controller.detailProduct?.variants?[0].promo != 0,
                       child: Text(
-                          '${controller.selectedVariant?.price}'.toIdrFormat,
+                          '${controller.selectedVariant != null ? controller.selectedVariant?.price : controller.detailProduct?.variants?[0].price}'
+                              .toIdrFormat,
                           style: text14lineThroughRegular)),
                 ],
               ),

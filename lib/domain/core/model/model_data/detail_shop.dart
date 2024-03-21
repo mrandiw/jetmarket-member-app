@@ -22,11 +22,7 @@ class DetailShop {
     id = json['id'];
     name = json['name'];
     avatar = json['avatar'];
-    if (json['rating'] == 0) {
-      rating = 0.0;
-    } else {
-      rating = json['rating'];
-    }
+    rating = double.parse("${json['rating']}");
     address = json['address'];
     if (json['lat'] == 0) {
       lat = 0.0;

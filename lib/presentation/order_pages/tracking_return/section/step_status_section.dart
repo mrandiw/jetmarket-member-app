@@ -46,38 +46,36 @@ class StepStatusSection extends StatelessWidget {
                           ],
                         ),
                         Gap(12.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                                controller.trackingRefund?.histories?[index]
-                                        .title ??
-                                    '',
-                                style: index == 0
-                                    ? text16PrimarySemiBold
-                                    : text16HintSemiBold),
-                            Gap(4.h),
-                            GestureDetector(
-                              onTap: () {
-                                log("${controller
-                                    .trackingRefund
-                                    ?.histories?[index]
-                                    .createdAt
-                                    ?.convertToCustomFormat}");
-                              },
-                              child: Text(
-                                  "2024-01-10 10:44:15.135794 +0000 +0000"
-                                      .convertToCustomFormat,
-                                  style: text12HintRegular),
-                            ),
-                            Gap(4.h),
-                            Text(
-                                controller.trackingRefund?.histories?[index]
-                                        .content ??
-                                    '',
-                                style: text12HintRegular)
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                  controller.trackingRefund?.histories?[index]
+                                          .title ??
+                                      '',
+                                  style: index == 0
+                                      ? text14PrimarySemiBold
+                                      : text14HintSemiBold),
+                              Gap(4.h),
+                              GestureDetector(
+                                onTap: () {
+                                  log("${controller.trackingRefund?.histories?[index].createdAt?.convertToCustomFormat}");
+                                },
+                                child: Text(
+                                    "2024-01-10 10:44:15.135794 +0000 +0000"
+                                        .convertToCustomFormat,
+                                    style: text12HintRegular),
+                              ),
+                              Gap(4.h),
+                              Text(
+                                  controller.trackingRefund?.histories?[index]
+                                          .content ??
+                                      '',
+                                  style: text12HintRegular)
+                            ],
+                          ),
                         )
                       ],
                     )),

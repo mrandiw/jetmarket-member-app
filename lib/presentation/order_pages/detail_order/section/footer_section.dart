@@ -83,7 +83,7 @@ class FooterSection extends StatelessWidget {
                 )
               : AppButton.secondary(
                   text: 'Lihat Review',
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed(Routes.REVIEW_PRODUCT),
                 ),
         );
       } else {
