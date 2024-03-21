@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/product.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/format_number.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 import '../../infrastructure/theme/app_colors.dart';
@@ -149,7 +150,8 @@ class ProductItem extends StatelessWidget {
                       ],
                     ),
                     Gap(4.h),
-                    Text("${item.sold} Terjual", style: text10HintRegular),
+                    Text("${"${item.sold}".formatNumber} Terjual",
+                        style: text10HintRegular),
                   ],
                 ))
           ],

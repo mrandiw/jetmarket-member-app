@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/rating/rating_star.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/home_pages/detail_product/controllers/detail_product.controller.dart';
+import 'package:jetmarket/utils/extension/format_number.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../../infrastructure/theme/app_text.dart';
@@ -39,7 +40,7 @@ class ReviewSection extends StatelessWidget {
                         style: text12BlackRegular),
                     Gap(4.w),
                     Text(
-                        '(${controller.detailProduct?.review?.total ?? 0} Ulasan)',
+                        "(${"${controller.detailProduct?.review?.total ?? 0}".formatNumber} Ulasan)",
                         style: text12HintRegular),
                   ],
                 ),

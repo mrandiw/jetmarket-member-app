@@ -161,6 +161,7 @@ class DetailChatController extends GetxController {
       pinnedMessage = null;
       maxLines = 1;
       update();
+      log(param.toJson().toString());
       final updateChat = await _chatRepository.updateChat(param);
       if (updateChat.result == true) {
         scrollController.animateTo(

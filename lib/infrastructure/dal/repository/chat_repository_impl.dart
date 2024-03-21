@@ -347,7 +347,7 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await RemoteProvider.post(
           path: '${Endpoint.chat}/${param.chatId}', data: param.toJson());
       return DataState<bool>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, queryParams: true),
         result: true,
         message: response.data['message'],
       );

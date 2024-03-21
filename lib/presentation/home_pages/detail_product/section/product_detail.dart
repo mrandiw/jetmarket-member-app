@@ -6,6 +6,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/home_pages/detail_product/controllers/detail_product.controller.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:jetmarket/utils/extension/format_number.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
@@ -57,7 +58,8 @@ class ProductDetailSection extends StatelessWidget {
                   ),
                 ),
                 Gap(12.w),
-                Text('${controller.detailProduct?.sold} Terjual',
+                Text(
+                    "${"${controller.detailProduct?.sold}".formatNumber} Terjual",
                     style: text12HintRegular),
                 const Spacer(),
               ]),

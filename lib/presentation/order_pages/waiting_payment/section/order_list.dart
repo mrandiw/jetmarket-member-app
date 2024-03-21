@@ -47,7 +47,7 @@ class OrderList extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                              '${controller.waitingPayment[index].expiredAt?.split('.').first.formatDate}',
+                              '${controller.waitingPayment[index].expiredAt?.toDateDay}',
                               style: text12WarningMedium)
                         ]),
                         Gap(8.h),
