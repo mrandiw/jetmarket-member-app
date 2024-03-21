@@ -29,7 +29,6 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.orderCustomer, data: body?.toJson());
-      log("Data: ${response.data['data']}");
       return DataState<OrderCustomerPaymentModel>(
         status: StatusCodeResponse.cek(response: response),
         result: OrderCustomerPaymentModel.fromJson(response.data['data']),
@@ -42,13 +41,10 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<DataState<int>> getWaitingOrderLenght() async {
-    log("Get Waiting Payment");
     try {
       final response =
           await RemoteProvider.get(path: Endpoint.orderWaitingCustomer);
       List<dynamic> datas = response.data['data'];
-      log("Get Waiting : ${datas.length}");
-
       return DataState<int>(
         status: StatusCodeResponse.cek(response: response),
         result: datas.length,
@@ -216,7 +212,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response =
           await RemoteProvider.get(path: '${Endpoint.orderRefundStatus}/$id');
       return DataState<DetailRefundModel>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: DetailRefundModel.fromJson(response.data['data']),
         message: response.data['message'],
       );

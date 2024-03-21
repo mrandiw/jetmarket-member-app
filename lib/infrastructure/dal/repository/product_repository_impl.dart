@@ -118,8 +118,7 @@ class ProductRepositoryImpl implements ProductRepository {
       return DataState<List<ProductReviewCustomer>>(
           result: datas.map((e) => ProductReviewCustomer.fromJson(e)).toList(),
           status: StatusCodeResponse.cek(
-            response: response,
-          ));
+              response: response, showLogs: true, queryParams: true));
     } on DioException catch (e) {
       return CustomException<List<ProductReviewCustomer>>().dio(e);
     }
@@ -131,7 +130,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final response = await RemoteProvider.get(path: "${Endpoint.shop}/$id");
       return DataState<DetailShop>(
           result: DetailShop.fromJson(response.data['data']),
-          status: StatusCodeResponse.cek(response: response));
+          status: StatusCodeResponse.cek(response: response, showLogs: true));
     } on DioException catch (e) {
       return CustomException<DetailShop>().dio(e);
     }

@@ -33,6 +33,11 @@ TextStyle get text16HintSemiBold => GoogleFonts.poppins(
       fontWeight: FontWeight.w600,
       color: kSoftGrey,
     );
+TextStyle get text14HintSemiBold => GoogleFonts.poppins(
+      fontSize: 14.wr,
+      fontWeight: FontWeight.w600,
+      color: kSoftGrey,
+    );
 TextStyle get text16PrimarySemiBold => GoogleFonts.poppins(
       fontSize: 15.wr,
       fontWeight: FontWeight.w600,

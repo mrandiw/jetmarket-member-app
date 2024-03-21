@@ -20,6 +20,7 @@ class AppConfig {
       apiKey = dotenv.env['API_KEY']!;
       kApiUrl = dotenv.env['MAPS_URL']!;
     });
+
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     await DeeplinkService.getLink();

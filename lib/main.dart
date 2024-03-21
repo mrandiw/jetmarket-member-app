@@ -17,6 +17,7 @@ Future<void> main() async {
   var initialRoute = await Routes.initialRoute;
 
   runApp(Main(initialRoute));
+  // NetWorkInjection.init();
 }
 
 class Main extends StatelessWidget {
