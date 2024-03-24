@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../../domain/core/model/model_data/address_model.dart';
@@ -191,6 +192,13 @@ class CheckoutController extends GetxController {
       listDelivery = response.result ?? [];
       isLoadingDelivery = false;
       update();
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getDelivery(body);
+        });
+      }
     } else {
       AppSnackbar.show(message: response.message, type: SnackType.error);
     }

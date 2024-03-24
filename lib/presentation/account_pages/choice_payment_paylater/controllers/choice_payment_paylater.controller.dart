@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/paylater_repository.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/payment_repository.dart';
 import '../../../../domain/core/model/model_data/payment_methode_model.dart';
@@ -74,6 +75,13 @@ class ChoicePaymentPaylaterController extends GetxController {
           paymentMethodes = response.result;
           update();
           screenStatus(ScreenStatus.success);
+        } else if (response.status == StatusResponse.noInternet) {
+          if (!(Get.isDialogOpen ?? false)) {
+            DialogNoConnection.show(onReload: () {
+              Get.back();
+              getPaymentMethode();
+            });
+          }
         } else {
           AppSnackbar.show(message: response.message, type: SnackType.error);
           screenStatus(ScreenStatus.failed);

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/ewallet_repository.dart';
 import '../../../../domain/core/model/model_data/detail_topup_model.dart';
 import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
@@ -31,6 +32,13 @@ class DetailTopupController extends GetxController {
       detailTopupModel = response.result;
       update();
       screenStatus(ScreenStatus.success);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getDetailWIthdraw();
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }

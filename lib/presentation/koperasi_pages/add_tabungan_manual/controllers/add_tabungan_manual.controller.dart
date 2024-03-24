@@ -8,6 +8,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/extension/remove_comma.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/saving_repository.dart';
 import '../../../../domain/core/model/model_data/payment_methode_model.dart';
 import '../../../../infrastructure/theme/app_text.dart';
@@ -58,6 +59,13 @@ class AddTabunganManualController extends GetxController {
       savingPaymentMethode = response.result;
       screenStatus.value = ScreenStatus.success;
       update();
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getSavingPaymentMethode();
+        });
+      }
     } else {
       screenStatus.value = ScreenStatus.failed;
     }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/ewallet_repository.dart';
 import '../../../../domain/core/model/model_data/detail_withdraw_model.dart';
 import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
@@ -30,6 +31,13 @@ class DetailWithdrawController extends GetxController {
       detailWithdrawModel = response.result;
       update();
       screenStatus(ScreenStatus.success);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getDetailWIthdraw();
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }

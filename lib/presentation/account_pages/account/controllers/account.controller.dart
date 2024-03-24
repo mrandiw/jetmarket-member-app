@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
@@ -10,6 +8,7 @@ import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/model/model_data/user_profile.dart';
 import '../../../../utils/network/action_status.dart';
 
@@ -27,9 +26,15 @@ class AccountController extends GetxController {
     final response = await _authRepository.getUserProfile(id);
     if (response.status == StatusResponse.success) {
       userData = response.result;
-      log("USERNYA : ${userData?.toJson().toString()}");
       update();
       updateEmploye(isRefresh);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          onRefresh();
+        });
+      }
     }
   }
 

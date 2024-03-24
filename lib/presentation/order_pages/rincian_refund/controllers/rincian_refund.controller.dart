@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/model/model_data/detail_refund_model.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -28,6 +29,13 @@ class RincianRefundController extends GetxController {
       detailRefund = response.result;
       screenStatus(ScreenStatus.success);
       update();
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getRefundStatus();
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }

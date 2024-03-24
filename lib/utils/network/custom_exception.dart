@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:jetmarket/utils/network/timeout_error.dart';
@@ -12,6 +13,11 @@ class CustomException<T> {
       return DataState<T>(
         status: StatusResponse.timeout,
         message: "Request Timeout",
+      );
+    } else if (e.error is SocketException) {
+      return DataState<T>(
+        status: StatusResponse.noInternet,
+        message: "No Internet Connection",
       );
     } else {
       String methode = "No Methode";

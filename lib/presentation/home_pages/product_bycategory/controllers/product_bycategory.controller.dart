@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../domain/core/model/model_data/category_product.dart';
 import '../../../../domain/core/model/model_data/product.dart';
@@ -41,6 +42,13 @@ class ProductBycategoryController extends GetxController {
     if (response.status == StatusResponse.success) {
       setCategory(data: response.result ?? []);
       screenStatus(ScreenStatus.success);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getCategoryProductBySeller(sellerId);
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }
@@ -53,6 +61,13 @@ class ProductBycategoryController extends GetxController {
     if (response.status == StatusResponse.success) {
       setCategory(data: response.result ?? []);
       screenStatus(ScreenStatus.success);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getCategoryProduct();
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }
