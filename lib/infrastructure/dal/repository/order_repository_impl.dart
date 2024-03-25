@@ -29,6 +29,7 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await RemoteProvider.post(
           path: Endpoint.orderCustomer, data: body?.toJson());
+      log("Response : ${response.data['data']}");
       return DataState<OrderCustomerPaymentModel>(
         status: StatusCodeResponse.cek(response: response),
         result: OrderCustomerPaymentModel.fromJson(response.data['data']),

@@ -30,66 +30,69 @@ class HeaderSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: AppStyle.paddingAll12,
-                decoration: BoxDecoration(
-                    borderRadius: AppStyle.borderRadius8All,
-                    boxShadow: [AppStyle.boxShadow],
-                    gradient: const LinearGradient(
-                        colors: [kPrimaryColor, Color(0xffE98F8B)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Total Tabungan',
-                                style: text18WhiteSemiBold,
-                              ),
-                              Gap(4.wr),
-                              Obx(() {
-                                return IconButton(
-                                    onPressed: () => controller.onShowSaldo(),
-                                    icon: Icon(
-                                      controller.isShowEwallet.value
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                      color: kWhite,
-                                      size: 18.r,
-                                    ));
-                              })
-                            ],
-                          ),
-                          Obx(() {
-                            return Text(
-                              controller.isShowEwallet.value
-                                  ? '${controller.savingTotal ?? 0}'.toIdrFormat
-                                  : '********',
-                              style: text24WhiteSemiBold,
-                            );
-                          }),
-                        ],
+              GetBuilder<KoperasiController>(builder: (controller) {
+                return Container(
+                  padding: AppStyle.paddingAll12,
+                  decoration: BoxDecoration(
+                      borderRadius: AppStyle.borderRadius8All,
+                      boxShadow: [AppStyle.boxShadow],
+                      gradient: const LinearGradient(
+                          colors: [kPrimaryColor, Color(0xffE98F8B)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 7,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Total Tabungan',
+                                  style: text18WhiteSemiBold,
+                                ),
+                                Gap(4.wr),
+                                Obx(() {
+                                  return IconButton(
+                                      onPressed: () => controller.onShowSaldo(),
+                                      icon: Icon(
+                                        controller.isShowEwallet.value
+                                            ? Icons.visibility_outlined
+                                            : Icons.visibility_off_outlined,
+                                        color: kWhite,
+                                        size: 18.r,
+                                      ));
+                                })
+                              ],
+                            ),
+                            Obx(() {
+                              return Text(
+                                controller.isShowEwallet.value
+                                    ? '${controller.savingTotal ?? 0}'
+                                        .toIdrFormat
+                                    : '********',
+                                style: text24WhiteSemiBold,
+                              );
+                            }),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                        flex: 3,
-                        child: SvgPicture.asset(
-                          koperasiFill,
-                          height: 64.hr,
-                          fit: BoxFit.fitHeight,
-                          colorFilter:
-                              const ColorFilter.mode(kWhite, BlendMode.srcIn),
-                        ))
-                  ],
-                ),
-              ),
+                      Expanded(
+                          flex: 3,
+                          child: SvgPicture.asset(
+                            koperasiFill,
+                            height: 64.hr,
+                            fit: BoxFit.fitHeight,
+                            colorFilter:
+                                const ColorFilter.mode(kWhite, BlendMode.srcIn),
+                          ))
+                    ],
+                  ),
+                );
+              }),
               Gap(16.hr),
               Row(children: [
                 Expanded(
