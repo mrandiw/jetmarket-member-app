@@ -42,7 +42,7 @@ class ProductItem extends StatelessWidget {
                   color: kSofterGrey,
                   image: DecorationImage(
                     image: imageProvider,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 child: Align(
