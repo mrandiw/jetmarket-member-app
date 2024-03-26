@@ -40,6 +40,7 @@ class DeliveryItem extends StatelessWidget {
                 highlightColor: kWhite,
                 hoverColor: kWhite,
                 focusColor: kWhite,
+                materialTapTargetSize: MaterialTapTargetSize.padded,
                 splashColor: kWhite),
             child: ExpansionTile(
               title: Text(

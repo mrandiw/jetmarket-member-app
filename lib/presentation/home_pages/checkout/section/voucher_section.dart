@@ -17,12 +17,13 @@ class VoucherSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(16.w, 8.w, 16.w, 32.w),
-      child: GestureDetector(
-        onTap: () {
-          Get.toNamed(Routes.VOUCHER);
-        },
-        child: GetBuilder<CheckoutController>(builder: (controller) {
-          return Card(
+      child: GetBuilder<CheckoutController>(builder: (controller) {
+        return GestureDetector(
+          onTap: () {
+            Get.toNamed(Routes.VOUCHER,
+                arguments: controller.totalPriceWithoutVoucher);
+          },
+          child: Card(
             elevation: 0,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
@@ -44,9 +45,9 @@ class VoucherSection extends StatelessWidget {
                 ],
               ),
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

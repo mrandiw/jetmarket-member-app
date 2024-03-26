@@ -238,13 +238,10 @@ class DetailChatController extends GetxController {
   }
 
   void selectMessage(PinnedMessage? chat) {
-    if (pinnedMessage?.senderId == chat?.senderId) {
-      pinnedMessage = null;
-      focusNode?.unfocus();
-    } else {
-      pinnedMessage = chat;
-      focusNode?.requestFocus();
-    }
+    log("Sender S : ${chat?.senderId}");
+    log("Pinned Message : ${pinnedMessage?.senderId}");
+    pinnedMessage = chat;
+    focusNode?.requestFocus();
     update();
   }
 

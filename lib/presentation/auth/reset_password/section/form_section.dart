@@ -25,47 +25,57 @@ class FormSection extends StatelessWidget {
             decoration: BoxDecoration(
                 color: kWhite, borderRadius: AppStyle.borderRadius20Top),
             child: GetBuilder<ResetPasswordController>(builder: (controller) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Buat Password Baru', style: text20PrimarySemiBold),
-                  Gap(4.h),
-                  Text('Silakan buat password baru untuk akunmu',
-                      style: text14BlackRegular),
-                  Gap(16.h),
-                  AppFormIcon.password(
-                    type: AppFormIconType.withLabel,
-                    controller: controller.passwordController,
-                    keyboardType: TextInputType.visiblePassword,
-                    label: 'Password',
-                    hintText: 'Isi password disini',
-                    onChanged: (value) => controller.listenPasswordForm(value),
-                  ),
-                  Gap(12.h),
-                  AppFormIcon.password(
-                    type: AppFormIconType.withLabel,
-                    controller: controller.konfirmasiPasswordController,
-                    keyboardType: TextInputType.visiblePassword,
-                    label: 'Konfirmasi Password',
-                    hintText: 'Isi Konfirmasi Password disini',
-                    onChanged: (value) =>
-                        controller.listenKonfirmasiPasswordForm(value),
-                  ),
-                  Gap(58.h),
-                  Obx(() {
-                    return AppButton.primary(
-                      actionStatus: controller.actionStatus,
-                      text: 'Simpan',
-                      onPressed:
-                          controller.isKonfirmasiPasswordValidated.value &&
-                                  controller.isPasswordValidated.value &&
-                                  controller.valuePassword ==
-                                      controller.valuekonfirmasiPassword
-                              ? () => controller.resetPassword()
-                              : null,
-                    );
-                  }),
-                ],
+              return Form(
+                key: controller.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Buat Password Baru', style: text20PrimarySemiBold),
+                    Gap(4.h),
+                    Text('Silakan buat password baru untuk akunmu',
+                        style: text14BlackRegular),
+                    Gap(16.h),
+                    AppFormIcon.password(
+                      type: AppFormIconType.withLabel,
+                      controller: controller.passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      label: 'Password',
+                      hintText: 'Isi password disini',
+                      onChanged: (value) =>
+                          controller.listenPasswordForm(value),
+                      validator: (value) =>
+                          controller.passwordValidator(value!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    Gap(12.h),
+                    AppFormIcon.password(
+                      type: AppFormIconType.withLabel,
+                      controller: controller.konfirmasiPasswordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      label: 'Konfirmasi Password',
+                      hintText: 'Isi Konfirmasi Password disini',
+                      onChanged: (value) =>
+                          controller.listenKonfirmasiPasswordForm(value),
+                      validator: (value) =>
+                          controller.passwordCaonfirmationValidator(value!),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    Gap(58.h),
+                    Obx(() {
+                      return AppButton.primary(
+                        actionStatus: controller.actionStatus,
+                        text: 'Simpan',
+                        onPressed:
+                            controller.isKonfirmasiPasswordValidated.value &&
+                                    controller.isPasswordValidated.value &&
+                                    controller.valuePassword ==
+                                        controller.valuekonfirmasiPassword
+                                ? () => controller.resetPassword()
+                                : null,
+                      );
+                    }),
+                  ],
+                ),
               );
             }),
           ),

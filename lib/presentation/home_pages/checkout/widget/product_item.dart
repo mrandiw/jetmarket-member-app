@@ -75,12 +75,17 @@ class ProductItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(data?.name ?? '', style: text12BlackRegular),
-                  Text('${data?.price}'.toIdrFormat,
-                      style: text10lineThroughRegular),
+                  Visibility(
+                    visible: (data?.promo ?? 0) > 0,
+                    child: Text('${data?.price}'.toIdrFormat,
+                        style: text10lineThroughRegular),
+                  ),
                   Gap(6.h),
                   Row(
                     children: [
-                      Text('${data?.promo ?? data?.price}'.toIdrFormat,
+                      Text(
+                          '${(data?.promo ?? 0) <= 0 ? data?.price : data?.promo}'
+                              .toIdrFormat,
                           style: text12PrimaryMedium),
                       const Spacer(),
                       Text("${data?.qty}x", style: text12BlackRegular),
@@ -174,6 +179,7 @@ class ProductItem extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h)),
               ),
             )),
+        Gap(8.h)
       ],
     );
   }

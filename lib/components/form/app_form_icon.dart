@@ -29,7 +29,9 @@ class AppFormIcon extends StatefulWidget {
       this.isResetPassword = false,
       this.isReadOnly = false,
       this.onChanged,
-      this.onResetPassword});
+      this.onResetPassword,
+      this.validator,
+      this.autovalidateMode});
 
   const AppFormIcon.password(
       {super.key,
@@ -47,7 +49,9 @@ class AppFormIcon extends StatefulWidget {
       this.isResetPassword = false,
       this.isReadOnly = false,
       this.onChanged,
-      this.onResetPassword});
+      this.onResetPassword,
+      this.validator,
+      this.autovalidateMode});
 
   const AppFormIcon.resetPassword(
       {super.key,
@@ -65,7 +69,9 @@ class AppFormIcon extends StatefulWidget {
       this.isResetPassword = true,
       this.isReadOnly = false,
       this.onChanged,
-      this.onResetPassword});
+      this.onResetPassword,
+      this.validator,
+      this.autovalidateMode});
 
   final TextEditingController controller;
   final String? icon;
@@ -82,6 +88,8 @@ class AppFormIcon extends StatefulWidget {
   final TextInputType? keyboardType;
   final Function(String)? onChanged;
   final Function()? onResetPassword;
+  final String? Function(String?)? validator;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<AppFormIcon> createState() => _AppFormIconState();
@@ -89,6 +97,7 @@ class AppFormIcon extends StatefulWidget {
 
 class _AppFormIconState extends State<AppFormIcon> {
   bool showPassword = true;
+  bool isError = false;
   setShowPassword() {
     setState(() {
       showPassword = !showPassword;
@@ -110,7 +119,7 @@ class _AppFormIconState extends State<AppFormIcon> {
 
   Widget get _normalForm {
     return SizedBox(
-      height: 42.h,
+      height: isError ? 66.h : 48.h,
       width: Get.width,
       child: TextFormField(
           readOnly: widget.isReadOnly,
@@ -120,6 +129,19 @@ class _AppFormIconState extends State<AppFormIcon> {
           style: text12BlackRegular,
           onChanged: widget.onChanged,
           keyboardType: widget.keyboardType,
+          autovalidateMode: widget.autovalidateMode,
+          validator: (value) {
+            final result = widget.validator?.call(value);
+            final hasError = result != null && result.isNotEmpty;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (isError != hasError) {
+                setState(() {
+                  isError = hasError;
+                });
+              }
+            });
+            return result;
+          },
           decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: text12HintForm,
@@ -128,6 +150,9 @@ class _AppFormIconState extends State<AppFormIcon> {
               border: border,
               enabledBorder: border,
               focusedBorder: border,
+              errorBorder: errorBorder,
+              focusedErrorBorder: errorBorder,
+              errorStyle: text10BlackRegular.copyWith(color: kPrimaryColor),
               prefixIcon: widget.iconType == IconType.prefix ||
                       widget.iconType == IconType.all
                   ? SvgPicture.asset(widget.icon ?? '')
@@ -181,6 +206,6 @@ class _AppFormIconState extends State<AppFormIcon> {
   OutlineInputBorder get errorBorder {
     return OutlineInputBorder(
         borderRadius: AppStyle.borderRadius8All,
-        borderSide: AppStyle.borderSide);
+        borderSide: const BorderSide(color: kPrimaryColor));
   }
 }

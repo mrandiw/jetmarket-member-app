@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/model/model_data/vouchers.dart';
 import 'package:jetmarket/utils/extension/percentage.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../domain/core/interfaces/product_repository.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/status_response.dart';
@@ -13,6 +14,8 @@ class VoucherController extends GetxController {
   VoucherController(this._productRepository);
   TextEditingController searchVoucherController = TextEditingController();
   late PagingController<int, Vouchers> pagingController;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   static const _pageSize = 10;
   List<dynamic> vouchers = [];
 
@@ -88,6 +91,7 @@ class VoucherController extends GetxController {
       controller.discountPrice = 0.0;
       controller.discount = discount;
     }
+
     controller.voucherId = selectedVoucherClaim?.id;
     controller.updateTotalPrice();
     controller.selectVoucher(selectedVoucherClaim?.name ?? '');
@@ -99,12 +103,7 @@ class VoucherController extends GetxController {
     pagingController.addPageRequestListener((page) {
       getVoucher(page);
     });
-    vouchers = List.generate(
-        3,
-        (index) => {
-              "title": "Gratis Ongkir ${index + 1}",
-              "subtitle": 'Min. Belanja Rp30RB'
-            });
+
     super.onInit();
   }
 }

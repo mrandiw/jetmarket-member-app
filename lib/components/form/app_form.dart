@@ -10,7 +10,7 @@ import '../../../infrastructure/theme/app_colors.dart';
 
 enum AppFormType { normal, withLabel }
 
-class AppForm extends StatelessWidget {
+class AppForm extends StatefulWidget {
   const AppForm({
     super.key,
     required this.controller,
@@ -27,6 +27,8 @@ class AppForm extends StatelessWidget {
     this.onChanged,
     this.onEditingComplete,
     this.errorMessage,
+    this.validator,
+    this.autovalidateMode,
   });
 
   final TextEditingController controller;
@@ -43,9 +45,21 @@ class AppForm extends StatelessWidget {
   final Function(String)? onChanged;
   final Function()? onEditingComplete;
   final String? errorMessage;
+  final String? Function(String?)? validator;
+  final AutovalidateMode? autovalidateMode;
+
+  @override
+  State<AppForm> createState() => _AppFormState();
+}
+
+class _AppFormState extends State<AppForm> {
+  bool isError = false;
+
   @override
   Widget build(BuildContext context) {
-    return type == AppFormType.normal ? _buildNormalForm : _buildWithLabel;
+    return widget.type == AppFormType.normal
+        ? _buildNormalForm
+        : _buildWithLabel;
   }
 
   Widget get _buildNormalForm {
@@ -53,37 +67,56 @@ class AppForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: textArea ? 70.h : 44.h,
+          height: widget.textArea
+              ? 70.h
+              : isError
+                  ? 66.h
+                  : 48.h,
           width: Get.width,
           child: TextFormField(
-              focusNode: focusNode,
-              controller: controller,
+              focusNode: widget.focusNode,
+              controller: widget.controller,
               cursorColor: kPrimaryColor,
               style: text12BlackRegular,
-              maxLines: textArea ? 5 : 1,
-              textAlign: textAlign ?? TextAlign.left,
-              onChanged: onChanged,
-              keyboardType: keyboardType,
-              inputFormatters: inputFormatters,
-              onEditingComplete: onEditingComplete,
+              maxLines: widget.textArea ? 5 : 1,
+              textAlign: widget.textAlign ?? TextAlign.left,
+              onChanged: widget.onChanged,
+              keyboardType: widget.keyboardType,
+              inputFormatters: widget.inputFormatters,
+              onEditingComplete: widget.onEditingComplete,
+              validator: (value) {
+                final result = widget.validator?.call(value);
+                final hasError = result != null;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (isError != hasError) {
+                    setState(() {
+                      isError = hasError;
+                    });
+                  }
+                });
+                return result;
+              },
+              autovalidateMode: widget.autovalidateMode,
               decoration: InputDecoration(
-                hintText: hintText,
+                hintText: widget.hintText,
                 hintStyle: text12HintForm,
                 filled: true,
                 fillColor: kWhite,
                 border: border,
-                enabledBorder: isError ? errorBorder : border,
-                focusedBorder: isError ? errorBorder : border,
+                enabledBorder: widget.isError ? errorBorder : border,
+                focusedBorder: widget.isError ? errorBorder : border,
                 errorBorder: errorBorder,
+                focusedErrorBorder: errorBorder,
+                errorStyle: text10BlackRegular.copyWith(color: kPrimaryColor),
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.w),
               )),
         ),
         Visibility(
-            visible: isError,
+            visible: widget.isError,
             child: Padding(
                 padding: EdgeInsets.only(top: 6.h),
-                child: Text(errorMessage ?? '',
+                child: Text(widget.errorMessage ?? '',
                     style: text10BlackRegular.copyWith(color: kErrorColor)))),
       ],
     );
@@ -92,7 +125,7 @@ class AppForm extends StatelessWidget {
   Widget get _buildWithLabel {
     return SizedBox(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label ?? 'Label', style: text12BlackRegular),
+        Text(widget.label ?? 'Label', style: text12BlackRegular),
         Gap(8.h),
         _buildNormalForm
       ]),
@@ -108,6 +141,6 @@ class AppForm extends StatelessWidget {
   OutlineInputBorder get errorBorder {
     return OutlineInputBorder(
         borderRadius: AppStyle.borderRadius8All,
-        borderSide: const BorderSide(color: kErrorColor));
+        borderSide: const BorderSide(color: kPrimaryColor));
   }
 }

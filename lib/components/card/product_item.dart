@@ -122,7 +122,12 @@ class ProductItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.name ?? '', style: text12BlackRegular),
+                    Text(
+                      item.name ?? '',
+                      style: text12BlackRegular,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Gap(2.h),
                     Row(
                       children: [

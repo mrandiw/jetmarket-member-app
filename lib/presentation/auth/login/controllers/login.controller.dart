@@ -18,6 +18,7 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   var actionStatus = ActionStatus.initalize;
+  final formKey = GlobalKey<FormState>();
 
   var isEmailValidated = false.obs;
   var isPasswordValidated = false.obs;
@@ -78,6 +79,16 @@ class LoginController extends GetxController {
       isPasswordValidated(true);
     } else {
       isPasswordValidated(false);
+    }
+  }
+
+  passwordValidator(String value) {
+    if (value.isEmpty) {
+      return "Password tidak boleh kosong";
+    } else if (value.length < 8) {
+      return "Password minimal 8 karakter";
+    } else {
+      return null;
     }
   }
 }

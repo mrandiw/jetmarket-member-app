@@ -168,7 +168,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response =
           await RemoteProvider.get(path: '${Endpoint.orderRefundTracking}/$id');
       return DataState<TrackingRefundModel>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: TrackingRefundModel.fromJson(response.data['data']),
         message: response.data['message'],
       );
@@ -243,7 +243,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final response =
           await RemoteProvider.get(path: '${Endpoint.orderTracking}/$id');
       return DataState<TrackingOrderModel>(
-        status: StatusCodeResponse.cek(response: response),
+        status: StatusCodeResponse.cek(response: response, showLogs: true),
         result: TrackingOrderModel.fromJson(response.data['data']),
         message: response.data['message'],
       );

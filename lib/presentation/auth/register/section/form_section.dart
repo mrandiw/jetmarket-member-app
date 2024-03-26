@@ -144,8 +144,11 @@ class FormSection extends StatelessWidget {
                       keyboardType: TextInputType.visiblePassword,
                       label: 'Password',
                       hintText: 'Isi password disini',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       onChanged: (value) =>
                           controller.listenPasswordForm(value),
+                      validator: (value) =>
+                          controller.passwordValidator(value!),
                     ),
                     Gap(12.h),
                     Text('Biaya Regristrasi', style: text12BlackRegular),

@@ -21,16 +21,15 @@ extension DateFormatter on String {
 extension DateFormatExtension on String {
   String get convertToCustomFormat {
     try {
-      DateFormat inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-      DateTime dateTime = inputFormat.parse(this).toLocal();
-
-      String day = getDayName(dateTime.weekday);
+      DateTime parseDate = DateTime.parse(this);
+      DateTime localDate = parseDate.toLocal();
+      String day = getDayName(localDate.weekday);
       String formattedDate =
-          '${_formatTwoDigits(dateTime.day)}/${_formatTwoDigits(dateTime.month)}/${dateTime.year}';
+          '${_formatTwoDigits(localDate.day)}/${_formatTwoDigits(localDate.month)}/${localDate.year}';
       String formattedTime =
-          '${_formatTwoDigits(dateTime.hour)}:${_formatTwoDigits(dateTime.minute)}';
-      String timeZone = getTimeZone(dateTime);
-      log(timeZone);
+          '${_formatTwoDigits(localDate.hour)}:${_formatTwoDigits(localDate.minute)}';
+      String timeZone = getTimeZone(localDate);
+      log("timeZone: $timeZone");
       String timeZoneConvert = timeZone == "7:0"
           ? "WIB"
           : timeZone == "8:0"

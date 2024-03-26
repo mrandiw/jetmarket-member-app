@@ -179,6 +179,16 @@ class RegisterController extends GetxController {
     }
   }
 
+  passwordValidator(String value) {
+    if (value.isEmpty) {
+      return "Password tidak boleh kosong";
+    } else if (value.length < 8) {
+      return "Password minimal 8 karakter";
+    } else {
+      return null;
+    }
+  }
+
   void openCalendarView() {
     CustomBottomSheet.show(child: PickerDate(controller: this));
   }

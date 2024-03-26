@@ -35,6 +35,11 @@ class CheckoutController extends GetxController {
   double totalPriceWithoutVoucher = 0.0;
   double discount = 0.0;
   double discountPrice = 0.0;
+  int totalProducts = 0;
+  int totalPriceProducts = 0;
+  int totalPriceDelivery = 0;
+  double totalPriceDiscount = 0;
+
   int? voucherId;
   String? selectedVouchername;
   bool isLoadingDelivery = false;
@@ -60,8 +65,12 @@ class CheckoutController extends GetxController {
     totalPriceWithoutVoucher = 0.0;
     for (c.CartProduct item in productCart) {
       for (c.Products product in item.products ?? []) {
-        totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
-        totalPriceWithoutVoucher += (product.promo ?? 0) * (product.qty ?? 0);
+        num productPriceNum = (product.promo ?? 0) <= 0
+            ? (product.price ?? 0)
+            : (product.promo ?? 0);
+        double productPrice = productPriceNum.toDouble();
+        totalPrice += productPrice * (product.qty ?? 0);
+        totalPriceWithoutVoucher += productPrice * (product.qty ?? 0);
       }
     }
     for (d.SelectDelivery item in selectedDelivery) {
@@ -70,6 +79,7 @@ class CheckoutController extends GetxController {
     }
     totalPrice = totalPrice - (totalPrice * discount) - discountPrice;
     totalPriceWithoutVoucher = totalPriceWithoutVoucher;
+    totalPriceDiscount = totalPriceWithoutVoucher - totalPrice;
     update();
   }
 
@@ -130,7 +140,12 @@ class CheckoutController extends GetxController {
     int productLenght = 0;
     for (c.CartProduct item in productCart) {
       productLenght += item.products?.length ?? 0;
+
+      for (c.Products product in item.products ?? []) {
+        totalPriceProducts += (product.promo ?? 0) * (product.qty ?? 0);
+      }
     }
+    totalProducts = productLenght;
     setTextEditingController(productCart.length, productLenght);
     update();
     updateTotalPrice();
@@ -223,6 +238,14 @@ class CheckoutController extends GetxController {
     updateTotalPrice();
   }
 
+  void updatePriceDelivery(d.SelectDelivery? delivery) {
+    totalPriceDelivery = 0;
+    for (var item in selectedDelivery) {
+      totalPriceDelivery += item.packets?.rate ?? 0;
+    }
+    update();
+  }
+
   void controlExpand(int index) {
     if (excontroller[index].isExpanded) {
       excontroller[index].collapse();
@@ -292,6 +315,7 @@ class CheckoutController extends GetxController {
 
   void selectVoucher(String value) {
     selectedVouchername = value;
+    totalPriceDiscount = totalPriceWithoutVoucher - totalPrice;
     update();
   }
 

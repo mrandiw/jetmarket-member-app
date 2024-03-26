@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/components/loading/load_pages.dart';
+import 'package:jetmarket/presentation/home_pages/checkout/section/detail_order.dart';
 
 import '../../../infrastructure/theme/app_colors.dart';
 import 'controllers/checkout.controller.dart';
@@ -26,7 +27,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
             children: const [
               AddressSection(),
               ProductSection(),
-              VoucherSection()
+              VoucherSection(),
+              DetailOrder()
             ],
           ),
           bottomNavigationBar: const FooterSection(),

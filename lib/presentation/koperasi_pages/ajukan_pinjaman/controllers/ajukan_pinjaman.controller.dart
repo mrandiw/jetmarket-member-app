@@ -31,6 +31,8 @@ class AjukanPinjamanController extends GetxController {
   TextEditingController nameRekController = TextEditingController();
   TextEditingController nominalRekController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   var actionStatus = ActionStatus.initalize;
   bool isName = false;
   bool isAddress = false;
@@ -171,6 +173,14 @@ class AjukanPinjamanController extends GetxController {
       nominal = 0;
       isNominalPinjaman = false;
       update();
+    }
+  }
+
+  validateKtp(String value) {
+    if (value.length == 16) {
+      return null;
+    } else {
+      return "KTP harus 16 digit";
     }
   }
 

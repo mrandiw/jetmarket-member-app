@@ -29,74 +29,81 @@ class FormSection extends StatelessWidget {
             decoration: BoxDecoration(
                 color: kWhite, borderRadius: AppStyle.borderRadius20Top),
             child: GetBuilder<LoginController>(builder: (controller) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Selamat Datang', style: text20PrimarySemiBold),
-                  Gap(4.h),
-                  Text('Silakan Login ke akun Anda.',
-                      style: text14BlackRegular),
-                  Gap(16.h),
-                  AppForm(
-                    type: AppFormType.withLabel,
-                    controller: controller.emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    label: 'Email',
-                    hintText: 'Isi email disini',
-                    onChanged: (value) => controller.listenEmailForm(value),
-                  ),
-                  Gap(12.h),
-                  AppFormIcon.password(
-                    type: AppFormIconType.withLabel,
-                    controller: controller.passwordController,
-                    keyboardType: TextInputType.visiblePassword,
-                    label: 'Password',
-                    hintText: 'Isi password disini',
-                    onChanged: (value) => controller.listenPasswordForm(value),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                        style:
-                            TextButton.styleFrom(foregroundColor: kNormalColor),
-                        onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
-                        child: Text('Lupa Password?',
-                            style: text12NormalAccentRegular)),
-                  ),
-                  Gap(58.h),
-                  Obx(() {
-                    return AppButton.primary(
-                      actionStatus: controller.actionStatus,
-                      text: 'Login',
-                      onPressed: controller.isEmailValidated.value &&
-                              controller.isPasswordValidated.value
-                          ? () => controller.login()
-                          : null,
-                    );
-                  }),
-                  Gap(66.h),
-                  Center(
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Belum punya akun?',
-                            style: text12BlackRegular,
-                          ),
-                          TextSpan(
-                            text: ' Daftar',
-                            style: text12NormalAccentRegular,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.toNamed(Routes.REGISTER);
-                              },
-                          ),
-                        ],
+              return Form(
+                key: controller.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Selamat Datang', style: text20PrimarySemiBold),
+                    Gap(4.h),
+                    Text('Silakan Login ke akun Anda.',
+                        style: text14BlackRegular),
+                    Gap(16.h),
+                    AppForm(
+                      type: AppFormType.withLabel,
+                      controller: controller.emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      label: 'Email',
+                      hintText: 'Isi email disini',
+                      onChanged: (value) => controller.listenEmailForm(value),
+                    ),
+                    Gap(12.h),
+                    AppFormIcon.password(
+                      type: AppFormIconType.withLabel,
+                      controller: controller.passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      label: 'Password',
+                      hintText: 'Isi password disini',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      onChanged: (value) =>
+                          controller.listenPasswordForm(value),
+                      validator: (value) =>
+                          controller.passwordValidator(value!),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                              foregroundColor: kNormalColor),
+                          onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
+                          child: Text('Lupa Password?',
+                              style: text12NormalAccentRegular)),
+                    ),
+                    Gap(58.h),
+                    Obx(() {
+                      return AppButton.primary(
+                        actionStatus: controller.actionStatus,
+                        text: 'Login',
+                        onPressed: controller.isEmailValidated.value &&
+                                controller.isPasswordValidated.value
+                            ? () => controller.login()
+                            : null,
+                      );
+                    }),
+                    Gap(66.h),
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Belum punya akun?',
+                              style: text12BlackRegular,
+                            ),
+                            TextSpan(
+                              text: ' Daftar',
+                              style: text12NormalAccentRegular,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.toNamed(Routes.REGISTER);
+                                },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Gap(66.h),
-                ],
+                    Gap(66.h),
+                  ],
+                ),
               );
             }),
           ),

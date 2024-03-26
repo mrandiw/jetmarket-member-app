@@ -193,6 +193,7 @@ class ChoicePaymentController extends GetxController {
   }
 
   setDataArgument() {
+    log("VOUCHER ID : ${Get.arguments[1]}");
     List<dynamic> items = Get.arguments[4]['items'];
     orderCustomer = OrderCustomerModel(
         addressId: Get.arguments[0],

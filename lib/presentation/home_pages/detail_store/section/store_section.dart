@@ -137,7 +137,11 @@ class StoreSection extends StatelessWidget {
                   Gap(8.w),
                   GestureDetector(
                       onTap: () => controller.onTapLocationStore(),
-                      child: SvgPicture.asset(editLine))
+                      child: Container(
+                          height: 18.r,
+                          width: 18.r,
+                          color: kWhite,
+                          child: SvgPicture.asset(editLine)))
                 ],
               ),
             ),
@@ -153,7 +157,7 @@ class StoreSection extends StatelessWidget {
                         Gap(8.w),
                         Expanded(
                           child: Text(
-                              'Jam Operational (${controller.detailShop?.openAt} - ${controller.detailShop?.openAt} WIB)',
+                              'Jam Operational (${controller.detailShop?.openAt} - ${controller.detailShop?.closeAt} WIB)',
                               style: text11GreyRegular),
                         ),
                       ],
