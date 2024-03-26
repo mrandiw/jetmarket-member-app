@@ -1,1 +1,1 @@
-enum StatusResponse { success, failed, timeout, typeDataNotMatch }
+enum StatusResponse { success, failed, timeout, typeDataNotMatch, noInternet }

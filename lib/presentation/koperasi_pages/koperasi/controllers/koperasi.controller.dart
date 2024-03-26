@@ -68,7 +68,6 @@ class KoperasiController extends GetxController {
   void onRefresh() async {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
-      // getSavingHistory(1);
       refreshProfile();
       getLoanBillCheck();
       getSavingTotal();

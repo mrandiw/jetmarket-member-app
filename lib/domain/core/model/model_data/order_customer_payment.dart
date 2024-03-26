@@ -30,25 +30,26 @@ class OrderCustomerPaymentModel {
       this.qrCode,
       this.otc});
 
-  OrderCustomerPaymentModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderId = json['order_id'];
-    orderRefId = json['order_ref_id'];
-    refId = json['ref_id'];
-    referenceId = json['reference_id'];
-    name = json['name'];
-    amount = json['amount'];
-    phone = json['phone'];
-    status = json['status'];
+  OrderCustomerPaymentModel.fromJson(Map<String, dynamic>? json) {
+    id = json?['id'];
+    orderId = json?['order_id'];
+    orderRefId = json?['order_ref_id'];
+    refId = json?['ref_id'];
+    referenceId = json?['reference_id'];
+    name = json?['name'];
+    amount = json?['amount'];
+    phone = json?['phone'];
+    status = json?['status'];
     channel =
-        json['channel'] != null ? Channel.fromJson(json['channel']) : null;
+        json?['channel'] != null ? Channel.fromJson(json?['channel']) : null;
     ewallet =
-        json['ewallet'] != null ? Ewallet.fromJson(json['ewallet']) : null;
-    virtualAccount = json['virtual_account'] != null
-        ? VirtualAccount.fromJson(json['virtual_account'])
+        json?['ewallet'] != null ? Ewallet.fromJson(json?['ewallet']) : null;
+    virtualAccount = json?['virtual_account'] != null
+        ? VirtualAccount.fromJson(json?['virtual_account'])
         : null;
-    qrCode = json['qr_code'] != null ? QrCode.fromJson(json['qr_code']) : null;
-    otc = json['otc'] != null ? Otc.fromJson(json['otc']) : null;
+    qrCode =
+        json?['qr_code'] != null ? QrCode.fromJson(json?['qr_code']) : null;
+    otc = json?['otc'] != null ? Otc.fromJson(json?['otc']) : null;
   }
 
   Map<String, dynamic> toJson() {

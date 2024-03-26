@@ -91,7 +91,7 @@ class OtpController extends GetxController {
 
   @override
   void onInit() {
-    email = AppPreference().getEmail() ?? '';
+    email = Get.arguments;
     super.onInit();
     otpControllers = List.generate(6, (index) {
       var controller = TextEditingController();

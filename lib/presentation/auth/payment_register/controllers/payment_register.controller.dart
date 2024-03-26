@@ -14,6 +14,7 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/payment_register/widget/ovo_form.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
 import '../../../../domain/core/model/params/auth/payment_param.dart';
 import '../../../../utils/extension/payment_methode_type.dart';
@@ -72,6 +73,13 @@ class PaymentRegisterController extends GetxController {
           paymentMethodes = response.result;
           update();
           screenStatus(ScreenStatus.success);
+        } else if (response.status == StatusResponse.noInternet) {
+          if (!(Get.isDialogOpen ?? false)) {
+            DialogNoConnection.show(onReload: () {
+              Get.back();
+              getPaymentMethode();
+            });
+          }
         } else {
           AppSnackbar.show(message: response.message, type: SnackType.error);
           screenStatus(ScreenStatus.failed);

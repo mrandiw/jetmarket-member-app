@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_bill_paylater.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/paylater_repository.dart';
 import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
@@ -30,6 +31,13 @@ class DetailBillPaylaterController extends GetxController {
       countTotalPrice();
       update();
       screenStatus(ScreenStatus.success);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getDetailOrder();
+        });
+      }
     } else {
       screenStatus(ScreenStatus.failed);
     }

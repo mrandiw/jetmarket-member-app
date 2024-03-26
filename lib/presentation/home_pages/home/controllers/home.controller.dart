@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
+import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/model/model_data/banner.dart';
 import '../../../../domain/core/model/params/product/product_param.dart';
 import '../../../../domain/core/model/params/product/product_seller_param.dart';
@@ -93,6 +94,13 @@ class HomeController extends GetxController {
     final response = await _productRepository.getBanner();
     if (response.status == StatusResponse.success) {
       setBanner(data: response.result ?? []);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          refreshData();
+        });
+      }
     }
   }
 
@@ -100,6 +108,13 @@ class HomeController extends GetxController {
     final response = await _productRepository.getCategoryProduct();
     if (response.status == StatusResponse.success) {
       setCategory(data: response.result ?? []);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          refreshData();
+        });
+      }
     }
   }
 
@@ -108,6 +123,13 @@ class HomeController extends GetxController {
     final response = await _productRepository.getProductBySeller(param);
     if (response.status == StatusResponse.success) {
       setPopular(data: response.result ?? []);
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          refreshData();
+        });
+      }
     }
   }
 

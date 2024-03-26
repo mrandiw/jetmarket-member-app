@@ -54,10 +54,18 @@ class WithdrawController extends GetxController {
       selectedNominal = '';
       nominalController.text = '';
     } else {
-      nominalController.text = listNominal[index];
+      nominalController.text = formatNumberWithCommas(listNominal[index]);
       selectedNominal = listNominal[index];
     }
     update();
+  }
+
+  String formatNumberWithCommas(String number) {
+    String numberWithCommas = number.replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match match) => '${match[1]},',
+    );
+    return numberWithCommas;
   }
 
   void listenerForm() {
