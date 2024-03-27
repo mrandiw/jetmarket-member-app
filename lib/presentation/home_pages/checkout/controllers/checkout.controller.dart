@@ -247,6 +247,7 @@ class CheckoutController extends GetxController {
   }
 
   void controlExpand(int index) {
+    log("Expand : $index");
     if (isExpandedTile[index] == true) {
       isExpandedTile[index] = false;
       update();
