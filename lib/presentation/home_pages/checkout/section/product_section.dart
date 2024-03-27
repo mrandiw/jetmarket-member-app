@@ -83,7 +83,7 @@ class ProductSection extends StatelessWidget {
                           if (indexProduct == data.products!.length - 1 &&
                               controller.listDelivery.isNotEmpty)
                             Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
+                              padding: EdgeInsets.only(top: 8.h),
                               child: Column(
                                 children: [
                                   DeliveryItem(
@@ -122,7 +122,7 @@ class ProductSection extends StatelessWidget {
 
   Padding _selectedDelivery(CheckoutController controller, int indexDelivery) {
     return Padding(
-      padding: AppStyle.paddingVert12,
+      padding: AppStyle.paddingBottom12,
       child: Card(
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(

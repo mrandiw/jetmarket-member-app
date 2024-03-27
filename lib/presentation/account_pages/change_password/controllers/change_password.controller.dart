@@ -14,6 +14,7 @@ class ChangePasswordController extends GetxController {
   TextEditingController konfirmasiPasswordController = TextEditingController();
 
   var actionStatus = ActionStatus.initalize;
+  final formKey = GlobalKey<FormState>();
 
   var isPasswordValidated = false.obs;
   var isKonfirmasiPasswordValidated = false.obs;
@@ -54,6 +55,28 @@ class ChangePasswordController extends GetxController {
       actionStatus = ActionStatus.failed;
       update();
       AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
+    }
+  }
+
+  passwordValidator(String value) {
+    if (value.isEmpty) {
+      return "Password tidak boleh kosong";
+    } else if (value.length < 8) {
+      return "Password minimal 8 karakter";
+    } else {
+      return null;
+    }
+  }
+
+  passwordCaonfirmationValidator(String value) {
+    if (value.isEmpty) {
+      return "Password tidak boleh kosong";
+    } else if (value.length < 8) {
+      return "Password minimal 8 karakter";
+    } else if (valuekonfirmasiPassword != valuePassword) {
+      return "Password tidak sama";
+    } else {
+      return null;
     }
   }
 }

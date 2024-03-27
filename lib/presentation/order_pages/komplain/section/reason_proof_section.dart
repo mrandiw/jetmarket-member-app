@@ -25,7 +25,7 @@ class ReasonProofSection extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Alasan barang tidak lengkap', style: text14BlackMedium),
+          Text('Alasan pengembalian', style: text14BlackMedium),
           Gap(10.h),
           AppForm(textArea: true, controller: controller.reasonController),
           Gap(8.h),

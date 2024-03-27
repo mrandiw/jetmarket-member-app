@@ -158,15 +158,19 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                         Row(
                           children: [
                             Text(
-                              "${data?.promo}".toIdrFormat,
+                              "${(data?.promo ?? 0) <= 0 ? data?.price : data?.promo}"
+                                  .toIdrFormat,
                               style: text12BlackRegular,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Gap(12.w),
-                            Text(
-                              "${data?.price}".toIdrFormat,
-                              style: text10lineThroughRegular,
-                              overflow: TextOverflow.ellipsis,
+                            Visibility(
+                              visible: (data?.promo ?? 0) > 0,
+                              child: Text(
+                                "${data?.price}".toIdrFormat,
+                                style: text10lineThroughRegular,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),

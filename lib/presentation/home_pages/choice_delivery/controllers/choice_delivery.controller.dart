@@ -30,6 +30,7 @@ class ChoiceDeliveryController extends GetxController {
         sellerId: sellerId,
         delivery: selectedDelivery,
         index: Get.arguments[2]);
+    controller.updatePriceDelivery(selectedDelivery);
   }
 
   @override

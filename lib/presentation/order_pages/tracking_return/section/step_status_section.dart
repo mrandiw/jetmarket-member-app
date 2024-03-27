@@ -59,15 +59,10 @@ class StepStatusSection extends StatelessWidget {
                                       ? text14PrimarySemiBold
                                       : text14HintSemiBold),
                               Gap(4.h),
-                              GestureDetector(
-                                onTap: () {
-                                  log("${controller.trackingRefund?.histories?[index].createdAt?.convertToCustomFormat}");
-                                },
-                                child: Text(
-                                    "2024-01-10 10:44:15.135794 +0000 +0000"
-                                        .convertToCustomFormat,
-                                    style: text12HintRegular),
-                              ),
+                              Text(
+                                  "${controller.trackingRefund?.histories?[index].createdAt}"
+                                      .convertToCustomFormat,
+                                  style: text12HintRegular),
                               Gap(4.h),
                               Text(
                                   controller.trackingRefund?.histories?[index]

@@ -339,7 +339,11 @@ class CartController extends GetxController {
     totalPrice = 0;
     for (CartProduct item in selectProductCart) {
       for (Products product in item.products ?? []) {
-        totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
+        num productPriceNum = (product.promo ?? 0) <= 0
+            ? (product.price ?? 0)
+            : (product.promo ?? 0);
+        int productPrice = productPriceNum.toInt();
+        totalPrice += productPrice * (product.qty ?? 0);
       }
     }
     update();
