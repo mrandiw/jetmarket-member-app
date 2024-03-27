@@ -71,7 +71,7 @@ class _AppFormState extends State<AppForm> {
               ? 70.h
               : isError
                   ? 66.h
-                  : 48.h,
+                  : 44.h,
           width: Get.width,
           child: TextFormField(
               focusNode: widget.focusNode,

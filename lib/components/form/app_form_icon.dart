@@ -119,7 +119,7 @@ class _AppFormIconState extends State<AppFormIcon> {
 
   Widget get _normalForm {
     return SizedBox(
-      height: isError ? 66.h : 48.h,
+      height: isError ? 66.h : 44.h,
       width: Get.width,
       child: TextFormField(
           readOnly: widget.isReadOnly,

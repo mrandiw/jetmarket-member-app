@@ -247,11 +247,11 @@ class CheckoutController extends GetxController {
   }
 
   void controlExpand(int index) {
-    if (excontroller[index].isExpanded) {
-      excontroller[index].collapse();
+    if (isExpandedTile[index] == true) {
+      isExpandedTile[index] = false;
       update();
     } else {
-      excontroller[index].expand();
+      isExpandedTile[index] = true;
       update();
     }
   }
