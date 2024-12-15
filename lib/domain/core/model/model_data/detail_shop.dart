@@ -27,12 +27,12 @@ class DetailShop {
     if (json['lat'] == 0) {
       lat = 0.0;
     } else {
-      lat = json['lat'];
+      lat = double.parse("${json['lat']}");
     }
     if (json['lng'] == 0) {
       lng = 0.0;
     } else {
-      lng = json['lng'];
+      lng = double.parse("${json['lng']}");
     }
     openAt = json['open_at'];
     closeAt = json['close_at'];

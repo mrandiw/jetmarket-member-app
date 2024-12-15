@@ -40,14 +40,19 @@ class PaymentMethodeSection extends StatelessWidget {
                       visible: !controller.isBankTransferExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.virtualAccount!
+                              (controller.savingPaymentMethode!
+                                                  .virtualAccount ??
+                                              [])
                                           .length >=
                                       3
                                   ? 3
-                                  : controller.savingPaymentMethode!
-                                      .virtualAccount!.length, (index) {
+                                  : (controller.savingPaymentMethode!
+                                              .virtualAccount ??
+                                          [])
+                                      .length, (index) {
                         if (index == 2 &&
-                            controller.savingPaymentMethode!.virtualAccount!
+                            (controller.savingPaymentMethode!.virtualAccount ??
+                                        [])
                                     .length >
                                 3) {
                           return Container(
@@ -59,7 +64,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.virtualAccount!.length - 2}",
+                              "+${(controller.savingPaymentMethode!.virtualAccount ?? []).length - 2}",
                               style: text11HintMedium,
                             )),
                           );
@@ -94,9 +99,7 @@ class PaymentMethodeSection extends StatelessWidget {
                       runSpacing: 6.r,
                       spacing: 6.r,
                       children: List.generate(
-                          controller.savingPaymentMethode?.virtualAccount
-                                  ?.length ??
-                              0,
+                          (controller.savingPaymentMethode?.virtualAccount ?? []).length,
                           (index) => GestureDetector(
                               onTap: () => controller.actionPayment(
                                   controller.savingPaymentMethode
@@ -165,15 +168,17 @@ class PaymentMethodeSection extends StatelessWidget {
                       visible: !controller.isEwalletExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.ewalletQr!
+                              (controller.savingPaymentMethode!.ewalletQr ?? [])
                                           .length >=
                                       3
                                   ? 2
-                                  : controller.savingPaymentMethode?.ewalletQr
-                                          ?.length ??
-                                      0, (index) {
+                                  : (controller.savingPaymentMethode
+                                              ?.ewalletQr ??
+                                          [])
+                                      .length, (index) {
                         if (index == 1 &&
-                            controller.savingPaymentMethode!.ewalletQr!.length >
+                            (controller.savingPaymentMethode!.ewalletQr ?? [])
+                                    .length >
                                 1) {
                           return Container(
                             height: 26.h,
@@ -185,7 +190,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.ewalletQr!.length - 2}",
+                              "+${(controller.savingPaymentMethode!.ewalletQr ?? []).length - 2}",
                               style: text11HintMedium,
                             )),
                           );
@@ -221,8 +226,8 @@ class PaymentMethodeSection extends StatelessWidget {
                       runSpacing: 6.r,
                       spacing: 6.r,
                       children: List.generate(
-                          controller.savingPaymentMethode?.ewalletQr?.length ??
-                              0, (index) {
+                          (controller.savingPaymentMethode?.ewalletQr ?? [])
+                              .length, (index) {
                         // String assets = index ==
                         //         controller.savingPaymentMethode!.ewalletQr!
                         //                 .length -
@@ -267,8 +272,10 @@ class PaymentMethodeSection extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage(index ==
-                                            controller.savingPaymentMethode!
-                                                    .ewalletQr!.length -
+                                            (controller.savingPaymentMethode!
+                                                            .ewalletQr ??
+                                                        [])
+                                                    .length -
                                                 1
                                         ? 'assets/images/qris.png'
                                         : controller.getImage(controller
@@ -309,12 +316,16 @@ class PaymentMethodeSection extends StatelessWidget {
                       visible: !controller.isRetailExpanded,
                       child: Row(
                           children: List.generate(
-                              controller.savingPaymentMethode!.otc!.length >= 3
+                              (controller.savingPaymentMethode!.otc ?? [])
+                                          .length >=
+                                      3
                                   ? 3
-                                  : controller.savingPaymentMethode!.otc!
+                                  : (controller.savingPaymentMethode!.otc ?? [])
                                       .length, (index) {
                         if (index == 2 &&
-                            controller.savingPaymentMethode!.otc!.length > 3) {
+                            (controller.savingPaymentMethode!.otc ?? [])
+                                    .length >
+                                3) {
                           return Container(
                             height: 26.h,
                             width: 44.w,
@@ -324,7 +335,7 @@ class PaymentMethodeSection extends StatelessWidget {
                                 boxShadow: [AppStyle.boxShadowSmall]),
                             child: Center(
                                 child: Text(
-                              "+${controller.savingPaymentMethode!.otc!.length - 1}",
+                              "+${(controller.savingPaymentMethode!.otc ?? []).length - 1}",
                               style: text11HintMedium,
                             )),
                           );
@@ -354,7 +365,7 @@ class PaymentMethodeSection extends StatelessWidget {
                 children: [
                   Row(
                       children: List.generate(
-                          controller.savingPaymentMethode?.otc?.length ?? 0,
+                          (controller.savingPaymentMethode?.otc ?? []).length,
                           (index) => Padding(
                                 padding: EdgeInsets.only(right: 8.w),
                                 child: GestureDetector(
