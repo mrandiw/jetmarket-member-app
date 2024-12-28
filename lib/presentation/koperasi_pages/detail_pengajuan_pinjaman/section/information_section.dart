@@ -4,7 +4,6 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/koperasi_pages/detail_pengajuan_pinjaman/controllers/detail_pengajuan_pinjaman.controller.dart';
 import 'package:jetmarket/utils/extension/convert_local.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
-import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
 class InformationSection extends StatelessWidget {

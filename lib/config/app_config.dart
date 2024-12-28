@@ -22,7 +22,9 @@ class AppConfig {
     });
 
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      name: 'jetmarket',
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await DeeplinkService.getLink();
     await DeeplinkService.getInitialLink();
     await FirebaseService.getInitialMessage();

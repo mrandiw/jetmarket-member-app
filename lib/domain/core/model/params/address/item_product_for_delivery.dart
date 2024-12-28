@@ -51,23 +51,29 @@ class Items {
 }
 
 class Products {
+  String? productName;
   int? variantId;
   int? value;
   int? qty;
+  String? note;
 
-  Products({this.variantId, this.value, this.qty});
+  Products({this.productName, this.variantId, this.value, this.qty, this.note});
 
   Products.fromJson(Map<String, dynamic> json) {
+    productName = json['product_name'];
     variantId = json['variant_id'];
-    value = json['value'];
-    qty = json['qty'];
+    value = json['price'];
+    qty = json['quantity'];
+    note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_name'] = productName;
     data['variant_id'] = variantId;
-    data['value'] = value;
-    data['qty'] = qty;
+    data['price'] = value;
+    data['quantity'] = qty;
+    data['note'] = note;
     return data;
   }
 }

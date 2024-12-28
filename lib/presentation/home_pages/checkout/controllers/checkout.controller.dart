@@ -172,9 +172,11 @@ class CheckoutController extends GetxController {
 
         List<Products> productsList = filteredProducts.map((product) {
           return Products(
+            productName: product.name,
             variantId: product.variantId,
             value: product.promo,
             qty: product.qty,
+            note: product.note,
           );
         }).toList();
 
