@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import '../../../../domain/core/interfaces/order_repository.dart';
 import '../../../../domain/core/interfaces/payment_repository.dart';
 import '../../../../domain/core/model/model_data/order_customer.dart';
@@ -45,7 +46,13 @@ class PaymentPayletterController extends GetxController {
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
-      Get.toNamed(Routes.PAYLETTER_SUCCESS, arguments: response.result?.refId);
+      if (response.message?.contains('Minimal') ?? false) {
+        AppSnackbar.show(
+            message: response.message ?? '', type: SnackType.error);
+      } else {
+        Get.toNamed(Routes.PAYLETTER_SUCCESS,
+            arguments: response.result?.refId);
+      }
       log(response.result?.orderId.toString() ?? '');
     } else {
       actionStatus = ActionStatus.failed;
