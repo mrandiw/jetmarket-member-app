@@ -60,8 +60,11 @@ class CheckoutController extends GetxController {
     totalPriceWithoutVoucher = 0.0;
     for (c.CartProduct item in productCart) {
       for (c.Products product in item.products ?? []) {
-        totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
-        totalPriceWithoutVoucher += (product.promo ?? 0) * (product.qty ?? 0);
+        final total = product.promo != null && product.promo != 0
+            ? (product.promo ?? 0)
+            : (product.price ?? 0);
+        totalPrice += total * (product.qty ?? 0);
+        totalPriceWithoutVoucher += total * (product.qty ?? 0);
       }
     }
     for (d.SelectDelivery item in selectedDelivery) {
