@@ -53,7 +53,11 @@ class InfoOrderSection extends StatelessWidget {
                     children: [
                       Text('Waktu Pemesanan', style: text12BlackRegular),
                       Text(
-                          '${controller.detailBillPaylater?.createdAt?.split('.').first.formatDate}',
+                          controller.detailBillPaylater?.createdAt
+                                  ?.split('.')
+                                  .first
+                                  .formatDate ??
+                              '-',
                           style: text12BlackMedium),
                     ],
                   ),
@@ -63,7 +67,12 @@ class InfoOrderSection extends StatelessWidget {
                     children: [
                       Text('Waktu Pembayaran', style: text12BlackRegular),
                       Text(
-                          '${controller.detailBillPaylater?.paymentMethod?.createdAt?.split('.').first.formatDate}',
+                          controller
+                                  .detailBillPaylater?.paymentMethod?.createdAt
+                                  ?.split('.')
+                                  .first
+                                  .formatDate ??
+                              '-',
                           style: text12BlackMedium),
                     ],
                   ),
