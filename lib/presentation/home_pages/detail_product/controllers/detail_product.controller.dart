@@ -161,12 +161,14 @@ class DetailProductController extends GetxController {
               products: List.generate(
                   1,
                   (index) => c.Products(
+                        cartId: 0,
                         name: detailProduct?.name,
                         variantId: selectedVariant?.id,
                         price: selectedVariant?.price,
                         thumbnail: selectedVariant?.image,
                         qty: 1,
                         promo: selectedVariant?.promo,
+                        stock: selectedVariant?.stock,
                       ))));
       Get.toNamed(Routes.CHECKOUT, arguments: data);
     }
@@ -183,8 +185,12 @@ class DetailProductController extends GetxController {
     // log("Product : ${selectedVariant?.id ?? 0}");
     // Get.toNamed(Routes.CHECK_EXISTING_CHAT,
     //     arguments: [data, detailProduct?.seller, selectedVariant]);
-    Get.toNamed(Routes.CHECK_EXISTING_CHAT,
-        arguments: [data, detailProduct?.seller, detailProduct?.id]);
+    Get.toNamed(Routes.CHECK_EXISTING_CHAT, arguments: [
+      data,
+      detailProduct?.seller,
+      detailProduct?.id,
+      selectedVariant
+    ]);
   }
 
   void shareProduct() async {

@@ -85,51 +85,47 @@ class ProductItem extends StatelessWidget {
                           '${data?.promo != null && data?.promo != 0 ? data?.promo : data?.price}'
                               .toIdrFormat,
                           style: text12PrimaryMedium),
-                      const Spacer(),
-                      Text("${data?.qty}x", style: text12BlackRegular),
+                      // const Spacer(),
+                      // Text("${data?.qty}x", style: text12BlackRegular),
                       Gap(16.wr)
                     ],
                   ),
                 ],
               ),
             ),
-
-            // GestureDetector(
-            //   onTap: decrement,
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         borderRadius: AppStyle.borderRadius6All,
-            //         color: kWhite,
-            //         border: AppStyle.borderAll),
-            //     child: const Center(
-            //         child: Icon(
-            //       Icons.remove,
-            //       color: kSofterGrey,
-            //     )),
-            //   ),
-            // ),
-            // Gap(12.w),
-            // Expanded(
-            //   flex: 1,
-            //   child: Center(
-            //     child: Text("${data?.qty}", style: text12BlackRegular),
-            //   ),
-            // ),
-            // Gap(12.w),
-            // GestureDetector(
-            //   onTap: increment,
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         borderRadius: AppStyle.borderRadius6All,
-            //         color: kWhite,
-            //         border: AppStyle.borderAll),
-            //     child: const Center(
-            //         child: Icon(
-            //       Icons.add,
-            //       color: kSofterGrey,
-            //     )),
-            //   ),
-            // )
+            GestureDetector(
+              onTap: decrement,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: AppStyle.borderRadius6All,
+                    color: kWhite,
+                    border: AppStyle.borderAll),
+                child: const Center(
+                    child: Icon(
+                  Icons.remove,
+                  color: kSofterGrey,
+                )),
+              ),
+            ),
+            Gap(12.w),
+            Center(
+              child: Text("${data?.qty}", style: text12BlackRegular),
+            ),
+            Gap(12.w),
+            GestureDetector(
+              onTap: increment,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: AppStyle.borderRadius6All,
+                    color: kWhite,
+                    border: AppStyle.borderAll),
+                child: const Center(
+                    child: Icon(
+                  Icons.add,
+                  color: kSofterGrey,
+                )),
+              ),
+            )
           ],
         ),
         Gap(12.h),

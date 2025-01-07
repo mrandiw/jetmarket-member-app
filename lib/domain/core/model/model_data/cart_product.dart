@@ -81,6 +81,34 @@ class Products {
     data['stock'] = stock;
     return data;
   }
+
+  Products copyWith({
+    int? cartId,
+    String? name,
+    String? note,
+    int? price,
+    int? promo,
+    int? qty,
+    String? thumbnail,
+    int? variantId,
+    String? variantName,
+    int? weight,
+    int? stock,
+  }) {
+    return Products(
+      cartId: cartId ?? this.cartId,
+      name: name ?? this.name,
+      note: note ?? this.note,
+      price: price ?? this.price,
+      promo: promo ?? this.promo,
+      qty: qty ?? this.qty,
+      thumbnail: thumbnail ?? this.thumbnail,
+      variantId: variantId ?? this.variantId,
+      variantName: variantName ?? this.variantName,
+      weight: weight ?? this.weight,
+      stock: stock ?? this.stock,
+    );
+  }
 }
 
 class Seller {

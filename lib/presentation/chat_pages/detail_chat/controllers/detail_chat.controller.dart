@@ -150,6 +150,7 @@ class DetailChatController extends GetxController {
     final response = await _chatRepository.sendMessage(
         documentTitle: "${dataArgument?.chatId}", message: dataChat.toMap());
     if (response.result == true) {
+      dataArgument?.variants = null;
       var param = ChatUpdateParam(
           chatId: dataArgument?.chatId,
           senderName: sender.name,
@@ -313,7 +314,7 @@ class DetailChatController extends GetxController {
     }
   }
 
-  setData() {
+  setData() async {
     dataArgument = Get.arguments;
   }
 

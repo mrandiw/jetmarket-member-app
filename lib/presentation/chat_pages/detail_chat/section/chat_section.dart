@@ -91,7 +91,7 @@ class ChatSection extends StatelessWidget {
                       role: item.sender?.role);
                   controller.slidePinChat(
                       detail, index, isSender, pinnedMessage);
-                },
+                },  
                 onLongPress: () => controller.selectedChatDelet(item),
                 onTapCancel: () => controller.selectedCancelChatDelet(item),
                 timeWidget: newDate.isNotEmpty

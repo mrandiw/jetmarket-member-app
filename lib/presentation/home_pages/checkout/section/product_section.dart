@@ -19,102 +19,111 @@ class ProductSection extends StatelessWidget {
     return Padding(
       padding: AppStyle.paddingSide16,
       child: GetBuilder<CheckoutController>(builder: (controller) {
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, index) {
-            var data = controller.productCart[index];
+        return Obx(
+          () => ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, index) {
+              var data = controller.productCart[index];
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: AppStyle.paddingBottom8,
-                  child: Text(
-                    data.seller?.name ?? '',
-                    style: text12BlackRegular,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: AppStyle.paddingBottom8,
+                    child: Text(
+                      data.seller?.name ?? '',
+                      style: text12BlackRegular,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                Divider(
-                  color: kBorder,
-                  thickness: 1,
-                  height: 0,
-                ),
-                Column(
-                  children: List.generate(
-                    data.products?.length ?? 0,
-                    (indexProduct) {
-                      int indexDelivery = controller.listDelivery.isNotEmpty
-                          ? controller.listDelivery
-                              .indexWhere((e) => e.sellerId == data.seller?.id)
-                          : -1;
+                  Divider(
+                    color: kBorder,
+                    thickness: 1,
+                    height: 0,
+                  ),
+                  Column(
+                    children: List.generate(
+                      data.products?.length ?? 0,
+                      (indexProduct) {
+                        int indexDelivery = controller.listDelivery.isNotEmpty
+                            ? controller.listDelivery.indexWhere(
+                                (e) => e.sellerId == data.seller?.id)
+                            : -1;
 
-                      return Column(
-                        children: [
-                          ProductItem(
-                            data: data.products?[indexProduct],
-                            isWriteNote: controller.isWriteNote[index]
-                                    [indexProduct] ==
-                                false,
-                            openWriteNote: () =>
-                                controller.openWriteNote(index, indexProduct),
-                            closeWriteNote: () => controller.closeWriteNote(
-                                index,
-                                indexProduct,
-                                data.products?[indexProduct].cartId ?? 0),
-                            controller: controller.notesController[index]
-                                [indexProduct],
-                          ),
-                          if (indexProduct == data.products!.length - 1 &&
-                              controller.listDelivery.isEmpty)
-                            Visibility(
-                              visible: controller.isLoadingDelivery,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: Center(
-                                  child: CupertinoActivityIndicator(
-                                    radius: 12.r,
+                        return Column(
+                          children: [
+                            ProductItem(
+                              data: data.products?[indexProduct],
+                              isWriteNote: controller.isWriteNote[index]
+                                      [indexProduct] ==
+                                  false,
+                              openWriteNote: () =>
+                                  controller.openWriteNote(index, indexProduct),
+                              closeWriteNote: () => controller.closeWriteNote(
+                                  index,
+                                  indexProduct,
+                                  data.products?[indexProduct].cartId ?? 0),
+                              controller: controller.notesController[index]
+                                  [indexProduct],
+                              decrement: () => controller.decrementProduct(
+                                  data.products?[indexProduct].cartId ?? 0,
+                                  data.products?[indexProduct].qty ?? 0),
+                              increment: () => controller.incrementProduct(
+                                  data.products?[indexProduct].cartId ?? 0,
+                                  data.products?[indexProduct].qty ?? 0,
+                                  data.products?[indexProduct].stock ?? 0),
+                            ),
+                            if (indexProduct == data.products!.length - 1 &&
+                                controller.listDelivery.isEmpty)
+                              Visibility(
+                                visible: controller.isLoadingDelivery,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  child: Center(
+                                    child: CupertinoActivityIndicator(
+                                      radius: 12.r,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          if (indexProduct == data.products!.length - 1 &&
-                              controller.listDelivery.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: Column(
-                                children: [
-                                  DeliveryItem(
-                                    data: controller.listDelivery,
-                                    sellerId: data.seller?.id ?? 0,
-                                    isExpandedTile:
-                                        controller.isExpandedTile[index],
-                                    onExpansionChanged: (value) =>
-                                        controller.onExpandTile(index),
-                                    indexDelivery: index,
-                                    excontroller:
-                                        controller.excontroller[index],
-                                  ),
-                                  if (indexDelivery != -1 &&
-                                      indexDelivery <
-                                          controller.selectedDelivery.length)
-                                    _selectedDelivery(
-                                        controller, indexDelivery),
-                                ],
+                            if (indexProduct == data.products!.length - 1 &&
+                                controller.listDelivery.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Column(
+                                  children: [
+                                    DeliveryItem(
+                                      data: controller.listDelivery,
+                                      sellerId: data.seller?.id ?? 0,
+                                      isExpandedTile:
+                                          controller.isExpandedTile[index],
+                                      onExpansionChanged: (value) =>
+                                          controller.onExpandTile(index),
+                                      indexDelivery: index,
+                                      excontroller:
+                                          controller.excontroller[index],
+                                    ),
+                                    if (indexDelivery != -1 &&
+                                        indexDelivery <
+                                            controller.selectedDelivery.length)
+                                      _selectedDelivery(
+                                          controller, indexDelivery),
+                                  ],
+                                ),
                               ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                )
-              ],
-            );
-          },
-          separatorBuilder: (_, __) => Gap(8.h),
-          itemCount: controller.productCart.length,
+                          ],
+                        );
+                      },
+                    ),
+                  )
+                ],
+              );
+            },
+            separatorBuilder: (_, __) => Gap(8.h),
+            itemCount: controller.productCart.length,
+          ),
         );
       }),
     );

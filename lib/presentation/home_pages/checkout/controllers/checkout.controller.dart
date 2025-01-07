@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
+import 'package:jetmarket/domain/core/model/params/cart/update_qty_param.dart';
 import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/cart_repository.dart';
 import '../../../../domain/core/interfaces/delivery_repository.dart';
@@ -23,7 +24,7 @@ class CheckoutController extends GetxController {
   CheckoutController(
       this._deliveryRepository, this._cartRepository, this._addressRepository);
   List<dynamic> deliverys = [];
-  List<c.CartProduct> productCart = [];
+  RxList<c.CartProduct> productCart = <c.CartProduct>[].obs;
   List<DeliveryModel> listDelivery = [];
   List<d.SelectDelivery> selectedDelivery = [];
   List<bool> isExpandedTile = [];
@@ -101,8 +102,10 @@ class CheckoutController extends GetxController {
             (index) => {
                   'product_name': productCart[i].products?[index].name,
                   'variant_id': productCart[i].products?[index].variantId,
-                  'price': productCart[i].products?[index].promo ??
-                      productCart[i].products?[index].price,
+                  'price': productCart[i].products?[index].promo != null &&
+                          productCart[i].products![index].promo! > 0
+                      ? productCart[i].products![index].promo!
+                      : productCart[i].products?[index].price,
                   'quantity': productCart[i].products?[index].qty,
                   'note': productCart[i].products?[index].note ?? ''
                 }),
@@ -129,7 +132,7 @@ class CheckoutController extends GetxController {
   }
 
   setProduct() {
-    productCart = Get.arguments;
+    productCart.value = Get.arguments;
     int productLenght = 0;
     for (c.CartProduct item in productCart) {
       productLenght += item.products?.length ?? 0;
@@ -298,6 +301,75 @@ class CheckoutController extends GetxController {
   void selectVoucher(String value) {
     selectedVouchername = value;
     update();
+  }
+
+  void incrementProduct(int id, int qty, int stock) {
+    if (qty >= stock) {
+      warningOverStock();
+    } else {
+      for (int i = 0; i < productCart.length; i++) {
+        int? productIndex = productCart[i]
+            .products
+            ?.indexWhere((product) => product.cartId == id);
+
+        if (productIndex != null && productIndex >= 0) {
+          productCart[i] = c.CartProduct(
+            seller: productCart[i].seller,
+            products: productCart[i].products?.map((product) {
+              if (product.cartId == id) {
+                return product.copyWith(qty: product.qty! + 1);
+              }
+              return product;
+            }).toList(),
+          );
+          break;
+        }
+      }
+      update();
+      updateTotalPrice();
+    }
+  }
+
+  void decrementProduct(int id, int qty) async {
+    if ((qty - 1) >= 1) {
+      for (int i = 0; i < productCart.length; i++) {
+        int? productIndex = productCart[i]
+            .products
+            ?.indexWhere((product) => product.cartId == id);
+
+        if (productIndex != null && productIndex >= 0) {
+          productCart[i] = c.CartProduct(
+            seller: productCart[i].seller,
+            products: productCart[i].products?.map((product) {
+              if (product.cartId == id) {
+                return product.copyWith(qty: product.qty! - 1);
+              }
+              return product;
+            }).toList(),
+          );
+          break;
+        }
+      }
+      update();
+      updateTotalPrice();
+    } else {
+      update();
+    }
+  }
+
+  Future<bool> updateQty(int id, int qty) async {
+    var param = UpdateQtyParam(id: id, qty: qty);
+    final response = await _cartRepository.updateQty(param);
+    if (response.status == StatusResponse.success) {
+      // pagingController.refresh();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void warningOverStock() {
+    AppSnackbar.show(message: 'Stok tidak mencukupi', type: SnackType.error);
   }
 
   @override

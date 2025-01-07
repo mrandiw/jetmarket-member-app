@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
-import 'package:jetmarket/utils/extension/convert_local.dart';
 import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
@@ -209,9 +209,8 @@ class ItemChat extends StatelessWidget {
                       Gap(4.hr),
                       // if (isNewDay && index == resultList.length - 1)
                       Text(
-                        "${data.createdAt}".convertToLocaleTime,
-                        // "${data.createdAt}",
-
+                        DateFormat('HH:mm')
+                            .format(DateTime.parse(data.createdAt!)),
                         style: text10HintRegular,
                       ),
                     ],
@@ -383,29 +382,36 @@ class ItemChat extends StatelessWidget {
                       ),
                     ),
                     Gap(8.wr),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          data.pinnedProduct?.name ?? '',
-                          style: text12BlackMedium,
-                        ),
-                        Gap(4.hr),
-                        Row(
-                          children: [
-                            Text(
-                              "${data.pinnedProduct?.promo}".toIdrFormat,
-                              style: text12BlackRegular,
-                            ),
-                            Gap(8.wr),
-                            Text(
-                              "${data.pinnedProduct?.price}".toIdrFormat,
-                              style: text10lineThroughRegular,
-                            ),
-                          ],
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            data.pinnedProduct?.name ?? '',
+                            style: text12BlackMedium,
+                            maxLines: 1,
+                          ),
+                          Gap(4.hr),
+                          Row(
+                            children: [
+                              Text(
+                                "${data.pinnedProduct != null && data.pinnedProduct?.promo != null && data.pinnedProduct!.promo! > 0 ? data.pinnedProduct?.promo : data.pinnedProduct?.price}"
+                                    .toIdrFormat,
+                                style: text12BlackRegular,
+                              ),
+                              Gap(8.wr),
+                              if (data.pinnedProduct != null &&
+                                  data.pinnedProduct?.promo != null &&
+                                  data.pinnedProduct!.promo! > 0)
+                                Text(
+                                  "${data.pinnedProduct?.price}".toIdrFormat,
+                                  style: text10lineThroughRegular,
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

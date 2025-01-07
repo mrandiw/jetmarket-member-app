@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/chat_pages/detail_chat/controllers/detail_chat.controller.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
@@ -21,6 +25,95 @@ class MessageSection extends StatelessWidget {
     return GetBuilder<DetailChatController>(builder: (controller) {
       return Stack(
         children: [
+          if (controller.dataArgument != null &&
+              controller.dataArgument!.variants != null)
+            Positioned(
+              bottom: 7.hr,
+              left: 17.wr,
+              right: 17.wr,
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(
+                  8.wr,
+                  8.wr,
+                  8.wr,
+                  controller.maxLines <= 2
+                      ? 56.hr
+                      : (56 + (controller.maxLines * 5)).hr,
+                ),
+                decoration: BoxDecoration(
+                    color: kWhite,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: kBorder)),
+                child: Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: controller.dataArgument!.variants?.image ?? '',
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          color: kSofterGrey,
+                          borderRadius: AppStyle.borderRadius8All,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          const CupertinoActivityIndicator(color: kSoftBlack),
+                      errorWidget: (context, url, error) => Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          color: kSofterGrey,
+                          borderRadius: AppStyle.borderRadius6All,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.error,
+                            color: kPrimaryColor,
+                            size: 18.r,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Gap(8.wr),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            controller.dataArgument!.variants?.name ?? '',
+                            style: text12BlackMedium,
+                            maxLines: 1,
+                          ),
+                          Gap(4.hr),
+                          Row(
+                            children: [
+                              Text(
+                                "${controller.dataArgument!.variants!.promo! > 0 ? controller.dataArgument!.variants?.promo : controller.dataArgument!.variants?.price}"
+                                    .toIdrFormat,
+                                style: text12BlackRegular,
+                              ),
+                              Gap(8.wr),
+                              if (controller.dataArgument!.variants!.promo! > 0)
+                                Text(
+                                  "${controller.dataArgument!.variants?.price}"
+                                      .toIdrFormat,
+                                  style: text10lineThroughRegular,
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           Positioned(
             bottom: 7.hr,
             left: 17.wr,

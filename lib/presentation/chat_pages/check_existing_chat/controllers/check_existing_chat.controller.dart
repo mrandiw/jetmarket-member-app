@@ -12,7 +12,7 @@ class CheckExistingChatController extends GetxController {
   CheckExistingChatController(this._chatRepository);
   CheckExisting? checkExisting;
   Seller? seller;
-  // Variants? variants;
+  Variants? variants;
   int? productId;
   ChatRoomArgument? dataArgument;
 
@@ -38,6 +38,7 @@ class CheckExistingChatController extends GetxController {
           name: response.result?.chat?.name ?? '',
           createdAt: response.result?.chat?.createdAt ?? '',
           unreadCount: response.result?.chat?.unreadCount ?? 0,
+          variants: variants,
         );
         Get.offNamed(Routes.DETAIL_CHAT, arguments: dataArgument);
       }
@@ -64,6 +65,7 @@ class CheckExistingChatController extends GetxController {
         name: response.result?.name ?? '',
         createdAt: response.result?.createdAt ?? '',
         unreadCount: response.result?.unreadCount ?? 0,
+        // variants: variants,
       );
       createDocument(response.result?.id ?? 0);
     }
@@ -80,6 +82,7 @@ class CheckExistingChatController extends GetxController {
     checkExisting = Get.arguments[0];
     seller = Get.arguments[1];
     productId = Get.arguments[2];
+    variants = Get.arguments[3];
     checkExistingChat();
   }
 
