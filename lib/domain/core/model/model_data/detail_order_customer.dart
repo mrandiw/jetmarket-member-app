@@ -13,6 +13,7 @@ class DetailOrderCustomer {
   int? totalPrice;
   int? totalOngkir;
   int? totalAmount;
+  int? totalDiscount;
 
   DetailOrderCustomer(
       {this.id,
@@ -27,7 +28,8 @@ class DetailOrderCustomer {
       this.products,
       this.paymentMethod,
       this.totalPrice,
-      this.totalOngkir});
+      this.totalOngkir,
+      this.totalDiscount});
 
   DetailOrderCustomer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -53,6 +55,7 @@ class DetailOrderCustomer {
     totalPrice = json['total_price'];
     totalOngkir = json['total_ongkir'];
     totalAmount = json['total_amount'];
+    totalDiscount = json['total_discount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +82,7 @@ class DetailOrderCustomer {
     data['total_price'] = totalPrice;
     data['total_ongkir'] = totalOngkir;
     data['total_amount'] = totalAmount;
+    data['total_discount'] = totalDiscount;
     return data;
   }
 }

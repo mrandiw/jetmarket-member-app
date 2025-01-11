@@ -42,6 +42,16 @@ class PaymentMethode extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text('Diskon', style: text12BlackRegular),
+                Text(
+                    '${controller.detailBillPaylater?.totalOngkir}'.toIdrFormat,
+                    style: text12BlackMedium),
+              ],
+            ),
+            Gap(8.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Text('Total Ongkos Kirim', style: text12BlackRegular),
                 Text(
                     '${controller.detailBillPaylater?.totalOngkir}'.toIdrFormat,

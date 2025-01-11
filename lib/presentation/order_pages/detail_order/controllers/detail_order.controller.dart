@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
 import 'package:jetmarket/presentation/main_pages/controllers/main_pages.controller.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../../domain/core/model/model_data/detail_order_customer.dart';
 import '../../../../infrastructure/dal/repository/notification_repository_impl.dart';
@@ -17,6 +20,8 @@ import '../../../../utils/network/action_status.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../../../../utils/network/status_response.dart';
 import '../../order/controllers/order.controller.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class DetailOrderController extends GetxController {
   final OrderRepository _orderRepository;
@@ -196,6 +201,137 @@ class DetailOrderController extends GetxController {
         textAlign: TextAlign.center,
       ),
     ));
+  }
+
+  Future<File> generateInvoicePdf() async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Expanded(
+                    child: pw.Text(
+                      'Jetmarket',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    children: [
+                      pw.Text(
+                        'Invoice',
+                        style: pw.TextStyle(
+                          fontSize: 20,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      // pw.Text(
+                      //   detailOrderCustomer?.refId ?? '-',
+                      //   style: const pw.TextStyle(fontSize: 12),
+                      // ),
+                    ],
+                  )
+                ],
+              ),
+              pw.SizedBox(height: 20),
+              pw.Text(
+                'Diterbitkan atas nama'.toUpperCase(),
+                style: const pw.TextStyle(fontSize: 12),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Text('Pembeli: ${detailOrderCustomer?.customerName ?? ''}',
+                  style: const pw.TextStyle(fontSize: 14)),
+              pw.Text(
+                  'Waktu Pemesanan: ${detailOrderCustomer!.createdAt != null && detailOrderCustomer?.createdAt != null ? detailOrderCustomer?.createdAt : '-'}',
+                  style: const pw.TextStyle(fontSize: 14)),
+              pw.Text(
+                  'Waktu Pembayaran: ${detailOrderCustomer!.paymentMethod != null && detailOrderCustomer?.paymentMethod!.createdAt != null ? detailOrderCustomer?.paymentMethod!.createdAt : '-'}',
+                  style: const pw.TextStyle(fontSize: 14)),
+              pw.SizedBox(height: 20),
+              pw.Text(
+                'Info Pengiriman'.toUpperCase(),
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.Text(
+                  '${detailOrderCustomer?.delivery?.serviceCode} - ${detailOrderCustomer?.delivery?.serviceName}',
+                  style: const pw.TextStyle(fontSize: 14)),
+              pw.Text(
+                'Alamat Pengiriman: ${detailOrderCustomer?.address?.address}',
+                style: const pw.TextStyle(fontSize: 12),
+              ),
+              pw.SizedBox(height: 20),
+              pw.Table(
+                border: pw.TableBorder.all(),
+                children: [
+                  pw.TableRow(children: [
+                    pw.Text('INFO PRODUK',
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                    pw.Text('JUMLAH',
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                    pw.Text('HARGA',
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ]),
+                  ...List.generate(
+                    detailOrderCustomer?.products?.length ?? 0,
+                    (index) {
+                      final obj = detailOrderCustomer?.products?[index];
+                      return pw.TableRow(
+                        children: [
+                          pw.Text(obj?.name ?? ''),
+                          pw.Text((obj?.quantity ?? 0).toString()),
+                          pw.Text(((obj?.price ?? 0) * (obj?.quantity ?? 0))
+                              .toString()),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 20),
+              pw.Text(
+                  'SUBTOTAL HARGA: ${(detailOrderCustomer?.totalAmount ?? 0).toString().toIdrFormat}',
+                  style: const pw.TextStyle(fontSize: 12)),
+              pw.Text(
+                  'Kupon Diskon: -${(detailOrderCustomer?.totalDiscount ?? 0).toString().toIdrFormat}',
+                  style: const pw.TextStyle(fontSize: 12)),
+              pw.Text(
+                  'Total Ongkos Kirim: ${(detailOrderCustomer?.totalOngkir ?? 0).toString().toIdrFormat}',
+                  style: const pw.TextStyle(fontSize: 12)),
+              pw.SizedBox(height: 20),
+              pw.Text(
+                'TOTAL TAGIHAN: ${(detailOrderCustomer?.totalPrice ?? 0)}',
+                style:
+                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+              ),
+              pw.Divider(),
+              pw.Text(
+                'Metode Pembayaran: ${(detailOrderCustomer?.paymentMethod?.chType ?? '')} - ${detailOrderCustomer?.paymentMethod?.chCode}',
+                style:
+                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/invoice.pdf');
+    await file.writeAsBytes(await pdf.save());
+    return file;
   }
 
   @override

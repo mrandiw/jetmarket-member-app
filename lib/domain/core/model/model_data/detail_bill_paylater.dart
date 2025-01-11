@@ -11,20 +11,23 @@ class DetailBillPaylater {
   int? totalAmount;
   int? totalOngkir;
   int? totalPrice;
+  int? totalDiscount;
 
-  DetailBillPaylater(
-      {this.address,
-      this.createdAt,
-      this.customerName,
-      this.delivery,
-      this.id,
-      this.paymentMethod,
-      this.products,
-      this.refId,
-      this.status,
-      this.totalAmount,
-      this.totalOngkir,
-      this.totalPrice});
+  DetailBillPaylater({
+    this.address,
+    this.createdAt,
+    this.customerName,
+    this.delivery,
+    this.id,
+    this.paymentMethod,
+    this.products,
+    this.refId,
+    this.status,
+    this.totalAmount,
+    this.totalOngkir,
+    this.totalPrice,
+    this.totalDiscount,
+  });
 
   DetailBillPaylater.fromJson(Map<String, dynamic> json) {
     address =
@@ -48,6 +51,7 @@ class DetailBillPaylater {
     totalAmount = json['total_amount'];
     totalOngkir = json['total_ongkir'];
     totalPrice = json['total_price'];
+    totalDiscount = json['total_discount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -72,6 +76,7 @@ class DetailBillPaylater {
     data['total_amount'] = totalAmount;
     data['total_ongkir'] = totalOngkir;
     data['total_price'] = totalPrice;
+    data['total_discount'] = totalDiscount;
     return data;
   }
 }

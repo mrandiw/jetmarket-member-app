@@ -36,8 +36,12 @@ class ProductDetailSection extends StatelessWidget {
                   Gap(12.w),
                   Visibility(
                       visible: controller.selectedVariant != null
-                          ? controller.selectedVariant?.promo != 0
-                          : controller.detailProduct?.variants?[0].promo != 0,
+                          ? controller.selectedVariant?.promo != 0 &&
+                              !(controller.selectedVariant!.promo ==
+                                  controller.selectedVariant?.price)
+                          : (controller.detailProduct?.variants?[0].promo != 0) &&
+                              !(controller.detailProduct?.variants?[0].promo ==
+                                  controller.detailProduct?.variants?[0].price),
                       child: Text(
                           '${controller.selectedVariant != null ? controller.selectedVariant?.price : controller.detailProduct?.variants?[0].price}'
                               .toIdrFormat,

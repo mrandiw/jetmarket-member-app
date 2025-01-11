@@ -71,8 +71,9 @@ class ReviewSection extends StatelessWidget {
                                   '',
                               imageBuilder: (context, imageProvider) =>
                                   GestureDetector(
-                                onTap: () =>
-                                    controller.previewImage(imageProvider),
+                                onTap: () => controller.previewImage(controller
+                                        .productReviewCustomer[index].image ??
+                                    ''),
                                 child: Container(
                                   height: 70.h,
                                   width: 75.w,

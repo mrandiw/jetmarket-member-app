@@ -8,6 +8,7 @@ import 'package:jetmarket/domain/core/model/params/cart/cart_body.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
+import 'package:jetmarket/presentation/home_pages/detail_product/widgets/photo_view_custom.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/network/action_status.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
@@ -134,9 +135,11 @@ class DetailProductController extends GetxController {
     update();
   }
 
-  void previewImage(ImageProvider<Object> imageProvider) {
-    showImageViewer(Get.context!, imageProvider,
-        swipeDismissible: true, doubleTapZoomable: true);
+  void previewImage(String url) {
+    // showImageViewer(Get.context!, imageProvider,
+    //     swipeDismissible: true, doubleTapZoomable: true);
+    Get.to(() => PhotoViewCustom(url: url));
+
   }
 
   void toDetailStore(int sellerId) {
