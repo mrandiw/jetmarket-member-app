@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/model/model_data/cart_product.dart' as c;
 import 'package:jetmarket/domain/core/model/params/cart/cart_body.dart';
+import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
@@ -36,6 +37,8 @@ class DetailProductController extends GetxController {
 
   DetailProduct? detailProduct;
   List<ProductReviewCustomer> productReviewCustomer = [];
+
+  final cartCount = 0.obs;
 
   setData(
       {required DetailProduct detail,
@@ -105,6 +108,7 @@ class DetailProductController extends GetxController {
           messageText: Text('Berhasil ditambahkan ke keranjang',
               style: text12WhiteRegular),
         ));
+        getCountChart();
       } else {
         actionAddToCart(ActionStatus.failed);
         Get.showSnackbar(GetSnackBar(
@@ -147,6 +151,21 @@ class DetailProductController extends GetxController {
 
   void toCartProduct() {
     Get.toNamed(Routes.CART);
+  }
+
+  Future<void> getCountChart() async {
+    final customer = AppPreference().getUserData();
+    try {
+      var param = CartProductParam(
+          customerId: customer?.user?.id ?? 0, page: 1, size: 1000);
+      final response = await _cartRepository.getCartProduct(param);
+
+      final totalProducts = response.result
+          ?.map((e) => e.products!.length)
+          .fold(0, (sum, length) => sum + length);
+
+      cartCount.value = totalProducts ?? 0;
+    } finally {}
   }
 
   void buyProduct() {
@@ -213,6 +232,7 @@ class DetailProductController extends GetxController {
   void onInit() {
     getData(Get.arguments[0]);
     deeplinkArgument = null;
+    getCountChart();
 
     super.onInit();
   }

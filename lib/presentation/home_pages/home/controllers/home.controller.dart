@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/domain/core/interfaces/cart_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/product_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/category_product.dart';
 import 'package:jetmarket/domain/core/model/model_data/product.dart';
+import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -20,7 +23,8 @@ import '../widget/filter_product.dart';
 
 class HomeController extends GetxController {
   final ProductRepository _productRepository;
-  HomeController(this._productRepository);
+  final CartRepository _cartRepository;
+  HomeController(this._productRepository, this._cartRepository);
   TextEditingController searchController = TextEditingController();
   var screenStatus = (ScreenStatus.success).obs;
   var isHomeScreen = true.obs;
@@ -329,11 +333,27 @@ class HomeController extends GetxController {
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
+  Future<int> getCountChart() async {
+    final customer = AppPreference().getUserData();
+    try {
+      var param = CartProductParam(
+          customerId: customer?.user?.id ?? 0, page: 1, size: 1000);
+      final response = await _cartRepository.getCartProduct(param);
+
+      final totalProducts = response.result
+          ?.map((e) => e.products!.length)
+          .fold(0, (sum, length) => sum + length);
+
+      return totalProducts ?? 0;
+    } finally {}
+  }
+
   @override
   void onInit() {
     getBanner();
     getCategoryProduct();
     getPopularProduct();
+    getCountChart();
     pagingController = PagingController(firstPageKey: 1);
     pagingPopularController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((page) {

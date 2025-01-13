@@ -9,6 +9,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/account_pages/account/controllers/account.controller.dart';
+import 'package:jetmarket/presentation/home_pages/home/controllers/home.controller.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 
@@ -28,14 +29,25 @@ AppBar get appBarHome {
       );
     }),
     actions: [
-      GestureDetector(
-        onTap: () => Get.toNamed(Routes.CART),
-        child: SvgPicture.asset(
-          cart,
-          // height: 14.wr,
-          // fit: BoxFit.fitHeight,
-        ),
-      ),
+      GetBuilder<HomeController>(builder: (homeController) {
+        return GestureDetector(
+          onTap: () => Get.toNamed(Routes.CART),
+          child: FutureBuilder(
+            future: homeController.getCountChart(),
+            builder: (context, snapshot) {
+              return Badge.count(
+                count: snapshot.hasData ? snapshot.data ?? 0 : 0,
+                isLabelVisible: (snapshot.data ?? 0) > 0 ? true : false,
+                child: SvgPicture.asset(
+                  cart,
+                  // height: 14.wr,
+                  // fit: BoxFit.fitHeight,
+                ),
+              );
+            },
+          ),
+        );
+      }),
       Gap(10.w),
       GestureDetector(
         onTap: () => Get.toNamed(Routes.NOTIFICATION),

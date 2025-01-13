@@ -102,20 +102,24 @@ class HeaderSection extends StatelessWidget {
                     const Spacer(),
                     GestureDetector(
                       onTap: () => controller.toCartProduct(),
-                      child: Container(
-                        height: 34.hr,
-                        width: 34.hr,
-                        decoration: BoxDecoration(
-                            borderRadius: AppStyle.borderRadius6All,
-                            color: kSofterGrey),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            cartLine,
-                            colorFilter:
-                                const ColorFilter.mode(kBlack, BlendMode.srcIn),
-                          ),
-                        ),
-                      ),
+                      child: Obx(() => Badge.count(
+                            count: controller.cartCount.value,
+                            isLabelVisible: controller.cartCount > 0,
+                            child: Container(
+                              height: 34.hr,
+                              width: 34.hr,
+                              decoration: BoxDecoration(
+                                  borderRadius: AppStyle.borderRadius6All,
+                                  color: kSofterGrey),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  cartLine,
+                                  colorFilter: const ColorFilter.mode(
+                                      kBlack, BlendMode.srcIn),
+                                ),
+                              ),
+                            ),
+                          )),
                     ),
                     Gap(12.w),
                     GestureDetector(
