@@ -99,7 +99,10 @@ class MessageSection extends StatelessWidget {
                                 style: text12BlackRegular,
                               ),
                               Gap(8.wr),
-                              if (controller.dataArgument!.variants!.promo! > 0)
+                              if (controller.dataArgument!.variants!.promo! >
+                                      0 &&
+                                  controller.dataArgument!.variants!.promo! !=
+                                      controller.dataArgument!.variants!.price!)
                                 Text(
                                   "${controller.dataArgument!.variants?.price}"
                                       .toIdrFormat,

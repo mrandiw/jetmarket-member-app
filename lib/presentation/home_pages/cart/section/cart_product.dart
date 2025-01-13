@@ -163,11 +163,12 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Gap(12.w),
-                            Text(
-                              "${data?.price}".toIdrFormat,
-                              style: text10lineThroughRegular,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            if (data?.price != data?.promo)
+                              Text(
+                                "${data?.price}".toIdrFormat,
+                                style: text10lineThroughRegular,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                           ],
                         ),
                         Gap(6.h),

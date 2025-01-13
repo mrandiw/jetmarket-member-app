@@ -403,7 +403,9 @@ class ItemChat extends StatelessWidget {
                               Gap(8.wr),
                               if (data.pinnedProduct != null &&
                                   data.pinnedProduct?.promo != null &&
-                                  data.pinnedProduct!.promo! > 0)
+                                  data.pinnedProduct!.promo! > 0 &&
+                                  data.pinnedProduct!.promo !=
+                                      data.pinnedProduct!.price)
                                 Text(
                                   "${data.pinnedProduct?.price}".toIdrFormat,
                                   style: text10lineThroughRegular,
