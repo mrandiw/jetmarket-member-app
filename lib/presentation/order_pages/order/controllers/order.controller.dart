@@ -185,7 +185,8 @@ class OrderController extends GetxController
     } else if (data.status == "CANCELLED_BY_COURIER" ||
         data.status == "CANCELLED_BY_SELLER" ||
         data.status == "CANCELLED_BY_SYSTEM" ||
-        data.status == "CANCELLED_BY_CUSTOMER") {
+        data.status == "CANCELLED_BY_CUSTOMER" ||
+        data.status == 'REVIEWED') {
       Get.toNamed(Routes.REORDER, arguments: [data.id]);
     } else {}
   }

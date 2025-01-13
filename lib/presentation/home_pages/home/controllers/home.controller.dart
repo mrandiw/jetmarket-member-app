@@ -320,6 +320,7 @@ class HomeController extends GetxController {
         pagingPopularController.refresh();
       }
       getCategoryProduct();
+      getCountChart();
     });
     refreshController.refreshCompleted();
   }

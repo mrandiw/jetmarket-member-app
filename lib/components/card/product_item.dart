@@ -135,7 +135,7 @@ class ProductItem extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: text14SuccessSemiBold),
                         ),
-                        item.promo != 0
+                        item.promo != 0 && item.promo != item.price
                             ? Expanded(
                                 flex: 4,
                                 child: Align(

@@ -235,6 +235,8 @@ class OrderCard extends StatelessWidget {
         return 'Sedang dikirim ke alamat pengembalian';
       case "WAITING_REFUND_DELIVERY":
         return 'Menunggu Pengembalian Barang';
+      case "REVIEWED":
+        return 'Selesai';
       default:
         return 'Pengembalian Barang & Dana Selesai';
     }
