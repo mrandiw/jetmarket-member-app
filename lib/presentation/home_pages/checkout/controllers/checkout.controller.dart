@@ -86,6 +86,7 @@ class CheckoutController extends GetxController {
       voucherId,
       address?.personPhone,
       totalPrice.toInt(),
+      ((totalPrice * discount) - discountPrice).toInt(),
       dataOrder
     ]);
 

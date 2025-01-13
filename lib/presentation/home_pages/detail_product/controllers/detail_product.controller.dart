@@ -214,7 +214,7 @@ class DetailProductController extends GetxController {
   }
 
   void shareProduct() async {
-    final String deeplink = await DeeplinkService.createLink(
+    final String deeplink = DeeplinkService.createDeepLink(
         code: '${detailProduct?.id}', type: DeeplinkType.product);
     await Share.share(deeplink, subject: 'Look what I made!');
   }

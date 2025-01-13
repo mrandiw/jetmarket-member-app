@@ -65,56 +65,61 @@ class ReviewSection extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (_, index) => CachedNetworkImage(
-                              imageUrl: controller
-                                      .productReviewCustomer[index].image ??
-                                  '',
-                              imageBuilder: (context, imageProvider) =>
-                                  GestureDetector(
-                                onTap: () => controller.previewImage(controller
+                        itemBuilder: (_, index) => controller
+                                    .productReviewCustomer[index].image !=
+                                null
+                            ? CachedNetworkImage(
+                                imageUrl: controller
                                         .productReviewCustomer[index].image ??
-                                    ''),
-                                child: Container(
+                                    '',
+                                imageBuilder: (context, imageProvider) =>
+                                    GestureDetector(
+                                  onTap: () => controller.previewImage(
+                                      controller.productReviewCustomer[index]
+                                              .image ??
+                                          ''),
+                                  child: Container(
+                                    height: 70.h,
+                                    width: 75.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: AppStyle.borderRadius8All,
+                                      color: kSofterGrey,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) => SizedBox(
+                                  height: 70.h,
+                                  width: 75.w,
+                                  child: const Center(
+                                    child: CupertinoActivityIndicator(
+                                        color: kSoftBlack),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Container(
                                   height: 70.h,
                                   width: 75.w,
                                   decoration: BoxDecoration(
-                                    borderRadius: AppStyle.borderRadius8All,
-                                    color: kSofterGrey,
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
+                                      borderRadius: AppStyle.borderRadius8All),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: AppStyle.borderRadius8All,
+                                      color: kSofterGrey,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.error,
+                                        color: kPrimaryColor,
+                                        size: 20.r,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              placeholder: (context, url) => SizedBox(
-                                height: 70.h,
-                                width: 75.w,
-                                child: const Center(
-                                  child: CupertinoActivityIndicator(
-                                      color: kSoftBlack),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                height: 70.h,
-                                width: 75.w,
-                                decoration: BoxDecoration(
-                                    borderRadius: AppStyle.borderRadius8All),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: AppStyle.borderRadius8All,
-                                    color: kSofterGrey,
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.error,
-                                      color: kPrimaryColor,
-                                      size: 20.r,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                              )
+                            : const SizedBox(),
                         separatorBuilder: (_, i) => Gap(8.w),
                         itemCount: controller.productReviewCustomer.length >= 4
                             ? 4
@@ -186,57 +191,62 @@ class ReviewSection extends StatelessWidget {
                                                 .rating ??
                                             0.0),
                                     Gap(12.h),
-                                    CachedNetworkImage(
-                                      imageUrl: controller
-                                              .productReviewCustomer[index]
-                                              .image ??
-                                          '',
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        height: 70.h,
-                                        width: 75.w,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              AppStyle.borderRadius8All,
-                                          color: kSofterGrey,
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) => SizedBox(
-                                        height: 70.h,
-                                        width: 75.w,
-                                        child: const Center(
-                                          child: CupertinoActivityIndicator(
-                                              color: kSoftBlack),
-                                        ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Container(
-                                        height: 70.h,
-                                        width: 75.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                AppStyle.borderRadius8All),
-                                        child: Container(
+                                    if (controller.productReviewCustomer[index]
+                                            .image !=
+                                        null) ...[
+                                      CachedNetworkImage(
+                                        imageUrl: controller
+                                                .productReviewCustomer[index]
+                                                .image ??
+                                            '',
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          height: 70.h,
+                                          width: 75.w,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 AppStyle.borderRadius8All,
                                             color: kSofterGrey,
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.error,
-                                              color: kPrimaryColor,
-                                              size: 20.r,
+                                        ),
+                                        placeholder: (context, url) => SizedBox(
+                                          height: 70.h,
+                                          width: 75.w,
+                                          child: const Center(
+                                            child: CupertinoActivityIndicator(
+                                                color: kSoftBlack),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          height: 70.h,
+                                          width: 75.w,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  AppStyle.borderRadius8All),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  AppStyle.borderRadius8All,
+                                              color: kSofterGrey,
+                                            ),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.error,
+                                                color: kPrimaryColor,
+                                                size: 20.r,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Gap(12.h),
+                                      Gap(12.h)
+                                    ],
                                     Text(
                                         controller.productReviewCustomer[index]
                                                 .text ??

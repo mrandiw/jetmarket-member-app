@@ -25,8 +25,8 @@ class AppConfig {
       name: 'jetmarket',
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await DeeplinkService.getLink();
-    await DeeplinkService.getInitialLink();
+    //  DeeplinkService.getLink();
+    DeeplinkService.initDeepLinkListener();
     await FirebaseService.getInitialMessage();
     await FirebaseService().initNotification();
     await AppPreference.init();

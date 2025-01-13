@@ -3,6 +3,7 @@ class OrderCustomerModel {
   int? voucherId;
   String? mobileNumber;
   int? totalAmount;
+  int? totalDiscount;
   String? chType;
   String? chCode;
   List<Items>? items;
@@ -12,6 +13,7 @@ class OrderCustomerModel {
       this.voucherId,
       this.mobileNumber,
       this.totalAmount,
+      this.totalDiscount,
       this.chType,
       this.chCode,
       this.items});
@@ -21,6 +23,7 @@ class OrderCustomerModel {
     voucherId = json['voucher_id'];
     mobileNumber = json['mobile_number'];
     totalAmount = json['total_amount'];
+    totalDiscount = json['total_discount'];
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -35,6 +38,7 @@ class OrderCustomerModel {
     data['voucher_id'] = voucherId;
     data['mobile_number'] = mobileNumber;
     data['total_amount'] = totalAmount;
+    data['total_discount'] = totalDiscount;
     data['ch_type'] = chType;
     data['ch_code'] = chCode;
     if (items != null) {

@@ -193,12 +193,14 @@ class ChoicePaymentController extends GetxController {
   }
 
   setDataArgument() {
-    List<dynamic> items = Get.arguments[4]['items'];
+    print('ini ${Get.arguments[4]}');
+    List<dynamic> items = Get.arguments[5]['items'];
     orderCustomer = OrderCustomerModel(
         addressId: Get.arguments[0],
         voucherId: Get.arguments[1],
         mobileNumber: Get.arguments[2],
         totalAmount: Get.arguments[3],
+        totalDiscount: Get.arguments[4],
         chCode: selectedchCode,
         chType: selectedchType,
         items: items.map((e) => Items.fromJson(e)).toList());
