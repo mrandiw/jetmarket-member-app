@@ -18,17 +18,19 @@ AppBar appBarDetailOrder(DetailOrderController controller) {
     ),
     title: Text('Detail Order', style: text16BlackSemiBold),
     actions: [
-      IconButton(
-        onPressed: () async {
-          final file = await controller.generateInvoicePdf();
+      if (!(controller.detailOrderCustomer?.status?.startsWith('CANCELLED') ??
+          false))
+        IconButton(
+          onPressed: () async {
+            final file = await controller.generateInvoicePdf();
 
-          Get.to(() => InvoicePreview(file: file));
-        },
-        icon: const Icon(
-          Icons.print,
-          color: Colors.black,
-        ),
-      )
+            Get.to(() => InvoicePreview(file: file));
+          },
+          icon: const Icon(
+            Icons.print,
+            color: Colors.black,
+          ),
+        )
     ],
   );
 }

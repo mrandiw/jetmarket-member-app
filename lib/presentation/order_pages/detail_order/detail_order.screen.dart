@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/section/app_bar_section.dart';
 import 'package:jetmarket/presentation/order_pages/detail_order/section/info_delivery.dart';
 
@@ -43,7 +44,21 @@ class DetailOrderScreen extends GetView<DetailOrderController> {
             ),
             InfoDelivery(controller: controller),
             DetailProduct(controller: controller),
-            PaymentMethode(controller: controller)
+            PaymentMethode(controller: controller),
+            if (controller.detailOrderCustomer?.status?.contains('CANCELLED') ??
+                false)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Alasan Pembatalan', style: text14BlackMedium),
+                      Text(
+                        controller.detailOrderCustomer?.reason ?? '-',
+                        style: text14BlackRegular,
+                      )
+                    ]),
+              )
           ],
         ),
         bottomNavigationBar: FooterSection(

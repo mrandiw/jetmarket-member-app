@@ -78,8 +78,8 @@ class ProductBycategoryController extends GetxController {
       var param = ProductSellerParam(
           page: pageKey,
           size: _pageSize,
-          // sellerId: sellerId,
-          sellerId: 1,
+          sellerId: sellerId,
+          // sellerId: 1,
           categoryId: selectedCategoryProduct?.id);
       final response = await _productRepository.getProductBySeller(param);
       final isLastPage = response.result!.length < _pageSize;
