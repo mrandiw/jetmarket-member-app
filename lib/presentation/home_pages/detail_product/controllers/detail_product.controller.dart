@@ -183,6 +183,7 @@ class DetailProductController extends GetxController {
                   (index) => c.Products(
                         cartId: 0,
                         name: detailProduct?.name,
+                        variantName: selectedVariant?.name,
                         variantId: selectedVariant?.id,
                         price: selectedVariant?.price,
                         thumbnail: selectedVariant?.image,

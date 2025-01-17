@@ -8,6 +8,7 @@ import 'controllers/checkout.controller.dart';
 import 'section/address_section.dart';
 import 'section/app_bar_section.dart';
 import 'section/footer_section.dart';
+import 'section/payment_section.dart';
 import 'section/product_section.dart';
 import 'section/voucher_section.dart';
 
@@ -26,7 +27,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
             children: const [
               AddressSection(),
               ProductSection(),
-              VoucherSection()
+              VoucherSection(),
+              PaymentSection()
             ],
           ),
           bottomNavigationBar: const FooterSection(),

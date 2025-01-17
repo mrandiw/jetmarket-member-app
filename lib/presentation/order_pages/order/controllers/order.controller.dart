@@ -168,8 +168,13 @@ class OrderController extends GetxController
     // update();
   }
 
-  void toDetailOrder(int id) {
-    Get.toNamed(Routes.DETAIL_ORDER, arguments: [id, null, null, null]);
+  void toDetailOrder(int id) async {
+    final result = await Get.toNamed(Routes.DETAIL_ORDER,
+        arguments: [id, null, null, null]);
+
+    if (result != null) {
+      refreshData();
+    }
   }
 
   void actionOrder(OrderProductModel data) {
@@ -249,17 +254,19 @@ class OrderController extends GetxController
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    tabController.dispose();
-    pagingController.dispose();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   tabController.dispose();
+  //   pagingController.dispose();
 
-  @override
-  void dispose() {
-    tabController.dispose();
-    pagingController.dispose();
-    super.dispose();
-  }
+  //   super.onClose();
+  // }
+
+  // @override
+  // void dispose() {
+  //   tabController.dispose();
+  //   pagingController.dispose();
+
+  //   super.dispose();
+  // }
 }

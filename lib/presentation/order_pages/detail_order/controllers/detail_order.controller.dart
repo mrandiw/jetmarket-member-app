@@ -125,7 +125,8 @@ class DetailOrderController extends GetxController {
   }
 
   Future<void> receiveOrder() async {
-    Get.back();
+    Get.back(result: true);
+    Get.back(result: true);
     actionButton = ActionStatus.loading;
     update();
     final response =

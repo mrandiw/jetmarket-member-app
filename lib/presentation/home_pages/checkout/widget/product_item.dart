@@ -74,7 +74,8 @@ class ProductItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(data?.name ?? '', style: text12BlackRegular),
+                  Text('${data?.name ?? ''} - ${data?.variantName ?? ''}',
+                      style: text12BlackRegular),
                   if (data?.promo != null &&
                       data?.promo != 0 &&
                       (data?.promo != data?.price))

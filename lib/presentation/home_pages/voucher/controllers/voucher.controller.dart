@@ -79,14 +79,14 @@ class VoucherController extends GetxController {
       String nominal =
           selectedVoucherClaim?.discount?.replaceAll('Rp', '') ?? '';
       double discountPrice = double.parse(nominal);
-      controller.discount = 0.0;
-      controller.discountPrice = discountPrice;
+      controller.discount.value = 0.0;
+      controller.discountPrice.value = discountPrice;
     } else {
       // Potongan Cashback
       double discount =
           (selectedVoucherClaim?.discount ?? '').parsePercentageToDouble;
-      controller.discountPrice = 0.0;
-      controller.discount = discount;
+      controller.discountPrice.value = 0.0;
+      controller.discount.value = discount;
     }
     controller.voucherId = selectedVoucherClaim?.id;
     controller.updateTotalPrice();

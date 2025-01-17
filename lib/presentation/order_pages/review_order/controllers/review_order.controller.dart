@@ -123,7 +123,7 @@ class ReviewOrderController extends GetxController {
         body: List.generate(
             reviewController.length,
             (index) => BodyDataReview(
-                  orderItemId: Get.arguments[0],
+                  orderItemId: productReview[index].orderItemId,
                   productId: productReview[index].productId,
                   rating: selectedRating[index],
                   review: reviewController[index].text,

@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
-import 'package:jetmarket/infrastructure/navigation/routes.dart';
 
 import '../../../components/button/app_button.dart';
 import '../../../infrastructure/theme/app_colors.dart';
@@ -46,7 +45,7 @@ class PayletterSuccessScreen extends GetView<PayletterSuccessController> {
                 Gap(4.h),
                 AppButton.secondary(
                   text: 'Kembali ke Home',
-                  onPressed: () => Get.offAllNamed(Routes.MAIN_PAGES),
+                  onPressed: () => controller.backtoMerchent(),
                 )
               ],
             ),

@@ -32,10 +32,10 @@ class CheckoutController extends GetxController {
   List<ExpansionTileController> excontroller = [];
   List<List<bool>> isWriteNote = [];
   AddressModel? address;
-  double totalPrice = 0.0;
-  double totalPriceWithoutVoucher = 0.0;
-  double discount = 0.0;
-  double discountPrice = 0.0;
+  RxDouble totalPrice = 0.0.obs;
+  RxDouble totalPriceWithoutVoucher = 0.0.obs;
+  RxDouble discount = 0.0.obs;
+  RxDouble discountPrice = 0.0.obs;
   int? voucherId;
   String? selectedVouchername;
   bool isLoadingDelivery = false;
@@ -57,23 +57,25 @@ class CheckoutController extends GetxController {
   }
 
   void updateTotalPrice() {
-    totalPrice = 0.0;
-    totalPriceWithoutVoucher = 0.0;
+    totalPrice.value = 0.0;
+    totalPriceWithoutVoucher.value = 0.0;
     for (c.CartProduct item in productCart) {
       for (c.Products product in item.products ?? []) {
         final total = product.promo != null && product.promo != 0
             ? (product.promo ?? 0)
             : (product.price ?? 0);
-        totalPrice += total * (product.qty ?? 0);
-        totalPriceWithoutVoucher += total * (product.qty ?? 0);
+        totalPrice.value += total * (product.qty ?? 0);
+        totalPriceWithoutVoucher.value += total * (product.qty ?? 0);
       }
     }
     for (d.SelectDelivery item in selectedDelivery) {
-      totalPrice += item.packets?.rate ?? 0;
-      totalPriceWithoutVoucher += item.packets?.rate ?? 0;
+      totalPrice.value += item.packets?.rate ?? 0;
+      totalPriceWithoutVoucher.value += item.packets?.rate ?? 0;
     }
-    totalPrice = totalPrice - (totalPrice * discount) - discountPrice;
-    totalPriceWithoutVoucher = totalPriceWithoutVoucher;
+    totalPrice.value = totalPrice.value -
+        (totalPrice.value * discount.value) -
+        discountPrice.value;
+    totalPriceWithoutVoucher.value = totalPriceWithoutVoucher.value;
     update();
   }
 
@@ -85,8 +87,8 @@ class CheckoutController extends GetxController {
       address?.id,
       voucherId,
       address?.personPhone,
-      totalPrice.toInt(),
-      ((totalPrice * discount) - discountPrice).toInt(),
+      totalPrice.value.toInt(),
+      ((totalPrice.value * discount.value) - discountPrice.value).toInt(),
       dataOrder
     ]);
 
