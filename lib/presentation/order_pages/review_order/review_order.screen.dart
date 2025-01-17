@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/order_pages/review_order/section/list_product_section.dart';
+import 'package:jetmarket/presentation/order_pages/review_order/section/list_product_show_section.dart';
 
 import '../../../components/loading/load_pages.dart';
 import '../../../components/parent/parent_scaffold.dart';
@@ -35,8 +36,12 @@ class ReviewOrderScreen extends GetView<ReviewOrderController> {
       child: Scaffold(
         appBar: appBarDetailOrderReview,
         backgroundColor: kWhite,
-        body: ListProductSection(controller: controller),
-        bottomNavigationBar: ButtonSection(controller: controller),
+        body: Get.arguments[1] == 'show-review'
+            ? ListProductShowSection(controller: controller)
+            : ListProductSection(controller: controller),
+        bottomNavigationBar: Get.arguments[1] == 'show-review'
+            ? const SizedBox()
+            : ButtonSection(controller: controller),
       ),
     );
   }

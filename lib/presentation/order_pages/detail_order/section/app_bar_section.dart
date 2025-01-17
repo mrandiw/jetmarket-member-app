@@ -18,8 +18,8 @@ AppBar appBarDetailOrder(DetailOrderController controller) {
     ),
     title: Text('Detail Order', style: text16BlackSemiBold),
     actions: [
-      if (!(controller.detailOrderCustomer?.status?.startsWith('CANCELLED') ??
-          false))
+      if (controller.detailOrderCustomer?.status == 'REVIEWED' ||
+          controller.detailOrderCustomer?.status == 'FINISHED')
         IconButton(
           onPressed: () async {
             final file = await controller.generateInvoicePdf();

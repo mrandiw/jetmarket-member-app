@@ -1,3 +1,5 @@
+import 'package:jetmarket/domain/core/model/model_data/order_product_model.dart';
+
 class ProductReviewModel {
   int? id;
   int? orderItemId;
@@ -6,6 +8,7 @@ class ProductReviewModel {
   int? quantity;
   int? price;
   int? productId;
+  Review? review;
 
   ProductReviewModel(
       {this.id,
@@ -24,6 +27,7 @@ class ProductReviewModel {
     quantity = json['quantity'];
     price = json['price'];
     productId = json['product_id'];
+    review = json['review'] != null ? Review.fromJson(json['review']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +38,9 @@ class ProductReviewModel {
     data['name'] = name;
     data['quantity'] = quantity;
     data['price'] = price;
+    if (review != null) {
+      data['review'] = review!.toJson();
+    }
     return data;
   }
 }
