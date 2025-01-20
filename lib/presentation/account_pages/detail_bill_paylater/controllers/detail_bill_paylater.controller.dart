@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_bill_paylater.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/infrastructure/theme/app_colors.dart';
+import 'package:jetmarket/infrastructure/theme/app_text.dart';
 
 import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/interfaces/paylater_repository.dart';
@@ -104,6 +109,38 @@ class DetailBillPaylaterController extends GetxController {
   toChoicePayment() {
     Get.toNamed(Routes.CHOICE_PAYMENT_PAYLATER,
         arguments: [Get.arguments[1], Get.arguments[2]]);
+  }
+
+  void copyAddress(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    HapticFeedback.vibrate();
+    Get.showSnackbar(GetSnackBar(
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+      backgroundColor: kBlack,
+      duration: 2.seconds,
+      borderRadius: 8.r,
+      messageText: Text(
+        'Alamat berhasil disalin',
+        style: text12WhiteRegular,
+        textAlign: TextAlign.center,
+      ),
+    ));
+  }
+
+  void copyResi(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    HapticFeedback.vibrate();
+    Get.showSnackbar(GetSnackBar(
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+      backgroundColor: kBlack,
+      duration: 2.seconds,
+      borderRadius: 8.r,
+      messageText: Text(
+        'No resi berhasil disalin',
+        style: text12WhiteRegular,
+        textAlign: TextAlign.center,
+      ),
+    ));
   }
 
   @override

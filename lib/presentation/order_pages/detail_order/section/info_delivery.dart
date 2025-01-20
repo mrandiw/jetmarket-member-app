@@ -35,6 +35,34 @@ class InfoDelivery extends StatelessWidget {
                         style: text12BlackMedium)),
               ],
             ),
+            if (controller.detailOrderCustomer?.delivery?.trackingId != null &&
+                controller.detailOrderCustomer?.delivery?.trackingId != '') ...[
+              Gap(6.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 6,
+                      child: Row(
+                        children: [
+                          Text('No Resi', style: text12BlackRegular),
+                          Gap(6.w),
+                          GestureDetector(
+                              onTap: () => controller.copyResi(
+                                  '${controller.detailOrderCustomer?.delivery?.trackingId}'),
+                              child: SvgPicture.asset(copy)),
+                        ],
+                      )),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      '${controller.detailOrderCustomer?.delivery?.trackingId}',
+                      style: text12BlackMedium,
+                    ),
+                  ),
+                ],
+              ),
+            ],
             Gap(6.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

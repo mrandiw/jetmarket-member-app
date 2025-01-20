@@ -97,6 +97,7 @@ class Delivery {
   String? serviceName;
   String? serviceCode;
   int? rate;
+  String? trackingId;
 
   Delivery({this.code, this.serviceName, this.serviceCode, this.rate});
 
@@ -105,6 +106,7 @@ class Delivery {
     serviceName = json['service_name'];
     serviceCode = json['service_code'];
     rate = json['rate'];
+    trackingId = json['tracking_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +115,7 @@ class Delivery {
     data['service_name'] = serviceName;
     data['service_code'] = serviceCode;
     data['rate'] = rate;
+    data['tracking_id'] = trackingId;
     return data;
   }
 }

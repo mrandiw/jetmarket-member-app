@@ -143,14 +143,16 @@ class Delivery {
   int? rate;
   String? serviceCode;
   String? serviceName;
+  String? trackingId;
 
-  Delivery({this.code, this.rate, this.serviceCode, this.serviceName});
+  Delivery({this.code, this.rate, this.serviceCode, this.serviceName, this.trackingId});
 
   Delivery.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     rate = json['rate'];
     serviceCode = json['service_code'];
     serviceName = json['service_name'];
+    trackingId = json['tracking_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -159,6 +161,7 @@ class Delivery {
     data['rate'] = rate;
     data['service_code'] = serviceCode;
     data['service_name'] = serviceName;
+    data['tracking_id'] = trackingId;
     return data;
   }
 }

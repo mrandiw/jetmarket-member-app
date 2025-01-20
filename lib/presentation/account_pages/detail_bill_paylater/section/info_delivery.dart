@@ -36,6 +36,36 @@ class InfoDelivery extends StatelessWidget {
                         style: text12BlackMedium)),
               ],
             ),
+            if (controller.detailBillPaylater?.delivery?.trackingId != null &&
+                controller.detailBillPaylater?.delivery?.trackingId != '') ...[
+              Gap(6.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 6,
+                      child: Row(
+                        children: [
+                          Text('No Resi', style: text12BlackRegular),
+                          Gap(6.w),
+                          GestureDetector(
+                              onTap: () => controller.copyResi(controller
+                                      .detailBillPaylater
+                                      ?.delivery
+                                      ?.trackingId ??
+                                  ''),
+                              child: SvgPicture.asset(copy)),
+                        ],
+                      )),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                        '${controller.detailBillPaylater?.delivery?.trackingId}',
+                        style: text12BlackMedium),
+                  ),
+                ],
+              ),
+            ],
             Gap(6.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +76,10 @@ class InfoDelivery extends StatelessWidget {
                       children: [
                         Text('Alamat', style: text12BlackRegular),
                         Gap(6.w),
-                        SvgPicture.asset(copy),
+                        GestureDetector(
+                            onTap: () => controller.copyAddress(
+                                '${controller.detailBillPaylater?.address?.personName} ${controller.detailBillPaylater?.address?.address} ${controller.detailBillPaylater?.address?.posCode}'),
+                            child: SvgPicture.asset(copy)),
                       ],
                     )),
                 Expanded(

@@ -204,6 +204,22 @@ class DetailOrderController extends GetxController {
     ));
   }
 
+  void copyResi(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    HapticFeedback.vibrate();
+    Get.showSnackbar(GetSnackBar(
+      margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 88.h),
+      backgroundColor: kBlack,
+      duration: 2.seconds,
+      borderRadius: 8.r,
+      messageText: Text(
+        'No resi berhasil disalin',
+        style: text12WhiteRegular,
+        textAlign: TextAlign.center,
+      ),
+    ));
+  }
+
   Future<File> generateInvoicePdf() async {
     final pdf = pw.Document();
 
@@ -269,6 +285,11 @@ class DetailOrderController extends GetxController {
               pw.Text(
                   '${detailOrderCustomer?.delivery?.serviceCode} - ${detailOrderCustomer?.delivery?.serviceName}',
                   style: const pw.TextStyle(fontSize: 14)),
+              if (detailOrderCustomer?.delivery?.trackingId != null &&
+                  detailOrderCustomer?.delivery?.trackingId != '') ...[
+                pw.Text('No Resi: ${detailOrderCustomer?.delivery?.trackingId}',
+                    style: const pw.TextStyle(fontSize: 14)),
+              ],
               pw.Text(
                 'Alamat Pengiriman: ${detailOrderCustomer?.address?.address}',
                 style: const pw.TextStyle(fontSize: 12),
