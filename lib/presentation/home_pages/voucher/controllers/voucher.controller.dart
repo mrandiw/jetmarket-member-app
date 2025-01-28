@@ -42,9 +42,11 @@ class VoucherController extends GetxController {
 
   Future<void> checkVoucherCode() async {
     actionClaimStatus = ActionStatus.loading;
+    final checkoutController = Get.find<CheckoutController>();
     update();
     final response = await _productRepository.claimVoucher(
-        code: searchVoucherController.text);
+        code: searchVoucherController.text,
+        totalAmount: checkoutController.totalPriceWithoutVoucher.value.toInt());
     if (response.status == StatusResponse.success) {
       voucherMessage = response.message ?? '';
       selectedVoucher = 99;

@@ -117,38 +117,42 @@ class ReviewOrderController extends GetxController {
   }
 
   Future<void> sendReview() async {
-    actionButton(ActionStatus.loading);
-    var param = ReviewParam(
-        id: Get.arguments[0],
-        body: List.generate(
-            reviewController.length,
-            (index) => BodyDataReview(
-                  orderItemId: productReview[index].orderItemId,
-                  productId: productReview[index].productId,
-                  rating: selectedRating[index],
-                  review: reviewController[index].text,
-                  image: imagesReview[index],
-                )));
+    try {
+      actionButton(ActionStatus.loading);
+      var param = ReviewParam(
+          id: Get.arguments[0],
+          body: List.generate(
+              reviewController.length,
+              (index) => BodyDataReview(
+                    orderItemId: productReview[index].orderItemId,
+                    productId: productReview[index].productId,
+                    rating: selectedRating[index],
+                    review: reviewController[index].text,
+                    image: imagesReview[index],
+                  )));
 
-    final response = await _reviewRepository.sendReview(param);
-    if (response.status == StatusResponse.success) {
-      actionButton(ActionStatus.success);
-      if (Get.arguments[1] != null) {
-        if (Get.arguments[1] == 'review') {
-          Get.offNamed(Routes.DETAIL_ORDER,
-              arguments: [Get.arguments[0], "review", null, null]);
-        } else if (Get.arguments[1] == 'review-detail' ||
-            Get.arguments[1] == 'receive-review') {
-          Get.back();
-          refreshDetailOrder();
-        } else if (Get.arguments[1] == 'review-product') {
-          Get.back();
-          refreshReview();
-          AppSnackbarBlack.show('Produk berhasil direview');
+      final response = await _reviewRepository.sendReview(param);
+      if (response.status == StatusResponse.success) {
+        actionButton(ActionStatus.success);
+        if (Get.arguments[1] != null) {
+          if (Get.arguments[1] == 'review') {
+            Get.offNamed(Routes.DETAIL_ORDER,
+                arguments: [Get.arguments[0], "review", null, null]);
+          } else if (Get.arguments[1] == 'review-detail' ||
+              Get.arguments[1] == 'receive-review') {
+            Get.back();
+            refreshDetailOrder();
+          } else if (Get.arguments[1] == 'review-product') {
+            Get.back();
+            refreshReview();
+            AppSnackbarBlack.show('Produk berhasil direview');
+          }
         }
+      } else {
+        actionButton(ActionStatus.failed);
       }
-    } else {
-      actionButton(ActionStatus.failed);
+    } finally {
+      actionButton(ActionStatus.success);
     }
   }
 

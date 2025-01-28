@@ -23,5 +23,6 @@ abstract class ProductRepository {
   Future<TutorialPaymentVaModel> fetchDataFromJsonFile(String param);
   Future<DataState<List<Vouchers>>> getVouchers(
       {required int page, required int size});
-  Future<DataState<Vouchers>> claimVoucher({required String code});
+  Future<DataState<Vouchers>> claimVoucher(
+      {required String code, required int totalAmount});
 }

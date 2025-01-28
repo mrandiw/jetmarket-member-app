@@ -210,7 +210,7 @@ class OrderCard extends StatelessWidget {
             ),
             Gap(8.h),
             Text(
-              "${data.review?.text}",
+              data.review?.text ?? '-',
               style: text12HintForm,
             ),
             Gap(12.h),

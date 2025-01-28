@@ -169,10 +169,12 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<DataState<Vouchers>> claimVoucher({required String code}) async {
+  Future<DataState<Vouchers>> claimVoucher(
+      {required String code, required int totalAmount}) async {
     try {
       final response = await RemoteProvider.post(
-          path: Endpoint.claimVoucher, data: {'code': code});
+          path: Endpoint.claimVoucher,
+          data: {'code': code, 'total_amount': totalAmount});
       return DataState<Vouchers>(
           result: Vouchers.fromJson(response.data['data']),
           status: StatusCodeResponse.cek(response: response),
