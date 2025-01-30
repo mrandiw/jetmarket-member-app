@@ -15,24 +15,29 @@ class DetailOrderCustomer {
   int? totalAmount;
   int? totalDiscount;
   String? reason;
+  String? sellerName;
+  String? sellerPhone;
+  String? sellerAddress;
 
-  DetailOrderCustomer({
-    this.id,
-    this.trxId,
-    this.trxRef,
-    this.customerName,
-    this.createdAt,
-    this.expiredAt,
-    this.status,
-    this.delivery,
-    this.address,
-    this.products,
-    this.paymentMethod,
-    this.totalPrice,
-    this.totalOngkir,
-    this.totalDiscount,
-    this.reason,
-  });
+  DetailOrderCustomer(
+      {this.id,
+      this.trxId,
+      this.trxRef,
+      this.customerName,
+      this.createdAt,
+      this.expiredAt,
+      this.status,
+      this.delivery,
+      this.address,
+      this.products,
+      this.paymentMethod,
+      this.totalPrice,
+      this.totalOngkir,
+      this.totalDiscount,
+      this.reason,
+      this.sellerName,
+      this.sellerPhone,
+      this.sellerAddress});
 
   DetailOrderCustomer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +65,9 @@ class DetailOrderCustomer {
     totalAmount = json['total_amount'];
     totalDiscount = json['total_discount'];
     reason = json['reason'];
+    sellerName = json['seller_name'];
+    sellerAddress = json['seller_address'];
+    sellerPhone = json['seller_phone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +96,9 @@ class DetailOrderCustomer {
     data['total_amount'] = totalAmount;
     data['total_discount'] = totalDiscount;
     data['reason'] = reason;
+    data['seller_name'] = sellerName;
+    data['seller_address'] = sellerAddress;
+    data['seller_phone'] = sellerPhone;
     return data;
   }
 }

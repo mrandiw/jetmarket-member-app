@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/model_data/list_chat_model.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/presentation/chat_pages/chats/controllers/chats.controller.dart';
 import 'package:jetmarket/utils/extension/responsive_size.dart';
 import 'package:jetmarket/utils/extension/time_ago.dart';
 import '../../../../domain/core/model/argument/chat_room_argument.dart';
@@ -20,7 +21,7 @@ class ChatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
+      onTap: () async {
         ChatRoomArgument? dataArgument;
         dataArgument = ChatRoomArgument(
           chatId: data.id,
@@ -32,7 +33,12 @@ class ChatItem extends StatelessWidget {
           createdAt: data.createdAt,
           unreadCount: data.unreadCount,
         );
-        Get.toNamed(Routes.DETAIL_CHAT, arguments: dataArgument);
+        var result =
+            await Get.toNamed(Routes.DETAIL_CHAT, arguments: dataArgument);
+
+        if (result != null) {
+          Get.find<ChatsController>().pagingController.refresh();
+        }
       },
       contentPadding: EdgeInsets.symmetric(vertical: 4.hr, horizontal: 16.wr),
       tileColor: data.unreadCount == 0 ? kWhite : kPrimaryColor2,

@@ -59,9 +59,7 @@ class ProductItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(data?.title ?? '-', style: text12BlackRegular),
-              Text('${data?.price}'.toIdrFormat,
-                  style: text10lineThroughRegular),
-              Gap(6.h),
+           
               Row(
                 children: [
                   Text('${data?.price ?? data?.price}'.toIdrFormat,

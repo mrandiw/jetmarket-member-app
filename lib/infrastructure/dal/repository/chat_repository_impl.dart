@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -224,21 +223,24 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final querySnapshot = await _chatCollection.doc(id).get();
       final data = querySnapshot.data();
-      String? firstKey;
+
       Map<String, dynamic>? dataMap;
-      if (data != null && data is Map) {
+      if (data != null && data is Map<String, dynamic>) {
         dataMap = Map<String, dynamic>.from(data);
-        if (dataMap.isNotEmpty) {
-          firstKey = dataMap.keys.first;
-        }
       }
-      List<Map<String, dynamic>> resultList;
-      if (firstKey != null) {
-        resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-      } else {
-        resultList = [];
+
+      List<Map<String, dynamic>> resultList = [];
+
+      if (dataMap != null) {
+        dataMap.forEach((key, value) {
+          if (value is List) {
+            resultList.addAll(value.cast<Map<String, dynamic>>());
+          }
+        });
       }
+
       log("Panjang Chat : ${resultList.length}");
+
       yield resultList
           .map((e) => ChatModel.fromJson(e)..fromStore = true)
           .toList();
@@ -252,24 +254,25 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final documentReference = _chatCollection.doc(id);
 
-      return documentReference
-          .snapshots()
-          .asyncMap((DocumentSnapshot snapshot) {
+      return documentReference.snapshots().map((DocumentSnapshot snapshot) {
         final data = snapshot.data();
-        String? firstKey;
+
         Map<String, dynamic>? dataMap;
-        if (data != null && data is Map) {
+        if (data != null && data is Map<String, dynamic>) {
           dataMap = Map<String, dynamic>.from(data);
-          if (dataMap.isNotEmpty) {
-            firstKey = dataMap.keys.first;
-          }
         }
-        List<Map<String, dynamic>> resultList;
-        if (firstKey != null) {
-          resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-        } else {
-          resultList = [];
+
+        List<Map<String, dynamic>> resultList = [];
+
+        if (dataMap != null) {
+          // 🔹 Looping semua key dan mengambil semua chat dalam dokumen
+          dataMap.forEach((key, value) {
+            if (value is List) {
+              resultList.addAll(value.cast<Map<String, dynamic>>());
+            }
+          });
         }
+
         final chatList = resultList
             .map((e) => ChatModel.fromJson(e)..fromStore = true)
             .toList();
@@ -285,42 +288,71 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<DataState<bool>> sendMessage(
       {required String documentTitle,
       required Map<String, dynamic> message}) async {
+    // try {
+    //   final docSnapshot = await _chatCollection.doc(documentTitle).get();
+    //   final now = DateTime.now();
+    //   final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    //   Map<String, dynamic> dataSnapshot = {};
+    //   dataSnapshot = docSnapshot.data() as Map<String, dynamic>;
+
+    //   final querySnapshot = await _chatCollection.doc(documentTitle).get();
+    //   final data = querySnapshot.data();
+
+    //   String? firstKey;
+    //   Map<String, dynamic>? dataMap;
+
+    //   if (data != null && data is Map) {
+    //     dataMap = Map<String, dynamic>.from(data);
+    //     if (dataMap.isNotEmpty) {
+    //       firstKey = dataMap.keys.first;
+    //     }
+    //   }
+
+    //   List<Map<String, dynamic>> resultList;
+    //   if (firstKey != null) {
+    //     resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
+    //   } else {
+    //     resultList = [];
+    //   }
+    //   int nextIndex = resultList.length + 1;
+    //   message['id'] = nextIndex;
+    //   final messages = [message];
+    //   if (dataSnapshot.isEmpty) {
+    //     await _chatCollection.doc(documentTitle).set({
+    //       formattedDate: messages,
+    //     });
+    //   } else {
+    //     Map<String, dynamic> data = json.decode(json.encode(dataSnapshot));
+    //     String key = data.keys.first;
+    //     await _chatCollection
+    //         .doc(documentTitle)
+    //         .update({key: FieldValue.arrayUnion(messages)});
+    //   }
+    //   return DataState(result: true, message: 'Success');
+    // } on FirebaseException catch (e) {
+    //   return DataState(result: false, message: e.message.toString());
+    // }
+
     try {
       final docSnapshot = await _chatCollection.doc(documentTitle).get();
       final now = DateTime.now();
       final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
       Map<String, dynamic> dataSnapshot = {};
-      dataSnapshot = docSnapshot.data() as Map<String, dynamic>;
-      final querySnapshot = await _chatCollection.doc(documentTitle).get();
-      final data = querySnapshot.data();
-      String? firstKey;
-      Map<String, dynamic>? dataMap;
-      if (data != null && data is Map) {
-        dataMap = Map<String, dynamic>.from(data);
-        if (dataMap.isNotEmpty) {
-          firstKey = dataMap.keys.first;
-        }
+      if (docSnapshot.exists) {
+        dataSnapshot = docSnapshot.data() as Map<String, dynamic>;
       }
-      List<Map<String, dynamic>> resultList;
-      if (firstKey != null) {
-        resultList = dataMap?[firstKey]!.cast<Map<String, dynamic>>() ?? [];
-      } else {
-        resultList = [];
-      }
-      int nextIndex = resultList.length + 1;
-      message['id'] = nextIndex;
-      final messages = [message];
-      if (dataSnapshot.isEmpty) {
+
+      if (!dataSnapshot.containsKey(formattedDate)) {
         await _chatCollection.doc(documentTitle).set({
-          formattedDate: messages,
-        });
+          formattedDate: [message],
+        }, SetOptions(merge: true));
       } else {
-        Map<String, dynamic> data = json.decode(json.encode(dataSnapshot));
-        String key = data.keys.first;
-        await _chatCollection
-            .doc(documentTitle)
-            .update({key: FieldValue.arrayUnion(messages)});
+        await _chatCollection.doc(documentTitle).update({
+          formattedDate: FieldValue.arrayUnion([message]),
+        });
       }
+
       return DataState(result: true, message: 'Success');
     } on FirebaseException catch (e) {
       return DataState(result: false, message: e.message.toString());

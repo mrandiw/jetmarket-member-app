@@ -43,6 +43,10 @@ class SetRefundController extends GetxController {
 
   Future<void> submitSetRefund() async {
     actionButton(ActionStatus.loading);
+
+    print(
+        'lala ${setRefundModel?.services?[selectedIndexService ?? 0].packets?[selectedIndexPackage ?? 0].delivery?.rate}');
+
     var param = SetRefundParam(
         id: Get.arguments,
         body: BodySetRefund(

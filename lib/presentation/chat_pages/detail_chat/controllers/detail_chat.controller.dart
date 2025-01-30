@@ -111,7 +111,7 @@ class DetailChatController extends GetxController {
 
   Future<void> sendNewMessage() async {
     var userData = AppPreference().getUserData()?.user;
-    final now = DateTime.now().toUtc();
+    final now = DateTime.now().toIso8601String();
     var firstReceiver = pagingController
         .itemList![pagingController.itemList!.length - 1].receiver;
     var product = PinnedProduct(
@@ -133,8 +133,9 @@ class DetailChatController extends GetxController {
         name: dataArgument?.name ?? firstReceiver?.name,
         image: dataArgument?.image ?? firstReceiver?.image,
         role: dataArgument?.toRole ?? firstReceiver?.role);
+
     var dataChat = ChatModel(
-        createdAt: now.toString(),
+        createdAt: now,
         deletedAt: null,
         readAt: null,
         sender: sender,
@@ -420,6 +421,13 @@ class DetailChatController extends GetxController {
       beforeLengthStore = newLengthStore;
       if (chatList.isNotEmpty) {
         ChatModel latestChat = chatList[chatList.length - 1];
+
+        if (pagingController.itemList?.isNotEmpty == true &&
+            pagingController.itemList!.firstOrNull?.text == latestChat.text &&
+            pagingController.itemList!.firstOrNull?.createdAt ==
+                latestChat.createdAt) {
+          return;
+        }
         if (isNewChat) {
           isNewChat = false;
           pagingController.itemList?.insert(0, latestChat);
@@ -479,7 +487,7 @@ class DetailChatController extends GetxController {
       Get.offNamed(Routes.MAIN_PAGES);
       Get.put(MainPagesController());
     } else {
-      Get.back();
+      Get.back(result: true);
     }
   }
 

@@ -2,6 +2,7 @@ class SetRefundModel {
   Address? address;
   List<RefundItems>? refundItems;
   List<Services>? services;
+  String? trackingId;  
 
   SetRefundModel({this.address, this.refundItems, this.services});
 
