@@ -44,21 +44,18 @@ class SetRefundController extends GetxController {
   Future<void> submitSetRefund() async {
     actionButton(ActionStatus.loading);
 
-    print(
-        'lala ${setRefundModel?.services?[selectedIndexService ?? 0].packets?[selectedIndexPackage ?? 0].delivery?.rate}');
-
     var param = SetRefundParam(
         id: Get.arguments,
         body: BodySetRefund(
-          code: setRefundModel?.services?[selectedIndexService ?? 0]
-              .packets?[selectedIndexPackage ?? 0].delivery?.code,
-          serviceName: setRefundModel?.services?[selectedIndexService ?? 0]
-              .packets?[selectedIndexPackage ?? 0].delivery?.serviceName,
-          serviceCode: setRefundModel?.services?[selectedIndexService ?? 0]
-              .packets?[selectedIndexPackage ?? 0].delivery?.serviceCode,
-          rate: setRefundModel?.services?[selectedIndexService ?? 0]
-              .packets?[selectedIndexPackage ?? 0].delivery?.rate,
-        ));
+            code: setRefundModel?.services?[selectedIndexService ?? 0]
+                .packets?[selectedIndexPackage ?? 0].delivery?.code,
+            serviceName: setRefundModel?.services?[selectedIndexService ?? 0]
+                .packets?[selectedIndexPackage ?? 0].delivery?.serviceName,
+            serviceCode: setRefundModel?.services?[selectedIndexService ?? 0]
+                .packets?[selectedIndexPackage ?? 0].delivery?.serviceCode,
+            rate: setRefundModel?.services?[selectedIndexService ?? 0]
+                .packets?[selectedIndexPackage ?? 0].rate,
+            trackingId: setRefundModel?.trackingId));
     final response = await _deliveryRepository.setRefundOrder(param);
     if (response.status == StatusResponse.success) {
       actionButton(ActionStatus.success);

@@ -22,7 +22,12 @@ class DetailProduct extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Detail Produk', style: text14BlackMedium),
+            Text(
+                controller.detailOrderCustomer?.sellerName != null &&
+                        controller.detailOrderCustomer?.sellerName != ''
+                    ? 'Produk dari ${controller.detailOrderCustomer?.sellerName}'
+                    : 'Detail Produk',
+                style: text14BlackMedium),
             Gap(12.h),
             Column(
                 children: List.generate(

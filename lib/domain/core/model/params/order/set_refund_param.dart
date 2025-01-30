@@ -17,8 +17,14 @@ class BodySetRefund {
   String? serviceName;
   String? serviceCode;
   int? rate;
+  String? trackingId;
 
-  BodySetRefund({this.code, this.serviceName, this.serviceCode, this.rate});
+  BodySetRefund(
+      {this.code,
+      this.serviceName,
+      this.serviceCode,
+      this.rate,
+      this.trackingId});
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -26,6 +32,7 @@ class BodySetRefund {
     data['service_name'] = serviceName;
     data['service_code'] = serviceCode;
     data['rate'] = rate;
+    data['tracking_id'] = trackingId;
     return data;
   }
 }

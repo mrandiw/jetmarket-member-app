@@ -2,7 +2,7 @@ class SetRefundModel {
   Address? address;
   List<RefundItems>? refundItems;
   List<Services>? services;
-  String? trackingId;  
+  String? trackingId;
 
   SetRefundModel({this.address, this.refundItems, this.services});
 
@@ -21,6 +21,7 @@ class SetRefundModel {
         services!.add(Services.fromJson(v));
       });
     }
+    trackingId = json['tracking_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +35,7 @@ class SetRefundModel {
     if (services != null) {
       data['services'] = services!.map((v) => v.toJson()).toList();
     }
+    trackingId = data['tracking_id'];
     return data;
   }
 }
