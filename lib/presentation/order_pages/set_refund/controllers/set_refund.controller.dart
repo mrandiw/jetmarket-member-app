@@ -62,6 +62,7 @@ class SetRefundController extends GetxController {
       Get.back();
       refreshOrder();
     } else {
+      AppSnackbar.show(message: response.message ?? '', type: SnackType.error);
       actionButton(ActionStatus.failed);
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/order_pages/tracking_return/controllers/tracking_return.controller.dart';
@@ -64,8 +65,21 @@ class StepStatusSection extends StatelessWidget {
                                   log("${controller.trackingRefund?.histories?[index].createdAt?.convertToCustomFormat}");
                                 },
                                 child: Text(
-                                    "2024-01-10 10:44:15.135794 +0000 +0000"
-                                        .convertToCustomFormat,
+                                    controller.trackingRefund != null &&
+                                            controller.trackingRefund!
+                                                    .histories !=
+                                                null &&
+                                            controller
+                                                    .trackingRefund
+                                                    ?.histories?[index]
+                                                    .createdAt !=
+                                                null
+                                        ? DateFormat('dd-MM-yyyy HH:mm').format(
+                                            DateTime.parse(controller
+                                                .trackingRefund!
+                                                .histories![index]
+                                                .createdAt!))
+                                        : '-',
                                     style: text12HintRegular),
                               ),
                               Gap(4.h),
