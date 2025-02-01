@@ -80,4 +80,21 @@ class PaylaterRepositoryImpl implements PayLaterRepository {
       return CustomException<DetailPaymentPaylater>().dio(e);
     }
   }
+
+  @override
+  Future<DataState<DetailPaymentPaylater>> paylaterPayAll(
+      BillPaylaterBody body) async {
+    try {
+      log(body.toMap().toString());
+      final response = await RemoteProvider.post(
+          path: Endpoint.paylaterMonthly, data: body.toMap());
+      return DataState<DetailPaymentPaylater>(
+        status: StatusCodeResponse.cek(response: response),
+        result: DetailPaymentPaylater.fromJson(response.data['data']),
+        message: response.data['message'],
+      );
+    } on DioException catch (e) {
+      return CustomException<DetailPaymentPaylater>().dio(e);
+    }
+  }
 }

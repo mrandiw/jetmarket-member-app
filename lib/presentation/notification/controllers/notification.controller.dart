@@ -84,6 +84,8 @@ class NotificationController extends GetxController {
       case 'transaction':
         Get.toNamed(Routes.ORDER_LIST_TRANSACTION,
             arguments: [data?.refId, null]);
+      case 'bill-paylater':
+        Get.toNamed(Routes.BILL_PAYLATER);
       default:
         break;
     }
@@ -98,27 +100,45 @@ class NotificationController extends GetxController {
   NotificationData? dataPagelink(String? pagelink) {
     if (pagelink != null) {
       List<String> parts = pagelink.split('/');
-      parts.removeAt(0);
+      parts
+          .removeWhere((element) => element.isEmpty); // Menghapus elemen kosong
+
+      if (parts.isEmpty) {
+        return null;
+      }
+
       if (parts[0] == 'withdraw' ||
           parts[0] == 'topup' ||
           parts[0] == 'transaction') {
-        return NotificationData(path: parts[0], refId: parts[1]);
-      } else if (parts[0] == 'loan') {
-        return NotificationData(
-            path: "${parts[0]}-${parts[1]}", pathId: int.parse(parts[2]));
-      } else if (parts[0] == 'order') {
-        String value = parts[1];
-        if (value.startsWith('ORD#')) {
+        if (parts.length > 1) {
           return NotificationData(path: parts[0], refId: parts[1]);
-        } else {
-          return NotificationData(path: parts[0], pathId: int.parse(parts[1]));
+        }
+      } else if (parts[0] == 'loan') {
+        if (parts.length > 2) {
+          return NotificationData(
+              path: "${parts[0]}-${parts[1]}",
+              pathId: int.tryParse(parts[2]) ?? 0);
+        }
+      } else if (parts[0] == 'order') {
+        if (parts.length > 1) {
+          String value = parts[1];
+          if (value.startsWith('ORD#')) {
+            return NotificationData(path: parts[0], refId: parts[1]);
+          } else {
+            return NotificationData(
+                path: parts[0], pathId: int.tryParse(parts[1]) ?? 0);
+          }
         }
       } else {
-        return NotificationData(path: parts[0], pathId: int.parse(parts[1]));
+        if (parts.length > 1) {
+          return NotificationData(
+              path: parts[0], pathId: int.tryParse(parts[1]) ?? 0);
+        } else {
+          return NotificationData(path: parts[0]);
+        }
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   @override

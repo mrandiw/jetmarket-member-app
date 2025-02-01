@@ -39,7 +39,7 @@ class PaylaterSection extends StatelessWidget {
                     style: text20WhiteSemiBold),
                 Gap(12.h),
                 Text(
-                    'Total Kredit ${"${controller.detailPaylater?.total}".toIdrFormat}',
+                    'Total limit paylater ${"${controller.detailPaylater?.total}".toIdrFormat}',
                     style: text12WhiteRegular),
               ],
             ),

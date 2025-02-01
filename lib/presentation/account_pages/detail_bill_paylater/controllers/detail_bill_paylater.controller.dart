@@ -108,7 +108,7 @@ class DetailBillPaylaterController extends GetxController {
 
   toChoicePayment() {
     Get.toNamed(Routes.CHOICE_PAYMENT_PAYLATER,
-        arguments: [Get.arguments[1], Get.arguments[2]]);
+        arguments: [Get.arguments[1], Get.arguments[2], false]);
   }
 
   void copyAddress(String value) {

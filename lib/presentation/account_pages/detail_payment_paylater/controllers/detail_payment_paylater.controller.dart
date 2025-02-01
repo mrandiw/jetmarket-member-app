@@ -5,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/infrastructure/dal/repository/order_repository_impl.dart';
+import 'package:jetmarket/presentation/order_pages/order/controllers/order.controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../domain/core/interfaces/payment_repository.dart';
@@ -171,8 +173,11 @@ class DetailPaymentPaylaterController extends GetxController
   }
 
   void backAction() {
-    Get.offNamed(Routes.MAIN_PAGES);
-    Get.put(MainPagesController());
+    Get.offAllNamed(Routes.MAIN_PAGES);
+    final controller = Get.put(MainPagesController());
+    final controller2 = Get.put(OrderController(OrderRepositoryImpl()));
+    controller.changeTabIndex(0);
+    controller2.getWaitingOrderLenght();
   }
 
   @override

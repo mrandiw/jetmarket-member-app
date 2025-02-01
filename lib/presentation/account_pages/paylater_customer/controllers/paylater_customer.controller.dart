@@ -42,8 +42,14 @@ class PaylaterCustomerController extends GetxController {
   }
 
   toChoicePayment() {
-    Get.toNamed(Routes.CHOICE_PAYMENT_PAYLATER,
-        arguments: [detailPaylater?.bill?.id, detailPaylater?.bill?.amount]);
+    Get.toNamed(
+      Routes.CHOICE_PAYMENT_PAYLATER,
+      arguments: [
+        detailPaylater?.bill?.refId,
+        detailPaylater?.bill?.amount,
+        true
+      ],
+    );
   }
 
   void backAction() {

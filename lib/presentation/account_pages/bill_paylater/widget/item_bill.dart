@@ -37,8 +37,8 @@ class ItemBill extends StatelessWidget {
             ],
           )),
       Gap(12.h),
-      Text('${data.dueAt?.getMonthName}', style: text12HintRegular),
-      Gap(12.h),
+      // Text('${data.dueAt?.getMonthName}', style: text12HintRegular),
+      // Gap(12.h),
       GestureDetector(
         onTap: () {
           if (data.status == 'WAITING_PAYMENT' ||

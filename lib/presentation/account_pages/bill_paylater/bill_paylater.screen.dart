@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:jetmarket/presentation/account_pages/bill_paylater/widget/item_bill.dart';
 import 'package:jetmarket/utils/extension/date_format.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
@@ -24,30 +25,53 @@ class BillPaylaterScreen extends GetView<BillPaylaterController> {
           SliverPadding(
               padding: AppStyle.paddingAll16,
               sliver: PagedSliverList.separated(
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<BillPaylaterModel>(
-                    itemBuilder: (context, item, index) {
-                      final currentData =
-                          controller.pagingController.itemList?[index];
-                      final previousData = index > 0
-                          ? controller.pagingController.itemList![index - 1]
-                          : null;
-                      final showYearLabel = previousData == null ||
-                          currentData?.dueAt?.getYear !=
-                              previousData.dueAt?.getYear;
+                pagingController: controller.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<BillPaylaterModel>(
+                  itemBuilder: (context, item, index) {
+                    final currentData =
+                        controller.pagingController.itemList?[index];
+                    final previousData = index > 0
+                        ? controller.pagingController.itemList![index - 1]
+                        : null;
 
-                      return ItemBill(
-                        data: item,
-                        showYear: showYearLabel,
-                      );
-                    },
-                    newPageProgressIndicatorBuilder: InfinitiPage.progress,
-                    firstPageProgressIndicatorBuilder: InfinitiPage.progress,
-                    noItemsFoundIndicatorBuilder: (_) =>
-                        InfinitiPage.empty(_, 'Tagihan'),
-                    firstPageErrorIndicatorBuilder: InfinitiPage.error,
-                  ),
-                  separatorBuilder: (_, i) => Gap(12.h))),
+                    final showMonthLabel = previousData == null ||
+                        currentData?.dueAt?.getMonthName !=
+                            previousData.dueAt?.getMonthName ||
+                        currentData?.dueAt?.getYear !=
+                            previousData.dueAt?.getYear;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (showMonthLabel)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text(
+                              currentData!.dueAt != null
+                                  ? DateFormat('MMMM yyyy').format(
+                                      DateTime.parse(currentData.dueAt!))
+                                  : '',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ItemBill(
+                          data: item,
+                          showYear: false,
+                        ),
+                      ],
+                    );
+                  },
+                  newPageProgressIndicatorBuilder: InfinitiPage.progress,
+                  firstPageProgressIndicatorBuilder: InfinitiPage.progress,
+                  noItemsFoundIndicatorBuilder: (_) =>
+                      InfinitiPage.empty(_, 'Tagihan'),
+                  firstPageErrorIndicatorBuilder: InfinitiPage.error,
+                ),
+                separatorBuilder: (_, i) => Gap(12.h),
+              )),
         ],
       ),
 

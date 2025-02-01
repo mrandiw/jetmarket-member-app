@@ -99,6 +99,8 @@ class Endpoint {
   static String paylaterDetail = 'paylater/detail';
   static String paylaterBill = 'paylater/bill';
   static String paylaterPay = 'paylater/pay';
+  static String paylaterMonthly = '/paylater/pay/montly';
+  
 
   // Refferal
   static String referral = 'referral';

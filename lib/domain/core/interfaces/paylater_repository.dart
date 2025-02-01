@@ -13,4 +13,5 @@ abstract class PayLaterRepository {
   Future<DataState<DetailBillPaylater>> getDetailBillPaylater(
       String orderRefId);
   Future<DataState<DetailPaymentPaylater>> paylaterPay(BillPaylaterBody body);
+  Future<DataState<DetailPaymentPaylater>> paylaterPayAll(BillPaylaterBody body);
 }

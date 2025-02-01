@@ -10,11 +10,11 @@ class BillPaylaterBody {
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['ref_id'] = refId;
+    if (refId != null) data['ref_id'] = refId;
     data['amount'] = amount;
-    data['ch_type'] = chType;
-    data['ch_code'] = chCode;
-    data['mobile_number'] = mobileNumber;
+    if (chType != null) data['ch_type'] = chType;
+    if (chCode != null) data['ch_code'] = chCode;
+    if (mobileNumber != null) data['mobile_number'] = mobileNumber;
     data.removeWhere((key, value) =>
         value == null ||
         value == '' ||

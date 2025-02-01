@@ -130,12 +130,16 @@ class ChoicePaymentPaylaterController extends GetxController {
     actionStatus = ActionStatus.loading;
     update();
     var body = BillPaylaterBody(
-        refId: Get.arguments[0],
+        refId: Get.arguments[2] != null && Get.arguments[2] == true
+            ? null
+            : Get.arguments[0],
         amount: Get.arguments[1],
         chCode: selectedchCode,
         chType: selectedchType,
         mobileNumber: numberController.text);
-    final response = await _payLaterRepository.paylaterPay(body);
+    final response = Get.arguments[2] != null && Get.arguments[2] == true
+        ? await _payLaterRepository.paylaterPayAll(body)
+        : await _payLaterRepository.paylaterPay(body);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
