@@ -31,7 +31,7 @@ class FormSection extends StatelessWidget {
                 children: [
                   Text('Masukan Kode OTP', style: text20PrimarySemiBold),
                   Gap(4.h),
-                  Text('Kami telah mengirim kode ke nomor Anda',
+                  Text('Kami telah mengirim kode ke nomor HP atau email Anda.',
                       style: text14BlackRegular),
                   Gap(16.h),
                   Row(

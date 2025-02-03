@@ -243,7 +243,12 @@ class ChatRepositoryImpl implements ChatRepository {
 
       yield resultList
           .map((e) => ChatModel.fromJson(e)..fromStore = true)
-          .toList();
+          .toList()
+        ..sort((a, b) {
+          DateTime timeA = DateTime.parse(a.createdAt!);
+          DateTime timeB = DateTime.parse(b.createdAt!);
+          return timeA.compareTo(timeB);
+        });
     } on DioException catch (e) {
       throw Exception(e);
     }
@@ -275,7 +280,12 @@ class ChatRepositoryImpl implements ChatRepository {
 
         final chatList = resultList
             .map((e) => ChatModel.fromJson(e)..fromStore = true)
-            .toList();
+            .toList()
+          ..sort((a, b) {
+            DateTime timeA = DateTime.parse(a.createdAt!);
+            DateTime timeB = DateTime.parse(b.createdAt!);
+            return timeA.compareTo(timeB);
+          });
 
         return chatList;
       });

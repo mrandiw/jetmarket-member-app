@@ -421,13 +421,6 @@ class DetailChatController extends GetxController {
       beforeLengthStore = newLengthStore;
       if (chatList.isNotEmpty) {
         ChatModel latestChat = chatList[chatList.length - 1];
-
-        if (pagingController.itemList?.isNotEmpty == true &&
-            pagingController.itemList!.firstOrNull?.text == latestChat.text &&
-            pagingController.itemList!.firstOrNull?.createdAt ==
-                latestChat.createdAt) {
-          return;
-        }
         if (isNewChat) {
           isNewChat = false;
           pagingController.itemList?.insert(0, latestChat);
@@ -495,6 +488,7 @@ class DetailChatController extends GetxController {
   void onInit() {
     setupInteractedMessage();
     setData();
+    getChat(1);
     pagingController.addPageRequestListener((page) {
       getChat(page);
     });
