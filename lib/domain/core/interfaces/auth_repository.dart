@@ -1,3 +1,4 @@
+import 'package:jetmarket/domain/core/model/model_data/general_config_model.dart';
 import 'package:jetmarket/domain/core/model/params/auth/register_param.dart';
 
 import '../../../utils/network/data_state.dart';
@@ -29,4 +30,6 @@ abstract class AuthRepository {
   Future<DataState<UserProfile>> editUserProfile(
       {required int id, required ProfileBody body});
   Future<DataState<CheckingAuth>> checkingAuth({required int id});
+  Future<DataState<GeneralConfigModel>> generalConfigCode(
+      {required String code});
 }

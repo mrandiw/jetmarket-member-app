@@ -94,7 +94,9 @@ class PaymentRegisterController extends GetxController {
   Future<void> createPaymentCustomer() async {
     actionStatus = ActionStatus.loading;
     update();
-    String amount = AppPreference().cekReferal() == true ? '10000' : '25000';
+    String amount = AppPreference().cekReferal() == true
+        ? AppPreference().getBiayaRegisPromo() ?? '10000'
+        : AppPreference().getBiayaRegis() ?? '25000';
     // String phoneNumber = AppPreference().getPhoneNumber() ?? '';
     var param = PaymentParam(
         chType: selectedchType,

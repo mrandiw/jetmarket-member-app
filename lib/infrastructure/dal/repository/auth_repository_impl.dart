@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/model/model_data/checking_auth.dart';
+import 'package:jetmarket/domain/core/model/model_data/general_config_model.dart';
 import '../../../../domain/core/interfaces/auth_repository.dart';
 import '../../../../domain/core/model/model_data/user_model.dart';
 import '../../../../domain/core/model/params/auth/forgot_param.dart';
@@ -254,6 +255,23 @@ class AuthRepositoryImpl implements AuthRepository {
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<CheckingAuth>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<GeneralConfigModel>> generalConfigCode(
+      {required String code}) async {
+    try {
+      final response = await RemoteProvider.post(
+        path: Endpoint.generalConfigCode,
+        data: {"code": code},
+      );
+      return DataState<GeneralConfigModel>(
+        status: StatusCodeResponse.cek(response: response),
+        result: GeneralConfigModel.fromJson(response.data['data']),
+      );
+    } on DioException catch (e) {
+      return CustomException<GeneralConfigModel>().dio(e);
     }
   }
 }

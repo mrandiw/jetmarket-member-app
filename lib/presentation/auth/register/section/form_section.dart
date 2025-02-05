@@ -155,13 +155,16 @@ class FormSection extends StatelessWidget {
                         children: [
                           Text(
                               controller.isKodeReveralValidated.value
-                                  ? '10000'.toIdrFormat
-                                  : '25000'.toIdrFormat,
+                                  ? controller
+                                      .biayaRegistrasiPromo.value.toIdrFormat
+                                  : controller
+                                      .biayaRegistrasi.value.toIdrFormat,
                               style: text12PrimaryRegular),
                           Gap(12.w),
                           Visibility(
                             visible: controller.isKodeReveralValidated.value,
-                            child: Text('25000'.toIdrFormat,
+                            child: Text(
+                                controller.biayaRegistrasi.value.toIdrFormat,
                                 style: text10lineThroughRegular),
                           ),
                         ],

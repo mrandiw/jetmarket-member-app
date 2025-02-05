@@ -37,6 +37,8 @@ class RegisterController extends GetxController {
   var isKodeReveralValidated = false.obs;
   var isKodeReveralError = false.obs;
   bool isNameError = false;
+  var biayaRegistrasi = ''.obs;
+  var biayaRegistrasiPromo = ''.obs;
 
   final String countryCode = '+62';
   var referralMessage = ''.obs;
@@ -202,10 +204,13 @@ class RegisterController extends GetxController {
       update();
       isKodeReveralValidated(true);
       actionClaimStatus = ActionStatus.success;
+      fetchCost('MEMBER_DISCOUNT_REFFERAL', true);
       update();
     } else {
       referralMessage.value = 'Kode tidak ditemukan';
+      fetchCost('MEMBER_BIAYA_REGISTRASI', false);
       isKodeReveralError(true);
+      isKodeReveralValidated(false);
       actionClaimStatus = ActionStatus.failed;
       update();
     }
@@ -225,6 +230,19 @@ class RegisterController extends GetxController {
     });
   }
 
+  Future<void> fetchCost(String code, bool isPromo) async {
+    final response = await _authRepository.generalConfigCode(code: code);
+    if (response.status == StatusResponse.success) {
+      if (isPromo) {
+        biayaRegistrasiPromo.value = response.result?.value ?? '0';
+        AppPreference().setBiayaRegisPromo(response.result?.value ?? '0');
+      } else {
+        biayaRegistrasi.value = response.result?.value ?? '0';
+        AppPreference().setBiayaRegis(response.result?.value ?? '0');
+      }
+    }
+  }
+
   @override
   void onInit() {
     phoneController.text = countryCode;
@@ -239,6 +257,7 @@ class RegisterController extends GetxController {
     //     checkReferralCode();
     //   }
     // });
+    fetchCost('MEMBER_BIAYA_REGISTRASI', false);
     super.onInit();
   }
 }

@@ -35,6 +35,8 @@ class AppPreference {
   final String _registerComplite = 'register_complite';
   final String _currentPage = 'current-page';
   // final String _paymentRegisterSuccess = 'payment_register_success';
+  final String _biayaRegistrasi = 'biaya_registrasi';
+  final String _biayaRegistrasiPromo = 'biaya_registrasi_promo';
 
   Future<void> setCurrentPage(String? page) async {
     await _prefs?.setString(_currentPage, page ?? 'no-define');
@@ -298,6 +300,22 @@ class AppPreference {
 
   bool? cekReferal() {
     return _prefs?.getBool(_isReferal);
+  }
+
+  Future<void> setBiayaRegis(String value) async {
+    await _prefs?.setString(_biayaRegistrasi, value);
+  }
+
+  String? getBiayaRegis() {
+    return _prefs?.getString(_biayaRegistrasi);
+  }
+
+  Future<void> setBiayaRegisPromo(String value) async {
+    await _prefs?.setString(_biayaRegistrasiPromo, value);
+  }
+
+  String? getBiayaRegisPromo() {
+    return _prefs?.getString(_biayaRegistrasiPromo);
   }
 
   bool? registerCompleted() {

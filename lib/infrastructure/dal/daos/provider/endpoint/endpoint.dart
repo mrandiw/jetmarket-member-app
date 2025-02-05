@@ -12,6 +12,7 @@ class Endpoint {
   static String paymentCustomerRegister = 'payment/customer_register';
   static String claimReferral = 'referral/claim';
   static String deleteAccount = 'auth/customer/soft_delete';
+  static String generalConfigCode = 'general_config/code';
 
   // Profile
   static String profile = 'profile/customer';
