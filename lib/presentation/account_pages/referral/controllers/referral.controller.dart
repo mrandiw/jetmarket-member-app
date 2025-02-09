@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/interfaces/refferal_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
+import 'package:jetmarket/infrastructure/dal/repository/app_version_repository_impl.dart';
+import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../infrastructure/theme/app_colors.dart';
@@ -21,6 +23,10 @@ class ReferralController extends GetxController {
 
   static const _pageSize = 10;
   String? codeRefferal;
+
+  final _appVersionRepository = AppVersionRepositoryImpl();
+
+  var appUrl = ''.obs;
 
   Future<void> getListRefferal(int pageKey) async {
     try {
@@ -63,12 +69,20 @@ class ReferralController extends GetxController {
     // await Share.share(deeplink, subject: 'Look what I made!');
 
     await Share.share(
-        'Kode referral:\n$codeRefferal\n\nUntuk aplikasi bisa di download di link di bawah ini: https://drive.google.com/drive/folders/1H0_KhAhpRgxP7iPorRcEC9xARE4g6c-y',
+        'Kode referral:\n$codeRefferal\n\nUntuk aplikasi bisa di download di link di bawah ini: $appUrl',
         subject: 'Look what I made!');
+  }
+
+  Future<void> fetchAppUrl() async {
+    final response = await _appVersionRepository.getAppVersion();
+    if (response.status == StatusResponse.success) {
+      appUrl.value = response.result?.link ?? '';
+    }
   }
 
   @override
   void onInit() {
+    fetchAppUrl();
     pagingController.addPageRequestListener((page) {
       getListRefferal(page);
     });
