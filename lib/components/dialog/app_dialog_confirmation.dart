@@ -9,57 +9,64 @@ import '../../../infrastructure/theme/app_text.dart';
 import '../button/app_button.dart';
 
 class AppDialogConfirmation {
-  static void show(
-      {required String title,
-      required String message,
-      String? onTesText,
-      Function()? onPressed}) {
-    Get.dialog(Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 32.w),
-      child: Container(
-        padding: AppStyle.paddingAll16,
-        decoration: BoxDecoration(
-          borderRadius: AppStyle.borderRadius8All,
-          color: kWhite,
-        ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 320.w, minHeight: 100.w),
-          child: SingleChildScrollView(
-            child: Material(
-              color: Colors.transparent,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: text12BlackMedium,
-                  ),
-                  Gap(6.h),
-                  Text(
-                    message,
-                    style: text12HintRegular,
-                  ),
-                  Gap(16.h),
-                  Row(
+  static void show({
+    required String title,
+    required String message,
+    String? onTesText,
+    Function()? onPressed,
+    bool barrierDismissible = true,
+  }) {
+    Get.dialog(
+        Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 32.w),
+          child: Container(
+            padding: AppStyle.paddingAll16,
+            decoration: BoxDecoration(
+              borderRadius: AppStyle.borderRadius8All,
+              color: kWhite,
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 320.w, minHeight: 100.w),
+              child: SingleChildScrollView(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Spacer(),
-                      SizedBox(
-                          width: Get.width * 0.24,
-                          child: AppButton.secondaryGrey(
-                              text: "Batal", onPressed: () => Get.back())),
-                      Gap(6.w),
-                      SizedBox(
-                          width: Get.width * 0.34,
-                          child: AppButton.primary(
-                              text: "Ya, $onTesText", onPressed: onPressed)),
+                      Text(
+                        title,
+                        style: text12BlackMedium,
+                      ),
+                      Gap(6.h),
+                      Text(
+                        message,
+                        style: text12HintRegular,
+                      ),
+                      Gap(16.h),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          if (barrierDismissible)
+                            SizedBox(
+                                width: Get.width * 0.24,
+                                child: AppButton.secondaryGrey(
+                                    text: "Batal",
+                                    onPressed: () => Get.back())),
+                          Gap(6.w),
+                          SizedBox(
+                              width: Get.width * 0.34,
+                              child: AppButton.primary(
+                                  text: "Ya, $onTesText",
+                                  onPressed: onPressed)),
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
           ),
         ),
-      ),
-    ));
+        barrierDismissible: barrierDismissible);
   }
 }

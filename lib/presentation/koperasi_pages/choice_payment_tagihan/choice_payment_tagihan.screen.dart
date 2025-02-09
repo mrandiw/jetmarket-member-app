@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:jetmarket/presentation/koperasi_pages/choice_payment_tagihan/section/total_section.dart';
 
 import '../../../components/loading/load_pages.dart';
 import '../../../components/parent/parent_scaffold.dart';
@@ -33,7 +34,13 @@ class ChoicePaymentTagihanScreen
         padding: AppStyle.paddingAll16,
         children: const [PaymentMethodeSection()],
       ),
-      bottomNavigationBar: const ButtonSection(),
+      bottomNavigationBar: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TotalSection(),
+          ButtonSection(),
+        ],
+      ),
     );
   }
 }

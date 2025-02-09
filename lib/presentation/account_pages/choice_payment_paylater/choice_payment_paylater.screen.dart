@@ -10,6 +10,7 @@ import 'controllers/choice_payment_paylater.controller.dart';
 import 'section/app_bar_section.dart';
 import 'section/button_section.dart';
 import 'section/payment_section.dart';
+import 'section/total_section.dart';
 
 class ChoicePaymentPaylaterScreen
     extends GetView<ChoicePaymentPaylaterController> {
@@ -28,7 +29,13 @@ class ChoicePaymentPaylaterScreen
       backgroundColor: kWhite,
       appBar: appBarChoicePaymentPaylater,
       body: const PaymentSection(),
-      bottomNavigationBar: ButtonSection(controller: controller),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const TotalSection(),
+          ButtonSection(controller: controller),
+        ],
+      ),
     );
   }
 }

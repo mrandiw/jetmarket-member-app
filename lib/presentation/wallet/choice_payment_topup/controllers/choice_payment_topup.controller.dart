@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/ewallet_repository.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../components/snackbar/app_snackbar.dart';
@@ -36,6 +37,7 @@ class ChoicePaymentTopupController extends GetxController {
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
+  String selectedPricing = "0";
   final String countryCode = '+62';
 
   bool isBankTransferExpanded = false;
@@ -118,7 +120,13 @@ class ChoicePaymentTopupController extends GetxController {
     return "assets/images/${path.toLowerCase()}.png";
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(
+    int id,
+    String chType,
+    String chCode,
+    String name,
+    String pricing,
+  ) {
     selectedBankTransfer = chCode;
     selectedEwallet = chCode;
     selectedRetail = chCode;
@@ -126,6 +134,7 @@ class ChoicePaymentTopupController extends GetxController {
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
+    selectedPricing = pricing;
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
@@ -170,6 +179,41 @@ class ChoicePaymentTopupController extends GetxController {
       img = 'assets/images/warning.png';
     }
     return img;
+  }
+
+  String calculateSelectedPricing() {
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+
+      double baseAmount = (Get.arguments is num)
+          ? (Get.arguments as num).toDouble()
+          : double.tryParse(Get.arguments.toString()) ?? 0.0;
+
+      double biayaLayanan = (baseAmount * percentage) / 100;
+      return biayaLayanan.toStringAsFixed(0).toIdrFormat;
+    } else {
+      return selectedPricing.toIdrFormat;
+    }
+  }
+
+  String calculateTotalPayment() {
+    double biayaLayanan = 0.0;
+
+    double baseAmount = (Get.arguments is num)
+        ? (Get.arguments as num).toDouble()
+        : double.tryParse(Get.arguments.toString()) ?? 0.0;
+
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      biayaLayanan = (baseAmount * percentage) / 100;
+    } else {
+      biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
+    }
+
+    double totalPembayaran = baseAmount + biayaLayanan;
+    return totalPembayaran.toStringAsFixed(0);
   }
 
   @override

@@ -131,9 +131,15 @@ class VirtualAccount {
   String? chCode;
   String? name;
   String? createdAt;
+  String? pricing;
 
   VirtualAccount(
-      {this.id, this.chType, this.chCode, this.name, this.createdAt});
+      {this.id,
+      this.chType,
+      this.chCode,
+      this.name,
+      this.createdAt,
+      this.pricing});
 
   VirtualAccount.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -141,6 +147,7 @@ class VirtualAccount {
     chCode = json['ch_code'];
     name = json['name'];
     createdAt = json['created_at'];
+    pricing = json['pricing'];
   }
 
   Map<String, dynamic> toJson() {
@@ -150,6 +157,7 @@ class VirtualAccount {
     data['ch_code'] = chCode;
     data['name'] = name;
     data['created_at'] = createdAt;
+    data['pricing'] = pricing;
     return data;
   }
 }
@@ -160,8 +168,15 @@ class Otc {
   String? chCode;
   String? name;
   String? createdAt;
+  String? pricing;
 
-  Otc({this.id, this.chType, this.chCode, this.name, this.createdAt});
+  Otc(
+      {this.id,
+      this.chType,
+      this.chCode,
+      this.name,
+      this.createdAt,
+      this.pricing});
 
   Otc.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -169,6 +184,7 @@ class Otc {
     chCode = json['ch_code'];
     name = json['name'];
     createdAt = json['created_at'];
+    pricing = json['pricing'];
   }
 
   Map<String, dynamic> toJson() {
@@ -178,6 +194,7 @@ class Otc {
     data['ch_code'] = chCode;
     data['name'] = name;
     data['created_at'] = createdAt;
+    data['pricing'] = pricing;
     return data;
   }
 }
@@ -188,8 +205,16 @@ class EWalletQr {
   String? chCode;
   String? name;
   String? createdAt;
+  String? pricing;
 
-  EWalletQr({this.id, this.chType, this.chCode, this.name, this.createdAt});
+  EWalletQr({
+    this.id,
+    this.chType,
+    this.chCode,
+    this.name,
+    this.createdAt,
+    this.pricing,
+  });
 
   EWalletQr.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -197,6 +222,7 @@ class EWalletQr {
     chCode = json['ch_code'];
     name = json['name'];
     createdAt = json['created_at'];
+    pricing = json['pricing'];
   }
 
   Map<String, dynamic> toJson() {
@@ -206,6 +232,7 @@ class EWalletQr {
     data['ch_code'] = chCode;
     data['name'] = name;
     data['created_at'] = createdAt;
+    data['pricing'] = pricing;
     return data;
   }
 }
@@ -216,8 +243,15 @@ class Payletter {
   String? chCode;
   String? name;
   String? createdAt;
+  String? pricing;
 
-  Payletter({this.id, this.chType, this.chCode, this.name, this.createdAt});
+  Payletter(
+      {this.id,
+      this.chType,
+      this.chCode,
+      this.name,
+      this.createdAt,
+      this.pricing});
 
   Payletter.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -225,6 +259,7 @@ class Payletter {
     chCode = json['ch_code'];
     name = json['name'];
     createdAt = json['created_at'];
+    pricing = json['pricing'].isNotEmpty ? json['pricing'] : '0';
   }
 
   Map<String, dynamic> toJson() {
@@ -234,6 +269,7 @@ class Payletter {
     data['ch_code'] = chCode;
     data['name'] = name;
     data['created_at'] = createdAt;
+    data['pricing'] = pricing;
     return data;
   }
 }
@@ -243,14 +279,16 @@ class Saldo {
   String? name;
   String? chCode;
   String? chType;
+  String? pricing;
 
-  Saldo({this.amount, this.name, this.chCode, this.chType});
+  Saldo({this.amount, this.name, this.chCode, this.chType, pricing});
 
   Saldo.fromJson(Map<String, dynamic> json) {
     amount = json['amount'];
     name = json['name'];
     chCode = json['ch_code'];
     chType = json['ch_type'];
+    pricing = json['pricing'].isNotEmpty ? json['pricing'] : '0';
   }
 
   Map<String, dynamic> toJson() {
@@ -259,6 +297,7 @@ class Saldo {
     data['name'] = name;
     data['ch_code'] = chCode;
     data['ch_type'] = chType;
+    data['pricing'] = pricing;
     return data;
   }
 }

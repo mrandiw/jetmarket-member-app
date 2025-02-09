@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/presentation/home_pages/choice_payment/section/app_bar_section.dart';
 import 'package:jetmarket/presentation/home_pages/choice_payment/section/payment_methode_section.dart';
+import 'package:jetmarket/presentation/home_pages/choice_payment/section/total_section.dart';
 
 import '../../../components/loading/load_pages.dart';
 import '../../../components/parent/parent_scaffold.dart';
@@ -24,6 +25,9 @@ class ChoicePaymentScreen extends GetView<ChoicePaymentController> {
         backgroundColor: kWhite,
         appBar: appBarChoicePayment,
         body: const SafeArea(child: PaymentMethodeSection()),
-        bottomNavigationBar: const ButtonSection(),
+        bottomNavigationBar: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [TotalSection(), ButtonSection()],
+        ),
       );
 }

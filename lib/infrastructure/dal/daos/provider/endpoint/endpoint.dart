@@ -13,6 +13,7 @@ class Endpoint {
   static String claimReferral = 'referral/claim';
   static String deleteAccount = 'auth/customer/soft_delete';
   static String generalConfigCode = 'general_config/code';
+  static String appVersion = 'app_version/current';
 
   // Profile
   static String profile = 'profile/customer';
@@ -101,7 +102,6 @@ class Endpoint {
   static String paylaterBill = 'paylater/bill';
   static String paylaterPay = 'paylater/pay';
   static String paylaterMonthly = '/paylater/pay/montly';
-  
 
   // Refferal
   static String referral = 'referral';

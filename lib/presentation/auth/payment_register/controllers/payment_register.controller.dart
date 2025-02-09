@@ -13,6 +13,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/auth/payment_register/widget/ovo_form.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../components/dialog/dialog_noconnection.dart';
 import '../../../../domain/core/model/model_data/payment_customer_model.dart';
@@ -36,7 +37,11 @@ class PaymentRegisterController extends GetxController {
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
+  String selectedPricing = "";
   final String countryCode = '+62';
+  String amount = AppPreference().cekReferal() == true
+      ? AppPreference().getBiayaRegisPromo() ?? '10000'
+      : AppPreference().getBiayaRegis() ?? '25000';
 
   bool isBankTransferExpanded = false;
   bool isEwalletExpanded = false;
@@ -94,9 +99,7 @@ class PaymentRegisterController extends GetxController {
   Future<void> createPaymentCustomer() async {
     actionStatus = ActionStatus.loading;
     update();
-    String amount = AppPreference().cekReferal() == true
-        ? AppPreference().getBiayaRegisPromo() ?? '10000'
-        : AppPreference().getBiayaRegis() ?? '25000';
+
     // String phoneNumber = AppPreference().getPhoneNumber() ?? '';
     var param = PaymentParam(
         chType: selectedchType,
@@ -129,13 +132,15 @@ class PaymentRegisterController extends GetxController {
     return "assets/images/${path.toLowerCase()}.png";
   }
 
-  void actionPayment(String chType, String chCode, String name) {
+  void actionPayment(
+      String chType, String chCode, String name, String pricing) {
     selectedBankTransfer = chCode;
     selectedEwallet = chCode;
     selectedRetail = chCode;
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
+    selectedPricing = pricing;
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
@@ -192,6 +197,33 @@ class PaymentRegisterController extends GetxController {
       img = 'assets/images/warning.png';
     }
     return img;
+  }
+
+  String calculateSelectedPricing() {
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+
+      double biayaLayanan = (int.parse(amount) * percentage) / 100;
+      return biayaLayanan.toStringAsFixed(0).toIdrFormat;
+    } else {
+      return selectedPricing.toIdrFormat;
+    }
+  }
+
+  String calculateTotalPayment() {
+    double biayaLayanan = 0.0;
+
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      biayaLayanan = (int.parse(amount) * percentage) / 100;
+    } else {
+      biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
+    }
+
+    double totalPembayaran = int.parse(amount) + biayaLayanan;
+    return totalPembayaran.toStringAsFixed(0);
   }
 
   @override

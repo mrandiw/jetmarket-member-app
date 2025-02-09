@@ -100,6 +100,12 @@ class FormSection extends StatelessWidget {
                         ),
                       )))),
           Gap(12.h),
+          Text('Biaya Layanan: Rp 4.000', style: text12BlackRegular),
+          Gap(6 .h),
+          Text(
+              'Saldo yang dibayarkan: ${'${int.parse(controller.nominalController.text.isNotEmpty ? controller.nominalController.text.replaceAll(',', '') : '0') + 4000}'.toIdrFormat}',
+              style: text12BlackRegular),
+          Gap(12.h),
           AppButton.primary(
             actionStatus: controller.actionStatus,
             text: 'Withdraw',

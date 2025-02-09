@@ -6,7 +6,7 @@ import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 
 AppBar get appBarChoicePaymentTopup {
-  return AppBar(
+  return AppBar( 
     backgroundColor: kWhite,
     elevation: 0,
     automaticallyImplyLeading: false,

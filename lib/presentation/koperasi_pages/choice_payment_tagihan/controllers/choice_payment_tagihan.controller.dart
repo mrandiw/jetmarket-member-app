@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/model/params/loan/loan_bill.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../domain/core/interfaces/loan_repository.dart';
@@ -41,6 +42,7 @@ class ChoicePaymentTagihanController extends GetxController {
   String? selectedChType;
   String? selectedChCode;
   String selectedName = "";
+  String selectedPricing = "";
   int? selectedIdMethode;
 
   var isPhoneValidated = false.obs;
@@ -90,13 +92,15 @@ class ChoicePaymentTagihanController extends GetxController {
     update();
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(
+      int id, String chType, String chCode, String name, String pricing) {
     selectedBankTransfer = id.toString();
     selectedEwallet = id.toString();
     selectedRetail = id.toString();
     selectedIdMethode = id;
     selectedChType = chType;
     selectedChCode = chCode;
+    selectedPricing = pricing;
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
@@ -203,6 +207,45 @@ class ChoicePaymentTagihanController extends GetxController {
   //     errorDialogMessage('Saldo tidak cukup');
   //   }
   // }
+
+  String calculateSelectedPricing() {
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+
+      double baseAmount = (Get.arguments is List && Get.arguments.length > 1)
+          ? (Get.arguments[1] is num
+              ? (Get.arguments[1] as num).toDouble()
+              : double.tryParse(Get.arguments[1].toString()) ?? 0.0)
+          : 0.0;
+
+      double biayaLayanan = (baseAmount * percentage) / 100;
+      return biayaLayanan.toStringAsFixed(0).toIdrFormat;
+    } else {
+      return selectedPricing.toIdrFormat;
+    }
+  }
+
+  String calculateTotalPayment() {
+    double biayaLayanan = 0.0;
+
+    double baseAmount = (Get.arguments is List && Get.arguments.length > 1)
+        ? (Get.arguments[1] is num
+            ? (Get.arguments[1] as num).toDouble()
+            : double.tryParse(Get.arguments[1].toString()) ?? 0.0)
+        : 0.0;
+
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      biayaLayanan = (baseAmount * percentage) / 100;
+    } else {
+      biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
+    }
+
+    double totalPembayaran = baseAmount + biayaLayanan;
+    return totalPembayaran.toStringAsFixed(0);
+  }
 
   @override
   void onInit() {

@@ -47,7 +47,13 @@ class OrderList extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                              '${controller.waitingPayment[index].expiredAt?.toDateDay}',
+                              controller.waitingPayment[index].expiredAt
+                                          ?.isNotEmpty ??
+                                      false
+                                  ? controller.waitingPayment[index].expiredAt
+                                          ?.toDateDay ??
+                                      '-'
+                                  : '-',
                               style: text12WarningMedium)
                         ]),
                         Gap(8.h),
@@ -55,7 +61,7 @@ class OrderList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                                "${controller.waitingPayment[index].paymentInfo?.code} ${controller.waitingPayment[index].paymentInfo?.name == 'VIRTUAL_ACCOUNT' ? 'Virtual Account' : ''}",
+                                "${controller.waitingPayment[index].paymentInfo?.name != 'VIRTUAL_ACCOUNT' ? '${controller.waitingPayment[index].paymentInfo?.name} ' :  ''}${controller.waitingPayment[index].paymentInfo?.code} ${controller.waitingPayment[index].paymentInfo?.name == 'VIRTUAL_ACCOUNT' ? 'Virtual Account' : ''}",
                                 style: text12BlackMedium),
                             Image.asset(
                               controller.assetImage(controller

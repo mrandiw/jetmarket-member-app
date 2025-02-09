@@ -145,6 +145,7 @@ class WithdrawController extends GetxController {
       } else {
         actionStatus = ActionStatus.failed;
         update();
+        showDialogError(response.message ?? '');
       }
     }
   }

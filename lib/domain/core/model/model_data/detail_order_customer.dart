@@ -18,6 +18,7 @@ class DetailOrderCustomer {
   String? sellerName;
   String? sellerPhone;
   String? sellerAddress;
+  int? biayaLayanan;
 
   DetailOrderCustomer(
       {this.id,
@@ -37,7 +38,8 @@ class DetailOrderCustomer {
       this.reason,
       this.sellerName,
       this.sellerPhone,
-      this.sellerAddress});
+      this.sellerAddress,
+      this.biayaLayanan});
 
   DetailOrderCustomer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,6 +70,7 @@ class DetailOrderCustomer {
     sellerName = json['seller_name'];
     sellerAddress = json['seller_address'];
     sellerPhone = json['seller_phone'];
+    biayaLayanan =json['biaya_layanan'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +102,7 @@ class DetailOrderCustomer {
     data['seller_name'] = sellerName;
     data['seller_address'] = sellerAddress;
     data['seller_phone'] = sellerPhone;
+    data['biaya_layanan'] = biayaLayanan;
     return data;
   }
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/domain/core/model/params/saving/saving_direct_param.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 import 'package:jetmarket/utils/extension/remove_comma.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
@@ -47,6 +48,7 @@ class AddTabunganManualController extends GetxController {
   String? selectedChType;
   String? selectedChCode;
   String selectedName = "";
+  String selectedPricing = "";
   int? selectedIdMethode;
 
   var isPhoneValidated = false.obs;
@@ -103,13 +105,15 @@ class AddTabunganManualController extends GetxController {
     update();
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(
+      int id, String chType, String chCode, String name, String pricing) {
     selectedBankTransfer = id.toString();
     selectedEwallet = id.toString();
     selectedRetail = id.toString();
     selectedIdMethode = id;
     selectedChType = chType;
     selectedChCode = chCode;
+    selectedPricing = pricing;
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
@@ -215,6 +219,39 @@ class AddTabunganManualController extends GetxController {
             descTextStyle: text12BlackRegular,
             btnCancelOnPress: () {})
         .show();
+  }
+
+  String calculateSelectedPricing() {
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      int baseAmount = nominalController.text.isNotEmpty
+          ? int.parse(nominalController.text.removeComma)
+          : 0;
+
+      double biayaLayanan = (baseAmount * percentage) / 100;
+      return biayaLayanan.toStringAsFixed(0).toIdrFormat;
+    } else {
+      return selectedPricing.toIdrFormat;
+    }
+  }
+
+  String calculateTotalPayment() {
+    double biayaLayanan = 0.0;
+    int baseAmount = nominalController.text.isNotEmpty
+        ? int.parse(nominalController.text.removeComma)
+        : 0;
+
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      biayaLayanan = (baseAmount * percentage) / 100;
+    } else {
+      biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
+    }
+
+    double totalPembayaran = baseAmount + biayaLayanan;
+    return totalPembayaran.toStringAsFixed(0);
   }
 
   @override

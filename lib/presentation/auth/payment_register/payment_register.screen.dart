@@ -12,6 +12,7 @@ import 'controllers/payment_register.controller.dart';
 import 'section/button_section.dart';
 import 'section/payment_section.dart';
 import 'section/header_section.dart';
+import 'section/total_section.dart';
 
 class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
   const PaymentRegisterScreen({super.key});
@@ -39,7 +40,13 @@ class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
           ],
         ),
       ),
-      bottomNavigationBar: ButtonSection(controller: controller),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const TotalSection(),
+          ButtonSection(controller: controller),
+        ],
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/order_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
+import 'package:jetmarket/utils/extension/currency.dart';
 
 import '../../../../components/bottom_sheet/show_bottom_sheet.dart';
 import '../../../../components/snackbar/app_snackbar.dart';
@@ -41,6 +42,7 @@ class ChoicePaymentController extends GetxController {
   String selectedchType = "";
   String selectedchCode = "";
   String selectedName = "";
+  String selectedPricing = "0";
   final String countryCode = '+62';
 
   bool isBankTransferExpanded = false;
@@ -134,7 +136,8 @@ class ChoicePaymentController extends GetxController {
     }
   }
 
-  void actionPayment(int id, String chType, String chCode, String name) {
+  void actionPayment(
+      int id, String chType, String chCode, String name, String pricing) {
     selectedBankTransfer = id.toString();
     selectedEwallet = id.toString();
     selectedRetail = id.toString();
@@ -143,6 +146,7 @@ class ChoicePaymentController extends GetxController {
     selectedchType = chType;
     selectedchCode = chCode;
     selectedName = name;
+    selectedPricing = pricing;
     setDataArgument();
     update();
     if (chType == "EWALLET" && chCode == "OVO") {
@@ -193,7 +197,6 @@ class ChoicePaymentController extends GetxController {
   }
 
   setDataArgument() {
-    print('ini ${Get.arguments[4]}');
     List<dynamic> items = Get.arguments[5]['items'];
     orderCustomer = OrderCustomerModel(
         addressId: Get.arguments[0],
@@ -262,6 +265,45 @@ class ChoicePaymentController extends GetxController {
     Get.find<MainPagesController>().changeTabIndex(1);
     Get.find<OrderController>().getWaitingOrderLenght();
     Get.find<OrderController>().pagingController.refresh();
+  }
+
+  String calculateSelectedPricing() {
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+
+      double baseAmount = (Get.arguments is List && Get.arguments.length > 3)
+          ? (Get.arguments[3] is num
+              ? (Get.arguments[3] as num).toDouble()
+              : double.tryParse(Get.arguments[3].toString()) ?? 0.0)
+          : 0.0;
+
+      double biayaLayanan = (baseAmount * percentage) / 100;
+      return biayaLayanan.toStringAsFixed(0).toIdrFormat;
+    } else {
+      return selectedPricing.toIdrFormat;
+    }
+  }
+
+  String calculateTotalPayment() {
+    double biayaLayanan = 0.0;
+
+    double baseAmount = (Get.arguments is List && Get.arguments.length > 3)
+        ? (Get.arguments[3] is num
+            ? (Get.arguments[3] as num).toDouble()
+            : double.tryParse(Get.arguments[3].toString()) ?? 0.0)
+        : 0.0;
+
+    if (selectedPricing.contains('%')) {
+      double percentage =
+          double.parse(selectedPricing.replaceAll('%', '').trim());
+      biayaLayanan = (baseAmount * percentage) / 100;
+    } else {
+      biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
+    }
+
+    double totalPembayaran = baseAmount + biayaLayanan;
+    return totalPembayaran.toStringAsFixed(0);
   }
 
   @override

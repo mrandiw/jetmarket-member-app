@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/koperasi_pages/add_tabungan_manual/section/nominal_saldo_section.dart';
+import 'package:jetmarket/presentation/koperasi_pages/add_tabungan_manual/section/total_section.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
 import '../../../components/loading/load_pages.dart';
@@ -33,7 +34,13 @@ class AddTabunganManualScreen extends GetView<AddTabunganManualController> {
         padding: AppStyle.paddingAll16,
         children: const [NominalSaldoSection(), PaymentMethodeSection()],
       ),
-      bottomNavigationBar: const ButtonSection(),
+      bottomNavigationBar: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TotalSection(),
+          ButtonSection(),
+        ],
+      ),
     );
   }
 }

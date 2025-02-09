@@ -99,7 +99,9 @@ class PaymentMethodeSection extends StatelessWidget {
                       runSpacing: 6.r,
                       spacing: 6.r,
                       children: List.generate(
-                          (controller.savingPaymentMethode?.virtualAccount ?? []).length,
+                          (controller.savingPaymentMethode?.virtualAccount ??
+                                  [])
+                              .length,
                           (index) => GestureDetector(
                               onTap: () => controller.actionPayment(
                                   controller.savingPaymentMethode
@@ -113,6 +115,9 @@ class PaymentMethodeSection extends StatelessWidget {
                                       '',
                                   controller.savingPaymentMethode
                                           ?.virtualAccount?[index].name ??
+                                      '',
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].pricing ??
                                       ''),
                               child: Container(
                                 height: 36.h,
@@ -250,6 +255,9 @@ class PaymentMethodeSection extends StatelessWidget {
                                     '',
                                 controller.savingPaymentMethode
                                         ?.ewalletQr?[index].name ??
+                                    '',
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].pricing ??
                                     '');
                           },
                           child: Container(
@@ -381,6 +389,9 @@ class PaymentMethodeSection extends StatelessWidget {
                                           '',
                                       controller.savingPaymentMethode
                                               ?.otc?[index].name ??
+                                          '',
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].pricing ??
                                           ''),
                                   child: Container(
                                       height: 36.h,

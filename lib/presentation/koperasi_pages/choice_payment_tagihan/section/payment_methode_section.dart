@@ -141,7 +141,10 @@ class PaymentMethodeSection extends StatelessWidget {
                                       '',
                                   controller.savingPaymentMethode
                                           ?.virtualAccount?[index].name ??
-                                      ''),
+                                      '',
+                                  controller.savingPaymentMethode
+                                          ?.virtualAccount?[index].pricing ??
+                                      '0'),
                               child: Container(
                                 height: 36.h,
                                 width: 56.w,
@@ -276,6 +279,9 @@ class PaymentMethodeSection extends StatelessWidget {
                                     '',
                                 controller.savingPaymentMethode
                                         ?.ewalletQr?[index].name ??
+                                    '',
+                                controller.savingPaymentMethode
+                                        ?.ewalletQr?[index].pricing ??
                                     '');
                           },
                           child: Container(
@@ -401,7 +407,10 @@ class PaymentMethodeSection extends StatelessWidget {
                                           '',
                                       controller.savingPaymentMethode
                                               ?.otc?[index].name ??
-                                          ''),
+                                          '',
+                                      controller.savingPaymentMethode
+                                              ?.otc?[index].pricing ??
+                                          '0'),
                                   child: Container(
                                       height: 36.h,
                                       width: 56.w,

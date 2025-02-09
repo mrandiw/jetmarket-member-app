@@ -7,7 +7,6 @@ import 'package:jetmarket/domain/core/interfaces/refferal_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../infrastructure/dal/services/firebase/deeplink_service.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/app_preference/app_preferences.dart';
@@ -59,9 +58,13 @@ class ReferralController extends GetxController {
   }
 
   void shareReferral() async {
-    final String deeplink =  DeeplinkService.createDeepLink(
-        code: codeRefferal ?? '', type: DeeplinkType.register);
-    await Share.share(deeplink, subject: 'Look what I made!');
+    // final String deeplink =  DeeplinkService.createDeepLink(
+    //     code: codeRefferal ?? '', type: DeeplinkType.register);
+    // await Share.share(deeplink, subject: 'Look what I made!');
+
+    await Share.share(
+        'Kode referral:\n$codeRefferal\n\nUntuk aplikasi bisa di download di link di bawah ini: https://drive.google.com/drive/folders/1H0_KhAhpRgxP7iPorRcEC9xARE4g6c-y',
+        subject: 'Look what I made!');
   }
 
   @override

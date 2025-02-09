@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/presentation/wallet/choice_payment_topup/section/total_section.dart';
 import '../../../components/loading/load_pages.dart';
 import '../../../components/parent/error_page.dart';
 import '../../../components/parent/parent_scaffold.dart';
@@ -25,7 +26,13 @@ class ChoicePaymentTopupScreen extends GetView<ChoicePaymentTopupController> {
       backgroundColor: kWhite,
       appBar: appBarChoicePaymentTopup,
       body: const PaymentSection(),
-      bottomNavigationBar: ButtonSection(controller: controller),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const TotalSection(),
+          ButtonSection(controller: controller),
+        ],
+      ),
     );
   }
 }
