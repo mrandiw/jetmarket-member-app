@@ -52,6 +52,9 @@ class PaymentPayletterController extends GetxController {
       } else if (response.message == 'Limit paylater tidak cukup') {
         AppSnackbar.show(
             message: response.message ?? '', type: SnackType.error);
+      } else if (response.message?.contains('Harap') ?? false) {
+        AppSnackbar.show(
+            message: response.message ?? '', type: SnackType.error);
       } else {
         Get.toNamed(Routes.PAYLETTER_SUCCESS,
             arguments: response.result?.refId);
