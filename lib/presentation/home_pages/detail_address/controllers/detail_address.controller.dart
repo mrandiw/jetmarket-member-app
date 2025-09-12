@@ -163,6 +163,7 @@ class DetailAddressController extends GetxController {
   setData() {
     if (Get.arguments['type'] != 'edit') {
       addressController = TextEditingController(text: Get.arguments['address']);
+      labelController = TextEditingController(text: Get.arguments['label']);
       kodePosController =
           TextEditingController(text: Get.arguments['pos_code']);
       latitude = Get.arguments['lat'];

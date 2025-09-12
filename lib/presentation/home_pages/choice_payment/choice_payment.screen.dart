@@ -15,10 +15,12 @@ class ChoicePaymentScreen extends GetView<ChoicePaymentController> {
   const ChoicePaymentScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ParentScaffold(
-        onLoading: const LoadingPages(),
-        onSuccess: _successWidget(),
-        status: controller.screenStatus.value));
+    return Obx(
+      () => ParentScaffold(
+          onLoading: const LoadingPages(),
+          onSuccess: _successWidget(),
+          status: controller.screenStatus.value),
+    );
   }
 
   Widget _successWidget() => Scaffold(

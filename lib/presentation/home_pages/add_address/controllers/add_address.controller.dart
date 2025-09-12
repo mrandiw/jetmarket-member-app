@@ -1,47 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
-import 'package:jetmarket/domain/core/model/model_data/location_model.dart';
-import 'package:jetmarket/domain/core/model/params/location_param.dart';
-import 'package:jetmarket/infrastructure/navigation/routes.dart';
-import 'package:jetmarket/utils/path/environment.dart';
-
-import '../../../../utils/debouncer.dart';
+import 'package:jetmarket/presentation/home_pages/add_address/model/location.model.dart';
+import 'package:geocoding/geocoding.dart';
 
 enum ResultLocation { success, error, empty, loading }
 
 class AddAddressController extends GetxController {
-  final AddressRepository _addressRepository;
-  AddAddressController(this._addressRepository);
-  TextEditingController searchController = TextEditingController();
-  var resultLocation = ResultLocation.empty;
-  List<LocationModel> locations = [];
+  String postCode = '';
+  double latitude = 0.0;
+  double longitude = 0.0;
+  final readOnly = false.obs;
+  TextEditingController recipientAddressController = TextEditingController();
+  GlobalKey<FormState> recipientAddressFormKey = GlobalKey<FormState>();
+  AutovalidateMode autoValidateRecipientAddress = AutovalidateMode.disabled;
+  TextEditingController labelAddressController = TextEditingController();
+  GlobalKey<FormState> labelAddressFormKey = GlobalKey<FormState>();
+  AutovalidateMode autoValidateLabelAddress = AutovalidateMode.disabled;
+  final Rx<LocationDataModel?> locationData = Rx<LocationDataModel?>(null);
 
-  final Debouncer _debouncer = Debouncer(milliseconds: 1000);
-  void searchLocation(String query) async {
-    resultLocation = ResultLocation.loading;
-    update();
-    _debouncer.run(() async {
-      var param = LocationParam(input: query, key: apiKey);
-      final response = await _addressRepository.getSearchLocation(param);
-      if (response.result != null) {
-        locations.assignAll(response.result!);
-        resultLocation = ResultLocation.success;
-        update();
+  Future getDataLocation() async {
+    try {
+      final isAddressValid = recipientAddressFormKey.currentState!.validate();
+      final isLableValid = labelAddressFormKey.currentState!.validate();
+      if (isAddressValid && isLableValid) {
+        List<Location> locations =
+            await locationFromAddress(recipientAddressController.text);
+
+        for (var element in locations) {
+          latitude = element.latitude;
+          longitude = element.longitude;
+        }
+
+        List<Placemark> placemarks =
+            await placemarkFromCoordinates(latitude, longitude);
+
+        for (var element in placemarks) {
+          postCode = element.postalCode ?? '';
+        }
+
+        locationData.value = LocationDataModel.fromJson({
+          'label': labelAddressController.text,
+          'address': '',
+          'pos_code': postCode,
+          'lat': latitude,
+          'lng': longitude
+        });
+
+        readOnly.value = true;
       } else {
-        resultLocation = ResultLocation.empty;
-        locations.clear();
-        update();
+        if (!isAddressValid) {
+          autoValidateRecipientAddress = AutovalidateMode.always;
+        }
+        if (!isLableValid) {
+          autoValidateLabelAddress = AutovalidateMode.always;
+        }
       }
-    });
-  }
-
-  void toLocationMap(LocationModel location) {
-    Get.toNamed(Routes.LOCATION, arguments: {
-      "lat": location.latitude,
-      "lng": location.longitude,
-      "with-latlong": true
-    });
+    } catch (err) {
+      update();
+    }
   }
 
   void backToCheckout() {

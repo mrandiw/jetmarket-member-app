@@ -14,6 +14,6 @@ AppBar get appBarAddAddress {
       onPressed: () => Get.back(),
       icon: SvgPicture.asset(arrowForward),
     ),
-    title: Text('Ubah ALamat', style: text16BlackSemiBold),
+    title: Text('Tambah Alamat', style: text16BlackSemiBold),
   );
 }

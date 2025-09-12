@@ -83,7 +83,7 @@ class HomeController extends GetxController {
         id: 0,
         name: 'Semua',
         image:
-            'https://cnwynetqfkfgdzunxnjb.supabase.co/storage/v1/object/public/static/kategori_semua.png');
+            'https://pztgbokzuoyfdfupkjon.supabase.co/storage/v1/object/public/static/kategori_semua.png');
     data.insert(0, staticData);
     categoryProduct.assignAll(data);
     update();
