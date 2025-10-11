@@ -165,7 +165,7 @@ class ProductItem extends StatelessWidget {
                 cursorColor: kSuccessColor,
                 style: text10HintRegular,
                 onEditingComplete: closeWriteNote,
-                controller: controller,
+                controller: controller, 
                 decoration: InputDecoration(
                     label: Text('Catatan Barang ini', style: text10HintRegular),
                     hintText: '',

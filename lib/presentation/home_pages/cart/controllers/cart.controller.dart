@@ -341,7 +341,7 @@ class CartController extends GetxController {
       for (Products product in item.products ?? []) {
         totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
       }
-    }
+    } 
     update();
   }
 

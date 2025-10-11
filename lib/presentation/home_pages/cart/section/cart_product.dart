@@ -218,7 +218,7 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                                   ))
                             ],
                           ),
-                  ),
+                  ), 
                   Visibility(
                       visible:
                           controller.isWriteNote[indexSeller][index] == true,
@@ -235,7 +235,7 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                           decoration: InputDecoration(
                               label: Text('Catatan Barang ini',
                                   style: text10HintRegular),
-                              hintText: '',
+                              hintText: '', 
                               border: _border,
                               enabledBorder: _border,
                               focusedBorder: _border,

@@ -62,18 +62,21 @@ class ProductSection extends StatelessWidget {
                               openWriteNote: () =>
                                   controller.openWriteNote(index, indexProduct),
                               closeWriteNote: () => controller.closeWriteNote(
-                                  index,
-                                  indexProduct,
-                                  data.products?[indexProduct].cartId ?? 0),
+                                index,
+                                indexProduct,
+                                data.products?[indexProduct].cartId ?? 0,
+                              ),
                               controller: controller.notesController[index]
                                   [indexProduct],
                               decrement: () => controller.decrementProduct(
-                                  data.products?[indexProduct].cartId ?? 0,
-                                  data.products?[indexProduct].qty ?? 0),
+                                data.products?[indexProduct].cartId ?? 0,
+                                data.products?[indexProduct].qty ?? 0,
+                              ),
                               increment: () => controller.incrementProduct(
-                                  data.products?[indexProduct].cartId ?? 0,
-                                  data.products?[indexProduct].qty ?? 0,
-                                  data.products?[indexProduct].stock ?? 0),
+                                data.products?[indexProduct].cartId ?? 0,
+                                data.products?[indexProduct].qty ?? 0,
+                                data.products?[indexProduct].stock ?? 0,
+                              ),
                             ),
                             if (indexProduct == data.products!.length - 1 &&
                                 controller.listDelivery.isEmpty)

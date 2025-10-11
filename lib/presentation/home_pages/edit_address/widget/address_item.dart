@@ -77,7 +77,7 @@ class AddressItem extends StatelessWidget {
                         scale: 0.7,
                         child: RadioListTile(
                             activeColor: kPrimaryColor,
-                            fillColor: MaterialStateProperty.all(
+                            fillColor: WidgetStateProperty.all(
                                 controller.selectedAddress == index
                                     ? kPrimaryColor
                                     : kDivider),

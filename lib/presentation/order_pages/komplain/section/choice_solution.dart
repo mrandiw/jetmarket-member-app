@@ -40,7 +40,7 @@ class ChoiceSolution extends StatelessWidget {
                                 height: 22.r,
                                 child: Radio(
                                   activeColor: kPrimaryColor,
-                                  fillColor: MaterialStateProperty.all(
+                                  fillColor: WidgetStateProperty.all(
                                     controller.seledtedSolutionIndex == index
                                         ? kPrimaryColor
                                         : kDivider,

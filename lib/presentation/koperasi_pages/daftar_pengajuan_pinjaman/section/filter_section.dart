@@ -59,13 +59,13 @@ class FilterSection extends StatelessWidget {
                   ),
                   style: const MenuStyle(
                     // alignment: Alignment.bottomCenter,
-                    backgroundColor: MaterialStatePropertyAll(kWhite),
-                    surfaceTintColor: MaterialStatePropertyAll(kWhite),
-                    elevation: MaterialStatePropertyAll(12),
-                    shadowColor: MaterialStatePropertyAll(
+                    backgroundColor: WidgetStatePropertyAll(kWhite),
+                    surfaceTintColor: WidgetStatePropertyAll(kWhite),
+                    elevation: WidgetStatePropertyAll(12),
+                    shadowColor: WidgetStatePropertyAll(
                       Color.fromARGB(50, 217, 217, 217),
                     ),
-                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                    padding: WidgetStatePropertyAll(EdgeInsets.zero),
                   ),
                 );
               }),
