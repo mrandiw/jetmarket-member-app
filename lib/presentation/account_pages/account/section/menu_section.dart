@@ -79,7 +79,7 @@ class MenuSection extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: kPrimaryColor2,
                         borderRadius: AppStyle.borderRadius6All),
-                    child: SvgPicture.asset(reviewLine),
+                    child: Image.asset('assets/images/paylater.png'),
                   ),
                   title: Text('Paylater', style: text12BlackMedium),
                   subtitle: Text('Beli sekarang, bayar nanti',
