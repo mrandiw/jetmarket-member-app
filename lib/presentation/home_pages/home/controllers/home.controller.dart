@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jetmarket/domain/core/interfaces/cart_repository.dart';
+import 'package:jetmarket/domain/core/interfaces/chat_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/product_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/category_product.dart';
 import 'package:jetmarket/domain/core/model/model_data/product.dart';
@@ -24,7 +25,9 @@ import '../widget/filter_product.dart';
 class HomeController extends GetxController {
   final ProductRepository _productRepository;
   final CartRepository _cartRepository;
-  HomeController(this._productRepository, this._cartRepository);
+  final ChatRepository _chatRepository;
+  HomeController(
+      this._productRepository, this._cartRepository, this._chatRepository);
   TextEditingController searchController = TextEditingController();
   var screenStatus = (ScreenStatus.success).obs;
   var isHomeScreen = true.obs;
@@ -47,6 +50,8 @@ class HomeController extends GetxController {
   CategoryProduct? selectedCategoryProduct;
   String? selectedStars;
   bool isFiltered = false;
+
+  int unreadChat = 0;
 
   List<String> sortProduct = [
     'Terbaru',
@@ -123,7 +128,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> getPopularProduct() async {
-    var param = const ProductSellerParam(page: 1, size: 10, sellerId: 1, sortBy: 'popular');
+    var param = const ProductSellerParam(
+        page: 1, size: 10, sellerId: 1, sortBy: 'popular');
     final response = await _productRepository.getProductBySeller(param);
     if (response.status == StatusResponse.success) {
       setPopular(data: response.result ?? []);
@@ -349,8 +355,17 @@ class HomeController extends GetxController {
     } finally {}
   }
 
+  Future<void> getUnreadChat() async {
+    final response = await _chatRepository.getUnreadChat();
+    if (response.status == StatusResponse.success) {
+      unreadChat = response.result!;
+      update();
+    }
+  }
+
   @override
   void onInit() {
+    getUnreadChat();
     getBanner();
     getCategoryProduct();
     getPopularProduct();

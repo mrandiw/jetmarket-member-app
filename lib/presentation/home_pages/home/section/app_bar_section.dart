@@ -38,6 +38,24 @@ AppBar get appBarHome {
               return Badge.count(
                 count: snapshot.hasData ? snapshot.data ?? 0 : 0,
                 isLabelVisible: (snapshot.data ?? 0) > 0 ? true : false,
+                child: IconButton(
+                    onPressed: () => Get.toNamed(Routes.CHATS),
+                    icon: SvgPicture.asset(chatFill)),
+              );
+            },
+          ),
+        );
+      }),
+      Gap(10.w),
+      GetBuilder<HomeController>(builder: (homeController) {
+        return GestureDetector(
+          onTap: () => Get.toNamed(Routes.CART),
+          child: FutureBuilder(
+            future: homeController.getCountChart(),
+            builder: (context, snapshot) {
+              return Badge.count(
+                count: snapshot.hasData ? snapshot.data ?? 0 : 0,
+                isLabelVisible: (snapshot.data ?? 0) > 0 ? true : false,
                 child: SvgPicture.asset(
                   cart,
                   // height: 14.wr,
