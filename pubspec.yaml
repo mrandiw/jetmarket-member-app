@@ -59,6 +59,8 @@ dependencies:
   photo_view: ^0.15.0
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
+  screenshot: ^3.0.0
+  image_gallery_saver_plus: ^3.0.5
 
 flutter_native_splash:
   background_image: assets/images/splash.png

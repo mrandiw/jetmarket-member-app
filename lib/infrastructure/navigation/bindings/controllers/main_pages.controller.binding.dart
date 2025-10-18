@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jetmarket/infrastructure/dal/repository/cart_repository_impl.dart';
+import 'package:jetmarket/infrastructure/dal/repository/chat_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/ewallet_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/loan_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/saving_repository_impl.dart';
@@ -19,7 +20,8 @@ class MainPagesControllerBinding extends Bindings {
     Get.put(MainPagesController());
     Get.put(AccountController(AuthRepositoryImpl()));
     Get.lazyPut<HomeController>(
-      () => HomeController(ProductRepositoryImpl(), CartRepositoryImpl()),
+      () => HomeController(
+          ProductRepositoryImpl(), CartRepositoryImpl(), ChatRepositoryImpl()),
     );
     Get.lazyPut<OrderController>(
       () => OrderController(OrderRepositoryImpl()),

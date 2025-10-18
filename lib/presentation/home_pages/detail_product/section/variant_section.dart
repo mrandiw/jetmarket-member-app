@@ -37,7 +37,8 @@ class VariantSection extends StatelessWidget {
                         imageBuilder: (context, imageProvider) =>
                             GestureDetector(
                           onTap: () => controller.selectVariant(
-                              controller.detailProduct?.variants?[index]),
+                              controller.detailProduct?.variants?[index],
+                              index),
                           child: Stack(
                             children: [
                               Container(
@@ -97,7 +98,8 @@ class VariantSection extends StatelessWidget {
                         ),
                         errorWidget: (context, url, error) => GestureDetector(
                           onTap: () => controller.selectVariant(
-                              controller.detailProduct?.variants?[index]),
+                              controller.detailProduct?.variants?[index],
+                              index),
                           child: Container(
                             height: 80.r,
                             width: 80.r,

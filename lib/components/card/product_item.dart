@@ -36,13 +36,13 @@ class ProductItem extends StatelessWidget {
                   ? item.thumbnail ?? ''
                   : '',
               imageBuilder: (context, imageProvider) => Container(
-                height: 92.h,
+                height: 114.h,
                 decoration: BoxDecoration(
                   borderRadius: AppStyle.borderRadius8Top,
                   color: kSofterGrey,
                   image: DecorationImage(
                     image: imageProvider,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 child: Align(
@@ -122,7 +122,12 @@ class ProductItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.name ?? '', style: text12BlackRegular),
+                    Text(
+                      item.name ?? '',
+                      style: text12BlackRegular,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Gap(2.h),
                     Row(
                       children: [

@@ -128,8 +128,18 @@ class DetailProductController extends GetxController {
     update();
   }
 
-  void selectVariant(Variants? value) {
+  void selectVariant(Variants? value, int index) {
+    currentIndexImage = index;
     selectedVariant = value;
+
+    if (pageController.hasClients &&
+        (detailProduct?.variants?.length ?? 0) > index) {
+      pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    }
     update();
   }
 
