@@ -20,7 +20,7 @@ class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
   bool isEmployees = false;
-  String versionApp = '1.0.2';
+  String versionApp = '2.0.0';
 
   void changeTabIndex(int index) {
     selectedIndex = index;
@@ -157,7 +157,7 @@ class MainPagesController extends GetxController {
   Future<void> checkVersionApp() async {
     final response = await _appVersionRepository.getAppVersion();
     if (response.status == StatusResponse.success) {
-      String latestVersion = response.result!.version ?? '';
+      String latestVersion = response.result!.version ?? versionApp;
       if (isVersionHigher(versionApp, latestVersion)) {
         if (!Get.isDialogOpen!) {
           AppDialogConfirmation.show(
