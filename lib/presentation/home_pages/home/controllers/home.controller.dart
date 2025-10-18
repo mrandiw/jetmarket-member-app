@@ -123,7 +123,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> getPopularProduct() async {
-    var param = const ProductSellerParam(page: 1, size: 10, sellerId: 1);
+    var param = const ProductSellerParam(page: 1, size: 10, sellerId: 1, sortBy: 'popular');
     final response = await _productRepository.getProductBySeller(param);
     if (response.status == StatusResponse.success) {
       setPopular(data: response.result ?? []);
