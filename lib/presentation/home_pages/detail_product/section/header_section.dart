@@ -23,57 +23,53 @@ class HeaderSection extends StatelessWidget {
         width: Get.width.wr,
         child: Stack(
           children: [
+            // MAIN VIEWER — pakai variants, bukan images
             Positioned.fill(
-                child: Container(
-              height: 250.hr,
-              width: Get.width.wr,
-              color: kWhite,
-              child: PageView.builder(
+              child: Container(
+                height: 250.hr,
+                width: Get.width.wr,
+                color: kWhite,
+                child: PageView.builder(
                   controller: controller.pageController,
-                  onPageChanged: (value) => controller.onImageSlide(value),
-                  itemCount: controller.detailProduct?.images?.length,
+                  onPageChanged: controller.onImageSlide,
+                  itemCount: controller.detailProduct?.variants?.length ?? 0,
                   itemBuilder: (_, index) {
+                    final url =
+                        controller.detailProduct?.variants?[index].image ?? '';
                     return CachedNetworkImage(
-                      imageUrl: controller.detailProduct?.images?[index] ?? '',
-                      imageBuilder: (context, imageProvider) => Container(
+                      imageUrl: url,
+                      imageBuilder: (_, imageProvider) => Container(
                         height: 92.h,
                         decoration: BoxDecoration(
                           borderRadius: AppStyle.borderRadius8Top,
                           color: kSofterGrey,
                           image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-                          ),
+                              image: imageProvider, fit: BoxFit.contain),
                         ),
                       ),
-                      placeholder: (context, url) => SizedBox(
+                      placeholder: (_, __) => SizedBox(
                         height: 92.h,
                         width: Get.width,
                         child: const Center(
                           child: CupertinoActivityIndicator(color: kSoftBlack),
                         ),
                       ),
-                      errorWidget: (context, url, error) => Container(
+                      errorWidget: (_, __, ___) => Container(
                         height: 92.h,
                         decoration: BoxDecoration(
-                            borderRadius: AppStyle.borderRadius8Top),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: AppStyle.borderRadius8Top,
-                            color: kSofterGrey,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.error,
-                              color: kPrimaryColor,
-                              size: 20.r,
-                            ),
-                          ),
+                          borderRadius: AppStyle.borderRadius8Top,
+                          color: kSofterGrey,
+                        ),
+                        child: Center(
+                          child: Icon(Icons.error,
+                              color: kPrimaryColor, size: 20.r),
                         ),
                       ),
                     );
-                  }),
-            )),
+                  },
+                ),
+              ),
+            ),
             Positioned(
                 top: 16.h,
                 right: 16.w,
@@ -151,7 +147,7 @@ class HeaderSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(26.r), color: kWhite),
                   child: Center(
                       child: Text(
-                          '${controller.currentIndexImage + 1}/${controller.detailProduct?.images?.length ?? 1}',
+                          '${controller.currentIndexImage + 1}/${controller.detailProduct?.variants?.length ?? 1}',
                           style: text12BlackRegular)),
                 ))
           ],
