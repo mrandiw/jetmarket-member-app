@@ -106,7 +106,7 @@ class MainPagesController extends GetxController {
           iconFill: pesananFill,
         ),
         ItemBarModel(
-          label: "Koperasi",
+          label: "Mitra",
           icon: koperasi,
           iconFill: koperasiFill,
         ),

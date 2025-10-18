@@ -18,7 +18,7 @@ AppBar get appBarKoperasi {
     elevation: 0,
     toolbarHeight: 52.hr,
     centerTitle: false,
-    title: Text('Koperasi', style: text14BlackMedium),
+    title: Text('Mitra', style: text14BlackMedium),
     actions: [
       GestureDetector(
         onTap: () => Get.toNamed(Routes.CART),
