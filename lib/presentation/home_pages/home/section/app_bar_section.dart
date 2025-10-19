@@ -31,16 +31,14 @@ AppBar get appBarHome {
     actions: [
       GetBuilder<HomeController>(builder: (homeController) {
         return GestureDetector(
-          onTap: () => Get.toNamed(Routes.CART),
+          onTap: () => Get.toNamed(Routes.CHATS),
           child: FutureBuilder(
             future: homeController.getCountChart(),
             builder: (context, snapshot) {
               return Badge.count(
                 count: snapshot.hasData ? snapshot.data ?? 0 : 0,
                 isLabelVisible: (snapshot.data ?? 0) > 0 ? true : false,
-                child: IconButton(
-                    onPressed: () => Get.toNamed(Routes.CHATS),
-                    icon: SvgPicture.asset(chatFill)),
+                child: SvgPicture.asset(chatFill),
               );
             },
           ),
