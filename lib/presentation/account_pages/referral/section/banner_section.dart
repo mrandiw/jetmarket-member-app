@@ -17,56 +17,61 @@ class BannerSection extends StatelessWidget {
       child: GetBuilder<ReferralController>(builder: (controller) {
         return Obx(
           () {
-            return CarouselSlider(
-              items: controller.banners.map((data) {
-                return GestureDetector(
-                  onTap: () => controller.onTapBanner(data.link ?? ''),
-                  child: CachedNetworkImage(
-                    imageUrl: Uri.tryParse(data.image ?? '')?.isAbsolute == true
-                        ? data.image ?? ''
-                        : '',
-                    height: 120.w,
-                    fit: BoxFit.cover,
-                    imageBuilder: (context, imageProvider) {
-                      return Container(
-                        height: 120.w,
-                        decoration: BoxDecoration(
+            return Padding(
+              padding: AppStyle.paddingAll16,
+              child: CarouselSlider(
+                items: controller.banners.map((data) {
+                  return GestureDetector(
+                    onTap: () => controller.onTapBanner(data.link ?? ''),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          Uri.tryParse(data.image ?? '')?.isAbsolute == true
+                              ? data.image ?? ''
+                              : '',
+                      height: 122.w,
+                      fit: BoxFit.cover,
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          height: 122.w,
+                          decoration: BoxDecoration(
+                              color: kSofterGrey,
+                              borderRadius: AppStyle.borderRadius8All,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover)),
+                        );
+                      },
+                      placeholder: (context, url) =>
+                          const Center(child: CupertinoActivityIndicator()),
+                      errorWidget: (context, url, error) {
+                        return Container(
+                          height: 120.w,
+                          padding: EdgeInsets.all(5.w),
+                          decoration: BoxDecoration(
                             color: kSofterGrey,
                             borderRadius: AppStyle.borderRadius8All,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover)),
-                      );
-                    },
-                    placeholder: (context, url) =>
-                        const Center(child: CupertinoActivityIndicator()),
-                    errorWidget: (context, url, error) {
-                      return Container(
-                        height: 120.w,
-                        padding: EdgeInsets.all(5.w),
-                        decoration: BoxDecoration(
-                          color: kSofterGrey,
-                          borderRadius: AppStyle.borderRadius8All,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.error,
-                            color: kPrimaryColor,
-                            size: 18.r,
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }).toList(),
-              options: CarouselOptions(
-                autoPlay: true,
-                autoPlayInterval: 5.seconds,
-                enlargeCenterPage: true,
-                aspectRatio: 16 / 6,
-                onPageChanged: (index, reason) {
-                  // controller.chengeSlider(index);
-                },
+                          child: Center(
+                            child: Icon(
+                              Icons.error,
+                              color: kPrimaryColor,
+                              size: 18.r,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                  viewportFraction: 1.0,
+                  autoPlay: true,
+                  autoPlayInterval: 5.seconds,
+                  enlargeCenterPage: true,
+                  aspectRatio: 16 / 6,
+                  onPageChanged: (index, reason) {
+                    // controller.chengeSlider(index);
+                  },
+                ),
               ),
             );
           },
