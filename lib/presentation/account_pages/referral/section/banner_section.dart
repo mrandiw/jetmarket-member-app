@@ -23,12 +23,12 @@ class BannerSection extends StatelessWidget {
                     onTap: () => controller.onTapBanner(data.link ?? ''),
                     child: CachedNetworkImage(
                       imageUrl:
-                          Uri.tryParse(data.image ?? '')?.isAbsolute == true
-                              ? data.image ?? ''
+                          Uri.tryParse(data.link ?? '')?.isAbsolute == true
+                              ? data.link ?? ''
                               : '',
                       height: 122.w,
                       fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) {
+                    imageBuilder: (context, imageProvider) {
                         return Container(
                           height: 122.w,
                           decoration: BoxDecoration(
