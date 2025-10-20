@@ -77,6 +77,34 @@ class ProductSection extends StatelessWidget {
                                 data.products?[indexProduct].qty ?? 0,
                                 data.products?[indexProduct].stock ?? 0,
                               ),
+                              qtyController: controller.qtyControllers[
+                                      data.products?[indexProduct].cartId] ??
+                                  TextEditingController(
+                                    text:
+                                        (data.products?[indexProduct].qty ?? 0)
+                                            .toString(),
+                                  ),
+                              onQtySubmitted: (value) async {
+                                final qtyValue = int.tryParse(value) ?? 0;
+                                final id =
+                                    data.products?[indexProduct].cartId ?? 0;
+                                final stock =
+                                    data.products?[indexProduct].stock ?? 0;
+
+                                if (qtyValue > stock) {
+                                  controller.warningOverStock();
+                                  controller.qtyControllers[id]?.text = data
+                                          .products?[indexProduct].qty
+                                          .toString() ??
+                                      '0';
+                                } else if (qtyValue <= 0) {
+                                  controller.decrementProduct(
+                                      id, 1); // hapus produk
+                                } else {
+                                  await controller.updateProductQtyLocally(
+                                      id, qtyValue);
+                                }
+                              },
                             ),
                             if (indexProduct == data.products!.length - 1 &&
                                 controller.listDelivery.isEmpty)

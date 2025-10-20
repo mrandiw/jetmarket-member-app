@@ -22,6 +22,7 @@ class CartController extends GetxController {
   List<CartProduct> productCart = [];
   List<CartProduct> selectProductCart = [];
   List<ReOrderId> cartIdReorders = [];
+  final qtyControllers = <int, TextEditingController>{}.obs;
 
   List<List<TextEditingController>> notesController = [];
   List<List<bool>> isWriteNote = [];
@@ -296,6 +297,7 @@ class CartController extends GetxController {
               ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
           if (product != null) {
             product.qty = qty + 1;
+            qtyControllers[id]?.text = (qty + 1).toString();
           }
         }
         update();
@@ -313,6 +315,7 @@ class CartController extends GetxController {
               ?.firstWhere((e) => e.cartId == id, orElse: () => Products());
           if (product != null) {
             product.qty = qty - 1;
+            qtyControllers[id]?.text = (qty - 1).toString();
           }
         }
         update();
@@ -341,7 +344,7 @@ class CartController extends GetxController {
       for (Products product in item.products ?? []) {
         totalPrice += (product.promo ?? 0) * (product.qty ?? 0);
       }
-    } 
+    }
     update();
   }
 

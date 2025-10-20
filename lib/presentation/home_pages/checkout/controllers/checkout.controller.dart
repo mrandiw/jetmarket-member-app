@@ -307,6 +307,8 @@ class CheckoutController extends GetxController {
     update();
   }
 
+  final qtyControllers = <int, TextEditingController>{}.obs;
+
   void incrementProduct(int id, int qty, int stock) {
     if (qty >= stock) {
       warningOverStock();
@@ -321,6 +323,8 @@ class CheckoutController extends GetxController {
             seller: productCart[i].seller,
             products: productCart[i].products?.map((product) {
               if (product.cartId == id) {
+                qtyControllers[id]?.text = (qty + 1).toString();
+
                 return product.copyWith(qty: product.qty! + 1);
               }
               return product;
@@ -332,6 +336,32 @@ class CheckoutController extends GetxController {
       update();
       updateTotalPrice();
     }
+  }
+
+  Future<void> updateProductQtyLocally(int id, int newQty) async {
+    for (int i = 0; i < productCart.length; i++) {
+      int? productIndex = productCart[i]
+          .products
+          ?.indexWhere((product) => product.cartId == id);
+
+      if (productIndex != null && productIndex >= 0) {
+        productCart[i] = c.CartProduct(
+          seller: productCart[i].seller,
+          products: productCart[i].products?.map((product) {
+            if (product.cartId == id) {
+              qtyControllers.putIfAbsent(id, () => TextEditingController());
+              qtyControllers[id]?.text = newQty.toString();
+              return product.copyWith(qty: newQty);
+            }
+            return product;
+          }).toList(),
+        );
+        break;
+      }
+    }
+
+    update(); // Untuk GetBuilder
+    updateTotalPrice();
   }
 
   void decrementProduct(int id, int qty) async {
@@ -346,6 +376,8 @@ class CheckoutController extends GetxController {
             seller: productCart[i].seller,
             products: productCart[i].products?.map((product) {
               if (product.cartId == id) {
+                qtyControllers[id]?.text = (qty - 1).toString();
+
                 return product.copyWith(qty: product.qty! - 1);
               }
               return product;

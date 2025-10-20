@@ -218,7 +218,7 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                                   ))
                             ],
                           ),
-                  ), 
+                  ),
                   Visibility(
                       visible:
                           controller.isWriteNote[indexSeller][index] == true,
@@ -235,7 +235,7 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                           decoration: InputDecoration(
                               label: Text('Catatan Barang ini',
                                   style: text10HintRegular),
-                              hintText: '', 
+                              hintText: '',
                               border: _border,
                               enabledBorder: _border,
                               focusedBorder: _border,
@@ -265,7 +265,57 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                     ),
                   ),
                   Gap(12.w),
-                  Text(data?.qty.toString() ?? '', style: text12BlackRegular),
+                  SizedBox(
+                    width: 40.w,
+                    child: TextFormField(
+                      controller: controller.qtyControllers.putIfAbsent(
+                        data?.cartId ?? 0,
+                        () => TextEditingController(
+                            text: data?.qty.toString() ?? '0'),
+                      ),
+                      textAlign: TextAlign.center,
+                      style: text12BlackRegular,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 6),
+                        border: OutlineInputBorder(),
+                      ),
+                      onFieldSubmitted: (value) async {
+                        final qty = int.tryParse(value) ?? 0;
+                        final stock = data?.stock ?? 0;
+                        final id = data?.cartId ?? 0;
+
+                        if (qty <= 0) {
+                          final isDelete =
+                              await controller.deleteBulkProduct([id]);
+                          if (isDelete) {
+                            controller.selectProductCart.removeWhere(
+                              (e) =>
+                                  e.products?.any((p) => p.cartId == id) ??
+                                  false,
+                            );
+                            controller.pagingController.refresh();
+                            controller.update();
+                          }
+                        } else if (qty > stock) {
+                          controller.warningOverStock();
+                        } else {
+                          final isUpdate = await controller.updateQty(id, qty);
+                          if (isUpdate) {
+                            for (var item in controller.productCart) {
+                              final product = item.products?.firstWhere(
+                                  (e) => e.cartId == id,
+                                  orElse: () => Products());
+                              if (product != null) product.qty = qty;
+                            }
+                            controller.updateTotalPrice();
+                            controller.update();
+                          }
+                        }
+                      },
+                    ),
+                  ),
                   Gap(12.w),
                   GestureDetector(
                     onTap: () => controller.incrementProduct(

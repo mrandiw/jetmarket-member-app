@@ -20,6 +20,8 @@ class ProductItem extends StatelessWidget {
     this.openWriteNote,
     this.closeWriteNote,
     this.controller,
+    this.qtyController,
+    this.onQtySubmitted,
   });
 
   final Products? data;
@@ -29,6 +31,8 @@ class ProductItem extends StatelessWidget {
   final Function()? openWriteNote;
   final Function()? closeWriteNote;
   final TextEditingController? controller;
+  final TextEditingController? qtyController;
+  final Function(String)? onQtySubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +116,22 @@ class ProductItem extends StatelessWidget {
             ),
             Gap(12.w),
             Center(
-              child: Text("${data?.qty}", style: text12BlackRegular),
+              child: SizedBox(
+                width: 40.w,
+                height: 28.h,
+                child: TextFormField(
+                  controller: qtyController,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  style: text12BlackRegular,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 6),
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                  ),
+                  onFieldSubmitted: onQtySubmitted,
+                ),
+              ),
             ),
             Gap(12.w),
             GestureDetector(
@@ -165,7 +184,7 @@ class ProductItem extends StatelessWidget {
                 cursorColor: kSuccessColor,
                 style: text10HintRegular,
                 onEditingComplete: closeWriteNote,
-                controller: controller, 
+                controller: controller,
                 decoration: InputDecoration(
                     label: Text('Catatan Barang ini', style: text10HintRegular),
                     hintText: '',
