@@ -17,9 +17,7 @@ class BannerSection extends StatelessWidget {
       child: GetBuilder<ReferralController>(builder: (controller) {
         return Obx(
           () {
-            return Padding(
-              padding: AppStyle.paddingAll16,
-              child: CarouselSlider(
+            return CarouselSlider(
                 items: controller.banners.map((data) {
                   return GestureDetector(
                     onTap: () => controller.onTapBanner(data.link ?? ''),
@@ -63,7 +61,6 @@ class BannerSection extends StatelessWidget {
                   );
                 }).toList(),
                 options: CarouselOptions(
-                  viewportFraction: 1.0,
                   autoPlay: true,
                   autoPlayInterval: 5.seconds,
                   enlargeCenterPage: true,
@@ -72,8 +69,7 @@ class BannerSection extends StatelessWidget {
                     // controller.chengeSlider(index);
                   },
                 ),
-              ),
-            );
+              );
           },
         );
       }),
