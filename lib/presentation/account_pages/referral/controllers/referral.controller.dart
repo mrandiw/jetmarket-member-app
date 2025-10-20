@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jetmarket/components/dialog/dialog_noconnection.dart';
 import 'package:jetmarket/domain/core/interfaces/refferal_repository.dart';
+import 'package:jetmarket/domain/core/model/model_data/banner.dart';
 import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
 import 'package:jetmarket/infrastructure/dal/repository/app_version_repository_impl.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
@@ -27,6 +30,24 @@ class ReferralController extends GetxController {
   final _appVersionRepository = AppVersionRepositoryImpl();
 
   var appUrl = ''.obs;
+
+  final _banners = <Banners>[].obs;
+  List<Banners> get banners => _banners;
+  set banners(List<Banners> value) => _banners.value = value;
+
+  Future<void> getBanners() async {
+    final response = await _refferalRepository.getBanner();
+    if (response.status == StatusResponse.success) {
+      banners = response.result ?? [];
+    } else if (response.status == StatusResponse.noInternet) {
+      if (!(Get.isDialogOpen ?? false)) {
+        DialogNoConnection.show(onReload: () {
+          Get.back();
+          getBanners();
+        });
+      }
+    }
+  }
 
   Future<void> getListRefferal(int pageKey) async {
     try {
@@ -80,9 +101,14 @@ class ReferralController extends GetxController {
     }
   }
 
+  void onTapBanner(String url) async {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  }
+
   @override
   void onInit() {
     fetchAppUrl();
+    getBanners();
     pagingController.addPageRequestListener((page) {
       getListRefferal(page);
     });

@@ -27,6 +27,7 @@ class Endpoint {
   static String productBySeller = 'product/customer_by_seller';
   static String productReview = 'product_review/customer';
   static String shop = 'shop';
+  static String bannerReferral = 'banner';
 
   // Cart
 
