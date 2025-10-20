@@ -34,7 +34,8 @@ class RefferalRepositoryImpl implements RefferalRepository {
   @override
   Future<DataState<List<Banners>>> getBanner() async {
     try {
-      final response = await RemoteProvider.get(path: Endpoint.bannerReferral);
+      final response =
+          await RemoteProvider.get(path: "${Endpoint.banner}?loc=referral");
       List<dynamic> datas = response.data['data'];
       return DataState<List<Banners>>(
           result: datas.map((e) => Banners.fromJson(e)).toList(),
