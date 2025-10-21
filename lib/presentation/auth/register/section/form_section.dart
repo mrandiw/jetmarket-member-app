@@ -223,7 +223,10 @@ class FormSection extends StatelessWidget {
                                 controller.isPhoneValidated.value &&
                                 controller.isEmailValidated.value &&
                                 controller.isPasswordValidated.value &&
-                                controller.selectedDatePicker != ""
+                                controller.selectedDatePicker != "" &&
+                                (controller.referralMessage.value.isNotEmpty &&
+                                    controller.referralMessage.value !=
+                                        "Kode tidak ditemukan")
                             ? controller.selectedPaymentMethode.value == ""
                                 ? () => controller.register()
                                 : () => controller.payAndRegister()
