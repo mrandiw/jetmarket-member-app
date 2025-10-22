@@ -355,17 +355,14 @@ class HomeController extends GetxController {
     } finally {}
   }
 
-  Future<void> getUnreadChat() async {
+  Future<int> getUnreadChat() async {
     final response = await _chatRepository.getUnreadChat();
-    if (response.status == StatusResponse.success) {
-      unreadChat = response.result!;
-      update();
-    }
+
+    return response.result ?? 0;
   }
 
   @override
   void onInit() {
-    getUnreadChat();
     getBanner();
     getCategoryProduct();
     getPopularProduct();

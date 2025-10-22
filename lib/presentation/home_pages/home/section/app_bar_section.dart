@@ -33,7 +33,7 @@ AppBar get appBarHome {
         return GestureDetector(
           onTap: () => Get.toNamed(Routes.CHATS),
           child: FutureBuilder(
-            future: homeController.getCountChart(),
+            future: homeController.getUnreadChat(),
             builder: (context, snapshot) {
               return Badge.count(
                 count: snapshot.hasData ? snapshot.data ?? 0 : 0,
