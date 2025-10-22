@@ -203,6 +203,13 @@ class CheckoutController extends GetxController {
     if (response.status == StatusResponse.success) {
       listDelivery = response.result ?? [];
       isLoadingDelivery = false;
+
+      selectedDelivery.clear();
+      final first = _pickFirstSelectDelivery(listDelivery);
+      if (first != null) {
+        selectedDelivery.add(first);
+      }
+
       update();
     } else if (response.status == StatusResponse.noInternet) {
       if (!(Get.isDialogOpen ?? false)) {
@@ -214,6 +221,32 @@ class CheckoutController extends GetxController {
     } else {
       AppSnackbar.show(message: response.message, type: SnackType.error);
     }
+  }
+
+  d.SelectDelivery? _pickFirstSelectDelivery(List<DeliveryModel> sellers) {
+    for (final seller in sellers) {
+      final services = (seller.services ?? []);
+      for (final service in services) {
+        final packets = (service.packets ?? []);
+        if (packets.isEmpty) continue;
+        final packet = packets.first;
+
+        return d.SelectDelivery(
+          sellerId: seller.sellerId,
+          packets: d.Packets(
+            name: packet.name,
+            rate: packet.rate,
+            duration: packet.duration,
+            delivery: d.Delivery(
+              code: packet.delivery?.code,
+              serviceName: packet.delivery?.code,
+              serviceCode: packet.delivery?.code,
+            ),
+          ),
+        );
+      }
+    }
+    return null;
   }
 
   void updateDeliverySelected(
