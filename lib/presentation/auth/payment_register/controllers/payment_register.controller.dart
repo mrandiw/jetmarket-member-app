@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/components/bottom_sheet/show_bottom_sheet.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
+import 'package:jetmarket/domain/core/interfaces/auth_repository.dart';
 import 'package:jetmarket/domain/core/interfaces/payment_repository.dart';
 import 'package:jetmarket/domain/core/model/argument/payment_methode_argument.dart';
 import 'package:jetmarket/domain/core/model/model_data/payment_methode_model.dart';
@@ -26,7 +27,8 @@ import '../../../../utils/network/status_response.dart';
 class PaymentRegisterController extends GetxController {
   final PaymentRepository _paymentRepository;
 
-  PaymentRegisterController(this._paymentRepository);
+  PaymentRegisterController(this._paymentRepository, this._authRepository);
+
   TextEditingController numberController = TextEditingController();
   var screenStatus = (ScreenStatus.initalize).obs;
   var actionStatus = ActionStatus.initalize;
@@ -39,9 +41,62 @@ class PaymentRegisterController extends GetxController {
   String selectedName = "";
   String selectedPricing = "";
   final String countryCode = '+62';
-  String amount = AppPreference().cekReferal() == true
-      ? AppPreference().getBiayaRegisPromo() ?? '10000'
-      : AppPreference().getBiayaRegis() ?? '25000';
+  final totalAmount = "0".obs;
+  final AuthRepository _authRepository;
+  var actionClaimStatus = ActionStatus.initalize;
+  var biayaRegistrasi = ''.obs;
+  var biayaRegistrasiPromo = ''.obs;
+  var referralMessage = ''.obs;
+  TextEditingController referralController = TextEditingController();
+
+  Future<void> checkReferralCode() async {
+    try {
+      actionClaimStatus = ActionStatus.loading;
+      update();
+      final response =
+          await _authRepository.claimReferral(referralController.text);
+      if (response.status == StatusResponse.success) {
+        fetchCost('MEMBER_DISCOUNT_REFFERAL', true);
+      } else {
+        referralMessage.value = "Kode Referal Tidak Terdaftar";
+        actionClaimStatus = ActionStatus.success;
+      }
+    } catch (e) {
+      referralMessage.value = "Kode Referal Tidak Terdaftar";
+      actionClaimStatus = ActionStatus.success;
+    }
+  }
+
+  Future<void> fetchCost(String code, bool isPromo) async {
+    final response = await _authRepository.generalConfigCode(code: code);
+    if (response.status == StatusResponse.success) {
+      if (isPromo) {
+        totalAmount.value = response.result?.value ?? '0';
+        biayaRegistrasiPromo.value = response.result?.value ?? '0';
+        AppPreference().setBiayaRegisPromo(response.result?.value ?? '0');
+      } else {
+        totalAmount.value = response.result?.value ?? '0';
+        biayaRegistrasi.value = response.result?.value ?? '0';
+        AppPreference().setBiayaRegis(response.result?.value ?? '0');
+      }
+      actionClaimStatus = ActionStatus.success;
+      update();
+    }
+  }
+
+  void getRegistrasiAmount() {
+    String amount = AppPreference().cekReferal() == true
+        ? AppPreference().getBiayaRegisPromo() ?? '0'
+        : AppPreference().getBiayaRegis() ?? '0';
+
+    if (amount == "0") {
+      totalAmount.value = "0";
+    } else {
+      totalAmount.value = "0";
+      // totalAmount.value = amount;
+    }
+    update();
+  }
 
   bool isBankTransferExpanded = false;
   bool isEwalletExpanded = false;
@@ -104,14 +159,14 @@ class PaymentRegisterController extends GetxController {
     var param = PaymentParam(
         chType: selectedchType,
         chCode: selectedchCode,
-        amount: amount,
+        amount: totalAmount.value,
         mobileNumber: isPhoneValidated.value ? numberController.text : null);
     final response = await _paymentRepository.createPaymentCustomer(param);
     if (response.status == StatusResponse.success) {
       actionStatus = ActionStatus.success;
       update();
       log("TRXXX : ${response.result?.id}");
-      toPaying(response.result, amount);
+      toPaying(response.result, totalAmount.value);
     } else {
       actionStatus = ActionStatus.failed;
       update();
@@ -204,7 +259,7 @@ class PaymentRegisterController extends GetxController {
       double percentage =
           double.parse(selectedPricing.replaceAll('%', '').trim());
 
-      double biayaLayanan = (int.parse(amount) * percentage) / 100;
+      double biayaLayanan = (int.parse(totalAmount.value) * percentage) / 100;
       return biayaLayanan.toStringAsFixed(0).toIdrFormat;
     } else {
       return selectedPricing.toIdrFormat;
@@ -217,12 +272,12 @@ class PaymentRegisterController extends GetxController {
     if (selectedPricing.contains('%')) {
       double percentage =
           double.parse(selectedPricing.replaceAll('%', '').trim());
-      biayaLayanan = (int.parse(amount) * percentage) / 100;
+      biayaLayanan = (int.parse(totalAmount.value) * percentage) / 100;
     } else {
       biayaLayanan = double.tryParse(selectedPricing) ?? 0.0;
     }
 
-    double totalPembayaran = int.parse(amount) + biayaLayanan;
+    double totalPembayaran = int.parse(totalAmount.value) + biayaLayanan;
     return totalPembayaran.toStringAsFixed(0);
   }
 
@@ -231,6 +286,7 @@ class PaymentRegisterController extends GetxController {
     numberController.text = countryCode;
     numberController.selection = TextSelection.fromPosition(
         TextPosition(offset: numberController.text.length));
+    getRegistrasiAmount();
     getPaymentMethode();
     super.onInit();
   }

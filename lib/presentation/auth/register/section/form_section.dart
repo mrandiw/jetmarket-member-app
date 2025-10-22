@@ -148,7 +148,7 @@ class FormSection extends StatelessWidget {
                           controller.listenPasswordForm(value),
                     ),
                     Gap(12.h),
-                    Text('Biaya Regristrasi', style: text12BlackRegular),
+                    Text('Biaya Registrasi', style: text12BlackRegular),
                     Gap(6.h),
                     Obx(() {
                       return Row(

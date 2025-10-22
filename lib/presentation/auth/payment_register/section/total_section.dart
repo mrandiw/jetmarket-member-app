@@ -26,7 +26,7 @@ class TotalSection extends StatelessWidget {
               ),
               _buildPaymentItem(
                 'Total Biaya',
-                controller.amount.toIdrFormat,
+                controller.totalAmount.value.toIdrFormat,
               ),
               _buildPaymentItem(
                 'Total Pembayaran',
