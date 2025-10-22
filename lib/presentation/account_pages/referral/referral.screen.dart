@@ -5,6 +5,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
 import 'controllers/referral.controller.dart';
 import 'section/app_bar_section.dart';
+import 'section/banner_section.dart';
 import 'section/code_referral_section.dart';
 import 'section/history_section.dart';
 
@@ -18,6 +19,7 @@ class ReferralScreen extends GetView<ReferralController> {
         appBar: appBarRefferal,
         body: CustomScrollView(
           slivers: [
+            const BannerSection(),
             CodeReferralSection(controller: controller),
             HistorySection(
               controller: controller,

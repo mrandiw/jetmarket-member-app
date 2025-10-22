@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:jetmarket/domain/core/interfaces/refferal_repository.dart';
+import 'package:jetmarket/domain/core/model/model_data/banner.dart';
 import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 
@@ -27,6 +28,20 @@ class RefferalRepositoryImpl implements RefferalRepository {
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<List<RefferalModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<Banners>>> getBanner() async {
+    try {
+      final response =
+          await RemoteProvider.get(path: "${Endpoint.banner}?loc=referral");
+      List<dynamic> datas = response.data['data'];
+      return DataState<List<Banners>>(
+          result: datas.map((e) => Banners.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(response: response));
+    } on DioException catch (e) {
+      return CustomException<List<Banners>>().dio(e);
     }
   }
 }

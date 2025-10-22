@@ -23,8 +23,8 @@ class BannerSection extends StatelessWidget {
               return GestureDetector(
                 onTap: () => controller.onTapBanner(data.link ?? ''),
                 child: CachedNetworkImage(
-                  imageUrl: Uri.tryParse(data.image ?? '')?.isAbsolute == true
-                      ? data.image ?? ''
+                  imageUrl: Uri.tryParse(data.link ?? '')?.isAbsolute == true
+                      ? data.link ?? ''
                       : '',
                   height: 120.w,
                   fit: BoxFit.cover,
