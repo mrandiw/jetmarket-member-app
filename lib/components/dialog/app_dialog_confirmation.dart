@@ -17,7 +17,9 @@ class AppDialogConfirmation {
     bool barrierDismissible = true,
   }) {
     Get.dialog(
-        Dialog(
+      PopScope(
+        canPop: barrierDismissible,
+        child: Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 32.w),
           child: Container(
             padding: AppStyle.paddingAll16,
@@ -33,33 +35,31 @@ class AppDialogConfirmation {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: text12BlackMedium,
-                      ),
+                      Text(title, style: text12BlackMedium),
                       Gap(6.h),
-                      Text(
-                        message,
-                        style: text12HintRegular,
-                      ),
+                      Text(message, style: text12HintRegular),
                       Gap(16.h),
                       Row(
                         children: [
                           const Spacer(),
                           if (barrierDismissible)
                             SizedBox(
-                                width: Get.width * 0.24,
-                                child: AppButton.secondaryGrey(
-                                    text: "Batal",
-                                    onPressed: () => Get.back())),
+                              width: Get.width * 0.24,
+                              child: AppButton.secondaryGrey(
+                                text: "Batal",
+                                onPressed: () => Get.back(),
+                              ),
+                            ),
                           Gap(6.w),
                           SizedBox(
-                              width: Get.width * 0.34,
-                              child: AppButton.primary(
-                                  text: "Ya, $onTesText",
-                                  onPressed: onPressed)),
+                            width: Get.width * 0.34,
+                            child: AppButton.primary(
+                              text: "Ya, $onTesText",
+                              onPressed: onPressed,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -67,6 +67,8 @@ class AppDialogConfirmation {
             ),
           ),
         ),
-        barrierDismissible: barrierDismissible);
+      ),
+      barrierDismissible: barrierDismissible,
+    );
   }
 }
