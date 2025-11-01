@@ -31,29 +31,26 @@ class DetailNotificationScreen extends GetView<DetailNotificationController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Visibility(
-                        visible: controller.notification.image != null &&
-                                controller.notification.image!.isNotEmpty
-                            ? true
-                            : false,
+                        visible:
+                            (controller.notification.image ?? '').isNotEmpty,
                         child: CachedNetworkImage(
                           imageUrl: controller.notification.image ?? '',
-                          height: 140.w,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.cover, 
                           imageBuilder: (context, imageProvider) {
                             return Container(
                               height: 140.w,
                               decoration: BoxDecoration(
-                                  color: kSofterGrey,
-                                  borderRadius: AppStyle.borderRadius8All,
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover)),
+                                color: kSofterGrey,
+                                borderRadius: AppStyle.borderRadius8All,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
                             );
                           },
                           placeholder: (context, url) =>
                               const Center(child: CupertinoActivityIndicator()),
-                          errorWidget: (context, url, error) {
-                            return SizedBox();
-                          },
+                          errorWidget: (context, url, error) =>
+                              const SizedBox.shrink(),
                         ),
                       ),
                       const SizedBox(height: 10),
