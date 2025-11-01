@@ -52,21 +52,7 @@ class DetailNotificationScreen extends GetView<DetailNotificationController> {
                           placeholder: (context, url) =>
                               const Center(child: CupertinoActivityIndicator()),
                           errorWidget: (context, url, error) {
-                            return Container(
-                              height: 140.w,
-                              padding: EdgeInsets.all(5.w),
-                              decoration: BoxDecoration(
-                                color: kSofterGrey,
-                                borderRadius: AppStyle.borderRadius8All,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.error,
-                                  color: kPrimaryColor,
-                                  size: 18.r,
-                                ),
-                              ),
-                            );
+                            return SizedBox();
                           },
                         ),
                       ),
