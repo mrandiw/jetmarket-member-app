@@ -490,5 +490,10 @@ class Nav {
       page: () => const ReorderScreen(),
       binding: ReorderControllerBinding(),
     ),
+    GetPage(
+      name: Routes.DETAIL_NOTIFICATION,
+      page: () => const DetailNotificationScreen(),
+      binding: DetailNotificationControllerBinding(),
+    ),
   ];
 }

@@ -87,6 +87,8 @@ class NotificationController extends GetxController {
       case 'bill-paylater':
         Get.toNamed(Routes.BILL_PAYLATER);
       default:
+        Get.toNamed(Routes.DETAIL_NOTIFICATION,
+            arguments: {'notification': notification});
         break;
     }
   }

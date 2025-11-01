@@ -67,6 +67,7 @@ class Routes {
   static const ONBOARDING = '/onboarding';
   static const ORDER = '/order';
   static const ORDER_LIST_TRANSACTION = '/order-list-transaction';
+  static const ORDER_SALDO_SUCCESS = '/order-saldo-success';
   static const OTP = '/otp';
   static const PAYLATER_CUSTOMER = '/paylater-customer';
   static const PAYLETTER_SUCCESS = '/payletter-success';
@@ -105,5 +106,5 @@ class Routes {
   static const WAITING_PAYMENT = '/waiting-payment';
   static const WITHDRAW = '/withdraw';
   static const WITHDRAW_STATUS = '/withdraw-status';
-  static const ORDER_SALDO_SUCCESS = '/order-saldo-success';
+  static const DETAIL_NOTIFICATION = '/detail-notification';
 }
