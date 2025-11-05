@@ -27,6 +27,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_chat.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_checkout.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_menabung.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_notification.controller.binding.dart'; 
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_order.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_customer.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_paylater.controller.binding.dart';
