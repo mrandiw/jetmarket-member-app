@@ -20,7 +20,7 @@ class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
   bool isEmployees = false;
-  String versionApp = '2.0.3';
+  String versionApp = '2.0.4';
 
   void changeTabIndex(int index) {
     selectedIndex = index;
@@ -164,7 +164,9 @@ class MainPagesController extends GetxController {
             title: 'Penting',
             message: response.result!.note ?? '',
             onTesText: 'Update',
-            barrierDismissible: response.result!.updateType == 'MAJOR' ? false : true,
+            barrierDismissible:
+                response.result!.updateType == 'MAJOR' ? false : true,
+            linkUrl: response.result!.link,
             onPressed: () {
               launchURL(response.result!.link ?? '');
             },
@@ -193,7 +195,10 @@ class MainPagesController extends GetxController {
 
     // Check if the URL can be launched
     if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
     } else {
       throw Exception('Could not launch $url');
     }
