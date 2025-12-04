@@ -61,12 +61,13 @@ dependencies:
   latlong2: ^0.9.1
   screenshot: ^3.0.0
   image_gallery_saver_plus: ^3.0.5
+  # Google Maps and Places APIs
+  flutter_polyline_points: ^2.0.0
 
 flutter_native_splash:
   background_image: assets/images/splash.png
   android: true
   ios: true
-
 
 dev_dependencies:
   flutter_lints: ^3.0.1
@@ -80,4 +81,3 @@ flutter:
     - assets/env/
     - assets/json/
   uses-material-design: true
-

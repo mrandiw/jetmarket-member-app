@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jetmarket/components/location_picker/modern_location_picker.dart';
 
 class MapView extends StatefulWidget {
   final double lat;
@@ -17,48 +17,128 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  final mapController = MapController();
-
   @override
-  void didUpdateWidget(covariant MapView oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  Widget build(BuildContext context) {
+    final initialLocation = LatLng(widget.lat, widget.lng);
 
-    if (oldWidget.lat != widget.lat || oldWidget.lng != widget.lng) {
-      final point = LatLng(widget.lat, widget.lng);
-      mapController.move(point, 15);
-    }
+    return GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: initialLocation,
+        zoom: 15,
+      ),
+      markers: {
+        Marker(
+          markerId: const MarkerId('current_location'),
+          position: initialLocation,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          infoWindow: const InfoWindow(title: 'Selected Location'),
+        ),
+      },
+      zoomControlsEnabled: true,
+      myLocationEnabled: true,
+      myLocationButtonEnabled: true,
+      mapType: MapType.normal,
+      compassEnabled: true,
+    );
   }
+}
+
+// Enhanced map view with location picker integration
+class EnhancedMapView extends StatelessWidget {
+  final double? lat;
+  final double? lng;
+  final Function(double lat, double lng, String address)? onLocationSelected;
+  final String? title;
+
+  const EnhancedMapView({
+    super.key,
+    this.lat,
+    this.lng,
+    this.onLocationSelected,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final point = LatLng(widget.lat, widget.lng);
-
-    return FlutterMap(
-      mapController: mapController,
-      options: MapOptions(
-        initialCenter: point,
-        initialZoom: 15,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-          userAgentPackageName: "com.jetmarket.app",
-        ),
-        MarkerLayer(
-          markers: [
-            Marker(
-              point: point,
-              width: 40,
-              height: 40,
-              child: const Icon(
-                Icons.location_pin,
-                color: Colors.red,
-                size: 40,
+    return SizedBox(
+      height: 300,
+      child: lat != null && lng != null
+          ? GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(lat!, lng!),
+                zoom: 15,
+              ),
+              markers: {
+                Marker(
+                  markerId: const MarkerId('selected_location'),
+                  position: LatLng(lat!, lng!),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                  infoWindow: const InfoWindow(title: 'Selected Location'),
+                ),
+              },
+              zoomControlsEnabled: true,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              mapType: MapType.normal,
+              compassEnabled: true,
+            )
+          : Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.location_off,
+                      size: 48,
+                      color: Colors.grey[400],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'No location selected',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ModernLocationPicker(
+                              title: title ?? 'Select Location',
+                              initialLocation: lat != null && lng != null
+                                  ? LatLng(lat!, lng!)
+                                  : null,
+                              onLocationSelected: (location, address) {
+                                if (onLocationSelected != null) {
+                                  onLocationSelected!(
+                                    location.latitude,
+                                    location.longitude,
+                                    address,
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.map),
+                      label: const Text('Select Location'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffDB4C45),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
-      ],
     );
   }
 }
