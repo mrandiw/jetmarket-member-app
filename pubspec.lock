@@ -813,6 +813,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.10"
+  google_places_android:
+    dependency: transitive
+    description:
+      name: google_places_android
+      sha256: "9a5b9fde78155c4b5141fa17299903f0a343b9aa7be98df1d3b48cf01f7b2e84"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
+  google_places_ios:
+    dependency: transitive
+    description:
+      name: google_places_ios
+      sha256: "760dad8939e6dd9975c4dac4f5eb20aebbcb9dce0118e5275af87e0c6e48f918"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  google_places_sdk:
+    dependency: "direct main"
+    description:
+      name: google_places_sdk
+      sha256: "0ca98c8f80b5fb79062b4b292507ce37331370a6a0acd67fb00dc4510e8c2ceb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   graphs:
     dependency: transitive
     description:

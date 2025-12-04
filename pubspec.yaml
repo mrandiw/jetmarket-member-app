@@ -63,7 +63,7 @@ dependencies:
   image_gallery_saver_plus: ^3.0.5
   # Google Maps and Places APIs
   flutter_polyline_points: ^2.0.0
-  google_places_sdk: ^0.4.0
+  google_places_sdk: ^1.2.1
 
 flutter_native_splash:
   background_image: assets/images/splash.png
