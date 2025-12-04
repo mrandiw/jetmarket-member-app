@@ -19,6 +19,7 @@ class AppConfig {
       kBaseUrl = dotenv.env['BASE_URL']!;
       apiKey = dotenv.env['API_KEY']!;
       kApiUrl = dotenv.env['MAPS_URL']!;
+      // Google Maps API key is now available as dotenv.env['GOOGLE_MAPS_API_KEY']
     });
 
     await Firebase.initializeApp(

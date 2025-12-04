@@ -1,11 +1,12 @@
-# Google Maps Setup Guide - JetMarket POS App
+# Google Maps Setup Guide - JetMarket Member App
 
 ## Overview
-This guide documents the complete setup of Google Maps APIs for the JetMarket POS application, including Maps SDK, Places API, Geocoding API, Geolocation API, Distance Matrix API, and Directions API.
+This guide documents the complete setup of Google Maps APIs for the JetMarket Member application, including Maps SDK, Places API, Geocoding API, Geolocation API, Distance Matrix API, and Directions API.
 
 ## API Key Configuration
 - **API Key**: `AIzaSyDmXmlu1X44Ng4K9ew1UtEOa90GF8w0RvQ`
-- **Platform**: Android (iOS not configured due to platform limitations)
+- **Platform**: Android ✅ & iOS ✅ (Both platforms configured)
+- **Environment**: Managed via dotenv for security
 
 ## ✅ Completed Setup
 
@@ -245,12 +246,12 @@ Both debug and release builds have been successfully tested:
 
 ## 🚨 Important Notes
 
-### iOS Support
-- iOS setup is **not implemented** due to:
-  - No Apple Developer account access
-  - No App Store Connect configuration
-  - Missing iOS provisioning profiles
-  - Google Maps iOS SDK requires additional setup
+### iOS Support ✅
+- iOS setup is **fully implemented**:
+  - API key configured in `ios/Runner/AppDelegate.swift`
+  - Location permissions configured in `ios/Runner/Info.plist`
+  - Google Maps iOS SDK properly initialized
+  - Embedded views preview enabled for map display
 
 ### Security Considerations
 - API key is restricted to Android apps only
@@ -292,6 +293,6 @@ For any issues related to Google Maps integration:
 
 ---
 
-**Last Updated**: December 3, 2025
+**Last Updated**: December 4, 2025
 **Version**: 1.0.0
-**Platform**: Android Only (iOS pending)
+**Platform**: Android ✅ & iOS ✅ (Both platforms fully configured)

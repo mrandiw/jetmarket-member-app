@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart' as polylin
 import 'package:dio/dio.dart';
 
 class GoogleMapsService {
-  static const String _apiKey = 'AIzaSyDmXmlu1X44Ng4K9ew1UtEOa90GF8w0RvQ';
+  static String get _apiKey => dotenv.env['GOOGLE_MAPS_API_KEY'] ?? 'AIzaSyDmXmlu1X44Ng4K9ew1UtEOa90GF8w0RvQ';
   
   // Dio untuk HTTP requests
   static final Dio _dio = Dio();
