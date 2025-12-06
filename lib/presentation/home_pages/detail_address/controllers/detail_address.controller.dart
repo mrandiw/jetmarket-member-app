@@ -10,6 +10,7 @@ import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/presentation/home_pages/checkout/controllers/checkout.controller.dart';
 import 'package:jetmarket/presentation/home_pages/edit_address/controllers/edit_address.controller.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
+import 'package:geocoding/geocoding.dart';
 import '../../../../infrastructure/theme/app_colors.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/network/action_status.dart';
@@ -44,6 +45,29 @@ class DetailAddressController extends GetxController {
 
   onChangeMainAddress(bool value) {
     mainAddress(value);
+  }
+
+  /// Update location coordinates and get postal code automatically
+  Future<void> updateLocation(double lat, double lng, String address) async {
+    latitude = lat;
+    longitude = lng;
+    addressController.text = address;
+    
+    // Get postal code from coordinates using geocoding
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        if (place.postalCode != null && place.postalCode!.isNotEmpty) {
+          kodePosController.text = place.postalCode!;
+          update();
+        }
+      }
+    } catch (e) {
+      debugPrint('Error getting postal code: $e');
+    }
+    
+    update();
   }
 
   Future<void> addAddress() async {

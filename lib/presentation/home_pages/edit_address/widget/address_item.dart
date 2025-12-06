@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jetmarket/domain/core/model/model_data/address_model.dart';
 import 'package:jetmarket/presentation/home_pages/edit_address/controllers/edit_address.controller.dart';
 
@@ -58,6 +59,48 @@ class AddressItem extends StatelessWidget {
                       Text(data.personPhone ?? '', style: text12HintRegular),
                       Gap(4.h),
                       Text(data.address ?? '', style: text12HintRegular),
+                      Gap(8.h),
+                      // Map preview for addresses with coordinates
+                      if (data.lat != null && data.lng != null)
+                        Container(
+                          height: 80.h,
+                          decoration: BoxDecoration(
+                            borderRadius: AppStyle.borderRadius6All,
+                            border: Border.all(color: kSoftGrey),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: AppStyle.borderRadius6All,
+                            child: GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(data.lat!, data.lng!),
+                                zoom: 15,
+                              ),
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId('address_${data.id}'),
+                                  position: LatLng(data.lat!, data.lng!),
+                                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueRed,
+                                  ),
+                                  infoWindow: InfoWindow(
+                                    title: data.label ?? 'Alamat',
+                                    snippet: data.address,
+                                  ),
+                                ),
+                              },
+                              zoomControlsEnabled: false,
+                              myLocationEnabled: false,
+                              myLocationButtonEnabled: false,
+                              mapToolbarEnabled: false,
+                              scrollGesturesEnabled: false,
+                              zoomGesturesEnabled: false,
+                              rotateGesturesEnabled: false,
+                              tiltGesturesEnabled: false,
+                              compassEnabled: false,
+                              mapType: MapType.normal,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
