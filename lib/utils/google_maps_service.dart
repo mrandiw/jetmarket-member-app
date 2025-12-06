@@ -119,15 +119,39 @@ class GoogleMapsService {
     try {
       final String url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
           '?input=${Uri.encodeComponent(input)}'
-          '&key=$_apiKey';
+          '&key=$_apiKey'
+          '&components=country:id'; // Limit to Indonesia for better results
+      
+      debugPrint('GoogleMapsService searching for: $input');
+      debugPrint('GoogleMapsService URL: $url');
       
       final response = await _dio.get(url);
+      debugPrint('GoogleMapsService response status: ${response.statusCode}');
+      debugPrint('GoogleMapsService response headers: ${response.headers}');
+      debugPrint('GoogleMapsService response data: ${response.data}');
+      
       if (response.statusCode == 200) {
-        return response.data['predictions'] ?? [];
+        final responseData = response.data;
+        debugPrint('GoogleMapsService response data type: ${responseData.runtimeType}');
+        
+        if (responseData is Map && responseData.containsKey('predictions')) {
+          final predictions = responseData['predictions'] as List<dynamic>? ?? [];
+          debugPrint('GoogleMapsService predictions count: ${predictions.length}');
+          debugPrint('GoogleMapsService first prediction: ${predictions.isNotEmpty ? predictions[0] : "No predictions"}');
+          return predictions;
+        } else {
+          debugPrint('GoogleMapsService ERROR: Response does not contain predictions key');
+          debugPrint('GoogleMapsService Full response: $responseData');
+          return [];
+        }
+      } else {
+        debugPrint('GoogleMapsService ERROR: HTTP ${response.statusCode}');
+        debugPrint('GoogleMapsService Response: $response.data');
+        return [];
       }
-      return [];
     } catch (e) {
-      debugPrint('Error getting place predictions: $e');
+      debugPrint('ERROR getting place predictions: $e');
+      debugPrint('ERROR Stack trace: ${StackTrace.current}');
       return [];
     }
   }

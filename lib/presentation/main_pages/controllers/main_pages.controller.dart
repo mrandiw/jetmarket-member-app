@@ -20,7 +20,7 @@ class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
   bool isEmployees = false;
-  String versionApp = '2.0.4';
+  String versionApp = '2.0.5';
 
   void changeTabIndex(int index) {
     selectedIndex = index;

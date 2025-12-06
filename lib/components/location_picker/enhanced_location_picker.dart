@@ -43,6 +43,7 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   bool _showSuggestions = false;
   bool _isDragging = false;
   Timer? _cameraMoveTimer;
+  Timer? _searchDebounceTimer;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   void dispose() {
     _searchController.dispose();
     _cameraMoveTimer?.cancel();
+    _searchDebounceTimer?.cancel();
     super.dispose();
   }
 
@@ -232,6 +234,11 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   }
 
   Future<void> _searchPlaces(String query) async {
+    debugPrint('EnhancedLocationPicker searching: "$query"');
+    
+    // Cancel previous search timer
+    _searchDebounceTimer?.cancel();
+    
     if (query.isEmpty) {
       setState(() {
         _searchSuggestions = [];
@@ -242,17 +249,36 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
 
     setState(() => _isSearching = true);
 
-    try {
-      final predictions = await GoogleMapsService.getPlacePredictions(query);
-      setState(() {
-        _searchSuggestions = predictions.map<String>((p) => p.description ?? '').toList();
-        _showSuggestions = true;
-      });
-    } catch (e) {
-      debugPrint('Error searching places: $e');
-    } finally {
-      setState(() => _isSearching = false);
-    }
+    // Debounce search to prevent too many API calls
+    _searchDebounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      if (!mounted) return;
+      
+      try {
+        debugPrint('EnhancedLocationPicker calling GoogleMapsService.getPlacePredictions');
+        final predictions = await GoogleMapsService.getPlacePredictions(query);
+        debugPrint('EnhancedLocationPicker got ${predictions.length} predictions');
+        
+        if (mounted) {
+          setState(() {
+            _searchSuggestions = predictions.map<String>((p) {
+              // p is a Map<String, dynamic>, access description with key
+              if (p is Map<String, dynamic>) {
+                return p['description'] as String? ?? '';
+              }
+              return '';
+            }).where((s) => s.isNotEmpty).toList();
+            _showSuggestions = true;
+            _isSearching = false;
+            debugPrint('EnhancedLocationPicker suggestions: $_searchSuggestions');
+          });
+        }
+      } catch (e) {
+        debugPrint('Error searching places: $e');
+        if (mounted) {
+          setState(() => _isSearching = false);
+        }
+      }
+    });
   }
 
   Future<void> _selectSuggestion(String place) async {
