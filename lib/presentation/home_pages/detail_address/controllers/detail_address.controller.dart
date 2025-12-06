@@ -192,6 +192,8 @@ class DetailAddressController extends GetxController {
           TextEditingController(text: Get.arguments['pos_code']);
       latitude = Get.arguments['lat'];
       longitude = Get.arguments['lng'];
+      // Terima catatan kurir dari add_address
+      noteController = TextEditingController(text: Get.arguments['notes'] ?? '');
       typeAddress = true;
       update();
     } else {

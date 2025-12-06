@@ -4,6 +4,7 @@ class LocationDataModel {
   final String posCode;
   final double lat;
   final double lng;
+  final String? notes; // Tambah field untuk catatan kurir
 
   LocationDataModel({
     required this.label,
@@ -11,6 +12,7 @@ class LocationDataModel {
     required this.posCode,
     required this.lat,
     required this.lng,
+    this.notes, // Optional field
   });
 
   /// Factory constructor untuk bikin object dari JSON
@@ -21,6 +23,7 @@ class LocationDataModel {
       posCode: json['pos_code'] ?? '',
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
+      notes: json['notes'], // Bisa null
     );
   }
 
@@ -32,6 +35,7 @@ class LocationDataModel {
       'pos_code': posCode,
       'lat': lat,
       'lng': lng,
+      'notes': notes, // Include notes field
     };
   }
 }

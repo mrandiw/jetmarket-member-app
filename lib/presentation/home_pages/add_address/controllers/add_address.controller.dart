@@ -16,6 +16,7 @@ class AddAddressController extends GetxController {
   TextEditingController labelAddressController = TextEditingController();
   GlobalKey<FormState> labelAddressFormKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateLabelAddress = AutovalidateMode.disabled;
+  TextEditingController noteController = TextEditingController();
   final Rx<LocationDataModel?> locationData = Rx<LocationDataModel?>(null);
 
   Future getDataLocation() async {

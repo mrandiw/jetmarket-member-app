@@ -276,7 +276,7 @@ class AddAddressScreen extends GetView<AddAddressController> {
                   // Catatan untuk Kurir
                   AppForm(
                     type: AppFormType.withLabel,
-                    controller: TextEditingController(), // New controller untuk notes
+                    controller: controller.noteController,
                     label: 'Catatan untuk Kurir (Opsional)',
                     hintText: 'Contoh: Warna rumah, patokan, dll',
                   ),
@@ -295,6 +295,7 @@ class AddAddressScreen extends GetView<AddAddressController> {
                             posCode: controller.postCode,
                             lat: controller.latitude,
                             lng: controller.longitude,
+                            notes: controller.noteController.text, // Tambah catatan kurir
                           );
                           
                           // Navigasi ke detail_address dengan data lokasi
