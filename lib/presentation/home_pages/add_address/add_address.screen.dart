@@ -298,10 +298,13 @@ class AddAddressScreen extends GetView<AddAddressController> {
                             notes: controller.noteController.text, // Tambah catatan kurir
                           );
                           
+                          final jsonData = locationData.toJson();
+                          debugPrint('AddAddress sending data: $jsonData');
+                          
                           // Navigasi ke detail_address dengan data lokasi
                           Get.toNamed(
                             Routes.DETAIL_ADDRESS,
-                            arguments: locationData.toJson(),
+                            arguments: jsonData,
                           );
                         }
                       },

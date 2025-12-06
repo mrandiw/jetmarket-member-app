@@ -186,10 +186,11 @@ class DetailAddressController extends GetxController {
 
   setData() {
     if (Get.arguments['type'] != 'edit') {
+      debugPrint('DetailAddress setData arguments: ${Get.arguments}');
       addressController = TextEditingController(text: Get.arguments['address']);
       labelController = TextEditingController(text: Get.arguments['label']);
       kodePosController =
-          TextEditingController(text: Get.arguments['pos_code']);
+          TextEditingController(text: Get.arguments['pos_code']?.toString() ?? '');
       latitude = Get.arguments['lat'];
       longitude = Get.arguments['lng'];
       // Terima catatan kurir dari add_address
