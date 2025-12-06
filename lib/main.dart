@@ -13,7 +13,7 @@ import 'infrastructure/navigation/routes.dart';
 
 Future<void> main() async {
   await AppConfig.init();
-
+ 
   var initialRoute = await Routes.initialRoute;
 
   runApp(Main(initialRoute));

@@ -182,6 +182,24 @@ Widget _cartProduct(Products? data, Seller? seller, int indexSeller, int index,
                           "Variasi: ${data?.variantName ?? '-'}",
                           style: text10BlackRegular,
                         ),
+                        Gap(4.h),
+                        Row(
+                          children: [
+                            Text(
+                              "Stok: ",
+                              style: text10BlackRegular,
+                            ),
+                            Text(
+                              "${data?.stock ?? 0}",
+                              style: text10BlackRegular.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: (data?.stock ?? 0) > 0 
+                                    ? kSuccessColor 
+                                    : kErrorColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   )
