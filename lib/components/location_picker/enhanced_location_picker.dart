@@ -43,7 +43,6 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   bool _showSuggestions = false;
   bool _isDragging = false;
   Timer? _cameraMoveTimer;
-  Timer? _searchDebounceTimer;
 
   @override
   void initState() {
@@ -56,7 +55,6 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   void dispose() {
     _searchController.dispose();
     _cameraMoveTimer?.cancel();
-    _searchDebounceTimer?.cancel();
     super.dispose();
   }
 
@@ -234,10 +232,7 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
   }
 
   Future<void> _searchPlaces(String query) async {
-    debugPrint('EnhancedLocationPicker searching: "$query"');
-    
-    // Cancel previous search timer
-    _searchDebounceTimer?.cancel();
+    debugPrint('Simple search for: "$query"');
     
     if (query.isEmpty) {
       setState(() {
@@ -249,44 +244,44 @@ class _EnhancedLocationPickerState extends State<EnhancedLocationPicker> {
 
     setState(() => _isSearching = true);
 
-    // Debounce search to prevent too many API calls
-    _searchDebounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      if (!mounted) return;
+    try {
+      debugPrint('Calling GoogleMapsService.getPlacePredictions');
+      final predictions = await GoogleMapsService.getPlacePredictions(query);
+      debugPrint('Got ${predictions.length} predictions');
       
-      try {
-        debugPrint('EnhancedLocationPicker calling GoogleMapsService.getPlacePredictions');
-        final predictions = await GoogleMapsService.getPlacePredictions(query);
-        debugPrint('EnhancedLocationPicker got ${predictions.length} predictions');
-        
-        if (mounted) {
-          setState(() {
-            _searchSuggestions = predictions.map<String>((p) {
-              // p is a Map<String, dynamic>, access description with key
-              if (p is Map<String, dynamic>) {
-                return p['description'] as String? ?? '';
-              }
-              return '';
-            }).where((s) => s.isNotEmpty).toList();
-            _showSuggestions = true;
-            _isSearching = false;
-            debugPrint('EnhancedLocationPicker suggestions: $_searchSuggestions');
-          });
-        }
-      } catch (e) {
-        debugPrint('Error searching places: $e');
-        if (mounted) {
-          setState(() => _isSearching = false);
-        }
+      if (mounted) {
+        setState(() {
+          _searchSuggestions = predictions.map<String>((p) {
+            if (p is Map<String, dynamic>) {
+              return p['description'] as String? ?? '';
+            }
+            return '';
+          }).where((s) => s.isNotEmpty).toList();
+          _showSuggestions = true;
+          _isSearching = false;
+          debugPrint('Suggestions: $_searchSuggestions');
+        });
       }
-    });
+    } catch (e) {
+      debugPrint('Error searching places: $e');
+      if (mounted) {
+        setState(() => _isSearching = false);
+      }
+    }
   }
 
   Future<void> _selectSuggestion(String place) async {
+    debugPrint('Selecting suggestion: $place');
+    
+    // Hide suggestions immediately
     setState(() {
-      _searchController.text = place;
       _showSuggestions = false;
+      _isSearching = false;
     });
-
+    
+    // Simple text assignment
+    _searchController.text = place;
+    
     try {
       final location = await GoogleMapsService.geocode(place);
       if (location != null) {
