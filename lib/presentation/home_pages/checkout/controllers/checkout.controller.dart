@@ -411,7 +411,7 @@ class CheckoutController extends GetxController {
   }
 
   void toChoicePayment() {
-    // ⭐ HYBRID: Build order data dengan V1 + V2 (JET dengan tiered pricing)
+    // HYBRID: Build order data dengan V1 + V2 (JET dengan tiered pricing)
     var dataOrder = dataOrderProductHybrid();
     dataOrder.removeWhere((key, value) =>
         value == null || value == '' || (value is Map && value.isEmpty));
@@ -428,7 +428,7 @@ class CheckoutController extends GetxController {
     log('✅ Order data (Hybrid): ${dataOrder.toString()}');
   }
 
-  /// Build order data with hybrid V1 + V2 logic
+  /// Build order data dengan hybrid (V1 + V2) logic
   Map<String, dynamic> dataOrderProductHybrid() {
     List<dynamic> listItem = [];
 
@@ -441,7 +441,7 @@ class CheckoutController extends GetxController {
         orElse: () => d.SelectDelivery(),
       );
 
-      // Check if JET is selected and V2 result exists
+      // Check apakah JET dipilih dan hasil V2 ada.
       bool isJetWithV2 = selectedDel.packets?.delivery?.code == 'jet' &&
           ongkirV2Results.containsKey(sellerId);
 
@@ -452,15 +452,16 @@ class CheckoutController extends GetxController {
           (j) => {
             'product_name': productCart[i].products?[j].name,
             'variant_id': productCart[i].products?[j].variantId,
-            'value': productCart[i].products?[j].promo,
-            'qty': productCart[i].products?[j].qty,
+            'price': productCart[i].products?[j].promo ??
+                productCart[i].products?[j].price,
+            'quantity': productCart[i].products?[j].qty,
             'note': productCart[i].products?[j].note,
           },
         ),
       };
 
       if (isJetWithV2) {
-        // ⭐ Use V2 data for JET
+        // Use V2 data for JET
         var ongkirInfo = ongkirV2Results[sellerId];
         var timeSlot = selectedTimeSlots[sellerId];
 
@@ -485,7 +486,7 @@ class CheckoutController extends GetxController {
           orderItem['pricing_tier_id'] = ongkirInfo!.pricing!.tierId;
         }
       } else {
-        // ⭐ Use V1 data for other couriers (JNE, Grab, Gojek, Self Pickup)
+        // Use V1 data untuk couriers lain (JNE, Grab, Gojek, Self Pickup)
         orderItem['delivery'] = {
           'code': selectedDel.packets?.delivery?.code,
           'rate': selectedDel.packets?.rate,

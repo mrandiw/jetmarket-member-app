@@ -25,9 +25,10 @@ class TotalSection extends StatelessWidget {
               ),
               _buildPaymentItem(
                 'Total Order',
-                Get.arguments != null
-                    ? Get.arguments[3].toString().toIdrFormat
-                    : '0',
+                // Pakai orderCustomer.totalAmount instead of Get.arguments
+                (controller.orderCustomer?.totalAmount ?? 0)
+                    .toString()
+                    .toIdrFormat,
               ),
               _buildPaymentItem(
                 'Total Pembayaran',
