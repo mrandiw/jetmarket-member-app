@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jetmarket/components/snackbar/app_snackbar.dart';
 import 'package:jetmarket/domain/core/interfaces/address_repository.dart';
 import 'package:jetmarket/domain/core/model/params/cart/update_qty_param.dart';
@@ -11,9 +12,11 @@ import '../../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../../domain/core/model/model_data/address_model.dart';
 import '../../../../domain/core/model/model_data/cart_product.dart' as c;
 import '../../../../domain/core/model/model_data/delivery_model.dart';
+import '../../../../domain/core/model/model_data/ongkir_v2_response.dart';
 import '../../../../domain/core/model/model_data/select_delivery.dart' as d;
 import '../../../../domain/core/model/params/address/item_product_for_delivery.dart';
 import '../../../../domain/core/model/params/cart/update_note_param.dart';
+import '../../../../domain/core/model/params/delivery/check_ongkir_v2_param.dart';
 import '../../../../infrastructure/navigation/routes.dart';
 import '../../../../utils/network/status_response.dart';
 
@@ -40,6 +43,40 @@ class CheckoutController extends GetxController {
   String? selectedVouchername;
   bool isLoadingDelivery = false;
   var isLoadingCheck = false.obs;
+
+  // ========== NEW: Ongkir V2 Variables ==========
+  /// Map untuk menyimpan hasil check ongkir V2 per seller
+  /// Key: seller_id, Value: OngkirV2Response
+  RxMap<int, OngkirV2Response> ongkirV2Results = <int, OngkirV2Response>{}.obs;
+
+  /// Map untuk menyimpan time slot yang dipilih per seller
+  /// Key: seller_id, Value: TimeSlot
+  RxMap<int, TimeSlot?> selectedTimeSlots = <int, TimeSlot?>{}.obs;
+
+  /// Tanggal pengiriman yang dipilih (default: besok)
+  late Rx<DateTime> selectedDeliveryDate;
+
+  /// Loading state untuk check ongkir V2 per seller
+  /// Key: seller_id, Value: isLoading
+  RxMap<int, bool> ongkirV2Loading = <int, bool>{}.obs;
+
+  /// Error message untuk check ongkir V2 per seller
+  /// Key: seller_id, Value: error message
+  RxMap<int, String?> ongkirV2Errors = <int, String?>{}.obs;
+
+  /// Flag untuk menggunakan V2 atau V1
+  RxBool useOngkirV2 = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Initialize delivery date to tomorrow
+    selectedDeliveryDate = DateTime.now().add(const Duration(days: 1)).obs;
+
+    // Run initial checks
+    checkMainAddress();
+    setProduct();
+  }
 
   Future<void> checkMainAddress() async {
     isLoadingCheck(true);
@@ -79,21 +116,316 @@ class CheckoutController extends GetxController {
     update();
   }
 
+  // ========== ONGKIR V2 METHODS ==========
+
+  /// Check ongkir V2 untuk satu seller
+  Future<void> checkOngkirV2ForSeller(int sellerId, int addressId) async {
+    try {
+      // Set loading state
+      ongkirV2Loading[sellerId] = true;
+      ongkirV2Errors[sellerId] = null;
+      update();
+
+      // Prepare parameter
+      final param = CheckOngkirV2Param(
+        addressId: addressId,
+        sellerId: sellerId,
+        deliveryDate: _formatDateForApi(selectedDeliveryDate.value),
+      );
+
+      // Validate parameter
+      if (!param.isValid()) {
+        ongkirV2Errors[sellerId] = param.getValidationError();
+        ongkirV2Loading[sellerId] = false;
+        update();
+        return;
+      }
+
+      // Call API
+      final response = await _deliveryRepository.checkOngkirV2(param);
+
+      if (response.status == StatusResponse.success &&
+          response.result != null) {
+        // Success - save result
+        ongkirV2Results[sellerId] = response.result!;
+        ongkirV2Errors[sellerId] = null;
+
+        // If free ongkir and has time slots, clear previous selection
+        if (response.result!.pricing?.requireTimeSlot == true) {
+          selectedTimeSlots[sellerId] = null;
+        }
+
+        log('✅ Ongkir V2 Success for seller $sellerId: ${response.result!.pricing?.rate}');
+      } else if (response.status == StatusResponse.noInternet) {
+        ongkirV2Errors[sellerId] = 'Tidak ada koneksi internet';
+        if (!(Get.isDialogOpen ?? false)) {
+          DialogNoConnection.show(onReload: () {
+            Get.back();
+            checkOngkirV2ForSeller(sellerId, addressId);
+          });
+        }
+      } else {
+        // Error
+        ongkirV2Errors[sellerId] =
+            response.message ?? 'Gagal mendapatkan info ongkir';
+        log('❌ Ongkir V2 Error for seller $sellerId: ${response.message}');
+      }
+    } catch (e) {
+      ongkirV2Errors[sellerId] = 'Terjadi kesalahan: ${e.toString()}';
+      log('❌ Exception checking ongkir V2 for seller $sellerId: $e');
+    } finally {
+      ongkirV2Loading[sellerId] = false;
+      update();
+      updateTotalPriceV2();
+    }
+  }
+
+  /// Check ongkir V2 untuk semua seller di cart
+  Future<void> checkOngkirV2ForAllSellers() async {
+    if (address == null) {
+      AppSnackbar.show(
+        message: 'Pilih alamat pengiriman terlebih dahulu',
+        type: SnackType.error,
+      );
+      return;
+    }
+
+    // Clear previous results
+    ongkirV2Results.clear();
+    selectedTimeSlots.clear();
+    ongkirV2Errors.clear();
+
+    // Check untuk setiap seller secara parallel
+    final futures = <Future>[];
+    for (var cartProduct in productCart) {
+      final sellerId = cartProduct.seller?.id;
+      if (sellerId != null) {
+        futures.add(checkOngkirV2ForSeller(sellerId, address!.id!));
+      }
+    }
+
+    await Future.wait(futures);
+  }
+
+  /// Select time slot untuk seller tertentu
+  void selectTimeSlot(int sellerId, TimeSlot slot) {
+    selectedTimeSlots[sellerId] = slot;
+    update();
+    log('✅ Selected time slot for seller $sellerId: ${slot.name}');
+  }
+
+  /// Change delivery date dan re-check ongkir
+  Future<void> changeDeliveryDate(DateTime newDate) async {
+    selectedDeliveryDate.value = newDate;
+    update();
+
+    log('📅 Delivery date changed to: ${_formatDateForApi(newDate)}');
+
+    // Re-check ongkir untuk semua seller karena quota bisa berbeda per tanggal
+    if (address != null) {
+      await checkOngkirV2ForAllSellers();
+    }
+  }
+
+  /// Update total price dengan ongkir V2
+  void updateTotalPriceV2() {
+    totalPrice.value = 0.0;
+    totalPriceWithoutVoucher.value = 0.0;
+
+    // Calculate product price
+    for (c.CartProduct item in productCart) {
+      for (c.Products product in item.products ?? []) {
+        final total = product.promo != null && product.promo != 0
+            ? (product.promo ?? 0)
+            : (product.price ?? 0);
+        totalPrice.value += total * (product.qty ?? 0);
+        totalPriceWithoutVoucher.value += total * (product.qty ?? 0);
+      }
+    }
+
+    // Add shipping cost dari V2
+    for (var entry in ongkirV2Results.entries) {
+      final rate = entry.value.pricing?.rate ?? 0;
+      totalPrice.value += rate;
+      totalPriceWithoutVoucher.value += rate;
+    }
+
+    // Apply voucher discount
+    totalPrice.value = totalPrice.value -
+        (totalPrice.value * discount.value) -
+        discountPrice.value;
+
+    update();
+  }
+
+  /// Format date untuk API (YYYY-MM-DD)
+  String _formatDateForApi(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  /// Get ongkir info untuk seller tertentu
+  OngkirV2Response? getOngkirV2ForSeller(int sellerId) {
+    return ongkirV2Results[sellerId];
+  }
+
+  /// Check if seller has free ongkir
+  bool isFreeOngkirForSeller(int sellerId) {
+    final ongkir = ongkirV2Results[sellerId];
+    return ongkir?.pricing?.isFreeOngkir == true;
+  }
+
+  /// Check if seller requires time slot
+  bool requiresTimeSlotForSeller(int sellerId) {
+    final ongkir = ongkirV2Results[sellerId];
+    return ongkir?.pricing?.requireTimeSlot == true;
+  }
+
+  /// Check if all required time slots are selected
+  bool allRequiredTimeSlotsSelected() {
+    for (var entry in ongkirV2Results.entries) {
+      final sellerId = entry.key;
+      final ongkir = entry.value;
+
+      if (ongkir.pricing?.requireTimeSlot == true) {
+        if (selectedTimeSlots[sellerId] == null) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // ========== END ONGKIR V2 METHODS ==========
+
+  /// Validate checkout before proceeding to payment (V2)
+  bool validateCheckoutV2() {
+    // Check if address selected
+    if (address == null) {
+      AppSnackbar.show(
+        message: 'Pilih alamat pengiriman terlebih dahulu',
+        type: SnackType.error,
+      );
+      return false;
+    }
+
+    // Check semua seller sudah ada ongkir info
+    for (var cartProduct in productCart) {
+      int sellerId = cartProduct.seller?.id ?? 0;
+
+      if (!ongkirV2Results.containsKey(sellerId)) {
+        AppSnackbar.show(
+          message:
+              'Gagal mendapatkan info ongkir untuk ${cartProduct.seller?.name}',
+          type: SnackType.error,
+        );
+        return false;
+      }
+
+      // Check if ada error
+      if (ongkirV2Errors[sellerId] != null) {
+        AppSnackbar.show(
+          message: 'Error ongkir: ${ongkirV2Errors[sellerId]}',
+          type: SnackType.error,
+        );
+        return false;
+      }
+
+      // Jika free ongkir, pastikan time slot sudah dipilih
+      if (ongkirV2Results[sellerId]?.pricing?.requireTimeSlot == true) {
+        if (selectedTimeSlots[sellerId] == null) {
+          AppSnackbar.show(
+            message: 'Pilih waktu pengiriman untuk ${cartProduct.seller?.name}',
+            type: SnackType.error,
+          );
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /// Create order data with V2 structure
+  Map<String, dynamic> dataOrderProductV2() {
+    List<dynamic> listItem = [];
+
+    for (int i = 0; i < productCart.length; i++) {
+      int sellerId = productCart[i].seller?.id ?? 0;
+      var ongkirInfo = ongkirV2Results[sellerId];
+      var timeSlot = selectedTimeSlots[sellerId];
+
+      listItem.add({
+        'seller_id': sellerId,
+        'products': List.generate(
+          productCart[i].products?.length ?? 0,
+          (index) => {
+            'product_name': productCart[i].products?[index].name,
+            'variant_id': productCart[i].products?[index].variantId,
+            'price': productCart[i].products?[index].promo != null &&
+                    productCart[i].products![index].promo! > 0
+                ? productCart[i].products![index].promo!
+                : productCart[i].products?[index].price,
+            'quantity': productCart[i].products?[index].qty,
+            'note': productCart[i].products?[index].note ?? ''
+          },
+        ),
+        'delivery': {
+          'courier_code': 'jetkurir', // atau dari config
+          'rate': ongkirInfo?.pricing?.rate ?? 0,
+
+          // NEW FIELDS untuk V2
+          if (timeSlot != null) 'time_slot_id': timeSlot.id,
+          'scheduled_date': _formatDateForApi(selectedDeliveryDate.value),
+          if (ongkirInfo?.distance?.meters != null)
+            'distance_meters': ongkirInfo!.distance!.meters,
+          if (ongkirInfo?.distance?.text != null)
+            'distance_text': ongkirInfo!.distance!.text,
+          if (ongkirInfo?.distance?.duration != null)
+            'duration_text': ongkirInfo!.distance!.duration,
+          if (ongkirInfo?.pricing?.tierId != null)
+            'pricing_tier_id': ongkirInfo!.pricing!.tierId,
+        }
+      });
+    }
+
+    return {'items': listItem};
+  }
+
   void toChoicePayment() {
-    var dataOrder = dataOrderProduct();
-    dataOrder.removeWhere((key, value) =>
-        value == null || value == '' || (value is Map && value.isEmpty));
+    // Validate dulu jika menggunakan V2
+    if (useOngkirV2.value) {
+      if (!validateCheckoutV2()) return;
+      var dataOrder = dataOrderProductV2();
+      dataOrder.removeWhere((key, value) =>
+          value == null || value == '' || (value is Map && value.isEmpty));
 
-    Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
-      address?.id,
-      voucherId,
-      address?.personPhone,
-      totalPrice.value.toInt(),
-      ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
-      dataOrder
-    ]);
+      Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
+        address?.id,
+        voucherId,
+        address?.personPhone,
+        totalPrice.value.toInt(),
+        ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
+        dataOrder
+      ]);
 
-    log(dataOrder.toString());
+      log('✅ Order data V2: ${dataOrder.toString()}');
+    } else {
+      // Old V1 flow
+      var dataOrder = dataOrderProduct();
+      dataOrder.removeWhere((key, value) =>
+          value == null || value == '' || (value is Map && value.isEmpty));
+
+      Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
+        address?.id,
+        voucherId,
+        address?.personPhone,
+        totalPrice.value.toInt(),
+        ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
+        dataOrder
+      ]);
+
+      log(dataOrder.toString());
+    }
   }
 
   Map<String, dynamic> dataOrderProduct() {
@@ -154,17 +486,31 @@ class CheckoutController extends GetxController {
   setAddress(AddressModel? data) {
     listDelivery.clear();
     selectedDelivery.clear();
+
     if (data != null) {
       address = data;
       isExpandedTile.clear();
       excontroller.clear();
       update();
-      var body = setBodyForDelivery(data);
-      log(body.toJson().toString());
-      isExpandedTile = List.generate(productCart.length, (index) => true);
-      excontroller = List.generate(
-          productCart.length, (index) => ExpansionTileController());
-      getDelivery(body);
+
+      // Clear previous V2 results
+      ongkirV2Results.clear();
+      selectedTimeSlots.clear();
+      ongkirV2Loading.clear();
+      ongkirV2Errors.clear();
+
+      if (useOngkirV2.value) {
+        // V2: Check ongkir for all sellers
+        checkOngkirV2ForAllSellers();
+      } else {
+        // V1: Old flow
+        var body = setBodyForDelivery(data);
+        log(body.toJson().toString());
+        isExpandedTile = List.generate(productCart.length, (index) => true);
+        excontroller = List.generate(
+            productCart.length, (index) => ExpansionTileController());
+        getDelivery(body);
+      }
     } else {
       address = null;
       update();
@@ -439,13 +785,5 @@ class CheckoutController extends GetxController {
 
   void warningOverStock() {
     AppSnackbar.show(message: 'Stok tidak mencukupi', type: SnackType.error);
-  }
-
-  @override
-  void onInit() {
-    checkMainAddress();
-    setProduct();
-
-    super.onInit();
   }
 }

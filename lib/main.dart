@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'config/app_config.dart';
 import 'infrastructure/navigation/navigation.dart';
@@ -13,7 +14,10 @@ import 'infrastructure/navigation/routes.dart';
 
 Future<void> main() async {
   await AppConfig.init();
- 
+
+  // Initialize Indonesian locale for date formatting
+  await initializeDateFormatting('id_ID', null);
+
   var initialRoute = await Routes.initialRoute;
 
   runApp(Main(initialRoute));

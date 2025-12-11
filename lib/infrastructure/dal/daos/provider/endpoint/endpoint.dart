@@ -42,6 +42,8 @@ class Endpoint {
 
   // Delivery
   static String checkOngkir = 'delivery/customer/check_ongkir';
+  static String checkOngkirV2 =
+      'delivery/customer/check_ongkir_v2'; // NEW: Tiered pricing with time slots
   static String deliverySetRefund = 'delivery/customer/set_refund';
 
   // Order Customer

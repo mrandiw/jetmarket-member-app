@@ -70,7 +70,7 @@ class DetailOrderCustomer {
     sellerName = json['seller_name'];
     sellerAddress = json['seller_address'];
     sellerPhone = json['seller_phone'];
-    biayaLayanan =json['biaya_layanan'];
+    biayaLayanan = json['biaya_layanan'];
   }
 
   Map<String, dynamic> toJson() {
@@ -114,7 +114,33 @@ class Delivery {
   int? rate;
   String? trackingId;
 
-  Delivery({this.code, this.serviceName, this.serviceCode, this.rate});
+  // NEW V2 FIELDS
+  int? timeSlotId;
+  String? timeSlotName;
+  String? scheduledDate;
+  int? distanceMeters;
+  String? distanceText;
+  String? durationText;
+  int? pricingTierId;
+  String? pricingTierName;
+  String? distanceSource;
+
+  Delivery({
+    this.code,
+    this.serviceName,
+    this.serviceCode,
+    this.rate,
+    this.trackingId,
+    this.timeSlotId,
+    this.timeSlotName,
+    this.scheduledDate,
+    this.distanceMeters,
+    this.distanceText,
+    this.durationText,
+    this.pricingTierId,
+    this.pricingTierName,
+    this.distanceSource,
+  });
 
   Delivery.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -122,6 +148,17 @@ class Delivery {
     serviceCode = json['service_code'];
     rate = json['rate'];
     trackingId = json['tracking_id'];
+
+    // V2 fields
+    timeSlotId = json['time_slot_id'];
+    timeSlotName = json['time_slot_name'];
+    scheduledDate = json['scheduled_date'];
+    distanceMeters = json['distance_meters'];
+    distanceText = json['distance_text'];
+    durationText = json['duration_text'];
+    pricingTierId = json['pricing_tier_id'];
+    pricingTierName = json['pricing_tier_name'];
+    distanceSource = json['distance_source'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +168,18 @@ class Delivery {
     data['service_code'] = serviceCode;
     data['rate'] = rate;
     data['tracking_id'] = trackingId;
+
+    // V2 fields
+    if (timeSlotId != null) data['time_slot_id'] = timeSlotId;
+    if (timeSlotName != null) data['time_slot_name'] = timeSlotName;
+    if (scheduledDate != null) data['scheduled_date'] = scheduledDate;
+    if (distanceMeters != null) data['distance_meters'] = distanceMeters;
+    if (distanceText != null) data['distance_text'] = distanceText;
+    if (durationText != null) data['duration_text'] = durationText;
+    if (pricingTierId != null) data['pricing_tier_id'] = pricingTierId;
+    if (pricingTierName != null) data['pricing_tier_name'] = pricingTierName;
+    if (distanceSource != null) data['distance_source'] = distanceSource;
+
     return data;
   }
 }
