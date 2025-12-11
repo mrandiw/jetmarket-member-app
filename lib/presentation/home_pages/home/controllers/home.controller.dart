@@ -10,7 +10,6 @@ import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart'
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
-import 'package:jetmarket/utils/network/custom_logger.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:logger/logger.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -159,16 +158,11 @@ class HomeController extends GetxController {
 
   Future<void> getPromoProduct() async {
     try {
-      Logger().w("getPromoProduct");
-      Logger().w(isLoadingPromo);
       isLoadingPromo = true;
       update();
       var param =
           const ProductParam(page: 1, size: _pagePromoSize, sortBy: 'highest');
       final response = await _productRepository.getProductPromo(param);
-      Logger().w(response.status == StatusResponse.success);
-      Logger().w(response.result);
-      Logger().w(response.result);
 
       if (response.status == StatusResponse.success) {
         setPromo(data: response.result ?? []);
