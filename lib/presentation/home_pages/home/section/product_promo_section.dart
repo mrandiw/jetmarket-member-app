@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:jetmarket/presentation/home_pages/home/controllers/home.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
 
+import '../../../../components/card/product_item.dart';
 import '../../../../infrastructure/theme/app_text.dart';
 import '../../../../utils/assets/assets_svg.dart';
-import '../../../../components/card/product_item.dart';
 
-class ProductPopularSection extends StatelessWidget {
-  const ProductPopularSection({super.key, required this.controller});
+class ProductPromoSection extends StatelessWidget {
+  const ProductPromoSection({super.key, required this.controller});
   final HomeController controller;
 
   @override
@@ -20,9 +20,12 @@ class ProductPopularSection extends StatelessWidget {
         child: Padding(
       padding: AppStyle.paddingSide16,
       child: GetBuilder<HomeController>(builder: (controller) {
+        if (controller.isLoadingPromo && controller.promoProducts.isEmpty) {
+          return const SizedBox.shrink();
+        }
         return Visibility(
-          visible: controller.popularProducts.isNotEmpty &&
-              controller.searchActived == false,
+          visible:
+              controller.promoProducts.isNotEmpty && controller.searchActived == false,
           child: SizedBox(
             width: Get.width,
             child: Column(
@@ -31,10 +34,10 @@ class ProductPopularSection extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Produk Terlaris', style: text14BlackMedium),
+                    Text('Produk Promo', style: text14BlackMedium),
                     GestureDetector(
                       onTap: () {
-                        controller.seeAllProduct(SeeAllProductType.popular);
+                        controller.seeAllProduct(SeeAllProductType.promo);
                       },
                       child: Row(
                         children: [
@@ -58,15 +61,13 @@ class ProductPopularSection extends StatelessWidget {
                             padding: AppStyle.paddingBottom12,
                             child: ProductItem(
                                 onTap: () => controller.toDetailProduct(
-                                      controller.popularProducts[index].id ?? 0,
+                                      controller.promoProducts[index].id ?? 0,
                                     ),
-                                item: controller.popularProducts[index]),
+                                item: controller.promoProducts[index]),
                           )),
                       separatorBuilder: (_, i) => Gap(12.h),
-                      itemCount: controller.popularProducts.length),
+                      itemCount: controller.promoProducts.length),
                 ),
-                Gap(16.h),
-                Text('Semua Produk', style: text14BlackMedium),
                 Gap(16.h),
               ],
             ),

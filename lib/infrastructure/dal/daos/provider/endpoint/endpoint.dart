@@ -23,6 +23,7 @@ class Endpoint {
   static String categoryProduct = 'product_category/list';
   static String categoryProductBySeller = 'product_category/by_seller';
   static String product = 'product/customer';
+  static String productPromo = 'product/customer/promo';
   static String banner = 'banner/customer';
   static String productBySeller = 'product/customer_by_seller';
   static String productReview = 'product_review/customer';

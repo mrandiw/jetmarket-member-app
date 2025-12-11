@@ -16,6 +16,7 @@ abstract class ProductRepository {
   Future<DataState<List<CategoryProduct>>> getCategoryProduct();
   Future<DataState<List<CategoryProduct>>> getCategoryProductBySeller(int id);
   Future<DataState<List<Product>>> getProduct(ProductParam param);
+  Future<DataState<List<Product>>> getProductPromo(ProductParam param);
   Future<DataState<DetailProduct>> getProductById(int id);
   Future<DataState<List<Product>>> getProductBySeller(ProductSellerParam param);
   Future<DataState<List<ProductReviewCustomer>>> getProductReview(int id);

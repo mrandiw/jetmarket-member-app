@@ -11,6 +11,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'controllers/home.controller.dart';
 import 'section/category_section.dart';
 import 'section/product_popular_onpage.dart';
+import 'section/product_promo_onpage.dart';
+import 'section/product_promo_section.dart';
 import 'section/product_popular_section.dart';
 import 'section/product_section.dart';
 import 'section/search_section.dart';
@@ -20,9 +22,7 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return controller.isHomeScreen.value
-          ? _homePageSection()
-          : _popularPage();
+      return controller.isHomeScreen.value ? _homePageSection() : _seeAllPage();
     });
   }
 
@@ -55,6 +55,7 @@ class HomeScreen extends GetView<HomeController> {
                       SearchSection(controller: controller),
                       const BannerSection(),
                       const CategorySection(),
+                      ProductPromoSection(controller: controller),
                       ProductPopularSection(controller: controller),
                       ProductSection(controller: controller),
                       SliverToBoxAdapter(child: Gap(16.h)),
@@ -63,11 +64,11 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  Widget _popularPage() {
+  Widget _seeAllPage() {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
-        controller.seeAllPopular();
+        controller.backToHomeFromSeeAll();
         return false;
       },
       child: Scaffold(
@@ -90,7 +91,13 @@ class HomeScreen extends GetView<HomeController> {
                   child: CustomScrollView(
                     slivers: [
                       SearchSection(controller: controller),
-                      ProductPopularOnPageSection(controller: controller),
+                      controller.seeAllProductType == SeeAllProductType.popular
+                          ? ProductPopularOnPageSection(
+                              controller: controller,
+                            )
+                          : ProductPromoOnPageSection(
+                              controller: controller,
+                            ),
                       SliverToBoxAdapter(child: Gap(16.h)),
                     ],
                   )))),

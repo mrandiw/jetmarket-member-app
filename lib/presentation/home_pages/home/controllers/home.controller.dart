@@ -10,7 +10,9 @@ import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart'
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
+import 'package:jetmarket/utils/network/custom_logger.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
+import 'package:logger/logger.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +23,8 @@ import '../../../../domain/core/model/params/product/product_param.dart';
 import '../../../../domain/core/model/params/product/product_seller_param.dart';
 import '../../../../utils/network/screen_status.dart';
 import '../widget/filter_product.dart';
+
+enum SeeAllProductType { popular, promo }
 
 class HomeController extends GetxController {
   final ProductRepository _productRepository;
@@ -33,15 +37,19 @@ class HomeController extends GetxController {
   var isHomeScreen = true.obs;
   static const _pageSize = 10;
   static const _pagePopularSize = 10;
+  static const _pagePromoSize = 10;
 
   late PagingController<int, Product> pagingController;
   late PagingController<int, Product> pagingPopularController;
+  late PagingController<int, Product> pagingPromoController;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
   List<CategoryProduct> categoryProduct = [];
   List<Banners> banners = [];
   List<Product> popularProducts = [];
+  List<Product> promoProducts = [];
+  bool isLoadingPromo = false;
 
   String? searchProduct;
   bool searchActived = false;
@@ -52,6 +60,7 @@ class HomeController extends GetxController {
   bool isFiltered = false;
 
   int unreadChat = 0;
+  SeeAllProductType seeAllProductType = SeeAllProductType.popular;
 
   List<String> sortProduct = [
     'Terbaru',
@@ -99,6 +108,11 @@ class HomeController extends GetxController {
     update();
   }
 
+  setPromo({required List<Product> data}) {
+    promoProducts.assignAll(data);
+    update();
+  }
+
   Future<void> getBanner() async {
     final response = await _productRepository.getBanner();
     if (response.status == StatusResponse.success) {
@@ -143,6 +157,37 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> getPromoProduct() async {
+    try {
+      Logger().w("getPromoProduct");
+      Logger().w(isLoadingPromo);
+      isLoadingPromo = true;
+      update();
+      var param =
+          const ProductParam(page: 1, size: _pagePromoSize, sortBy: 'highest');
+      final response = await _productRepository.getProductPromo(param);
+      Logger().w(response.status == StatusResponse.success);
+      Logger().w(response.result);
+      Logger().w(response.result);
+
+      if (response.status == StatusResponse.success) {
+        setPromo(data: response.result ?? []);
+      } else if (response.status == StatusResponse.noInternet) {
+        if (!(Get.isDialogOpen ?? false)) {
+          DialogNoConnection.show(onReload: () {
+            Get.back();
+            refreshData();
+          });
+        }
+      }
+    } catch (e) {
+      Logger().w(e);
+    } finally {
+      isLoadingPromo = false;
+      update();
+    }
+  }
+
   Future<void> getProduct(int pageKey) async {
     try {
       var param = ProductParam(
@@ -177,7 +222,7 @@ class HomeController extends GetxController {
           sortBy: convertToEnglish(selectedSortProduct),
           categoryId: selectedCategoryProduct?.id);
       final response = await _productRepository.getProductBySeller(param);
-      final isLastPage = response.result!.length < _pageSize;
+      final isLastPage = response.result!.length < _pagePopularSize;
 
       if (isLastPage) {
         pagingPopularController.appendLastPage(response.result ?? []);
@@ -190,6 +235,29 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> getProductPromoOnPage(int pageKey) async {
+    try {
+      var param = ProductParam(
+          page: pageKey,
+          size: _pagePromoSize,
+          name: searchProduct,
+          minRating: double.parse(selectedStars ?? '0'),
+          sortBy: convertToEnglish(selectedSortProduct),
+          categoryId: selectedCategoryProduct?.id);
+      final response = await _productRepository.getProductPromo(param);
+      final isLastPage = response.result!.length < _pagePromoSize;
+
+      if (isLastPage) {
+        pagingPromoController.appendLastPage(response.result ?? []);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingPromoController.appendPage(response.result ?? [], nextPageKey);
+      }
+    } catch (error) {
+      pagingPromoController.error = error;
+    }
+  }
+
   Future<void> refreshData() async {
     await Future.delayed(2.seconds, () {
       selectedSortProduct = null;
@@ -197,34 +265,50 @@ class HomeController extends GetxController {
       selectedStars = null;
       searchProduct = null;
       searchController.clear();
+      searchActived = false;
       categoryProduct.clear();
       banners.clear();
       popularProducts.clear();
+      promoProducts.clear();
       update();
       getBanner();
       getCategoryProduct();
       getPopularProduct();
+      getPromoProduct();
     });
   }
 
-  void seeAllPopular() {
+  void _resetFilterAndSearch() {
     selectedSortProduct = null;
     selectedCategoryProduct = null;
     selectedStars = null;
     searchProduct = null;
     searchController.clear();
     searchActived = false;
-    update();
-    isHomeScreen.value = !isHomeScreen.value;
+  }
 
-    if (isHomeScreen.value == true) {
-      pagingController.refresh();
+  void _refreshSeeAllPaging() {
+    if (seeAllProductType == SeeAllProductType.popular) {
       pagingPopularController.refresh();
-
-      refreshData();
     } else {
-      pagingPopularController.refresh();
+      pagingPromoController.refresh();
     }
+  }
+
+  void seeAllProduct(SeeAllProductType type) {
+    _resetFilterAndSearch();
+    seeAllProductType = type;
+    update();
+    isHomeScreen.value = false;
+    _refreshSeeAllPaging();
+  }
+
+  void backToHomeFromSeeAll() {
+    _resetFilterAndSearch();
+    update();
+    isHomeScreen.value = true;
+    pagingController.refresh();
+    refreshData();
   }
 
   void openFilter() {
@@ -232,18 +316,13 @@ class HomeController extends GetxController {
   }
 
   void searchProducts(String value) {
-    if (value.isNotEmpty) {
-      searchActived = true;
-      update();
-    } else {
-      searchActived = false;
-      update();
-    }
+    searchActived = value.isNotEmpty;
+    update();
     searchProduct = value;
     if (isHomeScreen.value) {
       pagingController.refresh();
     } else {
-      pagingPopularController.refresh();
+      _refreshSeeAllPaging();
     }
   }
 
@@ -312,7 +391,7 @@ class HomeController extends GetxController {
       pagingController.refresh();
     } else {
       // getProductPopularOnPage(1);
-      pagingPopularController.refresh();
+      _refreshSeeAllPaging();
     }
   }
 
@@ -322,10 +401,12 @@ class HomeController extends GetxController {
       // getSavingHistory(1);
       if (isHomeScreen.value) {
         pagingController.refresh();
+        getPopularProduct();
       } else {
-        pagingPopularController.refresh();
+        _refreshSeeAllPaging();
       }
       getCategoryProduct();
+      getPromoProduct();
       getCountChart();
     });
     refreshController.refreshCompleted();
@@ -366,15 +447,21 @@ class HomeController extends GetxController {
     getBanner();
     getCategoryProduct();
     getPopularProduct();
+    getPromoProduct();
     getCountChart();
     pagingController = PagingController(firstPageKey: 1);
     pagingPopularController = PagingController(firstPageKey: 1);
+    pagingPromoController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((page) {
       getProduct(page);
     });
 
     pagingPopularController.addPageRequestListener((page) {
       getProductPopularOnPage(page);
+    });
+
+    pagingPromoController.addPageRequestListener((page) {
+      getProductPromoOnPage(page);
     });
 
     super.onInit();

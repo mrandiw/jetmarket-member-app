@@ -65,6 +65,21 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
+  Future<DataState<List<Product>>> getProductPromo(ProductParam param) async {
+    try {
+      final response = await RemoteProvider.get(
+          path: Endpoint.productPromo, queryParameters: param.toMap());
+      List<dynamic> datas = response.data['data']['items'];
+      return DataState<List<Product>>(
+          result: datas.map((e) => Product.fromJson(e)).toList(),
+          status: StatusCodeResponse.cek(
+              response: response, queryParams: true, showLogs: true));
+    } on DioException catch (e) {
+      return CustomException<List<Product>>().dio(e);
+    }
+  }
+
+  @override
   Future<DataState<DetailProduct>> getProductById(int id) async {
     try {
       final response =
