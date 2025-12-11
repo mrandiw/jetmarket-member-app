@@ -65,7 +65,8 @@ class CheckoutController extends GetxController {
   RxMap<int, String?> ongkirV2Errors = <int, String?>{}.obs;
 
   /// Flag untuk menggunakan V2 atau V1
-  RxBool useOngkirV2 = true.obs;
+  /// false = default (show all couriers), true = use V2 when JET selected
+  RxBool useOngkirV2 = false.obs;
 
   @override
   void onInit() {
@@ -96,6 +97,8 @@ class CheckoutController extends GetxController {
   void updateTotalPrice() {
     totalPrice.value = 0.0;
     totalPriceWithoutVoucher.value = 0.0;
+
+    // Calculate product price
     for (c.CartProduct item in productCart) {
       for (c.Products product in item.products ?? []) {
         final total = product.promo != null && product.promo != 0
@@ -105,10 +108,23 @@ class CheckoutController extends GetxController {
         totalPriceWithoutVoucher.value += total * (product.qty ?? 0);
       }
     }
+
+    // Add delivery cost
     for (d.SelectDelivery item in selectedDelivery) {
-      totalPrice.value += item.packets?.rate ?? 0;
-      totalPriceWithoutVoucher.value += item.packets?.rate ?? 0;
+      int sellerId = item.sellerId ?? 0;
+      int deliveryRate = item.packets?.rate ?? 0;
+
+      // ⭐ If this is JET courier and V2 result exists, use V2 rate instead
+      if (item.packets?.delivery?.code == 'jet' &&
+          ongkirV2Results.containsKey(sellerId)) {
+        deliveryRate = ongkirV2Results[sellerId]?.pricing?.rate ?? deliveryRate;
+      }
+
+      totalPrice.value += deliveryRate;
+      totalPriceWithoutVoucher.value += deliveryRate;
     }
+
+    // Apply discounts
     totalPrice.value = totalPrice.value -
         (totalPrice.value * discount.value) -
         discountPrice.value;
@@ -154,6 +170,9 @@ class CheckoutController extends GetxController {
         if (response.result!.pricing?.requireTimeSlot == true) {
           selectedTimeSlots[sellerId] = null;
         }
+
+        // ⭐ Update total price to reflect V2 rate for JET
+        updateTotalPrice();
 
         log('✅ Ongkir V2 Success for seller $sellerId: ${response.result!.pricing?.rate}');
       } else if (response.status == StatusResponse.noInternet) {
@@ -392,40 +411,93 @@ class CheckoutController extends GetxController {
   }
 
   void toChoicePayment() {
-    // Validate dulu jika menggunakan V2
-    if (useOngkirV2.value) {
-      if (!validateCheckoutV2()) return;
-      var dataOrder = dataOrderProductV2();
-      dataOrder.removeWhere((key, value) =>
-          value == null || value == '' || (value is Map && value.isEmpty));
+    // ⭐ HYBRID: Build order data dengan V1 + V2 (JET dengan tiered pricing)
+    var dataOrder = dataOrderProductHybrid();
+    dataOrder.removeWhere((key, value) =>
+        value == null || value == '' || (value is Map && value.isEmpty));
 
-      Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
-        address?.id,
-        voucherId,
-        address?.personPhone,
-        totalPrice.value.toInt(),
-        ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
-        dataOrder
-      ]);
+    Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
+      address?.id,
+      voucherId,
+      address?.personPhone,
+      totalPrice.value.toInt(),
+      ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
+      dataOrder
+    ]);
 
-      log('✅ Order data V2: ${dataOrder.toString()}');
-    } else {
-      // Old V1 flow
-      var dataOrder = dataOrderProduct();
-      dataOrder.removeWhere((key, value) =>
-          value == null || value == '' || (value is Map && value.isEmpty));
+    log('✅ Order data (Hybrid): ${dataOrder.toString()}');
+  }
 
-      Get.toNamed(Routes.CHOICE_PAYMENT, arguments: [
-        address?.id,
-        voucherId,
-        address?.personPhone,
-        totalPrice.value.toInt(),
-        ((totalPriceWithoutVoucher.value) - totalPrice.value).toInt(),
-        dataOrder
-      ]);
+  /// Build order data with hybrid V1 + V2 logic
+  Map<String, dynamic> dataOrderProductHybrid() {
+    List<dynamic> listItem = [];
 
-      log(dataOrder.toString());
+    for (int i = 0; i < productCart.length; i++) {
+      int sellerId = productCart[i].seller?.id ?? 0;
+
+      // Find selected delivery for this seller
+      var selectedDel = selectedDelivery.firstWhere(
+        (d) => d.sellerId == sellerId,
+        orElse: () => d.SelectDelivery(),
+      );
+
+      // Check if JET is selected and V2 result exists
+      bool isJetWithV2 = selectedDel.packets?.delivery?.code == 'jet' &&
+          ongkirV2Results.containsKey(sellerId);
+
+      Map<String, dynamic> orderItem = {
+        'seller_id': sellerId,
+        'products': List.generate(
+          productCart[i].products?.length ?? 0,
+          (j) => {
+            'product_name': productCart[i].products?[j].name,
+            'variant_id': productCart[i].products?[j].variantId,
+            'value': productCart[i].products?[j].promo,
+            'qty': productCart[i].products?[j].qty,
+            'note': productCart[i].products?[j].note,
+          },
+        ),
+      };
+
+      if (isJetWithV2) {
+        // ⭐ Use V2 data for JET
+        var ongkirInfo = ongkirV2Results[sellerId];
+        var timeSlot = selectedTimeSlots[sellerId];
+
+        orderItem['delivery'] = {
+          'code': 'jet',
+          'rate': ongkirInfo?.pricing?.rate,
+          'service_name': 'JetKurir',
+          'service_code': 'INSTANT',
+        };
+
+        // V2 metadata
+        orderItem['distance_meters'] = ongkirInfo?.distance?.meters;
+        orderItem['distance_text'] = ongkirInfo?.distance?.text;
+        orderItem['duration_text'] = ongkirInfo?.distance?.duration;
+        orderItem['scheduled_date'] =
+            _formatDateForApi(selectedDeliveryDate.value);
+
+        if (timeSlot != null) {
+          orderItem['time_slot_id'] = timeSlot.id;
+        }
+        if (ongkirInfo?.pricing?.tierId != null) {
+          orderItem['pricing_tier_id'] = ongkirInfo!.pricing!.tierId;
+        }
+      } else {
+        // ⭐ Use V1 data for other couriers (JNE, Grab, Gojek, Self Pickup)
+        orderItem['delivery'] = {
+          'code': selectedDel.packets?.delivery?.code,
+          'rate': selectedDel.packets?.rate,
+          'service_name': selectedDel.packets?.delivery?.serviceName,
+          'service_code': selectedDel.packets?.delivery?.serviceCode,
+        };
+      }
+
+      listItem.add(orderItem);
     }
+
+    return {'items': listItem};
   }
 
   Map<String, dynamic> dataOrderProduct() {
@@ -612,6 +684,27 @@ class CheckoutController extends GetxController {
     }
     update();
     updateTotalPrice();
+
+    // ⭐ NEW: Check if selected courier is JET
+    if (delivery?.packets?.delivery?.code == 'jet' && sellerId != null) {
+      // Trigger V2 ongkir check for JET
+      _checkOngkirV2ForJetCourier(sellerId);
+    } else {
+      // Clear V2 data for this seller if courier is not JET
+      ongkirV2Results.remove(sellerId);
+      selectedTimeSlots.remove(sellerId);
+      ongkirV2Loading.remove(sellerId);
+      ongkirV2Errors.remove(sellerId);
+      update();
+    }
+  }
+
+  /// Check ongkir V2 specifically when user selects JET courier
+  Future<void> _checkOngkirV2ForJetCourier(int sellerId) async {
+    if (address == null) return;
+
+    // Call V2 API for this seller
+    await checkOngkirV2ForSeller(sellerId, address!.id ?? 0);
   }
 
   void controlExpand(int index) {

@@ -51,8 +51,7 @@ class FooterSection extends StatelessWidget {
             )),
             AppButton.primary(
               text: 'Bayar Sekarang',
-              onPressed: controller.selectedDelivery.length ==
-                      controller.productCart.length
+              onPressed: _isButtonEnabled(controller)
                   ? () => controller.toChoicePayment()
                   : null,
             ),
@@ -60,5 +59,40 @@ class FooterSection extends StatelessWidget {
         ),
       );
     });
+  }
+
+  /// Check if button should be enabled
+  /// Hybrid logic: All couriers must be selected (V1), plus V2 validation for JET
+  bool _isButtonEnabled(CheckoutController controller) {
+    // 1. Check if all sellers have selected delivery (V1)
+    if (controller.selectedDelivery.length != controller.productCart.length) {
+      return false;
+    }
+
+    // 2. For sellers with JET selected, check V2 requirements
+    for (var selected in controller.selectedDelivery) {
+      if (selected.packets?.delivery?.code == 'jet') {
+        int sellerId = selected.sellerId ?? 0;
+
+        // Check if V2 ongkir check is completed for this JET courier
+        var isLoading = controller.ongkirV2Loading[sellerId] ?? false;
+        var hasError = controller.ongkirV2Errors[sellerId] != null;
+        var hasResult = controller.ongkirV2Results.containsKey(sellerId);
+
+        if (isLoading || hasError || !hasResult) {
+          return false; // JET V2 not ready yet
+        }
+
+        // If free ongkir, check time slot selected
+        var ongkirInfo = controller.ongkirV2Results[sellerId];
+        if (ongkirInfo?.pricing?.requireTimeSlot == true) {
+          if (controller.selectedTimeSlots[sellerId] == null) {
+            return false; // Time slot required but not selected
+          }
+        }
+      }
+    }
+
+    return true;
   }
 }

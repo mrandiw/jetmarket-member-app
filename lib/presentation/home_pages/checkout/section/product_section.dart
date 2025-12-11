@@ -131,10 +131,8 @@ class ProductSection extends StatelessWidget {
                                 if (indexProduct == data.products!.length - 1)
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16.0),
-                                    child: controller.useOngkirV2.value
-                                        ? _buildDeliveryV2(controller, data)
-                                        : _buildDeliveryV1(controller, data,
-                                            index, indexDelivery),
+                                    child: _buildHybridDelivery(
+                                        controller, data, index, indexDelivery),
                                   ),
                               ],
                             );
@@ -152,6 +150,79 @@ class ProductSection extends StatelessWidget {
         ),
       );
     });
+  }
+
+  // Hybrid Delivery Display - Show V1 (all couriers), add V2 info if JET selected
+  Widget _buildHybridDelivery(
+    CheckoutController controller,
+    dynamic data,
+    int index,
+    int indexDelivery,
+  ) {
+    int sellerId = data.seller?.id ?? 0;
+
+    // Check if user selected JET for this seller
+    bool isJetSelected = false;
+    if (indexDelivery != -1 &&
+        indexDelivery < controller.selectedDelivery.length) {
+      var selected = controller.selectedDelivery[indexDelivery];
+      isJetSelected = selected.packets?.delivery?.code == 'jet';
+    }
+
+    return Column(
+      children: [
+        // Always show V1 (list of all couriers)
+        _buildDeliveryV1(controller, data, index, indexDelivery),
+
+        // If JET selected, show V2 tiered pricing info
+        if (isJetSelected) _buildJetV2Info(controller, sellerId),
+      ],
+    );
+  }
+
+  // Show JET V2 tiered pricing info
+  Widget _buildJetV2Info(CheckoutController controller, int sellerId) {
+    var isLoading = controller.ongkirV2Loading[sellerId] ?? false;
+    var error = controller.ongkirV2Errors[sellerId];
+    var ongkirInfo = controller.ongkirV2Results[sellerId];
+
+    if (isLoading) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: const DeliveryInfoLoading(),
+      );
+    }
+
+    if (error != null) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: DeliveryInfoError(
+          errorMessage: error,
+          onRetry: () {
+            if (controller.address != null) {
+              controller.checkOngkirV2ForSeller(
+                sellerId,
+                controller.address!.id ?? 0,
+              );
+            }
+          },
+        ),
+      );
+    }
+
+    if (ongkirInfo != null) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: DeliveryInfoV2(
+          ongkirInfo: ongkirInfo,
+          selectedTimeSlot: controller.selectedTimeSlots[sellerId],
+          onTimeSlotSelected: (timeSlot) =>
+              controller.selectTimeSlot(sellerId, timeSlot),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   // V2 Delivery Display
