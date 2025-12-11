@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 
 import '../../../domain/core/interfaces/delivery_repository.dart';
 import '../../../domain/core/model/model_data/delivery_model.dart';
+import '../../../domain/core/model/model_data/ongkir_v2_response.dart';
 import '../../../domain/core/model/model_data/set_refund_model.dart';
 import '../../../domain/core/model/params/address/item_product_for_delivery.dart';
+import '../../../domain/core/model/params/delivery/check_ongkir_v2_param.dart';
 import '../../../domain/core/model/params/order/set_refund_param.dart';
 import '../../../utils/network/code_response.dart';
 import '../../../utils/network/custom_exception.dart';
@@ -25,6 +27,21 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
           message: response.data['message']);
     } on DioException catch (e) {
       return CustomException<List<DeliveryModel>>().dio(e);
+    }
+  }
+
+  @override
+  Future<DataState<OngkirV2Response>> checkOngkirV2(
+      CheckOngkirV2Param param) async {
+    try {
+      final response = await RemoteProvider.post(
+          path: Endpoint.checkOngkirV2, data: param.toJson());
+      return DataState<OngkirV2Response>(
+          result: OngkirV2Response.fromJson(response.data['data']),
+          status: StatusCodeResponse.cek(response: response),
+          message: response.data['message']);
+    } on DioException catch (e) {
+      return CustomException<OngkirV2Response>().dio(e);
     }
   }
 

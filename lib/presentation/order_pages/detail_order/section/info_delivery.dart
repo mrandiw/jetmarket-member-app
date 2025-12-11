@@ -87,6 +87,100 @@ class InfoDelivery extends StatelessWidget {
                 ),
               ],
             ),
+
+            // === V2 DELIVERY INFO ===
+            if (controller.detailOrderCustomer?.delivery?.scheduledDate !=
+                null) ...[
+              Gap(6.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 5,
+                      child: Text('Tanggal Pengiriman',
+                          style: text12BlackRegular)),
+                  const Spacer(),
+                  Expanded(
+                      flex: 4,
+                      child: Text(
+                          "${controller.detailOrderCustomer?.delivery?.scheduledDate}",
+                          style: text12BlackMedium)),
+                ],
+              ),
+            ],
+            if (controller.detailOrderCustomer?.delivery?.timeSlotName !=
+                null) ...[
+              Gap(6.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 5,
+                      child:
+                          Text('Waktu Pengiriman', style: text12BlackRegular)),
+                  const Spacer(),
+                  Expanded(
+                      flex: 4,
+                      child: Text(
+                          "${controller.detailOrderCustomer?.delivery?.timeSlotName}",
+                          style: text12BlackMedium)),
+                ],
+              ),
+            ],
+            if (controller.detailOrderCustomer?.delivery?.distanceText !=
+                null) ...[
+              Gap(6.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 5, child: Text('Jarak', style: text12BlackRegular)),
+                  const Spacer(),
+                  Expanded(
+                      flex: 4,
+                      child: Text(
+                          "${controller.detailOrderCustomer?.delivery?.distanceText}",
+                          style: text12BlackMedium)),
+                ],
+              ),
+            ],
+            if (controller.detailOrderCustomer?.delivery?.durationText !=
+                null) ...[
+              Gap(6.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 5,
+                      child: Text('Estimasi Waktu', style: text12BlackRegular)),
+                  const Spacer(),
+                  Expanded(
+                      flex: 4,
+                      child: Text(
+                          "${controller.detailOrderCustomer?.delivery?.durationText}",
+                          style: text12BlackMedium)),
+                ],
+              ),
+            ],
+            if (controller.detailOrderCustomer?.delivery?.pricingTierName !=
+                null) ...[
+              Gap(6.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      flex: 5,
+                      child: Text('Tier Harga', style: text12BlackRegular)),
+                  const Spacer(),
+                  Expanded(
+                      flex: 4,
+                      child: Text(
+                          "${controller.detailOrderCustomer?.delivery?.pricingTierName}",
+                          style: text12BlackMedium)),
+                ],
+              ),
+            ],
+            // === END V2 DELIVERY INFO ===
           ],
         ));
   }
