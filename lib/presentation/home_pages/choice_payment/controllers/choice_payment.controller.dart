@@ -147,8 +147,11 @@ class ChoicePaymentController extends GetxController {
     selectedchCode = chCode;
     selectedName = name;
     selectedPricing = pricing;
-    setDataArgument();
+
+    // FIX: Hanya perbarui Payment Method, jangan buat ulang seluruh orderCustomer
+    updatePaymentMethod();
     update();
+
     if (chType == "EWALLET" && chCode == "OVO") {
       CustomBottomSheet.show(
           child: OvoForm(
@@ -156,6 +159,14 @@ class ChoicePaymentController extends GetxController {
       ));
     } else if (chType == "SALDO" && chCode == "SALDO") {
       confirmationDialogSavingSaldo();
+    }
+  }
+
+  /// Perbarui hanya metode pembayaran tanpa membuat ulang seluruh orderCustomer
+  void updatePaymentMethod() {
+    if (orderCustomer != null) {
+      orderCustomer!.chCode = selectedchCode;
+      orderCustomer!.chType = selectedchType;
     }
   }
 
@@ -272,11 +283,8 @@ class ChoicePaymentController extends GetxController {
       double percentage =
           double.parse(selectedPricing.replaceAll('%', '').trim());
 
-      double baseAmount = (Get.arguments is List && Get.arguments.length > 3)
-          ? (Get.arguments[3] is num
-              ? (Get.arguments[3] as num).toDouble()
-              : double.tryParse(Get.arguments[3].toString()) ?? 0.0)
-          : 0.0;
+      // Pakai orderCustomer.totalAmount instead of reading Get.arguments lagi
+      double baseAmount = (orderCustomer?.totalAmount ?? 0).toDouble();
 
       double biayaLayanan = (baseAmount * percentage) / 100;
       return biayaLayanan.toStringAsFixed(0).toIdrFormat;
@@ -288,11 +296,8 @@ class ChoicePaymentController extends GetxController {
   String calculateTotalPayment() {
     double biayaLayanan = 0.0;
 
-    double baseAmount = (Get.arguments is List && Get.arguments.length > 3)
-        ? (Get.arguments[3] is num
-            ? (Get.arguments[3] as num).toDouble()
-            : double.tryParse(Get.arguments[3].toString()) ?? 0.0)
-        : 0.0;
+    // Pakai orderCustomer.totalAmount instead of reading Get.arguments lagi
+    double baseAmount = (orderCustomer?.totalAmount ?? 0).toDouble();
 
     if (selectedPricing.contains('%')) {
       double percentage =
