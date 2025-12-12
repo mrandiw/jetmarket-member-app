@@ -134,6 +134,23 @@ class CheckoutController extends GetxController {
 
   // ========== ONGKIR V2 METHODS ==========
 
+  /// ⭐ NEW: Calculate total items price for a specific seller
+  /// Used for min_purchase validation in free ongkir
+  int calculateTotalItemsPriceForSeller(int sellerId) {
+    int total = 0;
+    for (c.CartProduct item in productCart) {
+      if (item.seller?.id == sellerId) {
+        for (c.Products product in item.products ?? []) {
+          final price = product.promo != null && product.promo != 0
+              ? (product.promo ?? 0)
+              : (product.price ?? 0);
+          total += price * (product.qty ?? 0);
+        }
+      }
+    }
+    return total;
+  }
+
   /// Check ongkir V2 untuk satu seller
   Future<void> checkOngkirV2ForSeller(int sellerId, int addressId) async {
     try {
@@ -142,11 +159,16 @@ class CheckoutController extends GetxController {
       ongkirV2Errors[sellerId] = null;
       update();
 
+      // ⭐ Calculate total items price for this seller (for min_purchase validation)
+      final totalItemsPrice = calculateTotalItemsPriceForSeller(sellerId);
+
       // Prepare parameter
       final param = CheckOngkirV2Param(
         addressId: addressId,
         sellerId: sellerId,
         deliveryDate: _formatDateForApi(selectedDeliveryDate.value),
+        totalItemsPrice:
+            totalItemsPrice, // ⭐ NEW: Pass for min_purchase validation
       );
 
       // Validate parameter
@@ -299,6 +321,43 @@ class CheckoutController extends GetxController {
     return ongkir?.pricing?.requireTimeSlot == true;
   }
 
+  // ⭐ NEW: Min purchase helper methods
+
+  /// Check if customer is eligible for free ongkir for seller
+  bool isEligibleFreeOngkirForSeller(int sellerId) {
+    final ongkir = ongkirV2Results[sellerId];
+    return ongkir?.pricing?.isEligibleFreeOngkir == true;
+  }
+
+  /// Get minimum purchase amount for free ongkir for seller
+  int getMinPurchaseForSeller(int sellerId) {
+    final ongkir = ongkirV2Results[sellerId];
+    return ongkir?.pricing?.minPurchase ?? 0;
+  }
+
+  /// Get formatted minimum purchase text for seller (e.g., "Rp50.000")
+  String getMinPurchaseTextForSeller(int sellerId) {
+    final ongkir = ongkirV2Results[sellerId];
+    return ongkir?.pricing?.minPurchaseText ?? '';
+  }
+
+  /// Get remaining amount needed to qualify for free ongkir
+  int getRemainingForFreeOngkir(int sellerId) {
+    final minPurchase = getMinPurchaseForSeller(sellerId);
+    final currentTotal = calculateTotalItemsPriceForSeller(sellerId);
+    final remaining = minPurchase - currentTotal;
+    return remaining > 0 ? remaining : 0;
+  }
+
+  /// Check if customer is close to qualifying for free ongkir (within 20%)
+  bool isCloseToFreeOngkir(int sellerId) {
+    final minPurchase = getMinPurchaseForSeller(sellerId);
+    if (minPurchase == 0) return false;
+    final currentTotal = calculateTotalItemsPriceForSeller(sellerId);
+    final percentage = (currentTotal / minPurchase) * 100;
+    return percentage >= 80 && percentage < 100;
+  }
+
   /// Check if all required time slots are selected
   bool allRequiredTimeSlotsSelected() {
     for (var entry in ongkirV2Results.entries) {
@@ -349,8 +408,18 @@ class CheckoutController extends GetxController {
         return false;
       }
 
-      // Jika free ongkir, pastikan time slot sudah dipilih
-      if (ongkirV2Results[sellerId]?.pricing?.requireTimeSlot == true) {
+      // ⭐ NEW: Jika free ongkir tapi tidak eligible, pastikan user tau bayar ongkir
+      final ongkirInfo = ongkirV2Results[sellerId];
+      if (ongkirInfo?.pricing?.isFreeOngkir == true &&
+          ongkirInfo?.pricing?.isEligibleFreeOngkir == false) {
+        // User tidak memenuhi minimum purchase - ini OK, mereka bayar ongkir
+        // Tapi pastikan mereka tidak perlu pilih time slot
+        log('⚠️ Seller $sellerId: Not eligible for free ongkir, paying ${ongkirInfo?.pricing?.rate}');
+      }
+
+      // Jika eligible free ongkir dan require time slot, pastikan time slot sudah dipilih
+      if (ongkirV2Results[sellerId]?.pricing?.requireTimeSlot == true &&
+          ongkirV2Results[sellerId]?.pricing?.isEligibleFreeOngkir == true) {
         if (selectedTimeSlots[sellerId] == null) {
           AppSnackbar.show(
             message: 'Pilih waktu pengiriman untuk ${cartProduct.seller?.name}',
@@ -630,6 +699,12 @@ class CheckoutController extends GetxController {
       }
 
       update();
+
+      // ⭐ NEW: Auto-check ongkir V2 for all sellers after delivery list is loaded
+      // This ensures V2 rates are available before user selects any delivery option
+      if (address != null) {
+        checkOngkirV2ForAllSellers();
+      }
     } else if (response.status == StatusResponse.noInternet) {
       if (!(Get.isDialogOpen ?? false)) {
         DialogNoConnection.show(onReload: () {
@@ -782,6 +857,28 @@ class CheckoutController extends GetxController {
 
   final qtyControllers = <int, TextEditingController>{}.obs;
 
+  /// ⭐ Re-check ongkir V2 for a specific seller after quantity change
+  /// This ensures free ongkir eligibility is updated when cart total changes
+  Future<void> _recheckOngkirV2ForProduct(int cartId) async {
+    if (address == null) return;
+
+    // Find seller ID for this product
+    int? sellerId;
+    for (var cartProduct in productCart) {
+      final hasProduct =
+          cartProduct.products?.any((p) => p.cartId == cartId) ?? false;
+      if (hasProduct) {
+        sellerId = cartProduct.seller?.id;
+        break;
+      }
+    }
+
+    if (sellerId != null) {
+      // Re-check V2 for this seller with updated totalItemsPrice
+      await checkOngkirV2ForSeller(sellerId, address!.id ?? 0);
+    }
+  }
+
   void incrementProduct(int id, int qty, int stock) {
     if (qty >= stock) {
       warningOverStock();
@@ -808,6 +905,9 @@ class CheckoutController extends GetxController {
       }
       update();
       updateTotalPrice();
+
+      // ⭐ Re-check ongkir V2 to update free ongkir eligibility
+      _recheckOngkirV2ForProduct(id);
     }
   }
 
@@ -861,6 +961,9 @@ class CheckoutController extends GetxController {
       }
       update();
       updateTotalPrice();
+
+      // ⭐ Re-check ongkir V2 to update free ongkir eligibility
+      _recheckOngkirV2ForProduct(id);
     } else {
       update();
     }

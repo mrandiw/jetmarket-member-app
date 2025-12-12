@@ -33,16 +33,8 @@ class PaymentSection extends StatelessWidget {
                             0);
                   })).toString().toIdrFormat),
 
-              // Ongkir section - V1 or V2
-              if (controller.useOngkirV2.value)
-                _buildOngkirV2(controller)
-              else
-                _buildPaymentItem(
-                    'Total Ongkir',
-                    (controller.selectedDelivery.fold(
-                            0, (sum, item) => sum + (item.packets?.rate ?? 0)))
-                        .toString()
-                        .toIdrFormat),
+              // Ongkir section - Use V2 rate for JET if available, otherwise V1
+              _buildOngkirHybrid(controller),
 
               // Diskon section
               Builder(builder: (context) {
@@ -61,6 +53,30 @@ class PaymentSection extends StatelessWidget {
     );
   }
 
+  /// ⭐ HYBRID: Calculate ongkir from V1 selectedDelivery, BUT use V2 rate for JET if available
+  Widget _buildOngkirHybrid(CheckoutController controller) {
+    int totalOngkir = 0;
+
+    // Loop through selectedDelivery (V1) but override rate for JET with V2
+    for (var item in controller.selectedDelivery) {
+      int sellerId = item.sellerId ?? 0;
+      int rate = item.packets?.rate ?? 0;
+
+      // ⭐ If JET courier and V2 result exists, use V2 rate instead
+      if (item.packets?.delivery?.code == 'jet' &&
+          controller.ongkirV2Results.containsKey(sellerId)) {
+        rate = controller.ongkirV2Results[sellerId]?.pricing?.rate ?? rate;
+      }
+
+      totalOngkir += rate;
+    }
+
+    return _buildPaymentItem(
+      'Total Ongkir',
+      totalOngkir.toString().toIdrFormat,
+    );
+  }
+
   Widget _buildOngkirV2(CheckoutController controller) {
     int totalOngkir = 0;
     bool hasGratisOngkir = false;
@@ -74,7 +90,11 @@ class PaymentSection extends StatelessWidget {
       if (ongkirInfo != null) {
         totalOngkir += ongkirInfo.pricing?.rate ?? 0;
 
-        if (ongkirInfo.pricing?.isFreeOngkir == true) {
+        // ⭐ FIX: Check BOTH isFreeOngkir AND isEligibleFreeOngkir
+        final isActuallyFree = ongkirInfo.pricing?.isFreeOngkir == true &&
+            ongkirInfo.pricing?.isEligibleFreeOngkir == true;
+
+        if (isActuallyFree) {
           hasGratisOngkir = true;
         }
 
@@ -96,7 +116,8 @@ class PaymentSection extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    if (ongkirInfo.pricing?.isFreeOngkir == true)
+                    // ⭐ FIX: Only show GRATIS badge if actually eligible
+                    if (isActuallyFree)
                       Container(
                         margin: const EdgeInsets.only(right: 4),
                         padding: const EdgeInsets.symmetric(

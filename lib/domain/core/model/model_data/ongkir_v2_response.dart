@@ -72,6 +72,12 @@ class PricingInfo {
   List<TimeSlot>? timeSlots; // Array time slots (jika free ongkir)
   PricingBreakdown? breakdown; // Breakdown untuk variable pricing
 
+  // ⭐ NEW: Minimum purchase fields for free ongkir
+  int? minPurchase; // Minimum purchase amount untuk free ongkir (e.g., 50000)
+  String? minPurchaseText; // Formatted: "Rp50.000"
+  bool? isEligibleFreeOngkir; // Apakah customer memenuhi syarat min_purchase
+  bool? isInFreeOngkirRange; // Apakah jarak dalam range tier free ongkir
+
   PricingInfo({
     this.tierId,
     this.tierName,
@@ -82,6 +88,10 @@ class PricingInfo {
     this.extraCharge,
     this.timeSlots,
     this.breakdown,
+    this.minPurchase,
+    this.minPurchaseText,
+    this.isEligibleFreeOngkir,
+    this.isInFreeOngkirRange,
   });
 
   PricingInfo.fromJson(Map<String, dynamic> json) {
@@ -92,6 +102,12 @@ class PricingInfo {
     requireTimeSlot = json['require_time_slot'];
     extraDistanceMeters = json['extra_distance_meters'];
     extraCharge = json['extra_charge'];
+
+    // ⭐ NEW: Parse min_purchase fields
+    minPurchase = json['min_purchase'];
+    minPurchaseText = json['min_purchase_text'];
+    isEligibleFreeOngkir = json['is_eligible_free_ongkir'];
+    isInFreeOngkirRange = json['is_in_free_ongkir_range'];
 
     if (json['time_slots'] != null) {
       timeSlots = <TimeSlot>[];
@@ -114,6 +130,12 @@ class PricingInfo {
     data['require_time_slot'] = requireTimeSlot;
     data['extra_distance_meters'] = extraDistanceMeters;
     data['extra_charge'] = extraCharge;
+
+    // ⭐ NEW: Add min_purchase fields
+    data['min_purchase'] = minPurchase;
+    data['min_purchase_text'] = minPurchaseText;
+    data['is_eligible_free_ongkir'] = isEligibleFreeOngkir;
+    data['is_in_free_ongkir_range'] = isInFreeOngkirRange;
 
     if (timeSlots != null) {
       data['time_slots'] = timeSlots!.map((v) => v.toJson()).toList();
