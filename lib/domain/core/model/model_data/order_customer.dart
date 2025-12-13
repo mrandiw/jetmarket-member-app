@@ -133,14 +133,25 @@ class Delivery {
   String? serviceName;
   String? serviceCode;
   int? rate;
+  int? timeSlotId; // ⭐ NEW: For free ongkir time slot
+  String? scheduledDate; // ⭐ NEW: For scheduled delivery date
 
-  Delivery({this.code, this.serviceName, this.serviceCode, this.rate});
+  Delivery({
+    this.code,
+    this.serviceName,
+    this.serviceCode,
+    this.rate,
+    this.timeSlotId,
+    this.scheduledDate,
+  });
 
   Delivery.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     serviceName = json['service_name'];
     serviceCode = json['service_code'];
     rate = json['rate'];
+    timeSlotId = json['time_slot_id'];
+    scheduledDate = json['scheduled_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -149,6 +160,12 @@ class Delivery {
     data['service_name'] = serviceName;
     data['service_code'] = serviceCode;
     data['rate'] = rate;
+    if (timeSlotId != null) {
+      data['time_slot_id'] = timeSlotId;
+    }
+    if (scheduledDate != null) {
+      data['scheduled_date'] = scheduledDate;
+    }
     data.removeWhere((key, value) =>
         value == null || value == '' || value == 0.0 || value == 0);
     return data;

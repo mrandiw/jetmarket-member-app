@@ -501,6 +501,11 @@ class CheckoutController extends GetxController {
   Map<String, dynamic> dataOrderProductHybrid() {
     List<dynamic> listItem = [];
 
+    debugPrint('🔍 ========== dataOrderProductHybrid() START ==========');
+    debugPrint('🔍 productCart.length: ${productCart.length}');
+    debugPrint('🔍 ongkirV2Results keys: ${ongkirV2Results.keys.toList()}');
+    debugPrint('🔍 selectedTimeSlots: $selectedTimeSlots');
+
     for (int i = 0; i < productCart.length; i++) {
       int sellerId = productCart[i].seller?.id ?? 0;
 
@@ -510,9 +515,21 @@ class CheckoutController extends GetxController {
         orElse: () => d.SelectDelivery(),
       );
 
+      debugPrint(
+          '🔍 Seller[$sellerId] selectedDel.code: ${selectedDel.packets?.delivery?.code}');
+      debugPrint(
+          '🔍 Seller[$sellerId] hasV2Result: ${ongkirV2Results.containsKey(sellerId)}');
+
       // Check apakah JET dipilih dan hasil V2 ada.
       bool isJetWithV2 = selectedDel.packets?.delivery?.code == 'jet' &&
           ongkirV2Results.containsKey(sellerId);
+
+      debugPrint('🔍 Seller[$sellerId] isJetWithV2: $isJetWithV2');
+
+      // ⭐ DEBUG: Log time slot
+      var timeSlotDebug = selectedTimeSlots[sellerId];
+      debugPrint(
+          '🔍 Seller[$sellerId] timeSlot: id=${timeSlotDebug?.id}, name=${timeSlotDebug?.name}');
 
       Map<String, dynamic> orderItem = {
         'seller_id': sellerId,
@@ -534,26 +551,47 @@ class CheckoutController extends GetxController {
         var ongkirInfo = ongkirV2Results[sellerId];
         var timeSlot = selectedTimeSlots[sellerId];
 
-        orderItem['delivery'] = {
+        // ⭐ Build delivery object with time_slot_id and scheduled_date INSIDE
+        Map<String, dynamic> deliveryData = {
           'code': 'jet',
           'rate': ongkirInfo?.pricing?.rate,
           'service_name': 'JetKurir',
           'service_code': 'INSTANT',
         };
 
-        // V2 metadata
+        // ⭐ Add time_slot_id INSIDE delivery object (required by backend)
+        if (timeSlot != null) {
+          deliveryData['time_slot_id'] = timeSlot.id;
+          debugPrint('✅ Added time_slot_id: ${timeSlot.id}');
+        } else {
+          debugPrint('⚠️ timeSlot is NULL for seller $sellerId');
+        }
+
+        // ⭐ Add scheduled_date INSIDE delivery object (required by backend)
+        deliveryData['scheduled_date'] =
+            _formatDateForApi(selectedDeliveryDate.value);
+
+        orderItem['delivery'] = deliveryData;
+
+        // V2 metadata (these stay at orderItem level for logging/tracking)
         orderItem['distance_meters'] = ongkirInfo?.distance?.meters;
         orderItem['distance_text'] = ongkirInfo?.distance?.text;
         orderItem['duration_text'] = ongkirInfo?.distance?.duration;
-        orderItem['scheduled_date'] =
-            _formatDateForApi(selectedDeliveryDate.value);
 
-        if (timeSlot != null) {
-          orderItem['time_slot_id'] = timeSlot.id;
-        }
         if (ongkirInfo?.pricing?.tierId != null) {
           orderItem['pricing_tier_id'] = ongkirInfo!.pricing!.tierId;
         }
+
+        // ⭐ DEBUG: Log delivery data untuk JET
+        debugPrint('========== DEBUG ORDER ITEM (JET V2) ==========');
+        debugPrint('SellerId: $sellerId');
+        debugPrint('Delivery object: ${orderItem['delivery']}');
+        debugPrint('TimeSlot: ${timeSlot?.id} - ${timeSlot?.name}');
+        debugPrint('ScheduledDate: ${selectedDeliveryDate.value}');
+        debugPrint(
+            'OngkirInfo: isEligibleFreeOngkir=${ongkirInfo?.pricing?.isEligibleFreeOngkir}');
+        debugPrint('OngkirInfo: rate=${ongkirInfo?.pricing?.rate}');
+        debugPrint('==============================================');
       } else {
         // Use V1 data untuk couriers lain (JNE, Grab, Gojek, Self Pickup)
         orderItem['delivery'] = {
@@ -566,6 +604,8 @@ class CheckoutController extends GetxController {
 
       listItem.add(orderItem);
     }
+
+    debugPrint('🔍 ========== dataOrderProductHybrid() END ==========');
 
     return {'items': listItem};
   }
