@@ -489,7 +489,7 @@ class PaymentMethodeSection extends StatelessWidget {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Payletter', style: text12BlackSemiBold),
+                          Text('Paylater', style: text12BlackSemiBold),
                           Visibility(
                             visible: !controller.isPayletterExpanded,
                             child: Container(

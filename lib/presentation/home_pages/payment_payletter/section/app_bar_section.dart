@@ -5,7 +5,7 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/utils/assets/assets_svg.dart';
 
-AppBar get appBarPaymentPayleter {
+AppBar get appBarPaymentPaylater {
   return AppBar(
     backgroundColor: kWhite,
     elevation: 0,
@@ -14,6 +14,6 @@ AppBar get appBarPaymentPayleter {
       onPressed: () => Get.back(),
       icon: SvgPicture.asset(arrowForward),
     ),
-    title: Text('Payleter', style: text16BlackSemiBold),
+    title: Text('Paylater', style: text16BlackSemiBold),
   );
 }

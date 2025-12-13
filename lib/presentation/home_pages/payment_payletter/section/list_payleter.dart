@@ -21,7 +21,7 @@ class ListPayletterSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pilih Payleter', style: text14BlackSemiBold),
+            Text('Pilih Paylater', style: text14BlackSemiBold),
             Gap(12.hr),
             SizedBox(
                 child: ListView.separated(

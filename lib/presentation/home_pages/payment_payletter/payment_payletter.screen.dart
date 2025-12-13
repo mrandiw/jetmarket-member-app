@@ -23,7 +23,7 @@ class PaymentPayletterScreen extends GetView<PaymentPayletterController> {
 
   Scaffold _successWidget() {
     return Scaffold(
-      appBar: appBarPaymentPayleter,
+      appBar: appBarPaymentPaylater,
       body: ListView(
         padding: AppStyle.paddingAll16,
         children: [
