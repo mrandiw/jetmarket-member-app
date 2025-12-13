@@ -114,7 +114,7 @@ class CheckoutController extends GetxController {
       int sellerId = item.sellerId ?? 0;
       int deliveryRate = item.packets?.rate ?? 0;
 
-      // ⭐ If this is JET courier and V2 result exists, use V2 rate instead
+      // If this is JET courier and V2 result exists, use V2 rate instead
       if (item.packets?.delivery?.code == 'jet' &&
           ongkirV2Results.containsKey(sellerId)) {
         deliveryRate = ongkirV2Results[sellerId]?.pricing?.rate ?? deliveryRate;
@@ -134,7 +134,7 @@ class CheckoutController extends GetxController {
 
   // ========== ONGKIR V2 METHODS ==========
 
-  /// ⭐ NEW: Calculate total items price for a specific seller
+  /// NEW: Calculate total items price for a specific seller
   /// Used for min_purchase validation in free ongkir
   int calculateTotalItemsPriceForSeller(int sellerId) {
     int total = 0;
@@ -159,7 +159,7 @@ class CheckoutController extends GetxController {
       ongkirV2Errors[sellerId] = null;
       update();
 
-      // ⭐ Calculate total items price for this seller (for min_purchase validation)
+      // Calculate total items price for this seller (for min_purchase validation)
       final totalItemsPrice = calculateTotalItemsPriceForSeller(sellerId);
 
       // Prepare parameter
@@ -168,7 +168,7 @@ class CheckoutController extends GetxController {
         sellerId: sellerId,
         deliveryDate: _formatDateForApi(selectedDeliveryDate.value),
         totalItemsPrice:
-            totalItemsPrice, // ⭐ NEW: Pass for min_purchase validation
+            totalItemsPrice, // NEW: Pass for min_purchase validation
       );
 
       // Validate parameter
@@ -193,7 +193,7 @@ class CheckoutController extends GetxController {
           selectedTimeSlots[sellerId] = null;
         }
 
-        // ⭐ Update total price to reflect V2 rate for JET
+        // Update total price to reflect V2 rate for JET
         updateTotalPrice();
 
         log('✅ Ongkir V2 Success for seller $sellerId: ${response.result!.pricing?.rate}');
@@ -217,7 +217,10 @@ class CheckoutController extends GetxController {
     } finally {
       ongkirV2Loading[sellerId] = false;
       update();
-      updateTotalPriceV2();
+      // FIX: Use updateTotalPrice() instead of updateTotalPriceV2()
+      // updateTotalPrice() correctly uses hybrid logic - only adds V2 rate
+      // when JET is actually selected, not for all couriers
+      updateTotalPrice();
     }
   }
 
@@ -321,7 +324,7 @@ class CheckoutController extends GetxController {
     return ongkir?.pricing?.requireTimeSlot == true;
   }
 
-  // ⭐ NEW: Min purchase helper methods
+  // NEW: Min purchase helper methods
 
   /// Check if customer is eligible for free ongkir for seller
   bool isEligibleFreeOngkirForSeller(int sellerId) {
@@ -408,7 +411,7 @@ class CheckoutController extends GetxController {
         return false;
       }
 
-      // ⭐ NEW: Jika free ongkir tapi tidak eligible, pastikan user tau bayar ongkir
+      // NEW: Jika free ongkir tapi tidak eligible, pastikan user tau bayar ongkir
       final ongkirInfo = ongkirV2Results[sellerId];
       if (ongkirInfo?.pricing?.isFreeOngkir == true &&
           ongkirInfo?.pricing?.isEligibleFreeOngkir == false) {
@@ -526,7 +529,7 @@ class CheckoutController extends GetxController {
 
       debugPrint('🔍 Seller[$sellerId] isJetWithV2: $isJetWithV2');
 
-      // ⭐ DEBUG: Log time slot
+      // DEBUG: Log time slot
       var timeSlotDebug = selectedTimeSlots[sellerId];
       debugPrint(
           '🔍 Seller[$sellerId] timeSlot: id=${timeSlotDebug?.id}, name=${timeSlotDebug?.name}');
@@ -551,7 +554,7 @@ class CheckoutController extends GetxController {
         var ongkirInfo = ongkirV2Results[sellerId];
         var timeSlot = selectedTimeSlots[sellerId];
 
-        // ⭐ Build delivery object with time_slot_id and scheduled_date INSIDE
+        // Build delivery object with time_slot_id and scheduled_date INSIDE
         Map<String, dynamic> deliveryData = {
           'code': 'jet',
           'rate': ongkirInfo?.pricing?.rate,
@@ -559,7 +562,7 @@ class CheckoutController extends GetxController {
           'service_code': 'INSTANT',
         };
 
-        // ⭐ Add time_slot_id INSIDE delivery object (required by backend)
+        // Add time_slot_id INSIDE delivery object (required by backend)
         if (timeSlot != null) {
           deliveryData['time_slot_id'] = timeSlot.id;
           debugPrint('✅ Added time_slot_id: ${timeSlot.id}');
@@ -567,7 +570,7 @@ class CheckoutController extends GetxController {
           debugPrint('⚠️ timeSlot is NULL for seller $sellerId');
         }
 
-        // ⭐ Add scheduled_date INSIDE delivery object (required by backend)
+        // Add scheduled_date INSIDE delivery object (required by backend)
         deliveryData['scheduled_date'] =
             _formatDateForApi(selectedDeliveryDate.value);
 
@@ -582,7 +585,7 @@ class CheckoutController extends GetxController {
           orderItem['pricing_tier_id'] = ongkirInfo!.pricing!.tierId;
         }
 
-        // ⭐ DEBUG: Log delivery data untuk JET
+        // DEBUG: Log delivery data untuk JET
         debugPrint('========== DEBUG ORDER ITEM (JET V2) ==========');
         debugPrint('SellerId: $sellerId');
         debugPrint('Delivery object: ${orderItem['delivery']}');
@@ -740,7 +743,7 @@ class CheckoutController extends GetxController {
 
       update();
 
-      // ⭐ NEW: Auto-check ongkir V2 for all sellers after delivery list is loaded
+      // NEW: Auto-check ongkir V2 for all sellers after delivery list is loaded
       // This ensures V2 rates are available before user selects any delivery option
       if (address != null) {
         checkOngkirV2ForAllSellers();
@@ -801,7 +804,7 @@ class CheckoutController extends GetxController {
     update();
     updateTotalPrice();
 
-    // ⭐ NEW: Check if selected courier is JET
+    // NEW: Check if selected courier is JET
     if (delivery?.packets?.delivery?.code == 'jet' && sellerId != null) {
       // Trigger V2 ongkir check for JET
       _checkOngkirV2ForJetCourier(sellerId);
@@ -897,7 +900,7 @@ class CheckoutController extends GetxController {
 
   final qtyControllers = <int, TextEditingController>{}.obs;
 
-  /// ⭐ Re-check ongkir V2 for a specific seller after quantity change
+  /// Re-check ongkir V2 for a specific seller after quantity change
   /// This ensures free ongkir eligibility is updated when cart total changes
   Future<void> _recheckOngkirV2ForProduct(int cartId) async {
     if (address == null) return;
@@ -946,7 +949,7 @@ class CheckoutController extends GetxController {
       update();
       updateTotalPrice();
 
-      // ⭐ Re-check ongkir V2 to update free ongkir eligibility
+      // Re-check ongkir V2 to update free ongkir eligibility
       _recheckOngkirV2ForProduct(id);
     }
   }
@@ -1002,7 +1005,7 @@ class CheckoutController extends GetxController {
       update();
       updateTotalPrice();
 
-      // ⭐ Re-check ongkir V2 to update free ongkir eligibility
+      // Re-check ongkir V2 to update free ongkir eligibility
       _recheckOngkirV2ForProduct(id);
     } else {
       update();

@@ -72,7 +72,7 @@ class PricingInfo {
   List<TimeSlot>? timeSlots; // Array time slots (jika free ongkir)
   PricingBreakdown? breakdown; // Breakdown untuk variable pricing
 
-  // ⭐ NEW: Minimum purchase fields for free ongkir
+  // NEW: Minimum purchase fields for free ongkir
   int? minPurchase; // Minimum purchase amount untuk free ongkir (e.g., 50000)
   String? minPurchaseText; // Formatted: "Rp50.000"
   bool? isEligibleFreeOngkir; // Apakah customer memenuhi syarat min_purchase
@@ -103,7 +103,7 @@ class PricingInfo {
     extraDistanceMeters = json['extra_distance_meters'];
     extraCharge = json['extra_charge'];
 
-    // ⭐ NEW: Parse min_purchase fields
+    // NEW: Parse min_purchase fields
     minPurchase = json['min_purchase'];
     minPurchaseText = json['min_purchase_text'];
     isEligibleFreeOngkir = json['is_eligible_free_ongkir'];
@@ -131,7 +131,7 @@ class PricingInfo {
     data['extra_distance_meters'] = extraDistanceMeters;
     data['extra_charge'] = extraCharge;
 
-    // ⭐ NEW: Add min_purchase fields
+    // NEW: Add min_purchase fields
     data['min_purchase'] = minPurchase;
     data['min_purchase_text'] = minPurchaseText;
     data['is_eligible_free_ongkir'] = isEligibleFreeOngkir;

@@ -25,14 +25,14 @@ class PacketItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChoiceDeliveryController>(builder: (controller) {
-      // ⭐ Get CheckoutController to access V2 results
+      // Get CheckoutController to access V2 results
       final checkoutController = Get.find<CheckoutController>();
 
-      // ⭐ Determine actual rate - use V2 if JET courier
+      // Determine actual rate - use V2 if JET courier
       final isJetCourier = data.delivery?.code == 'jet';
       int displayRate = data.rate ?? 0;
 
-      // ⭐ Get V2 info for JetKurir promo badge
+      // Get V2 info for JetKurir promo badge
       final v2Result = checkoutController.ongkirV2Results[sellerId];
       final isEligibleFreeOngkir =
           v2Result?.pricing?.isEligibleFreeOngkir ?? true;
@@ -47,7 +47,7 @@ class PacketItem extends StatelessWidget {
                 displayRate;
       }
 
-      // ⭐ Show promo badge if: JET + not eligible + in free range
+      // Show promo badge if: JET + not eligible + in free range
       final showPromoBadge = isJetCourier &&
           !isEligibleFreeOngkir &&
           isInFreeOngkirRange &&
@@ -86,7 +86,7 @@ class PacketItem extends StatelessWidget {
                     onChanged: (value) => controller.selectPacket(value!)),
               ),
             ),
-            // ⭐ Promo badge for free ongkir
+            // Promo badge for free ongkir
             if (showPromoBadge)
               Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),

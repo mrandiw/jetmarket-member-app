@@ -312,10 +312,10 @@ class ProductSection extends StatelessWidget {
     final sellerId = selectedDel.sellerId ?? 0;
     final isJetCourier = selectedDel.packets?.delivery?.code == 'jet';
 
-    // ⭐ Use V2 rate for JetKurir if available
+    // Use V2 rate for JetKurir if available
     int displayRate = selectedDel.packets?.rate ?? 0;
 
-    // ⭐ Get V2 info for promo badge
+    // Get V2 info for promo badge
     final v2Result = controller.ongkirV2Results[sellerId];
     final isEligibleFreeOngkir =
         v2Result?.pricing?.isEligibleFreeOngkir ?? true;
@@ -327,7 +327,7 @@ class ProductSection extends StatelessWidget {
           controller.ongkirV2Results[sellerId]?.pricing?.rate ?? displayRate;
     }
 
-    // ⭐ Show promo badge if: JET + not eligible + in free range
+    // Show promo badge if: JET + not eligible + in free range
     final showPromoBadge = isJetCourier &&
         !isEligibleFreeOngkir &&
         isInFreeOngkirRange &&
@@ -358,7 +358,7 @@ class ProductSection extends StatelessWidget {
                 style: text12HintRegular,
               ),
             ),
-            // ⭐ Promo badge for free ongkir
+            // Promo badge for free ongkir
             if (showPromoBadge)
               Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),

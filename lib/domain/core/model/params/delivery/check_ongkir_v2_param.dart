@@ -3,7 +3,7 @@ class CheckOngkirV2Param {
   int? addressId; // ID alamat customer
   int? sellerId; // ID seller/toko
   String? deliveryDate; // Tanggal pengiriman format "YYYY-MM-DD"
-  int? totalItemsPrice; // ⭐ NEW: Total harga items untuk validasi min_purchase
+  int? totalItemsPrice; // NEW: Total harga items untuk validasi min_purchase
 
   CheckOngkirV2Param({
     this.addressId,
@@ -26,7 +26,7 @@ class CheckOngkirV2Param {
     if (deliveryDate != null) {
       data['delivery_date'] = deliveryDate;
     }
-    // ⭐ NEW: Include total_items_price for min_purchase validation
+    // NEW: Include total_items_price for min_purchase validation
     if (totalItemsPrice != null && totalItemsPrice! > 0) {
       data['total_items_price'] = totalItemsPrice;
     }

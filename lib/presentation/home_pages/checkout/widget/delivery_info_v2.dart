@@ -46,7 +46,7 @@ class DeliveryInfoV2 extends StatelessWidget {
           Gap(8.h),
           _buildPricingInfo(),
 
-          // ⭐ UPDATED: Show time slot selector ONLY if free ongkir AND eligible
+          // UPDATED: Show time slot selector ONLY if free ongkir AND eligible
           if (_isFreeOngkir && _isEligibleFreeOngkir && _hasTimeSlots) ...[
             Gap(12.h),
             Divider(color: kBorder, height: 1),
@@ -101,7 +101,7 @@ class DeliveryInfoV2 extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-              // ⭐ NEW: Show info if not eligible for free ongkir
+              // NEW: Show info if not eligible for free ongkir
               if (_isFreeOngkir && !_isEligibleFreeOngkir)
                 Text(
                   'Belum memenuhi syarat gratis ongkir',
@@ -153,7 +153,7 @@ class DeliveryInfoV2 extends StatelessWidget {
 
   Widget _buildPricingInfo() {
     final pricing = ongkirInfo.pricing;
-    // ⭐ Check if customer is eligible for free ongkir
+    // Check if customer is eligible for free ongkir
     final isEligible = pricing?.isEligibleFreeOngkir ?? true;
 
     return Container(
@@ -189,7 +189,7 @@ class DeliveryInfoV2 extends StatelessWidget {
                       'Tier: ${pricing?.tierName ?? "-"}',
                       style: text12BlackMedium,
                     ),
-                    // ⭐ Show rate if NOT free ongkir OR not eligible
+                    // Show rate if NOT free ongkir OR not eligible
                     if (!_isFreeOngkir || !isEligible) ...[
                       Gap(2.h),
                       Text(
@@ -206,7 +206,7 @@ class DeliveryInfoV2 extends StatelessWidget {
             ],
           ),
 
-          // ⭐ NEW: Show min_purchase info if available
+          // NEW: Show min_purchase info if available
           if (_hasMinPurchaseInfo) ...[
             Gap(8.h),
             _buildMinPurchaseInfo(),
@@ -216,7 +216,7 @@ class DeliveryInfoV2 extends StatelessWidget {
     );
   }
 
-  /// ⭐ NEW: Build min_purchase info widget
+  /// NEW: Build min_purchase info widget
   Widget _buildMinPurchaseInfo() {
     final pricing = ongkirInfo.pricing;
     final isEligible = pricing?.isEligibleFreeOngkir ?? true;
@@ -335,7 +335,7 @@ class DeliveryInfoV2 extends StatelessWidget {
   Widget _buildFooterInfo() {
     final requireTimeSlot = ongkirInfo.pricing?.requireTimeSlot ?? false;
 
-    // ⭐ UPDATED: Only show time slot requirement if eligible for free ongkir
+    // UPDATED: Only show time slot requirement if eligible for free ongkir
     if (requireTimeSlot && _isEligibleFreeOngkir && selectedTimeSlot == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
@@ -389,7 +389,7 @@ class DeliveryInfoV2 extends StatelessWidget {
 
   Widget _buildPriceBadge() {
     final rate = ongkirInfo.pricing?.rate ?? 0;
-    // ⭐ UPDATED: Show GRATIS only if eligible
+    // UPDATED: Show GRATIS only if eligible
     final showFree = _isFreeOngkir && _isEligibleFreeOngkir;
 
     return Container(
@@ -415,7 +415,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       ongkirInfo.pricing!.timeSlots!.isNotEmpty;
   bool get _hasBreakdown => ongkirInfo.pricing?.breakdown != null;
 
-  // ⭐ NEW: Min purchase helper getters
+  // NEW: Min purchase helper getters
   bool get _isEligibleFreeOngkir =>
       ongkirInfo.pricing?.isEligibleFreeOngkir ?? true;
   bool get _hasMinPurchaseInfo =>

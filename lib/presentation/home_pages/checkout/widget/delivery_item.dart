@@ -70,7 +70,7 @@ class DeliveryItem extends StatelessWidget {
                         .map((delivery) => Column(
                                 children: List.generate(
                                     delivery.services?.length ?? 0, (index) {
-                              // ⭐ Get the actual rate - use V2 if JET courier
+                              // Get the actual rate - use V2 if JET courier
                               final service = delivery.services?[index];
                               final isJetCourier = service?.packets
                                       ?.any((p) => p.delivery?.code == 'jet') ??
@@ -78,7 +78,7 @@ class DeliveryItem extends StatelessWidget {
 
                               int displayRate = service?.rate ?? 0;
 
-                              // ⭐ Get V2 info for JetKurir promo badge
+                              // Get V2 info for JetKurir promo badge
                               final v2Result =
                                   controller.ongkirV2Results[sellerId];
                               final isEligibleFreeOngkir =
@@ -101,7 +101,7 @@ class DeliveryItem extends StatelessWidget {
                                     displayRate;
                               }
 
-                              // ⭐ Show promo badge if: JET + not eligible + in free range
+                              // Show promo badge if: JET + not eligible + in free range
                               final showPromoBadge = isJetCourier &&
                                   !isEligibleFreeOngkir &&
                                   isInFreeOngkirRange &&
@@ -144,7 +144,7 @@ class DeliveryItem extends StatelessWidget {
                                         size: 14.wr,
                                       ),
                                     ),
-                                    // ⭐ Promo badge for free ongkir
+                                    // Promo badge for free ongkir
                                     if (showPromoBadge)
                                       Padding(
                                         padding: const EdgeInsets.only(

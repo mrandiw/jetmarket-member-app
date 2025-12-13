@@ -53,7 +53,7 @@ class PaymentSection extends StatelessWidget {
     );
   }
 
-  /// ⭐ HYBRID: Calculate ongkir from V1 selectedDelivery, BUT use V2 rate for JET if available
+  /// HYBRID: Calculate ongkir from V1 selectedDelivery, BUT use V2 rate for JET if available
   Widget _buildOngkirHybrid(CheckoutController controller) {
     int totalOngkir = 0;
 
@@ -62,7 +62,7 @@ class PaymentSection extends StatelessWidget {
       int sellerId = item.sellerId ?? 0;
       int rate = item.packets?.rate ?? 0;
 
-      // ⭐ If JET courier and V2 result exists, use V2 rate instead
+      // If JET courier and V2 result exists, use V2 rate instead
       if (item.packets?.delivery?.code == 'jet' &&
           controller.ongkirV2Results.containsKey(sellerId)) {
         rate = controller.ongkirV2Results[sellerId]?.pricing?.rate ?? rate;
@@ -90,7 +90,7 @@ class PaymentSection extends StatelessWidget {
       if (ongkirInfo != null) {
         totalOngkir += ongkirInfo.pricing?.rate ?? 0;
 
-        // ⭐ FIX: Check BOTH isFreeOngkir AND isEligibleFreeOngkir
+        // FIX: Check BOTH isFreeOngkir AND isEligibleFreeOngkir
         final isActuallyFree = ongkirInfo.pricing?.isFreeOngkir == true &&
             ongkirInfo.pricing?.isEligibleFreeOngkir == true;
 
@@ -116,7 +116,7 @@ class PaymentSection extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    // ⭐ FIX: Only show GRATIS badge if actually eligible
+                    // FIX: Only show GRATIS badge if actually eligible
                     if (isActuallyFree)
                       Container(
                         margin: const EdgeInsets.only(right: 4),

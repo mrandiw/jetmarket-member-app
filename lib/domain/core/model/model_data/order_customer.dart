@@ -133,8 +133,8 @@ class Delivery {
   String? serviceName;
   String? serviceCode;
   int? rate;
-  int? timeSlotId; // ⭐ NEW: For free ongkir time slot
-  String? scheduledDate; // ⭐ NEW: For scheduled delivery date
+  int? timeSlotId; // NEW: For free ongkir time slot
+  String? scheduledDate; // NEW: For scheduled delivery date
 
   Delivery({
     this.code,
