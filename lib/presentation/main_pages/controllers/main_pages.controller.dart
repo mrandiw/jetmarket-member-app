@@ -9,6 +9,7 @@ import 'package:jetmarket/infrastructure/dal/repository/app_version_repository_i
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
 import 'package:jetmarket/presentation/screens.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../infrastructure/dal/services/firebase/firebase_controller.dart';
 import '../../../utils/assets/assets_svg.dart';
@@ -20,7 +21,17 @@ class MainPagesController extends GetxController {
   late StreamSubscription sub;
   var selectedIndex = 0;
   bool isEmployees = false;
-  String versionApp = '2.0.5';
+  String versionApp = '1.0.0'; // Will be set dynamically in onInit
+
+  Future<void> _loadAppVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      versionApp = packageInfo.version;
+      log('App version loaded: $versionApp');
+    } catch (e) {
+      log('Error loading app version: $e');
+    }
+  }
 
   void changeTabIndex(int index) {
     selectedIndex = index;
@@ -206,10 +217,15 @@ class MainPagesController extends GetxController {
 
   @override
   void onInit() {
+    _initAsync();
+    super.onInit();
+  }
+
+  Future<void> _initAsync() async {
+    await _loadAppVersion();
     checkVersionApp();
     setEmploye();
     updateUnreadNotification();
     setupInteractedMessage();
-    super.onInit();
   }
 }
