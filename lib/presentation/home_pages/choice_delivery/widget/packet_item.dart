@@ -101,7 +101,7 @@ class PacketItem extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.local_offer, size: 12, color: kSuccessColor),
+                      const Icon(Icons.local_offer, size: 12, color: kSuccessColor),
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(

@@ -77,7 +77,7 @@ class PaymentSection extends StatelessWidget {
     );
   }
 
-  Widget _buildOngkirV2(CheckoutController controller) {
+  Widget buildOngkirV2(CheckoutController controller) {
     int totalOngkir = 0;
     bool hasGratisOngkir = false;
     List<Widget> ongkirDetails = [];

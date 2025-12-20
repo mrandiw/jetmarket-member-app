@@ -187,9 +187,9 @@ class ProductSection extends StatelessWidget {
     var ongkirInfo = controller.ongkirV2Results[sellerId];
 
     if (isLoading) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: const DeliveryInfoLoading(),
+      return const Padding(
+        padding: EdgeInsets.only(top: 12.0),
+        child: DeliveryInfoLoading(),
       );
     }
 
@@ -226,7 +226,7 @@ class ProductSection extends StatelessWidget {
   }
 
   // V2 Delivery Display
-  Widget _buildDeliveryV2(CheckoutController controller, dynamic data) {
+  Widget buildDeliveryV2(CheckoutController controller, dynamic data) {
     int sellerId = data.seller?.id ?? 0;
     var isLoading = controller.ongkirV2Loading[sellerId] ?? false;
     var error = controller.ongkirV2Errors[sellerId];
@@ -373,7 +373,7 @@ class ProductSection extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.local_offer, size: 12, color: kSuccessColor),
+                      const Icon(Icons.local_offer, size: 12, color: kSuccessColor),
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
