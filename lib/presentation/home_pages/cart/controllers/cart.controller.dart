@@ -365,15 +365,20 @@ class CartController extends GetxController {
 
   Future<void> buyProduct() async {
     // Show loading indicator using dark type for neutral message
-    AppSnackbar.show(message: 'Memeriksa ketersediaan stok...', type: SnackType.dark);
-    
+    AppSnackbar.show(
+        message: 'Memeriksa ketersediaan stok...', type: SnackType.dark);
+
+    // FIX: Clear pagingController before refreshing to prevent duplicate data
+    // appendLastPage/appendPage will APPEND to existing list, causing duplicates
+    pagingController.itemList?.clear();
+
     // Refresh product data to get latest stock information
     await getProduct(1);
-    
+
     // Check if any selected products have insufficient stock
     bool hasInsufficientStock = false;
     List<String> outOfStockProducts = [];
-    
+
     for (CartProduct cartProduct in selectProductCart) {
       for (Products selectedProduct in cartProduct.products ?? []) {
         // Find the latest product data from refreshed productCart
@@ -384,58 +389,58 @@ class CartController extends GetxController {
           );
           if (latestProduct != null) break;
         }
-        
+
         if (latestProduct != null) {
           if (latestProduct.stock == 0) {
             hasInsufficientStock = true;
             outOfStockProducts.add('${latestProduct.name} (Stok habis)');
           } else if ((selectedProduct.qty ?? 0) > (latestProduct.stock ?? 0)) {
             hasInsufficientStock = true;
-            outOfStockProducts.add('${latestProduct.name} (Stok tersedia: ${latestProduct.stock}, dibutuhkan: ${selectedProduct.qty})');
+            outOfStockProducts.add(
+                '${latestProduct.name} (Stok tersedia: ${latestProduct.stock}, dibutuhkan: ${selectedProduct.qty})');
           }
         }
       }
     }
-    
+
     if (hasInsufficientStock) {
       // Remove products with insufficient stock from selection
       selectProductCart.removeWhere((cartProduct) {
         return cartProduct.products?.any((selectedProduct) {
-          Products? latestProduct;
-          for (CartProduct refreshedCart in productCart) {
-            latestProduct = refreshedCart.products?.firstWhereOrNull(
-              (p) => p.cartId == selectedProduct.cartId,
-            );
-            if (latestProduct != null) break;
-          }
-          
-          if (latestProduct != null) {
-            return latestProduct.stock == 0 || 
-                   (selectedProduct.qty ?? 0) > (latestProduct.stock ?? 0);
-          }
-          return false;
-        }) ?? false;
+              Products? latestProduct;
+              for (CartProduct refreshedCart in productCart) {
+                latestProduct = refreshedCart.products?.firstWhereOrNull(
+                  (p) => p.cartId == selectedProduct.cartId,
+                );
+                if (latestProduct != null) break;
+              }
+
+              if (latestProduct != null) {
+                return latestProduct.stock == 0 ||
+                    (selectedProduct.qty ?? 0) > (latestProduct.stock ?? 0);
+              }
+              return false;
+            }) ??
+            false;
       });
-      
+
       // Update total price and UI
       updateTotalPrice();
       pagingController.refresh();
       update();
-      
+
       // Show error message with details
       String errorMessage = 'Beberapa produk tidak tersedia:\n';
       errorMessage += outOfStockProducts.take(3).join('\n');
       if (outOfStockProducts.length > 3) {
-        errorMessage += '\n...dan ${outOfStockProducts.length - 3} produk lainnya';
+        errorMessage +=
+            '\n...dan ${outOfStockProducts.length - 3} produk lainnya';
       }
-      
-      AppSnackbar.show(
-        message: errorMessage, 
-        type: SnackType.error
-      );
+
+      AppSnackbar.show(message: errorMessage, type: SnackType.error);
       return;
     }
-    
+
     // If all products have sufficient stock, proceed with checkout
     List<CartProduct> combinedProducts = [];
     Map<int, List<CartProduct>> groupedBySeller = {};

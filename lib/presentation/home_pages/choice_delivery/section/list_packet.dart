@@ -19,6 +19,7 @@ class ListPacket extends StatelessWidget {
               (index) => PacketItem(
                     index: index,
                     data: controller.packets[index],
+                    sellerId: controller.sellerId,
                     onTap: () => controller.selectPacket(index),
                   )),
         ),

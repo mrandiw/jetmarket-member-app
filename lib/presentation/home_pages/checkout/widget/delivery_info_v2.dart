@@ -46,8 +46,8 @@ class DeliveryInfoV2 extends StatelessWidget {
           Gap(8.h),
           _buildPricingInfo(),
 
-          // Show time slot selector jika free ongkir
-          if (_isFreeOngkir && _hasTimeSlots) ...[
+          // UPDATED: Show time slot selector ONLY if free ongkir AND eligible
+          if (_isFreeOngkir && _isEligibleFreeOngkir && _hasTimeSlots) ...[
             Gap(12.h),
             Divider(color: kBorder, height: 1),
             Gap(12.h),
@@ -93,11 +93,20 @@ class DeliveryInfoV2 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('DETAIL PENGIRIMAN', style: text12BlackMedium),
-              if (_isFreeOngkir)
+              if (_isFreeOngkir && _isEligibleFreeOngkir)
                 Text(
                   'Gratis Ongkir! 🎉',
                   style: text10BlackRegular.copyWith(
                     color: kSuccessColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              // NEW: Show info if not eligible for free ongkir
+              if (_isFreeOngkir && !_isEligibleFreeOngkir)
+                Text(
+                  'Belum memenuhi syarat gratis ongkir',
+                  style: text10BlackRegular.copyWith(
+                    color: Colors.orange,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -144,49 +153,134 @@ class DeliveryInfoV2 extends StatelessWidget {
 
   Widget _buildPricingInfo() {
     final pricing = ongkirInfo.pricing;
+    // Check if customer is eligible for free ongkir
+    final isEligible = pricing?.isEligibleFreeOngkir ?? true;
+
     return Container(
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: _isFreeOngkir
+        color: _isFreeOngkir && isEligible
             ? kSuccessColor.withOpacity(0.05)
             : kGrey.withOpacity(0.05),
         borderRadius: BorderRadius.circular(6.r),
-        border: _isFreeOngkir
+        border: _isFreeOngkir && isEligible
             ? Border.all(color: kSuccessColor.withOpacity(0.2))
             : null,
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            _isFreeOngkir ? Icons.card_giftcard : Icons.attach_money,
-            size: 16.sp,
-            color: _isFreeOngkir ? kSuccessColor : kPrimaryColor,
-          ),
-          Gap(8.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Tier: ${pricing?.tierName ?? "-"}',
-                  style: text12BlackMedium,
-                ),
-                if (!_isFreeOngkir && pricing?.rate != null) ...[
-                  Gap(2.h),
-                  Text(
-                    'Ongkir: ${(pricing!.rate!).toString().toIdrFormat}',
-                    style: text12BlackRegular.copyWith(
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Icon(
+                _isFreeOngkir && isEligible
+                    ? Icons.card_giftcard
+                    : Icons.attach_money,
+                size: 16.sp,
+                color:
+                    _isFreeOngkir && isEligible ? kSuccessColor : kPrimaryColor,
+              ),
+              Gap(8.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tier: ${pricing?.tierName ?? "-"}',
+                      style: text12BlackMedium,
                     ),
-                  ),
-                ],
-              ],
-            ),
+                    // Show rate if NOT free ongkir OR not eligible
+                    if (!_isFreeOngkir || !isEligible) ...[
+                      Gap(2.h),
+                      Text(
+                        'Ongkir: ${(pricing?.rate ?? 0).toString().toIdrFormat}',
+                        style: text12BlackRegular.copyWith(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
           ),
+
+          // NEW: Show min_purchase info if available
+          if (_hasMinPurchaseInfo) ...[
+            Gap(8.h),
+            _buildMinPurchaseInfo(),
+          ],
         ],
       ),
     );
+  }
+
+  /// NEW: Build min_purchase info widget
+  Widget _buildMinPurchaseInfo() {
+    final pricing = ongkirInfo.pricing;
+    final isEligible = pricing?.isEligibleFreeOngkir ?? true;
+    final minPurchaseText = pricing?.minPurchaseText ?? '';
+
+    if (isEligible) {
+      // Customer sudah memenuhi syarat
+      return Container(
+        padding: EdgeInsets.all(8.w),
+        decoration: BoxDecoration(
+          color: kSuccessColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(4.r),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.check_circle, size: 14.sp, color: kSuccessColor),
+            Gap(6.w),
+            Expanded(
+              child: Text(
+                'Syarat min. belanja $minPurchaseText terpenuhi!',
+                style: text10BlackRegular.copyWith(
+                  color: kSuccessColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Customer belum memenuhi syarat
+      return Container(
+        padding: EdgeInsets.all(8.w),
+        decoration: BoxDecoration(
+          color: Colors.orange.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(4.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.info_outline, size: 14.sp, color: Colors.orange),
+                Gap(6.w),
+                Expanded(
+                  child: Text(
+                    'Min. belanja $minPurchaseText untuk gratis ongkir',
+                    style: text10BlackRegular.copyWith(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Gap(4.h),
+            Text(
+              'Tambah belanjaan untuk dapat gratis ongkir!',
+              style: text10BlackRegular.copyWith(color: kGrey),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildPricingBreakdown() {
@@ -241,7 +335,8 @@ class DeliveryInfoV2 extends StatelessWidget {
   Widget _buildFooterInfo() {
     final requireTimeSlot = ongkirInfo.pricing?.requireTimeSlot ?? false;
 
-    if (requireTimeSlot && selectedTimeSlot == null) {
+    // UPDATED: Only show time slot requirement if eligible for free ongkir
+    if (requireTimeSlot && _isEligibleFreeOngkir && selectedTimeSlot == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
@@ -264,7 +359,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       );
     }
 
-    if (selectedTimeSlot != null) {
+    if (_isEligibleFreeOngkir && selectedTimeSlot != null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
@@ -294,15 +389,17 @@ class DeliveryInfoV2 extends StatelessWidget {
 
   Widget _buildPriceBadge() {
     final rate = ongkirInfo.pricing?.rate ?? 0;
+    // UPDATED: Show GRATIS only if eligible
+    final showFree = _isFreeOngkir && _isEligibleFreeOngkir;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: _isFreeOngkir ? kSuccessColor : kPrimaryColor,
+        color: showFree ? kSuccessColor : kPrimaryColor,
         borderRadius: BorderRadius.circular(6.r),
       ),
       child: Text(
-        _isFreeOngkir ? 'GRATIS' : rate.toString().toIdrFormat,
+        showFree ? 'GRATIS' : rate.toString().toIdrFormat,
         style: text12BlackRegular.copyWith(
           color: kWhite,
           fontWeight: FontWeight.bold,
@@ -318,23 +415,39 @@ class DeliveryInfoV2 extends StatelessWidget {
       ongkirInfo.pricing!.timeSlots!.isNotEmpty;
   bool get _hasBreakdown => ongkirInfo.pricing?.breakdown != null;
 
+  // NEW: Min purchase helper getters
+  bool get _isEligibleFreeOngkir =>
+      ongkirInfo.pricing?.isEligibleFreeOngkir ?? true;
+  bool get _hasMinPurchaseInfo =>
+      ongkirInfo.pricing?.minPurchase != null &&
+      ongkirInfo.pricing!.minPurchase! > 0;
+
   Color _getBackgroundColor() {
-    if (_isFreeOngkir) return kSuccessColor.withOpacity(0.03);
+    if (_isFreeOngkir && _isEligibleFreeOngkir) {
+      return kSuccessColor.withOpacity(0.03);
+    }
     return kWhite;
   }
 
   Color _getBorderColor() {
-    if (_isFreeOngkir) return kSuccessColor.withOpacity(0.3);
+    if (_isFreeOngkir && _isEligibleFreeOngkir) {
+      return kSuccessColor.withOpacity(0.3);
+    }
+    if (_isFreeOngkir && !_isEligibleFreeOngkir) {
+      return Colors.orange.withOpacity(0.3);
+    }
     return kBorder;
   }
 
   Color _getIconBackgroundColor() {
-    if (_isFreeOngkir) return kSuccessColor.withOpacity(0.1);
+    if (_isFreeOngkir && _isEligibleFreeOngkir) {
+      return kSuccessColor.withOpacity(0.1);
+    }
     return kPrimaryColor.withOpacity(0.1);
   }
 
   Color _getIconColor() {
-    if (_isFreeOngkir) return kSuccessColor;
+    if (_isFreeOngkir && _isEligibleFreeOngkir) return kSuccessColor;
     return kPrimaryColor;
   }
 
