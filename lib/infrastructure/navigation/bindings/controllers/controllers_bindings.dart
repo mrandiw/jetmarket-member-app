@@ -27,7 +27,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_chat.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_checkout.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_menabung.controller.binding.dart';
-export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_notification.controller.binding.dart'; 
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_notification.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_order.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_customer.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/detail_payment_paylater.controller.binding.dart';
@@ -82,6 +82,7 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/success
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/success_verify_otp.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan_payment.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tabungan_wajib.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tagihan_bulanan_pinjaman.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/tagihan_payment_bill.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/topup_saldo.controller.binding.dart';

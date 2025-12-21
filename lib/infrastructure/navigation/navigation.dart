@@ -495,5 +495,10 @@ class Nav {
       page: () => const DetailNotificationScreen(),
       binding: DetailNotificationControllerBinding(),
     ),
+    GetPage(
+      name: Routes.TABUNGAN_WAJIB,
+      page: () => const TabunganWajibScreen(),
+      binding: TabunganWajibControllerBinding(),
+    ),
   ];
 }

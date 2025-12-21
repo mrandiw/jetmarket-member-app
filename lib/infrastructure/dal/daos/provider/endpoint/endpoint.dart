@@ -108,4 +108,8 @@ class Endpoint {
 
   // Refferal
   static String referral = 'referral';
+
+  // Mandatory Saving (Tabungan Wajib)
+  static String mandatorySavingTotal = 'mandatory_saving/total';
+  static String mandatorySavingHistory = 'mandatory_saving/history';
 }
