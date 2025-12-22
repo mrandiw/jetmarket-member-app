@@ -109,6 +109,15 @@ class HeaderSection extends StatelessWidget {
                   onTap: () => Get.toNamed(Routes.PINJAMAN),
                 )),
               ]),
+              Gap(12.hr),
+              Row(children: [
+                Expanded(
+                    child: MenuIcon(
+                  title: 'Tabungan Wajib',
+                  icon: monayBag,
+                  onTap: () => Get.toNamed(Routes.TABUNGAN_WAJIB),
+                )),
+              ]),
               Gap(16.hr),
               Container(
                 padding: AppStyle.paddingAll12,
