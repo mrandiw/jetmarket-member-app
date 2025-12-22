@@ -40,7 +40,7 @@ class HomeScreen extends GetView<HomeController> {
               child: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: false,
-                  controller: controller.refreshController,
+                  controller: controller.homeRefreshController,
                   onRefresh: controller.onRefresh,
                   onLoading: controller.onLoading,
                   header: const WaterDropHeader(
@@ -78,7 +78,7 @@ class HomeScreen extends GetView<HomeController> {
               child: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: false,
-                  controller: controller.refreshController,
+                  controller: controller.seeAllRefreshController,
                   onRefresh: controller.onRefresh,
                   onLoading: controller.onLoading,
                   header: const WaterDropHeader(

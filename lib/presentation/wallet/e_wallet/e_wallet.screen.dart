@@ -10,8 +10,30 @@ import 'section/app_bar_section.dart';
 import 'section/header_section.dart';
 import 'section/history_section.dart';
 
-class EWalletScreen extends GetView<EWalletController> {
+class EWalletScreen extends StatefulWidget {
   const EWalletScreen({super.key});
+
+  @override
+  State<EWalletScreen> createState() => _EWalletScreenState();
+}
+
+class _EWalletScreenState extends State<EWalletScreen> {
+  late final EWalletController controller;
+  late final RefreshController refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<EWalletController>();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +42,9 @@ class EWalletScreen extends GetView<EWalletController> {
         body: SmartRefresher(
           enablePullDown: true,
           enablePullUp: false,
-          controller: controller.refreshController,
-          onRefresh: controller.onRefresh,
-          onLoading: controller.onLoading,
+          controller: refreshController,
+          onRefresh: () => controller.onRefresh(refreshController),
+          onLoading: () => controller.onLoading(refreshController),
           header: const WaterDropHeader(
             waterDropColor: kPrimaryColor,
             complete: SizedBox.shrink(),

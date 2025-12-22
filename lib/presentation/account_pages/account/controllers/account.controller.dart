@@ -16,9 +16,6 @@ class AccountController extends GetxController {
   final AuthRepository _authRepository;
   AccountController(this._authRepository);
 
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
   var actionStatus = ActionStatus.initalize.obs;
   UserProfile? userData;
 
@@ -79,16 +76,18 @@ class AccountController extends GetxController {
     getProfile(userData?.user?.id ?? 0, isRefresh);
   }
 
-  void onRefresh() async {
+  void onRefresh([RefreshController? refreshController]) async {
     await Future.delayed(1.seconds, () {
       setDataUser(true);
     });
-    refreshController.refreshCompleted();
+    refreshController?.refreshCompleted();
   }
 
-  void onLoading() async {
+  void onLoading([RefreshController? refreshController]) async {
     await Future.delayed(1.seconds);
-    if (isClosed) refreshController.loadComplete();
+    if (isClosed) {
+      refreshController?.loadComplete();
+    }
   }
 
   @override

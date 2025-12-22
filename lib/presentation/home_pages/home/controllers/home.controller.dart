@@ -41,8 +41,13 @@ class HomeController extends GetxController {
   late PagingController<int, Product> pagingController;
   late PagingController<int, Product> pagingPopularController;
   late PagingController<int, Product> pagingPromoController;
-  RefreshController refreshController =
+  final RefreshController homeRefreshController =
       RefreshController(initialRefresh: false);
+  final RefreshController seeAllRefreshController =
+      RefreshController(initialRefresh: false);
+
+  RefreshController get activeRefreshController =>
+      isHomeScreen.value ? homeRefreshController : seeAllRefreshController;
 
   List<CategoryProduct> categoryProduct = [];
   List<Banners> banners = [];
@@ -403,12 +408,12 @@ class HomeController extends GetxController {
       getPromoProduct();
       getCountChart();
     });
-    refreshController.refreshCompleted();
+    activeRefreshController.refreshCompleted();
   }
 
   void onLoading() async {
     await Future.delayed(1.seconds);
-    if (isClosed) refreshController.loadComplete();
+    if (isClosed) activeRefreshController.loadComplete();
   }
 
   void onTapBanner(String url) async {
@@ -459,5 +464,12 @@ class HomeController extends GetxController {
     });
 
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    homeRefreshController.dispose();
+    seeAllRefreshController.dispose();
+    super.onClose();
   }
 }

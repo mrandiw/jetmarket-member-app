@@ -20,8 +20,6 @@ class EWalletController extends GetxController {
 
   PagingController<int, BalanceHistoryModel> pagingController =
       PagingController(firstPageKey: 1);
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
   static const _pageSize = 10;
 
   var balance = 0.obs;
@@ -60,18 +58,20 @@ class EWalletController extends GetxController {
     isShowEwallet.value = !isShowEwallet.value;
   }
 
-  void onRefresh() async {
+  void onRefresh([RefreshController? refreshController]) async {
     await Future.delayed(1.seconds, () {
       pagingController.itemList?.clear();
       pagingController.refresh();
       getBalance();
     });
-    refreshController.refreshCompleted();
+    refreshController?.refreshCompleted();
   }
 
-  void onLoading() async {
+  void onLoading([RefreshController? refreshController]) async {
     await Future.delayed(1.seconds);
-    if (isClosed) refreshController.loadComplete();
+    if (isClosed) {
+      refreshController?.loadComplete();
+    }
   }
 
   void openFormTopUp() {

@@ -10,8 +10,30 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'controllers/account.controller.dart';
 
-class AccountScreen extends GetView<AccountController> {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  late final AccountController controller;
+  late final RefreshController refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<AccountController>();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +42,9 @@ class AccountScreen extends GetView<AccountController> {
         body: SmartRefresher(
           enablePullDown: true,
           enablePullUp: false,
-          controller: controller.refreshController,
-          onRefresh: controller.onRefresh,
-          onLoading: controller.onLoading,
+          controller: refreshController,
+          onRefresh: () => controller.onRefresh(refreshController),
+          onLoading: () => controller.onLoading(refreshController),
           header: const WaterDropHeader(
             waterDropColor: kPrimaryColor,
             complete: SizedBox.shrink(),
