@@ -240,6 +240,14 @@ class KomplainController extends GetxController {
 
   @override
   void onInit() {
+    seledtedSolutionIndex = 1;
+    selectAll = false;
+    addProduct.clear();
+    dataProof.clear();
+    proofImages.clear();
+    proofImagesPath.clear();
+    proofImagesView.clear();
+    descriptionController.clear();
     getRefund();
 
     super.onInit();
