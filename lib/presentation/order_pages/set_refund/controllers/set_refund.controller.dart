@@ -44,17 +44,30 @@ class SetRefundController extends GetxController {
   Future<void> submitSetRefund() async {
     actionButton(ActionStatus.loading);
 
+    final services = setRefundModel?.services;
+    final serviceIndex = selectedIndexService ?? 0;
+    final service = (services != null &&
+            serviceIndex >= 0 &&
+            serviceIndex < services.length)
+        ? services[serviceIndex]
+        : null;
+    final packets = service?.packets;
+    final packetIndex = selectedIndexPackage ?? 0;
+    final packet = (packets != null &&
+            packetIndex >= 0 &&
+            packetIndex < packets.length)
+        ? packets[packetIndex]
+        : null;
+    final delivery = packet?.delivery;
+    final rate = packet?.rate ?? delivery?.rate ?? service?.rate;
+
     var param = SetRefundParam(
         id: Get.arguments,
         body: BodySetRefund(
-            code: setRefundModel?.services?[selectedIndexService ?? 0]
-                .packets?[selectedIndexPackage ?? 0].delivery?.code,
-            serviceName: setRefundModel?.services?[selectedIndexService ?? 0]
-                .packets?[selectedIndexPackage ?? 0].delivery?.serviceName,
-            serviceCode: setRefundModel?.services?[selectedIndexService ?? 0]
-                .packets?[selectedIndexPackage ?? 0].delivery?.serviceCode,
-            rate: setRefundModel?.services?[selectedIndexService ?? 0]
-                .packets?[selectedIndexPackage ?? 0].rate,
+            code: delivery?.code,
+            serviceName: delivery?.serviceName,
+            serviceCode: delivery?.serviceCode,
+            rate: rate,
             trackingId: setRefundModel?.trackingId));
     final response = await _deliveryRepository.setRefundOrder(param);
     if (response.status == StatusResponse.success) {

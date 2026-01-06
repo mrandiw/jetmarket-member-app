@@ -33,6 +33,16 @@ class BodySetRefund {
     data['service_code'] = serviceCode;
     data['rate'] = rate;
     data['tracking_id'] = trackingId;
+    final Map<String, dynamic> delivery = <String, dynamic>{
+      'code': code,
+      'service_name': serviceName,
+      'service_code': serviceCode,
+      'rate': rate,
+    };
+    delivery.removeWhere((key, value) => value == null);
+    if (delivery.isNotEmpty) {
+      data['delivery'] = delivery;
+    }
     return data;
   }
 }
