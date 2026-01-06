@@ -29,6 +29,15 @@ class InfoOrderCancel extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text('No Invoice', style: text12BlackRegular),
+                      Text(controller.detailOrderCustomer?.refId ?? '-',
+                          style: text12BlackMedium),
+                    ],
+                  ),
+                  Gap(6.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text('Nama Pembeli', style: text12BlackRegular),
                       Text(controller.detailOrderCustomer?.customerName ?? '',
                           style: text12BlackMedium),

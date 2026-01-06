@@ -2,6 +2,7 @@ class DetailOrderCustomer {
   int? id;
   int? trxId;
   String? trxRef;
+  String? refId;
   String? customerName;
   String? createdAt;
   String? expiredAt;
@@ -24,6 +25,7 @@ class DetailOrderCustomer {
       {this.id,
       this.trxId,
       this.trxRef,
+      this.refId,
       this.customerName,
       this.createdAt,
       this.expiredAt,
@@ -45,6 +47,7 @@ class DetailOrderCustomer {
     id = json['id'];
     trxId = json['trx_id'];
     trxRef = json['trx_ref'];
+    refId = json['ref_id'];
     customerName = json['customer_name'];
     createdAt = json['created_at'];
     expiredAt = json['expired_at'];
@@ -78,6 +81,7 @@ class DetailOrderCustomer {
     data['id'] = id;
     data['trx_id'] = trxId;
     data['trx_ref'] = trxRef;
+    data['ref_id'] = refId;
     data['customer_name'] = customerName;
     data['created_at'] = createdAt;
     data['expired_at'] = expiredAt;

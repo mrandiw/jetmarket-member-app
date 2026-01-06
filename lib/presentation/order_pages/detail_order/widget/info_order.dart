@@ -21,7 +21,7 @@ class InfoOrder extends StatelessWidget {
       return const InfoOrderCancel();
     }
     {
-      return const SizedBox();
+      return const InfoOrderCancel();
     }
   }
 }
