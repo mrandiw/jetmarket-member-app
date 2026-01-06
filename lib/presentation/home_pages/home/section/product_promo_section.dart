@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/presentation/home_pages/home/controllers/home.controller.dart';
 import 'package:jetmarket/utils/style/app_style.dart';
-import 'package:logger/logger.dart';
 
 import '../../../../components/card/product_item.dart';
 import '../../../../infrastructure/theme/app_text.dart';
