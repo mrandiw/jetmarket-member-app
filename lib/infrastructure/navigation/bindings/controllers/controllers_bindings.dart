@@ -93,3 +93,4 @@ export 'package:jetmarket/infrastructure/navigation/bindings/controllers/voucher
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/waiting_payment.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/withdraw.controller.binding.dart';
 export 'package:jetmarket/infrastructure/navigation/bindings/controllers/withdraw_status.controller.binding.dart';
+export 'package:jetmarket/infrastructure/navigation/bindings/controllers/privacy_policy.controller.binding.dart';

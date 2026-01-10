@@ -500,5 +500,10 @@ class Nav {
       page: () => const TabunganWajibScreen(),
       binding: TabunganWajibControllerBinding(),
     ),
+    GetPage(
+      name: Routes.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyScreen(),
+      binding: PrivacyPolicyControllerBinding(),
+    ),
   ];
 }

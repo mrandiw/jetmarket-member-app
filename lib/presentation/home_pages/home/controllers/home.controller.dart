@@ -218,7 +218,7 @@ class HomeController extends GetxController {
           sellerId: 1,
           name: searchProduct,
           minRating: double.parse(selectedStars ?? '0'),
-          sortBy: convertToEnglish(selectedSortProduct),
+          sortBy: convertToEnglish(selectedSortProduct) ?? 'popular',
           categoryId: selectedCategoryProduct?.id);
       final response = await _productRepository.getProductBySeller(param);
       final isLastPage = response.result!.length < _pagePopularSize;

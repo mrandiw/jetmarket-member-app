@@ -93,3 +93,4 @@ export 'package:jetmarket/presentation/wallet/payment_topup_saldo/payment_topup_
 export 'package:jetmarket/presentation/wallet/topup_saldo/topup_saldo.screen.dart';
 export 'package:jetmarket/presentation/wallet/withdraw/withdraw.screen.dart';
 export 'package:jetmarket/presentation/wallet/withdraw_status/withdraw_status.screen.dart';
+export 'package:jetmarket/presentation/account_pages/privacy_policy/privacy_policy.screen.dart';
