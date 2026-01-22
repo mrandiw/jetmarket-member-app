@@ -101,6 +101,32 @@ class MenuSection extends StatelessWidget {
               ),
               Gap(12.h),
               ListTile(
+                onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
+                contentPadding: AppStyle.paddingSide16,
+                leading: Container(
+                  height: 28.r,
+                  width: 28.r,
+                  padding: EdgeInsets.all(6.r),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor2,
+                      borderRadius: AppStyle.borderRadius6All),
+                  child: Icon(
+                    Icons.privacy_tip_outlined,
+                    size: 16.r,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                title: Text('Privacy Policy', style: text12BlackMedium),
+                subtitle: Text('Kebijakan privasi aplikasi',
+                    style: text12HintRegular),
+                trailing: SvgPicture.asset(
+                  arrowRight,
+                  height: 11.h,
+                  width: 7.w,
+                ),
+              ),
+              Gap(8.h),
+              ListTile(
                 onTap: () => controller.confirmationLogout(),
                 contentPadding: AppStyle.paddingSide16,
                 leading: Container(

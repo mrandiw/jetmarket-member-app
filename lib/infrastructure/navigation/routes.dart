@@ -108,4 +108,5 @@ class Routes {
   static const WITHDRAW_STATUS = '/withdraw-status';
   static const DETAIL_NOTIFICATION = '/detail-notification';
   static const TABUNGAN_WAJIB = '/tabungan-wajib';
+  static const PRIVACY_POLICY = '/privacy-policy';
 }
