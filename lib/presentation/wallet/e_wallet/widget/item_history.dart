@@ -53,7 +53,7 @@ class ItemHistory extends StatelessWidget {
   }
 
   Widget amountBadge(String code, int amount) {
-    bool isPlus = code == 'TOP' || code == 'REF';
+    bool isPlus = amount >= 0;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 6.w),
       decoration: BoxDecoration(
