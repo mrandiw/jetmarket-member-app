@@ -85,3 +85,10 @@ flutter:
     - assets/env/
     - assets/json/
   uses-material-design: true
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher.png"
+  android_adaptive_icon_background: "assets/launcher.png"
+  android_adaptive_icon_foreground: "assets/launcher.png"
