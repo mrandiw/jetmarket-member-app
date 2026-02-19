@@ -134,7 +134,8 @@ class FormSection extends StatelessWidget {
                 children: [
                   Text(
                       controller.selectedDatePicker != ""
-                          ? controller.selectedDatePicker
+                          ? controller.formatBirthDateDisplay(
+                              controller.selectedDatePicker)
                           : 'Pilih Tanggal Lahir',
                       style: controller.selectedDatePicker != ""
                           ? text12BlackRegular

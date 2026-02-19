@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jetmarket/components/dialog/app_dialog_confirmation.dart';
+import 'package:jetmarket/components/dialog/app_dialog_update_version.dart';
 import 'package:jetmarket/infrastructure/dal/repository/app_version_repository_impl.dart';
 import 'package:jetmarket/infrastructure/dal/repository/notification_repository_impl.dart';
 import 'package:jetmarket/presentation/screens.dart';
@@ -171,15 +171,17 @@ class MainPagesController extends GetxController {
       String latestVersion = response.result!.version ?? versionApp;
       if (isVersionHigher(versionApp, latestVersion)) {
         if (!Get.isDialogOpen!) {
-          AppDialogConfirmation.show(
-            title: 'Penting',
-            message: response.result!.note ?? '',
-            onTesText: 'Update',
+          const playStoreUrl =
+              'https://play.google.com/store/apps/details?id=com.jetmarket.customer';
+          AppDialogUpdateVersion.show(
+            title: 'Update Baru Tersedia',
+            message: response.result!.note ??
+                'Versi terbaru aplikasi sudah tersedia. Yuk, update sekarang untuk pengalaman belanja yang lebih baik!',
+            playStoreUrl: playStoreUrl,
             barrierDismissible:
                 response.result!.updateType == 'MAJOR' ? false : true,
-            linkUrl: response.result!.link,
             onPressed: () {
-              launchURL(response.result!.link ?? '');
+              launchURL(playStoreUrl);
             },
           );
         }

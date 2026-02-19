@@ -179,6 +179,17 @@ class EditAccountController extends GetxController {
     CustomBottomSheet.show(child: PickerDate(controller: this));
   }
 
+  String formatBirthDateDisplay(String? value) {
+    if (value == null || value.isEmpty) {
+      return '';
+    }
+    final parsedDate = DateTime.tryParse(value);
+    if (parsedDate != null) {
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+    }
+    return value;
+  }
+
   pickDate(List<DateTime?> date) {
     selectedDatePicker = DateFormat('dd-MM-yyyy').format(date[0]!);
     datePicker = date;
