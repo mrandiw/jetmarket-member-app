@@ -178,8 +178,7 @@ class MainPagesController extends GetxController {
             message: response.result!.note ??
                 'Versi terbaru aplikasi sudah tersedia. Yuk, update sekarang untuk pengalaman belanja yang lebih baik!',
             playStoreUrl: playStoreUrl,
-            barrierDismissible:
-                response.result!.updateType == 'MAJOR' ? false : true,
+            barrierDismissible: false,
             onPressed: () {
               launchURL(playStoreUrl);
             },
