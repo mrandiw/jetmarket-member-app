@@ -5,3 +5,9 @@ gradle-wrapper.jar
 /gradlew.bat
 /local.properties
 GeneratedPluginRegistrant.java
+
+# Play Store signing keys
+key.properties
+app/upload-keystore.jks
+*.jks
+*.keystore
