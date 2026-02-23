@@ -45,3 +45,9 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Play Store signing keys
+*.jks
+*.keystore
+android/key.properties
+jetmarket-release-keys.zip
