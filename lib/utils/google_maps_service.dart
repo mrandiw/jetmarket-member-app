@@ -197,13 +197,28 @@ class GoogleMapsService {
     String travelMode = 'driving',
   }) async {
     try {
-      polyline.PolylineResult result = await polyline.PolylinePoints().getRouteBetweenCoordinates(
-        request: polyline.PolylineRequest(
-          origin: polyline.PointLatLng(origin.latitude, origin.longitude),
-          destination: polyline.PointLatLng(destination.latitude, destination.longitude),
-          mode: polyline.TravelMode.driving,
-        ),
-        googleApiKey: _apiKey,
+      final polyline.TravelMode mode;
+      switch (travelMode) {
+        case 'walking':
+          mode = polyline.TravelMode.walking;
+          break;
+        case 'bicycling':
+          mode = polyline.TravelMode.bicycling;
+          break;
+        case 'transit':
+          mode = polyline.TravelMode.transit;
+          break;
+        case 'driving':
+        default:
+          mode = polyline.TravelMode.driving;
+      }
+
+      polyline.PolylineResult result =
+          await polyline.PolylinePoints().getRouteBetweenCoordinates(
+        _apiKey,
+        polyline.PointLatLng(origin.latitude, origin.longitude),
+        polyline.PointLatLng(destination.latitude, destination.longitude),
+        travelMode: mode,
       );
 
       if (result.points.isNotEmpty) {

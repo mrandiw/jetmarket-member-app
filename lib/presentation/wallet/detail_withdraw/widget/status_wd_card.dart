@@ -86,11 +86,11 @@ class StatusWdCard extends StatelessWidget {
   Color _bgColor(StatusWdType type) {
     switch (type) {
       case StatusWdType.success:
-        return kSuccessColor2.withOpacity(0.4);
+        return kSuccessColor2.withValues(alpha: 0.4);
       case StatusWdType.failed:
-        return kPrimaryColor2.withOpacity(0.4);
+        return kPrimaryColor2.withValues(alpha: 0.4);
       default:
-        return kWarningColor.withOpacity(0.2);
+        return kWarningColor.withValues(alpha: 0.2);
     }
   }
 

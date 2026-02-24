@@ -53,7 +53,7 @@ class DetailPaymentRegisterScreen
                       height: 24.r,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xff2D2D2D).withOpacity(0.2)),
+                          color: const Color(0xff2D2D2D).withValues(alpha: 0.2)),
                       child: Center(
                           child: SvgPicture.asset(
                         arrowForward,

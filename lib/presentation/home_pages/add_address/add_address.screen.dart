@@ -47,9 +47,9 @@ class AddAddressScreen extends GetView<AddAddressController> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: kPrimaryColor.withOpacity(0.05),
+                      color: kPrimaryColor.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: kPrimaryColor.withOpacity(0.2)),
+                      border: Border.all(color: kPrimaryColor.withValues(alpha: 0.2)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class AddAddressScreen extends GetView<AddAddressController> {
                         Container(
                           padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
-                            color: kPrimaryColor.withOpacity(0.1),
+                            color: kPrimaryColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12.r),
                               topRight: Radius.circular(12.r),
@@ -183,7 +183,7 @@ class AddAddressScreen extends GetView<AddAddressController> {
                                   width: double.infinity,
                                   padding: EdgeInsets.all(12.w),
                                   decoration: BoxDecoration(
-                                    color: kGrey.withOpacity(0.1),
+                                    color: kGrey.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),
                                   child: Row(

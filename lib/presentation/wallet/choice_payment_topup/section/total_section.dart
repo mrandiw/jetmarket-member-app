@@ -16,7 +16,7 @@ class TotalSection extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(

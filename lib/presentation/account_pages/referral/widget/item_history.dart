@@ -22,7 +22,7 @@ class ItemHistory extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppStyle.borderRadius8All,
       ),
-      shadowColor: const Color(0xffE0E0EC).withOpacity(0.2),
+      shadowColor: const Color(0xffE0E0EC).withValues(alpha: 0.2),
       elevation: 4,
       child: ListTile(
           tileColor: kWhite,

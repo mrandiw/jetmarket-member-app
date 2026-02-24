@@ -27,7 +27,7 @@ class AppDialogUpdateVersion {
               color: kWhite,
               boxShadow: [
                 BoxShadow(
-                  color: kSoftBlack.withOpacity(0.08),
+                  color: kSoftBlack.withValues(alpha: 0.08),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),

@@ -34,7 +34,7 @@ class CategorySection extends StatelessWidget {
                     color: kWhite,
                     borderRadius: BorderRadius.circular(26.r),
                     border: Border.all(
-                      color: kPrimaryColor.withOpacity(0.4),
+                      color: kPrimaryColor.withValues(alpha: 0.4),
                     ),
                   ),
                   child: DropdownButton<CategoryProduct>(

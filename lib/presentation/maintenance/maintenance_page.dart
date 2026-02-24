@@ -56,14 +56,14 @@ class MaintenancePage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(28.w),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.78),
+                        color: Colors.white.withValues(alpha: 0.78),
                         borderRadius: BorderRadius.circular(28.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withValues(alpha: 0.5),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 30,
                             offset: const Offset(0, 20),
                           ),
@@ -167,8 +167,8 @@ class _GlowCircle extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            color.withOpacity(0.8),
-            color.withOpacity(0.0),
+            color.withValues(alpha: 0.8),
+            color.withValues(alpha: 0.0),
           ],
         ),
       ),

@@ -4,13 +4,13 @@ import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 
 class AppShadow {
   static BoxShadow boxShadow = BoxShadow(
-      color: const Color(0xffE0E0EC).withOpacity(0.4),
+      color: const Color(0xffE0E0EC).withValues(alpha: 0.4),
       offset: const Offset(0, 15),
       blurRadius: 30,
       spreadRadius: 0);
 
   static BoxShadow boxShadowSmall = BoxShadow(
-      color: const Color(0xffA0A3BD).withOpacity(0.1),
+      color: const Color(0xffA0A3BD).withValues(alpha: 0.1),
       offset: const Offset(0, 2),
       blurRadius: 4,
       spreadRadius: 0);
@@ -45,13 +45,13 @@ class AppStyle {
   // Shadow
 
   static BoxShadow boxShadow = BoxShadow(
-      color: const Color(0xffE0E0EC).withOpacity(0.4),
+      color: const Color(0xffE0E0EC).withValues(alpha: 0.4),
       offset: const Offset(0, 15),
       blurRadius: 30,
       spreadRadius: 0);
 
   static BoxShadow boxShadowSmall = BoxShadow(
-      color: const Color(0xffA0A3BD).withOpacity(0.1),
+      color: const Color(0xffA0A3BD).withValues(alpha: 0.1),
       offset: const Offset(0, 2),
       blurRadius: 4,
       spreadRadius: 0);

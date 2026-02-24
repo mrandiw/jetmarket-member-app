@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 extension NumberFormatExtension on String {
   String get formatNumber {
     String value = this;

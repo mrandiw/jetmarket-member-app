@@ -237,7 +237,7 @@ class ItemChat extends StatelessWidget {
             child: Container(
                 width: Get.width.wr,
                 decoration: BoxDecoration(
-                    color: const Color(0xff333333).withOpacity(0.1))),
+                    color: const Color(0xff333333).withValues(alpha: 0.1))),
           ),
         ),
       );
@@ -256,7 +256,7 @@ class ItemChat extends StatelessWidget {
             child: Container(
                 width: Get.width.wr,
                 decoration: BoxDecoration(
-                    color: const Color(0xff333333).withOpacity(0.3))),
+                    color: const Color(0xff333333).withValues(alpha: 0.3))),
           ),
         ),
       );

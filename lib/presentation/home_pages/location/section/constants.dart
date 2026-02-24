@@ -14,9 +14,9 @@ class AppColors {
   static const Color contextGreen = Color(0xFF19C85F);
   static const Color textGray = Color(0xFF8C8FB0);
   static const Color textGrayFaded = Color(0xFFAFB6C6);
-  static Color shadowColor = contextGrey.withOpacity(0.5);
-  static Color formBorderColor = contextGrey.withOpacity(0.4);
-  static Color formIconColor = const Color(0xFF8C8C8C).withOpacity(0.5);
+  static Color shadowColor = contextGrey.withValues(alpha: 0.5);
+  static Color formBorderColor = contextGrey.withValues(alpha: 0.4);
+  static Color formIconColor = const Color(0xFF8C8C8C).withValues(alpha: 0.5);
   static const Color popupMenuItemColor = Color(0xFF66738F);
   static const Color backgroundColor = Color(0xFFEFF4F8);
   static const Color oddTableRowColor = Color(0xFFEBEBF8);

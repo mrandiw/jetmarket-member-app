@@ -79,7 +79,7 @@ AppBar get appBarHome {
                 offset: const Offset(2, -2),
                 child: Icon(
                   Icons.notifications,
-                  color: const Color(0xff333333).withOpacity(0.4),
+                  color: const Color(0xff333333).withValues(alpha: 0.4),
                 ),
               );
             }),

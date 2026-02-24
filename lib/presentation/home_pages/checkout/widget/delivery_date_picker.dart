@@ -50,11 +50,11 @@ class DeliveryDatePicker extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
               decoration: BoxDecoration(
                 color: enabled
-                    ? kPrimaryColor.withOpacity(0.05)
-                    : kGrey.withOpacity(0.05),
+                    ? kPrimaryColor.withValues(alpha: 0.05)
+                    : kGrey.withValues(alpha: 0.05),
                 borderRadius: AppStyle.borderRadius8All,
                 border: Border.all(
-                  color: enabled ? kPrimaryColor.withOpacity(0.3) : kBorder,
+                  color: enabled ? kPrimaryColor.withValues(alpha: 0.3) : kBorder,
                 ),
               ),
               child: Row(

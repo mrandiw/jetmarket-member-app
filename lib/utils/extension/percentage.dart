@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 extension PercentageParser on String {
   double get parsePercentageToDouble {
     // Mengambil bagian angka dari string dan mengubahnya menjadi double

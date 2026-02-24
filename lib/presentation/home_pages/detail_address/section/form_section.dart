@@ -27,7 +27,7 @@ class FormSection extends StatelessWidget {
             Container(
               padding: AppStyle.paddingAll12,
               decoration: BoxDecoration(
-                color: kSofterGrey.withOpacity(0.3),
+                color: kSofterGrey.withValues(alpha: 0.3),
                 borderRadius: AppStyle.borderRadius8All,
                 border: Border.all(color: kSoftGrey),
               ),
@@ -59,7 +59,7 @@ class FormSection extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                           decoration: BoxDecoration(
-                            color: kPrimaryColor.withOpacity(0.1),
+                            color: kPrimaryColor.withValues(alpha: 0.1),
                             borderRadius: AppStyle.borderRadius6All,
                           ),
                           child: Row(

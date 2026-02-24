@@ -62,7 +62,7 @@ class DetailRefundSection extends StatelessWidget {
               Text('Kunjungi toko', style: text12HintRegular),
               Gap(8.w),
               Icon(Icons.chevron_right,
-                  color: const Color(0xff808080).withOpacity(0.7), size: 20.r)
+                  color: const Color(0xff808080).withValues(alpha: 0.7), size: 20.r)
             ],
           ),
         ),

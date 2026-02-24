@@ -27,7 +27,7 @@ class DeliveryItem extends StatelessWidget {
   final bool isExpandedTile;
   final Function(bool)? onExpansionChanged;
   final int indexDelivery;
-  final ExpansionTileController? excontroller;
+  final ExpansibleController? excontroller;
 
   @override
   Widget build(BuildContext context) {
@@ -154,12 +154,12 @@ class DeliveryItem extends StatelessWidget {
                                               horizontal: 8, vertical: 4),
                                           decoration: BoxDecoration(
                                             color:
-                                                kSuccessColor.withOpacity(0.1),
+                                                kSuccessColor.withValues(alpha: 0.1),
                                             borderRadius:
                                                 BorderRadius.circular(4),
                                             border: Border.all(
                                                 color: kSuccessColor
-                                                    .withOpacity(0.3)),
+                                                    .withValues(alpha: 0.3)),
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,

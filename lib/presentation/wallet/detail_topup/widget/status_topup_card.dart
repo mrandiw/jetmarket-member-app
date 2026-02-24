@@ -86,11 +86,11 @@ class StatusTopupCard extends StatelessWidget {
   Color _bgColor(StatusTopupType type) {
     switch (type) {
       case StatusTopupType.success:
-        return kSuccessColor2.withOpacity(0.4);
+        return kSuccessColor2.withValues(alpha: 0.4);
       case StatusTopupType.failed:
-        return kPrimaryColor2.withOpacity(0.4);
+        return kPrimaryColor2.withValues(alpha: 0.4);
       default:
-        return kWarningColor.withOpacity(0.06);
+        return kWarningColor.withValues(alpha: 0.06);
     }
   }
 

@@ -170,7 +170,7 @@ class MessageSection extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: text12BlackRegular.copyWith(
                                   color:
-                                      const Color(0xff333333).withOpacity(0.8)),
+                                      const Color(0xff333333).withValues(alpha: 0.8)),
                             )
                           ],
                         ),

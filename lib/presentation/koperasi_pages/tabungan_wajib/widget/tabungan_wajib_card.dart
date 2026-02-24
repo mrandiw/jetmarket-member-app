@@ -21,7 +21,7 @@ class TabunganWajibCard extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             kPrimaryColor,
-            kPrimaryColor.withOpacity(0.8),
+            kPrimaryColor.withValues(alpha: 0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -29,7 +29,7 @@ class TabunganWajibCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: kPrimaryColor.withOpacity(0.3),
+            color: kPrimaryColor.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -43,7 +43,7 @@ class TabunganWajibCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -76,7 +76,7 @@ class TabunganWajibCard extends StatelessWidget {
           Text(
             '$totalRecords kali potongan',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
               fontSize: 12,
             ),
           ),

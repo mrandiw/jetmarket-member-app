@@ -9,8 +9,8 @@ const kSofterGrey = Color(0xFFE5E5E5);
 const kGrey = Color(0xFFBCBABA);
 const kWhite = Color(0xFFFFFFFF);
 const kWhiteBackground = Color(0xFFFFFAFA);
-Color kBorder = const Color(0xFFA0A3BD).withOpacity(0.15);
-Color kDivider = const Color(0xFFA0A3BD).withOpacity(0.3);
+Color kBorder = const Color(0xFFA0A3BD).withValues(alpha: 0.15);
+Color kDivider = const Color(0xFFA0A3BD).withValues(alpha: 0.3);
 
 const kNormalColor = Color(0xFF3D7FFE);
 const kNormalAccentColor = Color(0xFF0EC1E9);

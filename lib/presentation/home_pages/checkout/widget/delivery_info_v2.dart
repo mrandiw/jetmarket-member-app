@@ -123,7 +123,7 @@ class DeliveryInfoV2 extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: kGrey.withOpacity(0.05),
+        color: kGrey.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(6.r),
       ),
       child: Row(
@@ -160,11 +160,11 @@ class DeliveryInfoV2 extends StatelessWidget {
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
         color: _isFreeOngkir && isEligible
-            ? kSuccessColor.withOpacity(0.05)
-            : kGrey.withOpacity(0.05),
+            ? kSuccessColor.withValues(alpha: 0.05)
+            : kGrey.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(6.r),
         border: _isFreeOngkir && isEligible
-            ? Border.all(color: kSuccessColor.withOpacity(0.2))
+            ? Border.all(color: kSuccessColor.withValues(alpha: 0.2))
             : null,
       ),
       child: Column(
@@ -227,7 +227,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       return Container(
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
-          color: kSuccessColor.withOpacity(0.1),
+          color: kSuccessColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Row(
@@ -251,7 +251,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       return Container(
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
-          color: Colors.orange.withOpacity(0.1),
+          color: Colors.orange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Column(
@@ -290,9 +290,9 @@ class DeliveryInfoV2 extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.05),
+        color: Colors.blue.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: Colors.blue.withOpacity(0.2)),
+        border: Border.all(color: Colors.blue.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,7 +340,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: Colors.orange.withOpacity(0.1),
+          color: Colors.orange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(6.r),
         ),
         child: Row(
@@ -363,7 +363,7 @@ class DeliveryInfoV2 extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: kSuccessColor.withOpacity(0.1),
+          color: kSuccessColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(6.r),
         ),
         child: Row(
@@ -424,26 +424,26 @@ class DeliveryInfoV2 extends StatelessWidget {
 
   Color _getBackgroundColor() {
     if (_isFreeOngkir && _isEligibleFreeOngkir) {
-      return kSuccessColor.withOpacity(0.03);
+      return kSuccessColor.withValues(alpha: 0.03);
     }
     return kWhite;
   }
 
   Color _getBorderColor() {
     if (_isFreeOngkir && _isEligibleFreeOngkir) {
-      return kSuccessColor.withOpacity(0.3);
+      return kSuccessColor.withValues(alpha: 0.3);
     }
     if (_isFreeOngkir && !_isEligibleFreeOngkir) {
-      return Colors.orange.withOpacity(0.3);
+      return Colors.orange.withValues(alpha: 0.3);
     }
     return kBorder;
   }
 
   Color _getIconBackgroundColor() {
     if (_isFreeOngkir && _isEligibleFreeOngkir) {
-      return kSuccessColor.withOpacity(0.1);
+      return kSuccessColor.withValues(alpha: 0.1);
     }
-    return kPrimaryColor.withOpacity(0.1);
+    return kPrimaryColor.withValues(alpha: 0.1);
   }
 
   Color _getIconColor() {
@@ -473,7 +473,7 @@ class DeliveryInfoLoading extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: kGrey.withOpacity(0.05),
+        color: kGrey.withValues(alpha: 0.05),
         borderRadius: AppStyle.borderRadius8All,
         border: Border.all(color: kBorder),
       ),
@@ -521,9 +521,9 @@ class DeliveryInfoError extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: kErrorColor.withOpacity(0.05),
+        color: kErrorColor.withValues(alpha: 0.05),
         borderRadius: AppStyle.borderRadius8All,
-        border: Border.all(color: kErrorColor.withOpacity(0.3)),
+        border: Border.all(color: kErrorColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

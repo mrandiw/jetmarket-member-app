@@ -72,7 +72,7 @@ class VariantSection extends StatelessWidget {
                                   width: 80.r,
                                   decoration: BoxDecoration(
                                     color: const Color(0x00000000)
-                                        .withOpacity(0.5),
+                                        .withValues(alpha: 0.5),
                                     borderRadius: AppStyle.borderRadius8All,
                                   ),
                                   child: Center(

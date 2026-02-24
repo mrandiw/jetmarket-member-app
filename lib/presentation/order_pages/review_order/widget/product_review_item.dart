@@ -129,7 +129,7 @@ class ProductReviewItem extends StatelessWidget {
                         color: kPrimaryColor2,
                         borderRadius: AppStyle.borderRadius8All,
                         border:
-                            Border.all(color: kPrimaryColor.withOpacity(0.1))),
+                            Border.all(color: kPrimaryColor.withValues(alpha: 0.1))),
                     child: const Center(
                       child: Icon(
                         Icons.add_circle_outline_rounded,

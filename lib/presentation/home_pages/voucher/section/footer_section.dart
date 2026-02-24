@@ -27,7 +27,7 @@ class FooterSection extends StatelessWidget {
                   borderRadius: AppStyle.borderRadius20Top,
                   boxShadow: [
                     BoxShadow(
-                        color: const Color(0xffE3BEBD).withOpacity(0.1),
+                        color: const Color(0xffE3BEBD).withValues(alpha: 0.1),
                         blurRadius: 10,
                         offset: const Offset(0, -6))
                   ]),

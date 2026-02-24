@@ -32,7 +32,7 @@ class CheckoutController extends GetxController {
   List<d.SelectDelivery> selectedDelivery = [];
   List<bool> isExpandedTile = [];
   List<List<TextEditingController>> notesController = [];
-  List<ExpansionTileController> excontroller = [];
+  List<ExpansibleController> excontroller = [];
   List<List<bool>> isWriteNote = [];
   AddressModel? address;
   RxDouble totalPrice = 0.0.obs;
@@ -693,7 +693,7 @@ class CheckoutController extends GetxController {
         log(body.toJson().toString());
         isExpandedTile = List.generate(productCart.length, (index) => true);
         excontroller = List.generate(
-            productCart.length, (index) => ExpansionTileController());
+            productCart.length, (index) => ExpansibleController());
         getDelivery(body);
       }
     } else {

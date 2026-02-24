@@ -59,15 +59,15 @@ class TimeSlotSelector extends StatelessWidget {
           color: isSelected
               ? kPrimaryColor
               : isFull
-                  ? kBorder.withOpacity(0.5)
+                  ? kBorder.withValues(alpha: 0.5)
                   : kBorder,
           width: isSelected ? 2 : 1,
         ),
         borderRadius: AppStyle.borderRadius8All,
         color: isFull
-            ? kGrey.withOpacity(0.1)
+            ? kGrey.withValues(alpha: 0.1)
             : isSelected
-                ? kPrimaryColor.withOpacity(0.05)
+                ? kPrimaryColor.withValues(alpha: 0.05)
                 : kWhite,
       ),
       child: Material(
@@ -153,7 +153,7 @@ class TimeSlotSelector extends StatelessWidget {
               Container(
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: kGrey.withOpacity(0.2),
+                  color: kGrey.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
                 child: FractionallySizedBox(
@@ -187,7 +187,7 @@ class TimeSlotSelector extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: kErrorColor.withOpacity(0.1),
+          color: kErrorColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Row(
@@ -209,7 +209,7 @@ class TimeSlotSelector extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: Colors.orange.withOpacity(0.1),
+          color: Colors.orange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Row(
@@ -232,7 +232,7 @@ class TimeSlotSelector extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: kSuccessColor.withOpacity(0.1),
+          color: kSuccessColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Row(
@@ -257,9 +257,9 @@ class TimeSlotSelector extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.1),
+        color: Colors.orange.withValues(alpha: 0.1),
         borderRadius: AppStyle.borderRadius8All,
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

@@ -39,7 +39,7 @@ class OrderListTransactionScreen
                   child: Card(
                     elevation: 0,
                     margin: EdgeInsets.zero,
-                    shadowColor: const Color(0xffE0E0EC).withOpacity(0.4),
+                    shadowColor: const Color(0xffE0E0EC).withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
                         borderRadius: AppStyle.borderRadius8All,
                         side: AppStyle.borderSide),

@@ -42,7 +42,7 @@ class AppBackButton extends StatelessWidget {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: type == AppBackButtonType.circle
-                ? const Color(0xff2D2D2D).withOpacity(0.2)
+                ? const Color(0xff2D2D2D).withValues(alpha: 0.2)
                 : Colors.transparent),
         child: Center(
             child: SvgPicture.asset(
