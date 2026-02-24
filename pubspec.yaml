@@ -1,5 +1,5 @@
 name: jetmarket
-version: 2.2.0
+version: 2.1.5+12
 publish_to: none
 description: A new Flutter project.
 environment:
