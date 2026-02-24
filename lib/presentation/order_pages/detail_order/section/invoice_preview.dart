@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class InvoicePreview extends StatelessWidget {
   static const route = '/invoice';
@@ -29,7 +29,7 @@ class InvoicePreview extends StatelessWidget {
           )
         ],
       ),
-      body: PDFView(filePath: file.path),
+      body: SfPdfViewer.file(file),
     );
   }
 }

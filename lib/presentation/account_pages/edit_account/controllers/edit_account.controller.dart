@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:jetmarket/utils/ui/awesome_dialog_stub.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

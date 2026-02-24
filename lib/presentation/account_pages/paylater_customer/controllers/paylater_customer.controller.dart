@@ -1,4 +1,4 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:jetmarket/utils/ui/awesome_dialog_stub.dart';
 import 'package:get/get.dart';
 import 'package:jetmarket/domain/core/interfaces/paylater_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/detail_paylater_model.dart';

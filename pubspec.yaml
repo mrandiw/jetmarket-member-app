@@ -1,5 +1,5 @@
 name: jetmarket
-version: 2.1.6+13
+version: 2.1.8+15
 publish_to: none
 description: A new Flutter project.
 environment:
@@ -34,8 +34,8 @@ dependencies:
   image_picker: ^1.2.1
   file_picker: ^10.3.10
   shared_preferences: ^2.5.4
-  syncfusion_flutter_barcodes: ^24.2.4
-  awesome_dialog: ^3.1.0
+  syncfusion_flutter_barcodes: ^28.2.12
+  syncfusion_flutter_pdfviewer: ^28.2.7
   url_launcher: ^6.2.1
   calendar_date_picker2: ^0.5.3
   infinite_scroll_pagination: ^4.0.0
@@ -56,7 +56,6 @@ dependencies:
   fluttertoast: ^9.0.0
   path_provider: ^2.1.5
   package_info_plus: ^9.0.0
-  flutter_pdfview: ^1.4.0
   photo_view: ^0.15.0
   video_player: ^2.11.0
   flutter_map: ^6.1.0
