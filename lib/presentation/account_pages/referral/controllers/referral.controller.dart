@@ -7,7 +7,6 @@ import 'package:jetmarket/components/dialog/dialog_noconnection.dart';
 import 'package:jetmarket/domain/core/interfaces/refferal_repository.dart';
 import 'package:jetmarket/domain/core/model/model_data/banner.dart';
 import 'package:jetmarket/domain/core/model/model_data/refferal_model.dart';
-import 'package:jetmarket/infrastructure/dal/repository/app_version_repository_impl.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,9 +26,8 @@ class ReferralController extends GetxController {
   static const _pageSize = 10;
   String? codeRefferal;
 
-  final _appVersionRepository = AppVersionRepositoryImpl();
-
-  var appUrl = ''.obs;
+  static const _playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.jetmarket.customer';
 
   final _banners = <Banners>[].obs;
   List<Banners> get banners => _banners;
@@ -90,15 +88,8 @@ class ReferralController extends GetxController {
     // await Share.share(deeplink, subject: 'Look what I made!');
 
     await Share.share(
-        'Kode referral:\n$codeRefferal\n\nUntuk aplikasi bisa di download di link di bawah ini: $appUrl',
+        'Kode referral:\n$codeRefferal\n\nUntuk aplikasi bisa di download di link di bawah ini: $_playStoreUrl',
         subject: 'Look what I made!');
-  }
-
-  Future<void> fetchAppUrl() async {
-    final response = await _appVersionRepository.getAppVersion();
-    if (response.status == StatusResponse.success) {
-      appUrl.value = response.result?.link ?? '';
-    }
   }
 
   void onTapBanner(String url) async {
@@ -107,7 +98,6 @@ class ReferralController extends GetxController {
 
   @override
   void onInit() {
-    fetchAppUrl();
     getBanners();
     pagingController.addPageRequestListener((page) {
       getListRefferal(page);
