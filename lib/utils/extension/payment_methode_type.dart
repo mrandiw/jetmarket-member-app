@@ -1,3 +1,5 @@
+// ignore_for_file: unreachable_switch_default
+
 enum PaymentMethodeType { saving, register, topup, biling, order }
 
 extension PaymentMethodeTypeExt on PaymentMethodeType {
