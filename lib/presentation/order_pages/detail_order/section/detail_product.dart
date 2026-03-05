@@ -17,6 +17,7 @@ class DetailProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final products = controller.detailOrderCustomer?.products ?? [];
     return Padding(
         padding: AppStyle.paddingSide16,
         child: Column(
@@ -29,13 +30,14 @@ class DetailProduct extends StatelessWidget {
                     : 'Detail Produk',
                 style: text14BlackMedium),
             Gap(12.h),
-            Column(
-                children: List.generate(
-                    controller.detailOrderCustomer?.products?.length ?? 0,
-                    (index) {
-              return Padding(
-                padding: AppStyle.paddingBottom8,
-                child: Card(
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: products.length,
+              separatorBuilder: (context, index) => Gap(8.h),
+              itemBuilder: (context, index) {
+                final item = products[index];
+                return Card(
                   margin: EdgeInsets.zero,
                   elevation: 0,
                   color: Colors.transparent,
@@ -44,9 +46,7 @@ class DetailProduct extends StatelessWidget {
                       side: AppStyle.borderSide),
                   child: ListTile(
                     leading: CachedNetworkImage(
-                      imageUrl: controller
-                              .detailOrderCustomer?.products?[index].image ??
-                          '',
+                      imageUrl: item.image ?? '',
                       imageBuilder: (context, imageProvider) => Container(
                         height: 50.h,
                         width: 50.h,
@@ -76,17 +76,14 @@ class DetailProduct extends StatelessWidget {
                         ),
                       ),
                     ),
-                    title: Text(
-                        controller.detailOrderCustomer?.products?[index].name ??
-                            '',
-                        style: text12BlackMedium),
+                    title: Text(item.name ?? '', style: text12BlackMedium),
                     subtitle: Text(
-                        '${controller.detailOrderCustomer?.products?[index].quantity} x ${controller.detailOrderCustomer?.products?[index].price.toString().toIdrFormat}',
+                        '${item.quantity} x ${item.price.toString().toIdrFormat}',
                         style: text11GreyRegular),
                   ),
-                ),
-              );
-            }))
+                );
+              },
+            )
           ],
         ));
   }

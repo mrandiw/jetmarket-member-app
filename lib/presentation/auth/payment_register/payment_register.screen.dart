@@ -110,7 +110,12 @@ class PaymentRegisterScreen extends GetView<PaymentRegisterController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const TotalSection(),
-          ButtonSection(controller: controller),
+          SafeArea(
+            top: false,
+            left: false,
+            right: false,
+            child: ButtonSection(controller: controller),
+          ),
         ],
       ),
     );
