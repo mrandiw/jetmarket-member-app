@@ -16,11 +16,14 @@ class FooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DetailOrderController>(builder: (controller) {
+      final safeBottom = MediaQuery.of(context).padding.bottom;
+      final footerPadding =
+          EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h + safeBottom);
       if (controller.statusOrder == "WAITING_CUSTOMER_CONFIRMATION") {
         return Container(
-          height: 72.h,
-          padding: AppStyle.paddingAll16,
+          padding: footerPadding,
           width: Get.width,
+          constraints: BoxConstraints(minHeight: 72.h),
           decoration: BoxDecoration(
               borderRadius: AppStyle.borderRadius20Top,
               color: kWhite,
@@ -60,9 +63,9 @@ class FooterSection extends StatelessWidget {
           controller.statusOrder == 'FINISHED' ||
           controller.statusOrder == 'REVIEWED') {
         return Container(
-          height: 76.h,
           width: Get.width,
-          padding: AppStyle.paddingAll16,
+          padding: footerPadding,
+          constraints: BoxConstraints(minHeight: 76.h),
           decoration: BoxDecoration(color: kWhite, boxShadow: [
             BoxShadow(
                 color: const Color(0xffE3BEBD).withValues(alpha: 0.08),
