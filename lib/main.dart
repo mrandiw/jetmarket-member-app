@@ -37,6 +37,18 @@ Future<void> main() async {
               theme: ThemeData(useMaterial3: true),
               getPages: Nav.routes,
               home: MaintenancePage(message: maintenance.message),
+              builder: (context, child) {
+                return SafeArea(
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    removeBottom: true,
+                    removeLeft: true,
+                    removeRight: true,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                );
+              },
             );
           }));
       return;
@@ -78,6 +90,18 @@ class Main extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       surfaceTintColor: Colors.transparent)),
               getPages: Nav.routes,
+              builder: (context, child) {
+                return SafeArea(
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    removeBottom: true,
+                    removeLeft: true,
+                    removeRight: true,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                );
+              },
             ),
           );
         });
