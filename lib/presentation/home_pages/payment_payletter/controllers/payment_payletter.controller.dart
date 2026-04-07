@@ -43,18 +43,24 @@ class PaymentPayletterController extends GetxController {
     update();
 
     final response = await _orderRepository.orderCustomerPayment(orderCustomer);
+    final message = response.message ?? '';
+    final normalizedMessage = message.toLowerCase();
+    final isPaylaterValidationError =
+        normalizedMessage.contains('minimal') ||
+            normalizedMessage.contains('harap') ||
+            normalizedMessage == 'limit paylater tidak cukup';
+
     if (response.status == StatusResponse.success) {
-      actionStatus = ActionStatus.success;
+      actionStatus = isPaylaterValidationError
+          ? ActionStatus.failed
+          : ActionStatus.success;
       update();
-      if (response.message?.contains('Minimal') ?? false) {
-        AppSnackbar.show(
-            message: response.message ?? '', type: SnackType.error);
-      } else if (response.message == 'Limit paylater tidak cukup') {
-        AppSnackbar.show(
-            message: response.message ?? '', type: SnackType.error);
-      } else if (response.message?.contains('Harap') ?? false) {
-        AppSnackbar.show(
-            message: response.message ?? '', type: SnackType.error);
+      log('################################');
+      log(message);
+      log(response.status.toString());
+      log(normalizedMessage.contains('harap').toString());
+      if (isPaylaterValidationError) {
+        AppSnackbar.show(message: message, type: SnackType.error);
       } else {
         Get.toNamed(Routes.PAYLETTER_SUCCESS,
             arguments: response.result?.refId);

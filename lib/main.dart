@@ -15,6 +15,9 @@ import 'presentation/maintenance/maintenance_page.dart';
 import 'utils/maintenance_service.dart';
 import 'utils/app_preference/app_preferences.dart';
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 Future<void> main() async {
   await AppConfig.init();
 
@@ -34,6 +37,7 @@ Future<void> main() async {
           builder: (context, widgets) {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
+              scaffoldMessengerKey: rootScaffoldMessengerKey,
               theme: ThemeData(useMaterial3: true),
               getPages: Nav.routes,
               home: MaintenancePage(message: maintenance.message),
@@ -83,6 +87,7 @@ class Main extends StatelessWidget {
             child: GetMaterialApp(
               initialRoute: initialRoute,
               debugShowCheckedModeBanner: false,
+              scaffoldMessengerKey: rootScaffoldMessengerKey,
               useInheritedMediaQuery: true,
               theme: ThemeData(
                   useMaterial3: true,
