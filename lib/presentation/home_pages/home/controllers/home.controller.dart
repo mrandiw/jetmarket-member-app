@@ -100,8 +100,7 @@ class HomeController extends GetxController {
     CategoryProduct staticData = CategoryProduct(
         id: 0,
         name: 'Semua',
-        image:
-            'https://pztgbokzuoyfdfupkjon.supabase.co/storage/v1/object/public/static/kategori_semua.png');
+        image: 'https://storage.avgroup.my.id/static/kategori_semua.png');
     data.insert(0, staticData);
     categoryProduct.assignAll(data);
     update();
