@@ -99,7 +99,7 @@ class HeaderSection extends StatelessWidget {
                     child: MenuIcon(
                   title: 'Tabungan',
                   icon: tabunganLine,
-                  onTap: () => Get.toNamed(Routes.TABUNGAN_PAYMENT),
+                  onTap: () => Get.toNamed(Routes.TABUNGAN),
                 )),
                 Gap(12.wr),
                 Expanded(
