@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:jetmarket/components/button/app_button.dart';
+import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/infrastructure/theme/app_colors.dart';
 import 'package:jetmarket/infrastructure/theme/app_text.dart';
 import 'package:jetmarket/presentation/koperasi_pages/tabungan_payment/controllers/tabungan_payment.controller.dart';
@@ -39,7 +41,7 @@ class DetailSection extends StatelessWidget {
                       children: [
                         Text('Total Bayar', style: text12BlackRegular),
                         Text(
-                            "User ID: ${controller.waitingPayment?.referenceId}",
+                            "User ID: ${controller.waitingPayment?.referenceId ?? '-'}",
                             style: text12BlackMedium),
                       ],
                     ),
@@ -51,34 +53,56 @@ class DetailSection extends StatelessWidget {
                             "${controller.waitingPayment?.amount ?? 0}"
                                 .toIdrFormat,
                             style: text14PrimarySemiBold),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 8.w, vertical: 4.h),
-                          decoration: BoxDecoration(
-                              color: kPrimaryColor,
-                              borderRadius: BorderRadius.circular(26.r)),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                timeLine,
-                                colorFilter: const ColorFilter.mode(
-                                    kWhite, BlendMode.srcIn),
-                              ),
-                              Gap(4.w),
-                              Obx(() {
-                                return Text(controller.formattedDuration.value,
-                                    style: text12WhiteRegular);
-                              })
-                            ],
-                          ),
-                        )
+                        Obx(() {
+                          final isExpired = controller.isPaymentExpired.value;
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                                color: isExpired ? kSoftGrey : kPrimaryColor,
+                                borderRadius: BorderRadius.circular(26.r)),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  timeLine,
+                                  colorFilter: const ColorFilter.mode(
+                                      kWhite, BlendMode.srcIn),
+                                ),
+                                Gap(4.w),
+                                Text(
+                                  controller.formattedDuration.value,
+                                  style: text12WhiteRegular,
+                                )
+                              ],
+                            ),
+                          );
+                        })
                       ],
                     )
                   ],
                 ),
               ),
+              Obx(() {
+                if (!controller.isPaymentExpired.value) return const SizedBox.shrink();
+                return Padding(
+                  padding: EdgeInsets.only(top: 8.h),
+                  child: Text(controller.expiredInfo.value, style: text10ErrorMedium),
+                );
+              }),
               Gap(12.h),
-              PaymentType(type: controller.methodeType, controller: controller)
+              Obx(() {
+                final isExpired = controller.isPaymentExpired.value;
+                if (isExpired || controller.waitingPayment?.id == null) {
+                  return AppButton.primary(
+                    text: 'Buat Pembayaran Baru',
+                    onPressed: () => Get.offNamed(Routes.TABUNGAN),
+                  );
+                }
+                return PaymentType(
+                  type: controller.methodeType,
+                  controller: controller,
+                );
+              })
             ],
           ),
         ),

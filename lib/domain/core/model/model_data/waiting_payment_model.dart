@@ -5,6 +5,7 @@ class WaitingPaymentModel {
   int? amount;
   String? phone;
   String? status;
+  String? expiredAt;
   Channel? channel;
   Ewallet? ewallet;
   VirtualAccount? virtualAccount;
@@ -18,6 +19,7 @@ class WaitingPaymentModel {
       this.amount,
       this.phone,
       this.status,
+      this.expiredAt,
       this.channel,
       this.ewallet,
       this.virtualAccount,
@@ -31,6 +33,7 @@ class WaitingPaymentModel {
     amount = json['amount'];
     phone = json['phone'];
     status = json['status'];
+    expiredAt = json['expired_at'];
     channel =
         json['channel'] != null ? Channel.fromJson(json['channel']) : null;
     ewallet =
@@ -50,6 +53,7 @@ class WaitingPaymentModel {
     data['amount'] = amount;
     data['phone'] = phone;
     data['status'] = status;
+    data['expired_at'] = expiredAt;
     if (channel != null) {
       data['channel'] = channel!.toJson();
     }

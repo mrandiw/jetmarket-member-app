@@ -32,12 +32,19 @@ class TabunganPaymentController extends GetxController
   TutorialPaymentVaModel? tutorialPayment;
   TabController? tabController;
 
-  late Timer timer;
+  Timer? timer;
   final countDuration = false.obs;
   final durationInSeconds = 0.obs;
   final formattedDuration = '00:00:00'.obs;
+  final isPaymentExpired = false.obs;
+  final expiredInfo = ''.obs;
 
   WaitingPaymentModel? waitingPayment;
+
+  bool get _fromHistory {
+    final args = Get.arguments;
+    return args is Map && args['from_history'] == true;
+  }
 
   List<String> assetsImageForQrisScreen = [
     'assets/images/ovo.png',
@@ -54,8 +61,16 @@ class TabunganPaymentController extends GetxController
 
       update();
       if (response.result?.id == null) {
-        Get.offNamed(Routes.TABUNGAN);
+        if (_fromHistory) {
+          _markExpired();
+          Future.delayed(200.milliseconds, () {
+            screenStatus(ScreenStatus.success);
+          });
+        } else {
+          Get.offNamed(Routes.TABUNGAN);
+        }
       } else {
+        timer?.cancel();
         startTimer(waitingPayment?.referenceId ?? '');
         if (waitingPayment?.channel?.type == 'EWALLET') {
           methodeType = PaymentMethodeType.wallet;
@@ -105,45 +120,101 @@ class TabunganPaymentController extends GetxController
   }
 
   void startTimer(String id) async {
-    int? startTime = AppPreference().getCountDownSavingPayment(id);
-    if (startTime != null) {
-      int currentTime = DateTime.now().millisecondsSinceEpoch;
-      int elapsedTime = (currentTime - startTime) ~/ 1000;
-      durationInSeconds.value = 86400 - elapsedTime;
+    timer?.cancel();
+    isPaymentExpired(false);
+    expiredInfo('');
+
+    final now = DateTime.now();
+    final expiresAt = _getExpiresAtFromWaitingPayment();
+    if (expiresAt != null) {
+      final remaining = expiresAt.difference(now).inSeconds;
+      log('[TABUNGAN_PAYMENT] startTimer(ref=$id) expiresAt=$expiresAt remaining=$remaining');
+      if (remaining <= 0) {
+        _markExpired();
+        return;
+      }
+      durationInSeconds.value = remaining;
       formattedDuration.value = _formatDuration(durationInSeconds.value);
       countDuration.value = true;
-      if (durationInSeconds.value > 0) {
-        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-          if (durationInSeconds.value > 0) {
-            durationInSeconds.value--;
-            formattedDuration.value = _formatDuration(durationInSeconds.value);
-          } else {
-            timer.cancel();
-            countDuration.value = false;
-            durationInSeconds.value = 86400;
-            formattedDuration.value = '23:59:59';
-          }
-        });
-      }
-    } else {
-      int newStartTime = DateTime.now().millisecondsSinceEpoch;
-      AppPreference().saveCountDownSavingPayment(newStartTime, id);
-      durationInSeconds.value = 86400;
-      formattedDuration.value = '23:59:59';
-      countDuration.value = true;
-
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (isPaymentExpired.value) {
+          timer.cancel();
+          return;
+        }
         if (durationInSeconds.value > 0) {
           durationInSeconds.value--;
           formattedDuration.value = _formatDuration(durationInSeconds.value);
         } else {
           timer.cancel();
-          countDuration.value = false;
-          durationInSeconds.value = 86400;
-          formattedDuration.value = '23:59:59';
+          _markExpired();
         }
       });
+      return;
     }
+
+    // Fallback for channels without `expired_at` (historically EWALLET).
+    int? startTime = AppPreference().getCountDownSavingPayment(id);
+    if (startTime == null) {
+      final newStartTime = now.millisecondsSinceEpoch;
+      AppPreference().saveCountDownSavingPayment(newStartTime, id);
+      startTime = newStartTime;
+    }
+
+    final elapsedSeconds = (now.millisecondsSinceEpoch - startTime) ~/ 1000;
+    final remainingSeconds = 86400 - elapsedSeconds;
+    log('[TABUNGAN_PAYMENT] startTimer(ref=$id) startTime=$startTime elapsed=$elapsedSeconds remaining=$remainingSeconds');
+    if (remainingSeconds <= 0) {
+      _markExpired();
+      return;
+    }
+
+    durationInSeconds.value = remainingSeconds;
+    formattedDuration.value = _formatDuration(durationInSeconds.value);
+    countDuration.value = true;
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (isPaymentExpired.value) {
+        timer.cancel();
+        return;
+      }
+      if (durationInSeconds.value > 0) {
+        durationInSeconds.value--;
+        formattedDuration.value = _formatDuration(durationInSeconds.value);
+      } else {
+        timer.cancel();
+        _markExpired();
+      }
+    });
+  }
+
+  DateTime? _getExpiresAtFromWaitingPayment() {
+    final topExpiredAt = waitingPayment?.expiredAt;
+    if (topExpiredAt != null && topExpiredAt.isNotEmpty) {
+      return DateTime.tryParse(topExpiredAt);
+    }
+    final vaExpiredAt = waitingPayment?.virtualAccount?.expiredAt;
+    if (vaExpiredAt != null && vaExpiredAt.isNotEmpty) {
+      return DateTime.tryParse(vaExpiredAt);
+    }
+    final qrExpiredAt = waitingPayment?.qrCode?.expiredAt;
+    if (qrExpiredAt != null && qrExpiredAt.isNotEmpty) {
+      return DateTime.tryParse(qrExpiredAt);
+    }
+    final otcExpiredAt = waitingPayment?.otc?.expiredAt;
+    if (otcExpiredAt != null && otcExpiredAt.isNotEmpty) {
+      return DateTime.tryParse(otcExpiredAt);
+    }
+    return null;
+  }
+
+  void _markExpired() {
+    timer?.cancel();
+    isPaymentExpired(true);
+    expiredInfo(
+        'Pembayaran sudah kadaluarsa / tidak ada pembayaran aktif. Silakan buat pembayaran tabungan baru.');
+    countDuration.value = false;
+    durationInSeconds.value = 0;
+    formattedDuration.value = '00:00:00';
+    log('[TABUNGAN_PAYMENT] expired ref=${waitingPayment?.referenceId}');
   }
 
   String _formatDuration(int seconds) {
@@ -201,5 +272,11 @@ class TabunganPaymentController extends GetxController
     getWaitingPayment();
     setupInteractedMessage();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
   }
 }

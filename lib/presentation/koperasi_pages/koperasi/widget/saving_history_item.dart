@@ -16,11 +16,19 @@ class SavingHistoryItem extends StatelessWidget {
   final int index;
   final SavingHistoryModel data;
 
+  bool get _isWaitingPayment {
+    final title = (data.title ?? '').toLowerCase();
+    final body = (data.body ?? '').toLowerCase();
+    return title.contains('menunggu pembayaran') || body.contains('melakukan pembayaran');
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data.id, null]),
+      onTap: () => _isWaitingPayment
+          ? Get.toNamed(Routes.TABUNGAN_PAYMENT,
+              arguments: {'from_history': true})
+          : Get.toNamed(Routes.DETAIL_MENABUNG, arguments: [data.id, null]),
       child: Container(
           padding: AppStyle.paddingAll12,
           decoration: BoxDecoration(
