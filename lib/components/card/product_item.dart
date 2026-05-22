@@ -60,7 +60,8 @@ class ProductItem extends StatelessWidget {
                           Icon(Icons.star_rounded,
                               color: kWarningColor, size: 14.hr),
                           Gap(4.w),
-                          Text(item.rating.toString(), style: text10HintRegular)
+                          Text(item.rating?.toStringAsFixed(1) ?? '0.0',
+                              style: text10HintRegular)
                         ],
                       ),
                     )),
@@ -98,7 +99,7 @@ class ProductItem extends StatelessWidget {
                                 Icon(Icons.star_rounded,
                                     color: kWarningColor, size: 14.hr),
                                 Gap(4.w),
-                                Text(item.rating.toString(),
+                                Text(item.rating?.toStringAsFixed(1) ?? '0.0',
                                     style: text10HintRegular)
                               ],
                             ),

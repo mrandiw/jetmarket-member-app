@@ -18,8 +18,12 @@ class PaylaterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PaylaterCustomerController>(builder: (controller) {
-      return ListView(
-        padding: AppStyle.paddingAll16,
+      return RefreshIndicator(
+        onRefresh: () async {
+          await controller.getDetailPaylater();
+        },
+        child: ListView(
+          padding: AppStyle.paddingAll16,
         children: [
           Container(
             padding: AppStyle.paddingAll12,
@@ -79,8 +83,9 @@ class PaylaterSection extends StatelessWidget {
           ),
           Gap(20.h),
           GestureDetector(
-            onTap: () {
-              Get.toNamed(Routes.BILL_PAYLATER);
+            onTap: () async {
+              await Get.toNamed(Routes.BILL_PAYLATER);
+              controller.getDetailPaylater();
             },
             child: Container(
               height: 50.h,
@@ -104,7 +109,8 @@ class PaylaterSection extends StatelessWidget {
             ),
           )
         ],
-      );
-    });
-  }
+      ),
+    );
+  });
+}
 }

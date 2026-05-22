@@ -41,8 +41,8 @@ class PaylaterCustomerController extends GetxController {
     }
   }
 
-  toChoicePayment() {
-    Get.toNamed(
+  Future<void> toChoicePayment() async {
+    await Get.toNamed(
       Routes.CHOICE_PAYMENT_PAYLATER,
       arguments: [
         detailPaylater?.bill?.refId,
@@ -50,6 +50,7 @@ class PaylaterCustomerController extends GetxController {
         true
       ],
     );
+    getDetailPaylater();
   }
 
   void backAction() {

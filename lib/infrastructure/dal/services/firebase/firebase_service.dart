@@ -123,6 +123,7 @@ settingShowNotification(RemoteMessage message) async {
     enableVibration: true,
     enableLights: true,
     styleInformation: bigPictureStyleInformation,
+    sound: const RawResourceAndroidNotificationSound('notif'),
   );
   var platformDetails = NotificationDetails(android: androidDetails);
 

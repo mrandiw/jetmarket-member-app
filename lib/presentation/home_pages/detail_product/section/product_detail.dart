@@ -39,7 +39,8 @@ class ProductDetailSection extends StatelessWidget {
                           ? controller.selectedVariant?.promo != 0 &&
                               !(controller.selectedVariant!.promo ==
                                   controller.selectedVariant?.price)
-                          : (controller.detailProduct?.variants?[0].promo != 0) &&
+                          : (controller.detailProduct?.variants?[0].promo !=
+                                  0) &&
                               !(controller.detailProduct?.variants?[0].promo ==
                                   controller.detailProduct?.variants?[0].price),
                       child: Text(
@@ -61,7 +62,10 @@ class ProductDetailSection extends StatelessWidget {
                       Icon(Icons.star_rounded,
                           color: kWarningColor, size: 14.r),
                       Gap(4.w),
-                      Text("${controller.detailProduct?.rating}",
+                      Text(
+                          controller.detailProduct?.rating
+                                  ?.toStringAsFixed(1) ??
+                              '0.0',
                           style: text12PrimaryRegular)
                     ],
                   ),
