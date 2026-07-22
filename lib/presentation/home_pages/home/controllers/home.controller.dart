@@ -10,6 +10,7 @@ import 'package:jetmarket/domain/core/model/params/cart/cart_product_param.dart'
 import 'package:jetmarket/infrastructure/navigation/routes.dart';
 import 'package:jetmarket/utils/app_preference/app_preferences.dart';
 import 'package:jetmarket/utils/assets/assets_images.dart';
+import 'package:jetmarket/utils/debouncer/debouncer.dart';
 import 'package:jetmarket/utils/network/status_response.dart';
 import 'package:logger/logger.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -57,6 +58,8 @@ class HomeController extends GetxController {
 
   String? searchProduct;
   bool searchActived = false;
+
+  final _searchDebouncer = Debouncer(milliseconds: 350);
 
   String? selectedSortProduct;
   CategoryProduct? selectedCategoryProduct;
@@ -315,13 +318,15 @@ class HomeController extends GetxController {
 
   void searchProducts(String value) {
     searchActived = value.isNotEmpty;
-    update();
     searchProduct = value;
-    if (isHomeScreen.value) {
-      pagingController.refresh();
-    } else {
-      _refreshSeeAllPaging();
-    }
+    update();
+    _searchDebouncer.run(() {
+      if (isHomeScreen.value) {
+        pagingController.refresh();
+      } else {
+        _refreshSeeAllPaging();
+      }
+    });
   }
 
   void filterProduct() {}
